@@ -1,0 +1,65 @@
+/*
+ SPDX-License-Identifier: MIT
+
+   Copyright (c) 2021, SCANOSS
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+ */
+
+/***
+ * Common definition details
+***/
+syntax = "proto3";
+package scanoss.api.common.v2;
+
+option go_package = "github.com/scanoss/papi/api/commonv2;commonv2";
+
+/*
+ * Status code Enum
+ */
+enum StatusCode {
+  UNSPECIFIED = 0;
+  SUCCESS = 1;
+  WARNING = 2;
+  FAILED = 3;
+}
+
+/*
+ * Detailed response details
+ */
+message Status {
+  // response status
+  StatusCode status = 1;
+  // Status message
+  string message = 2;
+};
+
+/*
+ * Echo Message Request
+ */
+message EchoRequest {
+  string message = 1;
+}
+
+/*
+ * Echo Message Response
+ */
+message EchoResponse {
+  string message = 1;
+}
