@@ -1,3 +1,6 @@
+# IDEs
+.vscode/
+.idea
 
 # Binaries for programs and plugins
 *.exe
@@ -20,4 +23,12 @@ vendor/
 *%
 
 # Proto Buffer folders to ignore
-python
+python/
+
+# Local files
+*.wfp
+*-result.json
+*.zip
+*.gz
+*.tar
+*.tgz
