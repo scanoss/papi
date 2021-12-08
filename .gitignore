@@ -20,5 +20,4 @@ vendor/
 *%
 
 # Proto Buffer folders to ignore
-protbuf/python
-
+python
