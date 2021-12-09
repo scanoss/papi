@@ -100,5 +100,5 @@ var Scanning_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/scanoss/api/scanning/v2/scanoss-scanning.proto",
+	Metadata: "scanoss/api/scanning/v2/scanoss-scanning.proto",
 }

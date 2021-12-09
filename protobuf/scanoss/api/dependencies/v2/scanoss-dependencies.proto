@@ -30,7 +30,7 @@ package scanoss.api.dependencies.v2;
 
 option go_package = "github.com/scanoss/papi/api/dependenciesv2;dependenciesv2";
 
-import "protobuf/scanoss/api/common/v2/scanoss-common.proto";
+import "scanoss/api/common/v2/scanoss-common.proto";
 
 /*
  * Expose all of the SCANOSS Dependency RPCs here

@@ -24,6 +24,8 @@ vendor/
 
 # Proto Buffer folders to ignore
 python/
+# Ignore the tmp folder used for testing
+tmp/
 
 # Local files
 *.wfp

@@ -30,7 +30,7 @@ package scanoss.api.scanning.v2;
 
 option go_package = "github.com/scanoss/papi/api/scanningv2;scanningv2";
 
-import "protobuf/scanoss/api/common/v2/scanoss-common.proto";
+import "scanoss/api/common/v2/scanoss-common.proto";
 
  // Expose all of the SCANOSS Scanning RPCs here
 service Scanning {

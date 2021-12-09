@@ -21,3 +21,9 @@ build_go:  ## Build the Go library from protos
 build_python:  ## Build the Python library from protos
 	@echo "Building Python API libraries..."
 	bash protobuf/build.sh -f -t python
+
+update_scanoss_py:  ## Copy the latest Python API code to scanoss.py
+	@echo "Copying Python API to scanoss.py..."
+	bash protobuf/copy_python.sh -f -s python -t ../../scanoss.py/src
+
+python_all: clean build_python update_scanoss_py ## Execute all Python actions

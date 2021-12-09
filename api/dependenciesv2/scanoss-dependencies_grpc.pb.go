@@ -138,5 +138,5 @@ var Dependencies_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/scanoss/api/dependencies/v2/scanoss-dependencies.proto",
+	Metadata: "scanoss/api/dependencies/v2/scanoss-dependencies.proto",
 }
