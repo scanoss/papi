@@ -36,14 +36,15 @@ option go_package = "github.com/scanoss/papi/api/commonv2;commonv2";
 enum StatusCode {
   UNSPECIFIED = 0;
   SUCCESS = 1;
-  WARNING = 2;
-  FAILED = 3;
+  SUCCEEDED_WITH_WARNINGS = 2;
+  WARNING = 3;
+  FAILED = 4;
 }
 
 /*
  * Detailed response details
  */
-message Status {
+message StatusResponse {
   // response status
   StatusCode status = 1;
   // Status message
