@@ -46,8 +46,16 @@ service Dependencies {
  * Dependency request data (JSON payload)
  */
 message DependencyRequest {
+  message Purls {
+    string purl = 1;
+    optional string requirement = 2;
+  }
+  message Files {
+    string file = 1;
+    repeated Purls purls = 2;
+  }
   // JSON dependency request
-  string dependencies = 1;
+  repeated Files files = 1;
   // Depth to go when searching dependencies
   int32 depth = 2;
 }
