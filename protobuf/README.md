@@ -8,6 +8,8 @@ The API is made up of different services
 
 These services have some shared items, which can be found in [Common](scanoss/api/common/v2/scanoss-common.proto).
 
+To create/update the JSON data structures in request, help can be found at [json-to-proto](https://json-to-proto.github.io).
+
 ## Compilation
 For details on how to compile the supported language libraries, please look in [LIBRARY_BUILD.md](../LIBRARY_BUILD.md).
 
