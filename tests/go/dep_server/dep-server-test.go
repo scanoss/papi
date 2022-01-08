@@ -29,6 +29,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -44,9 +45,38 @@ var (
 	port = flag.Int("port", 50051, "The server port")
 )
 
-var (
-	depResp = "{\n  \"audit-workbench-master/package.json\": {\n    \"id\": \"dependency\",\n    \"status\": \"pending\",\n    \"dependencies\": [\n      {\n        \"purl\": \"abort-controller\",\n        \"component\": \"abort-controller\",\n        \"vendor\": \"Toru Nagashima\",\n        \"version\": \"\",\n        \"license\": [\n          {\n            \"name\": \"MIT\"\n          }\n        ]\n      },\n      {\n        \"purl\": \"chart.js\",\n        \"component\": \"chart.js\",\n        \"vendor\": \"npmjs\",\n        \"version\": \"\",\n        \"license\": [\n          {\n            \"name\": \"MIT\"\n          }\n        ]\n      }\n    ]\n  }\n}"
-)
+var depRespJson = `{
+  "files": [
+    {
+      "file": "audit-workbench-master/package.json",
+      "id": "dependency",
+      "status": "pending",
+      "dependencies": [
+        {
+          "component": "abort-controller",
+          "purl": "abort-controller",
+          "version": "",
+          "licenses": [
+            {
+              "name": "MIT"
+            }
+          ]
+        },
+        {
+          "component": "chart.js",
+          "purl": "chart.js",
+          "version": "",
+          "licenses": [
+            {
+              "name": "MIT"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+`
 
 type server struct {
 	deps.UnimplementedDependenciesServer
@@ -60,9 +90,27 @@ func (s *server) Echo(ctx context.Context, in *common.EchoRequest) (*common.Echo
 
 // GetDependencies Implement the gRPC call for getting dependencies
 func (s *server) GetDependencies(ctx context.Context, in *deps.DependencyRequest) (*deps.DependencyResponse, error) {
-	log.Printf("Received: %v", in.GetDependencies())
+	files := in.GetFiles()
+	log.Printf("Received: %v - %v", in.GetDepth(), files)
+	for _, file := range files {
+		log.Printf("File: %v", file.GetFile())
+		for _, purl := range file.GetPurls() {
+			log.Printf("  Purl: %v  Req: %v", purl.GetPurl(), purl.GetRequirement())
+		}
+	}
+	data, err := json.Marshal(in)
+	if err != nil {
+		log.Printf("Failed to marshall JSON from request: %v", err)
+	} else {
+		fmt.Println("JSON Data:", string(data))
+	}
+	var depResp deps.DependencyResponse
+	err = json.Unmarshal([]byte(depRespJson), &depResp)
+	if err != nil {
+		log.Printf("Failed to marshall JSON from request: %v", err)
+	}
 	statusResp := common.StatusResponse{Status: common.StatusCode_SUCCESS, Message: "it worked"}
-	return &deps.DependencyResponse{Dependencies: depResp, Status: &statusResp}, nil
+	return &deps.DependencyResponse{Files: depResp.Files, Status: &statusResp}, nil
 }
 
 // Launch the gRPC service and listen for requests

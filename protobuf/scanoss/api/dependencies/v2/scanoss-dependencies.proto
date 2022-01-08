@@ -64,8 +64,23 @@ message DependencyRequest {
  * Dependency response data (JSON payload)
  */
 message DependencyResponse {
-  // Dependency response details (JSON)
-  string dependencies = 1;
+  message Licenses {
+    string name = 1;
+  }
+  message Dependencies {
+    string component = 1;
+    string purl = 2;
+    string version = 3;
+    repeated Licenses licenses = 4;
+  }
+  message Files {
+    string file = 1;
+    string id = 2;
+    string status = 3;
+    repeated Dependencies dependencies = 4;
+  }
+  // Dependency response details
+  repeated Files files = 1;
   // Response status (required?)
   scanoss.api.common.v2.StatusResponse status = 2;
 }
