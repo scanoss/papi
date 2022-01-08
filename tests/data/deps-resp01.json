@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "file": "audit-workbench-master/package.json",
+      "id": "dependency",
+      "status": "pending",
+      "dependencies": [
+        {
+          "component": "abort-controller",
+          "purl": "abort-controller",
+          "version": "",
+          "licenses": [
+            {
+              "name": "MIT"
+            }
+          ]
+        },
+        {
+          "component": "chart.js",
+          "purl": "chart.js",
+          "version": "",
+          "licenses": [
+            {
+              "name": "MIT"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
