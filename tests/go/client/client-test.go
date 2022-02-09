@@ -31,27 +31,22 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"log"
-	"time"
-
-	"google.golang.org/grpc"
-
 	common "github.com/scanoss/papi/api/commonv2"
 	deps "github.com/scanoss/papi/api/dependenciesv2"
 	scan "github.com/scanoss/papi/api/scanningv2"
+	"google.golang.org/grpc"
+	"log"
+	"time"
 )
-
-// github.com/scanoss/papi/commonv1  - public
-// github.com/scanoss/sapi/scannerv1 - private
 
 const (
 	defaultName = "go client"
 )
 
 var (
-	d_addr = flag.String("d_addr", "localhost:50051", "dependency server to connec to")
-	s_addr = flag.String("s_addr", "localhost:50052", "scanning server to connect to")
-	name   = flag.String("name", defaultName, "Echo message")
+	dAddr = flag.String("d_addr", "localhost:50051", "dependency server to connect to")
+	sAddr = flag.String("s_addr", "localhost:50052", "scanning server to connect to")
+	name  = flag.String("name", defaultName, "Echo message")
 )
 
 func main() {
@@ -59,7 +54,7 @@ func main() {
 
 	fmt.Println("Hello, World!")
 
-	conn, err := grpc.Dial(*d_addr, grpc.WithInsecure()) // Set up a connection to the server.
+	conn, err := grpc.Dial(*dAddr, grpc.WithInsecure()) // Set up a connection to the server.
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -76,7 +71,7 @@ func main() {
 	}
 	log.Printf("Dependency Echo: %s", r.GetMessage())
 
-	conn2, err := grpc.Dial(*s_addr, grpc.WithInsecure()) // Set up a connection to the server.
+	conn2, err := grpc.Dial(*sAddr, grpc.WithInsecure()) // Set up a connection to the server.
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
