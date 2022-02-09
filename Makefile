@@ -27,3 +27,8 @@ update_scanoss_py:  ## Copy the latest Python API code to scanoss.py
 	bash protobuf/copy_python.sh -f -s python -t ../../scanoss.py/src
 
 python_all: clean build_python update_scanoss_py ## Execute all Python actions
+
+build_js:  ## Build the Javascript library from protos
+	@echo "Building Javascript API libraries..."
+	bash protobuf/build.sh -f -t js
+

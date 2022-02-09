@@ -47,7 +47,7 @@ help() {
 confirm() {
   if [ "$1" != "true" ] ; then
     read -r -p "$2 [Y/n] " response
-    response=`echo "$response" | tr '[:upper:]' '[:lower:]'`
+    response=$(echo "$response" | tr '[:upper:]' '[:lower:]')
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
       echo "Proceeding..."
     else

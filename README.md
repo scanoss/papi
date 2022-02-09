@@ -7,13 +7,13 @@ Welcome to the public APIs for the SCANOSS Platform 2.0
 This repository is made up of the following components:
 * [Protocol Buffer Definitions](protobuf)
 * [Go API library Implementation](api)
-* Java - TBD
 
 ## Consumption
 To consume the Public APIs, simply use one of the following:
 
 * Go - [github.com/scanoss/papi](https://github.com/scanoss/papi)
 * Python - [scanoss](https://pypi.org/project/scanoss/)
+* Javascript - TBD
 * Java - TBD
 
 Or alternatively, take the protocol buffer definitions and compile them for your language of choice.
@@ -25,6 +25,12 @@ Examples of consuming the Go library can be found in the [tests/go](tests/go) fo
 
 ### Python
 Examples of consuming the Python Library can be found [here](https://github.com/scanoss/scanoss.py).
+
+### Javascript
+TBD
+
+### Java
+TBD
 
 ## Build
 For details on how to compile the supported language libraries, please look in [LIBRARY_BUILD.md](LIBRARY_BUILD.md).

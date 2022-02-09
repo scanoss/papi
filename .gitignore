@@ -24,6 +24,7 @@ vendor/
 
 # Proto Buffer folders to ignore
 python/
+javascript/
 # Ignore the tmp folder used for testing
 tmp/
 

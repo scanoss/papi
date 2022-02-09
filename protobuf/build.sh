@@ -37,7 +37,7 @@ export protobuf_dir=protobuf
 help() {
   echo "Usage: proto-build [-h]
                [-d folder]
-               -t <python|go>"
+               -t <python|go|js>"
   exit 2
 }
 
@@ -60,6 +60,25 @@ confirm() {
   fi
 }
 
+#
+# Build the Javascript library code for the proto definitions.
+#
+build_js() {
+  dest_dir=$1
+  echo "Writing Javascript APIs to: $dest_dir"
+  if [ ! -d "$dest_dir" ]; then
+    echo "Error: Destination directory does not exist: $dest_dir"
+    exit 1
+  fi
+  sc_dir="$dest_dir/scanoss"
+  if [ -d "$sc_dir" ]; then
+    rm -rf "$sc_dir"
+  fi
+  if ! protoc -I$protobuf_dir --js_out=import_style=commonjs,binary:"$dest_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
+    echo "Error: Failed to compile Python libraries from proto files"
+    exit 1
+  fi
+}
 #
 # Build the Python library code for the proto definitions.
 #
@@ -135,10 +154,10 @@ done
 shift $((OPTIND - 1))
 
 if [ -z "${t}" ]; then
-  echo "Please specify a language (python or go)."
+  echo "Please specify a language (python, go or js)."
   help
 fi
-if [ "$t" != "go" ] && [ "$t" != "python" ]; then
+if [ "$t" != "go" ] && [ "$t" != "python" ] && [ "$t" != "js" ]; then
   echo "Error: Unknown build type: $t"
   help
 fi
@@ -160,6 +179,16 @@ elif [ "$t" = "go" ]; then
     dest="$d"
   fi
   build_go "$dest"
+elif [ "$t" = "js" ]; then
+  confirm $force "Create Javascript library from proto?"
+  cd "$b_dir/.."
+  dest="javascript"
+  if [ -n "$d" ]; then
+    dest="$d"
+  else
+    mkdir -p "$dest"
+  fi
+  build_js "$dest"
 else
   echo "Error: Unknown language type: $t"
   help
