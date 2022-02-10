@@ -48,7 +48,7 @@ service Dependencies {
 message DependencyRequest {
   message Purls {
     string purl = 1;
-    optional string requirement = 2;
+    string requirement = 2;
   }
   message Files {
     string file = 1;

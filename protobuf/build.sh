@@ -74,8 +74,8 @@ build_js() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
-  if ! protoc -I$protobuf_dir --js_out=import_style=commonjs,binary:"$dest_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
-    echo "Error: Failed to compile Python libraries from proto files"
+  if ! grpc_tools_node_protoc -I$protobuf_dir --js_out=import_style=commonjs,binary:"$dest_dir" --grpc_out=grpc_js:"$dest_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
+    echo "Error: Failed to compile Javascript libraries from proto files"
     exit 1
   fi
 }
