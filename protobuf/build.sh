@@ -61,7 +61,8 @@ confirm() {
 }
 
 #
-# Build the Javascript library code for the proto definitions.
+# Build the Javascript library code and Typescript files for the proto definitions.
+# See reference https://github.com/improbable-eng/ts-protoc-gen
 #
 build_js() {
   dest_dir=$1
@@ -74,7 +75,14 @@ build_js() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
-  if ! grpc_tools_node_protoc -I$protobuf_dir --js_out=import_style=commonjs,binary:"$dest_dir" --grpc_out=grpc_js:"$dest_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
+  if ! protoc -I$protobuf_dir \
+              --plugin=protoc-gen-ts=$(which protoc-gen-ts) \
+              --plugin=protoc-gen-grpc=$(which grpc_tools_node_protoc_plugin) \
+              --js_out=import_style=commonjs,binary:"$dest_dir" \
+              --ts_out=service=grpc-node,mode=grpc-js:"$dest_dir"\
+              --grpc_out=grpc_js:"$dest_dir" \
+              $(find $protobuf_dir -type f -name "*.proto" -print); 
+              then
     echo "Error: Failed to compile Javascript libraries from proto files"
     exit 1
   fi
