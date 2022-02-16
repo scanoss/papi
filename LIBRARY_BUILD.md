@@ -40,7 +40,10 @@ Consumption of the Python gRPC APIs is provided through this package. You can in
 ### Javascript
 In order to build the Javascript library implementation of the proto definitions, the following tools are required:
 * [Node](https://nodejs.org/en/download/)
-* [Protoc](https://grpc.io/docs/protoc-installation/)
+* [protoc] (https://grpc.io/docs/protoc-installation/)
+* [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen)
+
+
 
 To build the Javascript code from the definitions, please run:
 ```bash
