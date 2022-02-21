@@ -66,6 +66,8 @@ message DependencyRequest {
 message DependencyResponse {
   message Licenses {
     string name = 1;
+    string spdx_id = 2;
+    bool is_spdx_approved = 3;
   }
   message Dependencies {
     string component = 1;
