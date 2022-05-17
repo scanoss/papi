@@ -1,7 +1,7 @@
 /*
  SPDX-License-Identifier: MIT
 
-   Copyright (c) 2021, SCANOSS
+   Copyright (c) 2022, SCANOSS
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -68,12 +68,15 @@ message DependencyResponse {
     string name = 1;
     string spdx_id = 2;
     bool is_spdx_approved = 3;
+    string url = 4;
   }
   message Dependencies {
     string component = 1;
     string purl = 2;
     string version = 3;
     repeated Licenses licenses = 4;
+    string url = 5;
+    string comment = 6;
   }
   message Files {
     string file = 1;
