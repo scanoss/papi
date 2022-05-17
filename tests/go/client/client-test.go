@@ -1,7 +1,7 @@
 /*
  SPDX-License-Identifier: MIT
 
-   Copyright (c) 2021, SCANOSS
+   Copyright (c) 2022, SCANOSS
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ import (
 	"flag"
 	"fmt"
 	common "github.com/scanoss/papi/api/commonv2"
+	comp "github.com/scanoss/papi/api/componentsv2"
 	deps "github.com/scanoss/papi/api/dependenciesv2"
 	scan "github.com/scanoss/papi/api/scanningv2"
 	"google.golang.org/grpc"
@@ -46,6 +47,7 @@ const (
 var (
 	dAddr = flag.String("d_addr", "localhost:50051", "dependency server to connect to")
 	sAddr = flag.String("s_addr", "localhost:50052", "scanning server to connect to")
+	cAddr = flag.String("c_addr", "localhost:50053", "component server to connect to")
 	name  = flag.String("name", defaultName, "Echo message")
 )
 
@@ -67,7 +69,7 @@ func main() {
 
 	r, err := c.Echo(ctx, &common.EchoRequest{Message: *name})
 	if err != nil {
-		log.Fatalf("could not echo: %v", err)
+		log.Fatalf("could not run dependency echo: %v", err)
 	}
 	log.Printf("Dependency Echo: %s", r.GetMessage())
 
@@ -85,5 +87,20 @@ func main() {
 		log.Fatalf("could not echo: %v", err)
 	}
 	log.Printf("Scanning Echo: %s", r2.GetMessage())
+
+	conn3, err := grpc.Dial(*cAddr, grpc.WithInsecure()) // Set up a connection to the server.
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn2.Close()
+	c3 := comp.NewComponentsClient(conn3)
+	ctx3, cancel3 := context.WithTimeout(context.Background(), time.Second)
+	defer cancel3()
+
+	r3, err := c3.Echo(ctx3, &common.EchoRequest{Message: *name})
+	if err != nil {
+		log.Fatalf("could not echo: %v", err)
+	}
+	log.Printf("Component Echo: %s", r3.GetMessage())
 
 }
