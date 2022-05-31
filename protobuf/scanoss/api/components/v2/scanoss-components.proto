@@ -40,7 +40,7 @@ service Components {
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
   // Get dependency details
   rpc SearchComponents(CompSearchRequest) returns(CompSearchResponse);
-  rpc GetComponentVersions(CompSearchRequest) returns(CompSearchResponse);
+  rpc GetComponentVersions(CompVersionRequest) returns(CompVersionResponse);
 }
 
 /*

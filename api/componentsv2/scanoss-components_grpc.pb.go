@@ -23,7 +23,7 @@ type ComponentsClient interface {
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	SearchComponents(ctx context.Context, in *CompSearchRequest, opts ...grpc.CallOption) (*CompSearchResponse, error)
-	GetComponentVersions(ctx context.Context, in *CompSearchRequest, opts ...grpc.CallOption) (*CompSearchResponse, error)
+	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
 }
 
 type componentsClient struct {
@@ -52,8 +52,8 @@ func (c *componentsClient) SearchComponents(ctx context.Context, in *CompSearchR
 	return out, nil
 }
 
-func (c *componentsClient) GetComponentVersions(ctx context.Context, in *CompSearchRequest, opts ...grpc.CallOption) (*CompSearchResponse, error) {
-	out := new(CompSearchResponse)
+func (c *componentsClient) GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error) {
+	out := new(CompVersionResponse)
 	err := c.cc.Invoke(ctx, "/scanoss.api.components.v2.Components/GetComponentVersions", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ type ComponentsServer interface {
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	SearchComponents(context.Context, *CompSearchRequest) (*CompSearchResponse, error)
-	GetComponentVersions(context.Context, *CompSearchRequest) (*CompSearchResponse, error)
+	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
 
@@ -83,7 +83,7 @@ func (UnimplementedComponentsServer) Echo(context.Context, *commonv2.EchoRequest
 func (UnimplementedComponentsServer) SearchComponents(context.Context, *CompSearchRequest) (*CompSearchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchComponents not implemented")
 }
-func (UnimplementedComponentsServer) GetComponentVersions(context.Context, *CompSearchRequest) (*CompSearchResponse, error) {
+func (UnimplementedComponentsServer) GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentVersions not implemented")
 }
 func (UnimplementedComponentsServer) mustEmbedUnimplementedComponentsServer() {}
@@ -136,7 +136,7 @@ func _Components_SearchComponents_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _Components_GetComponentVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CompSearchRequest)
+	in := new(CompVersionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -148,7 +148,7 @@ func _Components_GetComponentVersions_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/scanoss.api.components.v2.Components/GetComponentVersions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ComponentsServer).GetComponentVersions(ctx, req.(*CompSearchRequest))
+		return srv.(ComponentsServer).GetComponentVersions(ctx, req.(*CompVersionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
