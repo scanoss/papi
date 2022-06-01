@@ -38,8 +38,9 @@ import "scanoss/api/common/v2/scanoss-common.proto";
 service Components {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
-  // Get dependency details
+  // Search for components
   rpc SearchComponents(CompSearchRequest) returns(CompSearchResponse);
+  // Get all version information for a specific component
   rpc GetComponentVersions(CompVersionRequest) returns(CompVersionResponse);
 }
 
@@ -47,13 +48,6 @@ service Components {
  * Component Search request data (JSON payload)
  */
 message CompSearchRequest {
-  // Result sort type enum
-  enum SortType {
-    DEFAULT = 0;
-    CREATED_DATE_ASC = 1;
-    CREATED_DATE_DESC = 2;
-    POPULARITY = 3;
-  }
   // Component to search for (vendor/component/purl). Search is exclusive (will override vendor/component)
   string search = 1;
   // Vendor to search for. Vendor can be combined with Component
@@ -62,9 +56,7 @@ message CompSearchRequest {
   string component = 3;
   // Type of package (purl type) to search for. i.e. github, maven, golang, npm, all - default github
   string package = 4;
-  // What way to sort the results (when querying)
-  SortType sorting = 5;
-  // Number of matches to return - default 50?
+  // Number of matches to return - default 50
   int32 limit = 6;
   // Offset to submit to return the next (limit) of component matches
   int32 offset = 7;
@@ -74,10 +66,11 @@ message CompSearchRequest {
  * Component Search response data (JSON payload)
  */
 message CompSearchResponse {
+  // Component details
   message Component {
     string component = 1;
     string purl = 2;
-    string url = 3;  // TODO should this be in the initial response?
+    string url = 3;
   }
   // Component response details
   repeated Component components = 1;
@@ -89,9 +82,9 @@ message CompSearchResponse {
  * Component Version request data (JSON payload)
  */
 message CompVersionRequest {
-  // Component to search for (name/purl)
+  // Component to search for (purl)
   string purl = 1;
-  // Number of versions to return
+  // Number of versions to return - default 20
   int32 limit = 2;
 }
 
@@ -99,16 +92,19 @@ message CompVersionRequest {
  * Component Search response data (JSON payload)
  */
 message CompVersionResponse {
+  // License details
   message License {
     string name = 1;
     string spdx_id = 2;
     bool is_spdx_approved = 3;
     string url = 4;
   }
+  // Version details (including license)
   message Version {
     string version = 1;
     repeated License licenses = 4;
   }
+  // Component details (including versions)
   message Component {
     string component = 1;
     string purl = 2;

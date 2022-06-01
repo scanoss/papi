@@ -21,8 +21,9 @@ const _ = grpc.SupportPackageIsVersion7
 type ComponentsClient interface {
 	// Standard echo
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get dependency details
+	// Search for components
 	SearchComponents(ctx context.Context, in *CompSearchRequest, opts ...grpc.CallOption) (*CompSearchResponse, error)
+	// Get all version information for a specific component
 	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
 }
 
@@ -67,8 +68,9 @@ func (c *componentsClient) GetComponentVersions(ctx context.Context, in *CompVer
 type ComponentsServer interface {
 	// Standard echo
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get dependency details
+	// Search for components
 	SearchComponents(context.Context, *CompSearchRequest) (*CompSearchResponse, error)
+	// Get all version information for a specific component
 	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
