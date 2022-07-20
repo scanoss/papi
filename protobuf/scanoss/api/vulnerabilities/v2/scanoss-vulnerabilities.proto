@@ -1,0 +1,92 @@
+/*
+ SPDX-License-Identifier: MIT
+
+   Copyright (c) 2022, SCANOSS
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+ */
+
+/***
+ * Vulnerability definition details
+***/
+syntax = "proto3";
+package scanoss.api.vulnerabilities.v2;
+
+option go_package = "github.com/scanoss/papi/api/vulnerabilitiesv2;vulnerabilitiesv2";
+
+import "scanoss/api/common/v2/scanoss-common.proto";
+
+/*
+ * Expose all of the SCANOSS Vulnerability RPCs here
+ */
+service Vulnerabilities {
+  // Standard echo
+  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
+  // Get CPEs associated with a PURL
+  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse);
+  // Get vulnerability details
+  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse);
+}
+
+/*
+ * Vulnerability request data (JSON payload)
+ */
+message VulnerabilityRequest {
+  message Purls {
+    string purl = 1;
+    string requirement = 2;
+  }
+  // JSON vulnerability request purls
+  repeated Purls purls = 1;
+}
+
+/*
+ * Vulnerability CPE response data (JSON payload)
+ */
+message CpeResponse {
+  // Vulnerability response details
+  repeated string cpes = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Vulnerability response data (JSON payload)
+ */
+message VulnerabilityResponse {
+  message Vulnerabilities {
+    string id = 1;
+    string cve = 2;
+    string url = 3;
+    string summary = 4;
+    string severity = 5;
+    string introduced = 6;
+    string reported = 7;
+    string patched = 8;
+    string source = 9;
+  }
+  message Purls {
+    string purl = 1;
+    repeated Vulnerabilities vulnerabilities = 2;
+  }
+  // Vulnerability response details
+  repeated Purls purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
