@@ -60,8 +60,12 @@ message VulnerabilityRequest {
  * Vulnerability CPE response data (JSON payload)
  */
 message CpeResponse {
-  // Vulnerability response details
-  repeated string cpes = 1;
+  message Purls {
+    string purl = 1;
+    repeated string cpes = 2;
+  }
+  // Purl/CPE details
+  repeated Purls purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
