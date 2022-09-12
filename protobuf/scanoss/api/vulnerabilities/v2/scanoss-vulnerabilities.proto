@@ -80,10 +80,9 @@ message VulnerabilityResponse {
     string url = 3;
     string summary = 4;
     string severity = 5;
-    string introduced = 6;
-    string reported = 7;
-    string patched = 8;
-    string source = 9;
+    string published = 6;
+    string modified = 7;
+    string source = 8;
   }
   message Purls {
     string purl = 1;
