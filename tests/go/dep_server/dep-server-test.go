@@ -32,10 +32,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"google.golang.org/grpc"
 	"log"
 	"net"
-
-	"google.golang.org/grpc"
 
 	common "github.com/scanoss/papi/api/commonv2"
 	deps "github.com/scanoss/papi/api/dependenciesv2"
@@ -85,6 +84,18 @@ type server struct {
 // Echo Implement the Echo gRPC
 func (s *server) Echo(ctx context.Context, in *common.EchoRequest) (*common.EchoResponse, error) {
 	log.Printf("Received: %v", in.GetMessage())
+
+	// Uncomment to simulate long-running requests
+	//log.Printf("Context: %#v - Error: %#v", ctx, ctx.Err())
+	//for i := 0; i < 120; i++ {
+	//	log.Printf("Checking: %v", ctx.Err())
+	//	cte := ctx.Err()
+	//	if cte == context.Canceled || cte == context.DeadlineExceeded {
+	//		log.Printf("Cancelled")
+	//		return nil, status.Errorf(codes.Canceled, "DepService.Echo canceled")
+	//	}
+	//	time.Sleep(2 * time.Second)
+	//}
 	return &common.EchoResponse{Message: in.GetMessage()}, nil
 }
 

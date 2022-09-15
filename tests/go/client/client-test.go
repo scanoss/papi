@@ -64,7 +64,7 @@ func main() {
 
 	c := deps.NewDependenciesClient(conn)
 	// Contact the server and print out its response.
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 
 	r, err := c.Echo(ctx, &common.EchoRequest{Message: *name})
