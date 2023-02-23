@@ -24,7 +24,8 @@
 
 # This file copies the Python library code into the scanoss.py repo (on the local file system)
 
-export b_dir=$(dirname "$0") # script location
+b_dir=$(dirname "$0") # script location
+export b_dir
 if [ "$b_dir" = "" ]; then
   export b_dir=.
 fi
@@ -93,7 +94,10 @@ fi
 scanoss_dir=scanoss
 
 confirm $force "Copy Python library?"
-cd "$s"
+if ! cd "$s" ; then
+  echo "Error: Failed to change to directory: $s"
+  exit 1
+fi
 if [ ! -d "$scanoss_dir" ] ; then
   echo "Error: No Python code to copy from $s/$scanoss_dir"
   exit 1

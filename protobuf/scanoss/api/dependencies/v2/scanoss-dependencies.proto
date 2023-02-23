@@ -49,6 +49,7 @@ message DependencyRequest {
   message Purls {
     string purl = 1;
     string requirement = 2;
+//    string scope = 3;  // TODO what did we want scope for?
   }
   message Files {
     string file = 1;
@@ -77,6 +78,7 @@ message DependencyResponse {
     repeated Licenses licenses = 4;
     string url = 5;
     string comment = 6;
+//    string scope = 7;
   }
   message Files {
     string file = 1;
