@@ -31,12 +31,16 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/google/uuid"
 	common "github.com/scanoss/papi/api/commonv2"
 	comp "github.com/scanoss/papi/api/componentsv2"
+	crypto "github.com/scanoss/papi/api/cryptographyv2"
 	deps "github.com/scanoss/papi/api/dependenciesv2"
 	scan "github.com/scanoss/papi/api/scanningv2"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -45,10 +49,11 @@ const (
 )
 
 var (
-	dAddr = flag.String("d_addr", "localhost:50051", "dependency server to connect to")
-	sAddr = flag.String("s_addr", "localhost:50052", "scanning server to connect to")
-	cAddr = flag.String("c_addr", "localhost:50053", "component server to connect to")
-	name  = flag.String("name", defaultName, "Echo message")
+	dAddr  = flag.String("d_addr", "localhost:50051", "dependency server to connect to")
+	sAddr  = flag.String("s_addr", "localhost:50052", "scanning server to connect to")
+	cAddr  = flag.String("c_addr", "localhost:50053", "component server to connect to")
+	crAddr = flag.String("cr_addr", "localhost:50054", "crypto server to connect to")
+	name   = flag.String("name", defaultName, "Echo message")
 )
 
 func main() {
@@ -67,11 +72,22 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 
-	r, err := c.Echo(ctx, &common.EchoRequest{Message: *name})
+	// Anything linked to this variable will transmit request headers.
+	md := metadata.New(map[string]string{"x-request-id": uuid.New().String()})
+	ctx = metadata.NewOutgoingContext(ctx, md)
+	var header metadata.MD
+
+	r, err := c.Echo(ctx, &common.EchoRequest{Message: *name}, grpc.Header(&header))
 	if err != nil {
 		log.Fatalf("could not run dependency echo: %v", err)
 	}
-	log.Printf("Dependency Echo: %s", r.GetMessage())
+	log.Printf("R Header: %#v", header)
+	xRid := header["x-response-id"]
+	var respId string
+	if len(xRid) > 0 {
+		respId = strings.Trim(xRid[0], " ")
+	}
+	log.Printf("Dependency Echo (x-resonpse-id: %v): %s", respId, r.GetMessage())
 
 	conn2, err := grpc.Dial(*sAddr, grpc.WithInsecure()) // Set up a connection to the server.
 	if err != nil {
@@ -103,4 +119,18 @@ func main() {
 	}
 	log.Printf("Component Echo: %s", r3.GetMessage())
 
+	conn4, err := grpc.Dial(*crAddr, grpc.WithInsecure()) // Set up a connection to the server.
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn2.Close()
+
+	c4 := crypto.NewCryptographyClient(conn4)
+	ctx4, cancel4 := context.WithTimeout(context.Background(), time.Second)
+	defer cancel4()
+	r4, err := c4.Echo(ctx4, &common.EchoRequest{Message: *name})
+	if err != nil {
+		log.Fatalf("could not echo: %v", err)
+	}
+	log.Printf("Crypto Echo: %s", r4.GetMessage())
 }
