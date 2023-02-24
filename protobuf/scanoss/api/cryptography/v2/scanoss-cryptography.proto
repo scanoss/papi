@@ -65,7 +65,8 @@ message CryptographyResponse {
   }
   message Purls {
     string purl = 1;
-    repeated Algorithms algorithms = 2;
+    string version = 2;
+    repeated Algorithms algorithms = 3;
   }
   // Cryptography details
   repeated Purls purls = 1;
