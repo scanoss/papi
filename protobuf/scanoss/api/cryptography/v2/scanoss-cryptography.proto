@@ -39,29 +39,16 @@ service Cryptography {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
   // Get Cryptographic algorithms associated with a list of PURLs
-  rpc GetAlgorithms(CryptographyRequest) returns(CryptographyResponse);
-}
-
-/*
- * Cryptography Algorithm request data (JSON payload)
- */
-message CryptographyRequest {
-  message Purls {
-    string purl = 1;
-    string requirement = 2;
-  }
-  // JSON cryptography request purls
-  repeated Purls purls = 1;
+  rpc GetAlgorithms(scanoss.api.common.v2.PurlRequest) returns(AlgorithmResponse);
 }
 
 /*
  * Cryptography Algorithm response data (JSON payload)
  */
-message CryptographyResponse {
+message AlgorithmResponse {
   message Algorithms {
     string algorithm = 1;
     string strength = 2;
-    int32 count = 3;
   }
   message Purls {
     string purl = 1;

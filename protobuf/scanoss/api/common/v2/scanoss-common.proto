@@ -64,3 +64,15 @@ message EchoRequest {
 message EchoResponse {
   string message = 1;
 }
+
+/*
+ * Purl request data (JSON payload)
+ */
+message PurlRequest {
+  message Purls {
+    string purl = 1;
+    string requirement = 2;
+  }
+  // JSON request purls
+  repeated Purls purls = 1;
+}
