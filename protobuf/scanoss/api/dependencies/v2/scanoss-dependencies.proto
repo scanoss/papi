@@ -31,31 +31,75 @@ package scanoss.api.dependencies.v2;
 option go_package = "github.com/scanoss/papi/api/dependenciesv2;dependenciesv2";
 
 import "scanoss/api/common/v2/scanoss-common.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+    title: "SCANOSS Dependency Service";
+    version: "2.0";
+    contact: {
+      name: "scanoss-dependencies";
+      url: "https://github.com/scanoss/dependencies";
+      email: "support@scanoss.com";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
 
 /*
  * Expose all of the SCANOSS Dependency RPCs here
  */
 service Dependencies {
   // Standard echo
-  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
+  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/dependencies/echo"
+      body: "*"
+    };
+  };
   // Get dependency details
-  rpc GetDependencies(DependencyRequest) returns(DependencyResponse);
+  rpc GetDependencies(DependencyRequest) returns(DependencyResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/dependencies/dependencies"
+      body: "*"
+    };
+  };
 }
 
 /*
  * Dependency request data (JSON payload)
  */
 message DependencyRequest {
+  // List of Purls/requirements
   message Purls {
+    // Purl name
     string purl = 1;
+    // requirement - optional
     string requirement = 2;
 //    string scope = 3;  // TODO what did we want scope for?
   }
+  // List of dependency files
   message Files {
+    // dependency filename
     string file = 1;
+    // List of purls
     repeated Purls purls = 2;
   }
-  // JSON dependency request
+  // List of dependency files
   repeated Files files = 1;
   // Depth to go when searching dependencies
   int32 depth = 2;

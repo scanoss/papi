@@ -31,17 +31,60 @@ package scanoss.api.vulnerabilities.v2;
 option go_package = "github.com/scanoss/papi/api/vulnerabilitiesv2;vulnerabilitiesv2";
 
 import "scanoss/api/common/v2/scanoss-common.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+    title: "SCANOSS Vulnerability Service";
+    version: "2.0";
+    contact: {
+      name: "scanoss-vulnerabilities";
+      url: "https://github.com/scanoss/vulnerabilities";
+      email: "support@scanoss.com";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
 
 /*
  * Expose all of the SCANOSS Vulnerability RPCs here
  */
 service Vulnerabilities {
   // Standard echo
-  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse);
+  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/vulnerabilities/echo"
+      body: "*"
+    };
+  };
   // Get CPEs associated with a PURL
-  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse);
+  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/vulnerabilities/cpes"
+      body: "*"
+    };
+  };
   // Get vulnerability details
-  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse);
+  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/vulnerabilities/vulnerabilities"
+      body: "*"
+    };
+  };
 }
 
 /*

@@ -26,10 +26,11 @@
 # - Python
 # - Go
 
-export b_dir=$(dirname "$0") # script location
+b_dir=$(dirname "$0") # script location
 if [ "$b_dir" = "" ]; then
-  export b_dir=.
+  b_dir=.
 fi
+export b_dir
 export protobuf_dir=protobuf
 #
 # Print help info
@@ -76,12 +77,12 @@ build_js() {
     rm -rf "$sc_dir"
   fi
   if ! protoc -I$protobuf_dir \
-              --plugin=protoc-gen-ts=$(which protoc-gen-ts) \
-              --plugin=protoc-gen-grpc=$(which grpc_tools_node_protoc_plugin) \
+              --plugin=protoc-gen-ts="$(which protoc-gen-ts)" \
+              --plugin=protoc-gen-grpc="$(which grpc_tools_node_protoc_plugin)" \
               --js_out=import_style=commonjs,binary:"$dest_dir" \
               --ts_out=service=grpc-node,mode=grpc-js:"$dest_dir"\
               --grpc_out=grpc_js:"$dest_dir" \
-              $(find $protobuf_dir -type f -name "*.proto" -print); 
+              $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print);
               then
     echo "Error: Failed to compile Javascript libraries from proto files"
     exit 1
@@ -101,7 +102,7 @@ build_python() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
-  if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
+  if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print); then
     echo "Error: Failed to compile Python libraries from proto files"
     exit 1
   fi
@@ -117,14 +118,21 @@ build_go() {
     echo "Error: Destination directory does not exist: $dest_dir"
     exit 1
   fi
-  cd "$dest_dir"
+  cd "$dest_dir" || {
+    echo "Error: failed to cd to $dest_dir"
+    exit 1
+  }
   target_dir=api
   rm -rf "$target_dir"
   mkdir "$target_dir" || {
     echo "Error: Failed to create $target_dir"
     exit 1
   }
-  if ! protoc --proto_path=$protobuf_dir --go_out="$target_dir" --go-grpc_out="$target_dir" $(find $protobuf_dir -type f -name "*.proto" -print); then
+  if ! protoc --proto_path=$protobuf_dir --go_out="$target_dir" --go-grpc_out="$target_dir" \
+              --grpc-gateway_out="$target_dir" --grpc-gateway_opt logtostderr=true \
+              --grpc-gateway_opt generate_unbound_methods=true \
+              $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print)
+              then
     echo "Error: Failed to compile Go libraries from proto files."
     exit 1
   fi
@@ -133,6 +141,13 @@ build_go() {
     exit 1
   fi
   rm -rf "$target_dir/github.com"
+  echo "Producing Swagger files..."
+  find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -exec \
+    protoc --proto_path=$protobuf_dir --swagger_out=logtostderr=true:$protobuf_dir "{}" \;
+
+#  for f in $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print) ; do
+#    protoc --proto_path=$protobuf_dir --swagger_out=logtostderr=true:$protobuf_dir "$f"
+#  done
 }
 
 #
@@ -172,7 +187,10 @@ fi
 
 if [ "$t" = "python" ]; then
   confirm $force "Create Python library from proto?"
-  cd "$b_dir/.."
+  cd "$b_dir/.." || {
+    echo "Error: Failed to cd to $b_dir"
+    exit 1
+  }
   dest="python"
   if [ ! -z "$d" ]; then
     dest="$d"
@@ -189,7 +207,10 @@ elif [ "$t" = "go" ]; then
   build_go "$dest"
 elif [ "$t" = "js" ]; then
   confirm $force "Create Javascript library from proto?"
-  cd "$b_dir/.."
+  cd "$b_dir/.." || {
+    echo "Error: Failed to cd to $b_dir"
+    exit 1
+  }
   dest="javascript"
   if [ -n "$d" ]; then
     dest="$d"
