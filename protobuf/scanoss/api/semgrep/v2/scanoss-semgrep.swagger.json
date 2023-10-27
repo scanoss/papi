@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "SCANOSS Components Service",
+    "title": "SCANOSS Semgrep Service",
     "version": "2.0",
     "contact": {
-      "name": "scanoss-components",
-      "url": "https://github.com/scanoss/components",
+      "name": "scanoss-semgrep",
+      "url": "https://github.com/scanoss/semgrep",
       "email": "support@scanoss.com"
     }
   },
@@ -19,10 +19,10 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/components/echo": {
+    "/api/v2/semgrep/echo": {
       "post": {
         "summary": "Standard echo",
-        "operationId": "Components_Echo",
+        "operationId": "Semgrep_Echo",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -55,59 +55,19 @@
           }
         ],
         "tags": [
-          "Components"
+          "Semgrep"
         ]
       }
     },
-    "/api/v2/components/search": {
+    "/api/v2/semgrep/issues": {
       "post": {
-        "summary": "Search for components",
-        "operationId": "Components_SearchComponents",
+        "summary": "Get Potential issues  associated with a list of PURLs",
+        "operationId": "Semgrep_GetIssues",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2CompSearchResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2CompSearchRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Components"
-        ]
-      }
-    },
-    "/api/v2/components/statistics": {
-      "post": {
-        "summary": "Get the statistics for the specified components",
-        "operationId": "Components_GetComponentStatistics",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v2CompStatisticResponse"
+              "$ref": "#/definitions/v2SemgrepResponse"
             }
           },
           "404": {
@@ -135,78 +95,45 @@
           }
         ],
         "tags": [
-          "Components"
-        ]
-      }
-    },
-    "/api/v2/components/versions": {
-      "post": {
-        "summary": "Get all version information for a specific component",
-        "operationId": "Components_GetComponentVersions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v2CompVersionResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2CompVersionRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Components"
+          "Semgrep"
         ]
       }
     }
   },
   "definitions": {
-    "CompStatisticLanguage": {
+    "SemgrepResponseFile": {
       "type": "object",
       "properties": {
-        "name": {
+        "fileMD5": {
           "type": "string"
         },
-        "files": {
-          "type": "integer",
-          "format": "int32"
+        "path": {
+          "type": "string"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SemgrepResponseIssue"
+          }
         }
       }
     },
-    "CompVersionResponseVersion": {
+    "SemgrepResponseIssue": {
       "type": "object",
       "properties": {
-        "version": {
+        "ruleID": {
           "type": "string"
         },
-        "licenses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2CompVersionResponseLicense"
-          }
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
         }
-      },
-      "title": "Version details (including license)"
+      }
     },
     "protobufAny": {
       "type": "object",
@@ -243,192 +170,6 @@
           }
         }
       }
-    },
-    "v2CompSearchRequest": {
-      "type": "object",
-      "properties": {
-        "search": {
-          "type": "string",
-          "title": "Component to search for (vendor/component/purl). Search is exclusive (will override vendor/component)"
-        },
-        "vendor": {
-          "type": "string",
-          "title": "Vendor to search for. Vendor can be combined with Component"
-        },
-        "component": {
-          "type": "string",
-          "title": "Component to search for. Component can be combined with Vendor"
-        },
-        "package": {
-          "type": "string",
-          "title": "Type of package (purl type) to search for. i.e. github, maven, golang, npm, all - default github"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Number of matches to return - default 50"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Offset to submit to return the next (limit) of component matches"
-        }
-      },
-      "title": "Component Search request data (JSON payload)"
-    },
-    "v2CompSearchResponse": {
-      "type": "object",
-      "properties": {
-        "components": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2CompSearchResponseComponent"
-          },
-          "title": "Component response details"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status (required?)"
-        }
-      },
-      "title": "Component Search response data (JSON payload)"
-    },
-    "v2CompSearchResponseComponent": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "type": "string"
-        },
-        "purl": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        }
-      },
-      "title": "Component details"
-    },
-    "v2CompStatistic": {
-      "type": "object",
-      "properties": {
-        "total_source_files": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total_lines": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total_blank_lines": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "languages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CompStatisticLanguage"
-          }
-        }
-      }
-    },
-    "v2CompStatisticResponse": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2CompStatisticResponsePurls"
-          },
-          "title": "Component statistic details"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
-        }
-      },
-      "title": "Component Statistics response data (JSON payload)"
-    },
-    "v2CompStatisticResponsePurls": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "statistics": {
-          "$ref": "#/definitions/v2CompStatistic"
-        }
-      }
-    },
-    "v2CompVersionRequest": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "Component to search for (purl)"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Number of versions to return - default 20"
-        }
-      },
-      "title": "Component Version request data (JSON payload)"
-    },
-    "v2CompVersionResponse": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "$ref": "#/definitions/v2CompVersionResponseComponent",
-          "title": "Component response details"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
-        }
-      },
-      "title": "Component Search response data (JSON payload)"
-    },
-    "v2CompVersionResponseComponent": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "type": "string"
-        },
-        "purl": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "versions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CompVersionResponseVersion"
-          }
-        }
-      },
-      "title": "Component details (including versions)"
-    },
-    "v2CompVersionResponseLicense": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "spdx_id": {
-          "type": "string"
-        },
-        "is_spdx_approved": {
-          "type": "boolean"
-        },
-        "url": {
-          "type": "string"
-        }
-      },
-      "title": "License details"
     },
     "v2EchoRequest": {
       "type": "object",
@@ -469,6 +210,40 @@
         },
         "requirement": {
           "type": "string"
+        }
+      }
+    },
+    "v2SemgrepResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2SemgrepResponsePurls"
+          },
+          "title": "Cryptography details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Semgrep issue response data (JSON payload)"
+    },
+    "v2SemgrepResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SemgrepResponseFile"
+          }
         }
       }
     },

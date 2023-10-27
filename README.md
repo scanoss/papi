@@ -13,7 +13,7 @@ To consume the Public APIs, simply use one of the following:
 
 * Go - [github.com/scanoss/papi](https://github.com/scanoss/papi)
 * Python - [scanoss](https://pypi.org/project/scanoss/)
-* Javascript - TBD
+* Javascript - [scanoss](https://www.npmjs.com/package/scanoss)
 * Java - TBD
 
 Or alternatively, take the protocol buffer definitions and compile them for your language of choice.
@@ -27,7 +27,7 @@ Examples of consuming the Go library can be found in the [tests/go](tests/go) fo
 Examples of consuming the Python Library can be found [here](https://github.com/scanoss/scanoss.py).
 
 ### Javascript
-TBD
+Examples of consuming the Javascript Library can be found [here](https://github.com/scanoss/scanoss.js).
 
 ### Java
 TBD

@@ -35,6 +35,11 @@ make build_python
 This will save the library/package files in the [python](python) folder.
 These files need to be copied into the [scanoss.py](https://github.com/scanoss/scanoss.py) src folder.
 
+There is a convenience command to copy these files, if the `scanoss.py` project is cloned locally beside `papi`:
+```bash
+make update_scanoss_py
+```
+
 Consumption of the Python gRPC APIs is provided through this package. You can install this package from [PyPI](https://pypi.org/project/scanoss/).
 
 ### Javascript
@@ -42,8 +47,6 @@ In order to build the Javascript library implementation of the proto definitions
 * [Node](https://nodejs.org/en/download/)
 * [protoc] (https://grpc.io/docs/protoc-installation/)
 * [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen)
-
-
 
 To build the Javascript code from the definitions, please run:
 ```bash

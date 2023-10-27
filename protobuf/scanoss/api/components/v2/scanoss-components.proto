@@ -85,6 +85,13 @@ service Components {
       body: "*"
     };
   };
+  // Get the statistics for the specified components
+  rpc GetComponentStatistics(scanoss.api.common.v2.PurlRequest) returns(CompStatisticResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/components/statistics"
+      body: "*"
+    };
+  };
 }
 
 /*
@@ -103,6 +110,32 @@ message CompSearchRequest {
   int32 limit = 6;
   // Offset to submit to return the next (limit) of component matches
   int32 offset = 7;
+}
+
+message CompStatistic {
+  message Language {
+    string name = 1;
+    int32 files = 2;
+  }
+  int32 total_source_files = 1;
+  int32 total_lines = 2;
+  int32 total_blank_lines = 3;
+  repeated Language languages = 4;
+}
+
+/*
+ * Component Statistics response data (JSON payload)
+ */
+message CompStatisticResponse {
+  message Purls {
+    string purl = 1;
+    string version = 2;
+    CompStatistic statistics = 3;
+  }
+  // Component statistic details
+  repeated Purls purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
 }
 
 /*

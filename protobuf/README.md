@@ -28,3 +28,11 @@ The [copy_python.sh](copy_python.sh) script provides the support for copying the
 It defaults to assuming the scanoss.py repo is in the parent folder beside the papi repo.
 
 Examples for consuming this script can be found in the [Makefile](../Makefile).
+
+## Open API Support Files
+In order to support the generation of GRPC Gateway (Open API) REST interfaces, the following protobuf folders have been copied into papi:
+* [proto-gen-swagger](https://github.com/grpc-ecosystem/grpc-gateway)
+* [google](https://github.com/googleapis/googleapis)
+
+These definitions aid in the generation of the GRPC Gateway code and the Open API (swagger) spec files.
+More details on how this is used can be found [here](https://grpc-ecosystem.github.io/grpc-gateway/).
