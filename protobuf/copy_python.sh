@@ -107,4 +107,13 @@ if ! tar cf - "$scanoss_dir" | tar xvf - -C "$t" ; then
   exit 1
 fi
 
+# Copy the protoc swagger code if it exists
+swagger_dir=protoc_gen_swagger
+if [ -d "$swagger_dir" ] ; then
+  if ! tar cf - "$swagger_dir" | tar xvf - -C "$t" ; then
+    echo "Error: Failed to copy $s/$swagger_dir to $t"
+    exit 1
+  fi
+fi
+
 exit 0

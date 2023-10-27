@@ -102,7 +102,10 @@ build_python() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
-  if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print); then
+  if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" \
+               $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print) \
+               $(find $protobuf_dir/protoc-gen-swagger -type f -name "*.proto" -print)
+               then
     echo "Error: Failed to compile Python libraries from proto files"
     exit 1
   fi
@@ -144,10 +147,6 @@ build_go() {
   echo "Producing Swagger files..."
   find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -exec \
     protoc --proto_path=$protobuf_dir --swagger_out=logtostderr=true:$protobuf_dir "{}" \;
-
-#  for f in $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print) ; do
-#    protoc --proto_path=$protobuf_dir --swagger_out=logtostderr=true:$protobuf_dir "$f"
-#  done
 }
 
 #
