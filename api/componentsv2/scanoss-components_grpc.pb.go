@@ -47,9 +47,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Components_Echo_FullMethodName                 = "/scanoss.api.components.v2.Components/Echo"
-	Components_SearchComponents_FullMethodName     = "/scanoss.api.components.v2.Components/SearchComponents"
-	Components_GetComponentVersions_FullMethodName = "/scanoss.api.components.v2.Components/GetComponentVersions"
+	Components_Echo_FullMethodName                   = "/scanoss.api.components.v2.Components/Echo"
+	Components_SearchComponents_FullMethodName       = "/scanoss.api.components.v2.Components/SearchComponents"
+	Components_GetComponentVersions_FullMethodName   = "/scanoss.api.components.v2.Components/GetComponentVersions"
+	Components_GetComponentStatistics_FullMethodName = "/scanoss.api.components.v2.Components/GetComponentStatistics"
 )
 
 // ComponentsClient is the client API for Components service.
@@ -62,6 +63,8 @@ type ComponentsClient interface {
 	SearchComponents(ctx context.Context, in *CompSearchRequest, opts ...grpc.CallOption) (*CompSearchResponse, error)
 	// Get all version information for a specific component
 	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
+	// Get the statistics for the specified components
+	GetComponentStatistics(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*CompStatisticResponse, error)
 }
 
 type componentsClient struct {
@@ -99,6 +102,15 @@ func (c *componentsClient) GetComponentVersions(ctx context.Context, in *CompVer
 	return out, nil
 }
 
+func (c *componentsClient) GetComponentStatistics(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*CompStatisticResponse, error) {
+	out := new(CompStatisticResponse)
+	err := c.cc.Invoke(ctx, Components_GetComponentStatistics_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ComponentsServer is the server API for Components service.
 // All implementations must embed UnimplementedComponentsServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type ComponentsServer interface {
 	SearchComponents(context.Context, *CompSearchRequest) (*CompSearchResponse, error)
 	// Get all version information for a specific component
 	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
+	// Get the statistics for the specified components
+	GetComponentStatistics(context.Context, *commonv2.PurlRequest) (*CompStatisticResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
 
@@ -124,6 +138,9 @@ func (UnimplementedComponentsServer) SearchComponents(context.Context, *CompSear
 }
 func (UnimplementedComponentsServer) GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentVersions not implemented")
+}
+func (UnimplementedComponentsServer) GetComponentStatistics(context.Context, *commonv2.PurlRequest) (*CompStatisticResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentStatistics not implemented")
 }
 func (UnimplementedComponentsServer) mustEmbedUnimplementedComponentsServer() {}
 
@@ -192,6 +209,24 @@ func _Components_GetComponentVersions_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Components_GetComponentStatistics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.PurlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComponentsServer).GetComponentStatistics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Components_GetComponentStatistics_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComponentsServer).GetComponentStatistics(ctx, req.(*commonv2.PurlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Components_ServiceDesc is the grpc.ServiceDesc for Components service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -210,6 +245,10 @@ var Components_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetComponentVersions",
 			Handler:    _Components_GetComponentVersions_Handler,
+		},
+		{
+			MethodName: "GetComponentStatistics",
+			Handler:    _Components_GetComponentStatistics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

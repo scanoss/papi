@@ -99,6 +99,46 @@
         ]
       }
     },
+    "/api/v2/components/statistics": {
+      "post": {
+        "summary": "Get the statistics for the specified components",
+        "operationId": "Components_GetComponentStatistics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2CompStatisticResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Components"
+        ]
+      }
+    },
     "/api/v2/components/versions": {
       "post": {
         "summary": "Get all version information for a specific component",
@@ -141,6 +181,18 @@
     }
   },
   "definitions": {
+    "CompStatisticLanguage": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "files": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "CompVersionResponseVersion": {
       "type": "object",
       "properties": {
@@ -256,6 +308,60 @@
       },
       "title": "Component details"
     },
+    "v2CompStatistic": {
+      "type": "object",
+      "properties": {
+        "total_source_files": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total_lines": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total_blank_lines": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompStatisticLanguage"
+          }
+        }
+      }
+    },
+    "v2CompStatisticResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2CompStatisticResponsePurls"
+          },
+          "title": "Component statistic details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Component Statistics response data (JSON payload)"
+    },
+    "v2CompStatisticResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "statistics": {
+          "$ref": "#/definitions/v2CompStatistic"
+        }
+      }
+    },
     "v2CompVersionRequest": {
       "type": "object",
       "properties": {
@@ -341,6 +447,30 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2PurlRequest": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2PurlRequestPurls"
+          },
+          "title": "JSON request purls"
+        }
+      },
+      "title": "Purl request data (JSON payload)"
+    },
+    "v2PurlRequestPurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string"
+        }
+      }
     },
     "v2StatusCode": {
       "type": "string",
