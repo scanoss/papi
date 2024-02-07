@@ -99,7 +99,7 @@ message ProvenanceResponse {
   message Purls {
     string purl = 1;
     string version = 2;
-    repeated Country Countries = 3;
+    repeated Country countries = 3;
   }
   // Cryptography details
   repeated Purls purls = 1;
