@@ -23,12 +23,12 @@
  */
 
 /***
- * Provenanze definition details
+ * Provenance definition details
 ***/
 syntax = "proto3";
-package scanoss.api.provenanze.v2;
+package scanoss.api.provenance.v2;
 
-option go_package = "github.com/scanoss/papi/api/provenanzev2;provenanzev2";
+option go_package = "github.com/scanoss/papi/api/provenancev2;provenancev2";
 
 import "scanoss/api/common/v2/scanoss-common.proto";
 import "google/api/annotations.proto";
@@ -36,11 +36,11 @@ import "protoc-gen-swagger/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   info: {
-    title: "SCANOSS Provenanze Service";
+    title: "SCANOSS Provenance Service";
     version: "2.0";
     contact: {
-      name: "scanoss-provenanze";
-      url: "https://github.com/scanoss/provenanze";
+      name: "scanoss-provenance";
+      url: "https://github.com/scanoss/provenance";
       email: "support@scanoss.com";
     };
   };
@@ -61,26 +61,26 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 };
 
 /*
- * Expose all of the SCANOSS Provenanze RPCs here
+ * Expose all of the SCANOSS Provenance RPCs here
  */
-service Provenanze {
+service Provenance {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenanze/echo"
+      post: "/api/v2/provenance/echo"
       body: "*"
     };
   };
-  // Get Provenanze countrues associated with a list of PURLs
-  rpc GetComponentProvenanze(scanoss.api.common.v2.PurlRequest) returns(ProvenanzeResponse) {
+  // Get Provenance countrues associated with a list of PURLs
+  rpc GetComponentProvenance(scanoss.api.common.v2.PurlRequest) returns(ProvenanceResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenanze/countries"
+      post: "/api/v2/provenance/countries"
       body: "*"
     };
   };
-  rpc GetFileProvenanze(scanoss.api.common.v2.FileRequest) returns(ProvenanzeResponse) {
+  rpc GetFileProvenance(scanoss.api.common.v2.FileRequest) returns(ProvenanceResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenanze/countriesmd5"
+      post: "/api/v2/provenance/countriesmd5"
       body: "*"
     };
   };
@@ -92,9 +92,9 @@ service Provenanze {
     string source = 2;
   }
 /*
- * Component level Provenanze Response data (JSON payload)
+ * Component level Provenance Response data (JSON payload)
  */
-message ProvenanzeResponse {
+message ProvenanceResponse {
  
   message Purls {
     string purl = 1;
@@ -109,9 +109,9 @@ message ProvenanzeResponse {
 
 
 /*
- * File level Provenanze Response data (JSON payload)
+ * File level Provenance Response data (JSON payload)
  */
- message FileProvenanzeResponse {
+ message FileProvenanceResponse {
 
   message File {
     string file = 1;
