@@ -78,19 +78,21 @@ service Provenance {
       body: "*"
     };
   };
-  rpc GetFileProvenance(scanoss.api.common.v2.FileRequest) returns(ProvenanceResponse) {
-    option (google.api.http) = {
-      post: "/api/v2/provenance/countriesmd5"
-      body: "*"
-    };
-  };
 }
 
 
- message Country {
+ message DeclaredLocation {
+
+    string type = 1;
+    string location = 2;
+   }
+ 
+   message CuratedLocation {
+
     string country = 1;
-    string source = 2;
-  }
+    int32 count = 2;
+   }
+ 
 /*
  * Component level Provenance Response data (JSON payload)
  */
@@ -99,26 +101,13 @@ message ProvenanceResponse {
   message Purls {
     string purl = 1;
     string version = 2;
-    repeated Country countries = 3;
+    repeated DeclaredLocation declared_locations = 3;
+    repeated CuratedLocation curated_locations = 4;
+    
   }
-  // Cryptography details
+  // Provenance details
   repeated Purls purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-
-/*
- * File level Provenance Response data (JSON payload)
- */
- message FileProvenanceResponse {
-
-  message File {
-    string file = 1;
-    repeated Country Countries = 2;
-  }
-  // Cryptography details
-  repeated File files = 1;
-  // Response status
-  scanoss.api.common.v2.StatusResponse status = 2;
-}
