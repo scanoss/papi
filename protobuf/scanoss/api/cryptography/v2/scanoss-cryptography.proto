@@ -95,6 +95,8 @@ message AlgorithmResponse {
   }
   // Cryptography details
   repeated Purls purls = 1;
+  //DB version
+  string version = 2;
   // Response status
-  scanoss.api.common.v2.StatusResponse status = 2;
+  scanoss.api.common.v2.StatusResponse status = 3;
 }
