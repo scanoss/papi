@@ -22,9 +22,9 @@
    THE SOFTWARE.
  */
 
-/***
+/**
  * Provenance definition details
-***/
+*/
 syntax = "proto3";
 package scanoss.api.provenance.v2;
 
@@ -60,7 +60,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   }
 };
 
-/*
+/**
  * Expose all of the SCANOSS Provenance RPCs here
  */
 service Provenance {
@@ -80,24 +80,28 @@ service Provenance {
   };
 }
 
-
- message DeclaredLocation {
-
-    string type = 1;
-    string location = 2;
-   }
  
-   message CuratedLocation {
-
-    string country = 1;
-    int32 count = 2;
-   }
- 
-/*
+/**
  * Component level Provenance Response data (JSON payload)
  */
 message ProvenanceResponse {
- 
+  
+  // Declared location for the project
+  message DeclaredLocation {
+    // Declared location could be either from the owner or a contributor
+    string type = 1;
+    // Country/State/City/Province/Place declared on the repo
+    string location = 2;
+  }
+  
+  // Curated provenance information about the project 
+  message CuratedLocation {
+    // Country for the owner or contributor
+    string country = 1;
+    // Ocurrences for users or contributors on this specific country
+    int32 count = 2;
+  }
+
   message Purls {
     string purl = 1;
     string version = 2;
@@ -105,6 +109,7 @@ message ProvenanceResponse {
     repeated CuratedLocation curated_locations = 4;
     
   }
+ 
   // Provenance details
   repeated Purls purls = 1;
   // Response status
