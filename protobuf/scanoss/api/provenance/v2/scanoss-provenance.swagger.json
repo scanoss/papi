@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "SCANOSS Dependency Service",
+    "title": "SCANOSS Provenance Service",
     "version": "2.0",
     "contact": {
-      "name": "scanoss-dependencies",
-      "url": "https://github.com/scanoss/dependencies",
+      "name": "scanoss-provenance",
+      "url": "https://github.com/scanoss/provenance",
       "email": "support@scanoss.com"
     }
   },
@@ -19,15 +19,15 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/dependencies/dependencies": {
+    "/api/v2/provenance/countries": {
       "post": {
-        "summary": "Get dependency details",
-        "operationId": "Dependencies_GetDependencies",
+        "summary": "Get Provenance countrues associated with a list of PURLs",
+        "operationId": "Provenance_GetComponentProvenance",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2DependencyResponse"
+              "$ref": "#/definitions/v2ProvenanceResponse"
             }
           },
           "404": {
@@ -50,19 +50,19 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2DependencyRequest"
+              "$ref": "#/definitions/v2PurlRequest"
             }
           }
         ],
         "tags": [
-          "Dependencies"
+          "Provenance"
         ]
       }
     },
-    "/api/v2/dependencies/echo": {
+    "/api/v2/provenance/echo": {
       "post": {
         "summary": "Standard echo",
-        "operationId": "Dependencies_Echo",
+        "operationId": "Provenance_Echo",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -95,54 +95,40 @@
           }
         ],
         "tags": [
-          "Dependencies"
+          "Provenance"
         ]
       }
     }
   },
   "definitions": {
-    "DependencyResponseDependencies": {
+    "ProvenanceResponseCuratedLocation": {
       "type": "object",
       "properties": {
-        "component": {
-          "type": "string"
+        "country": {
+          "type": "string",
+          "title": "Country for the owner or contributor"
         },
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "licenses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DependencyResponseLicenses"
-          }
-        },
-        "url": {
-          "type": "string"
-        },
-        "comment": {
-          "type": "string"
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Ocurrences for users or contributors on this specific country"
         }
-      }
+      },
+      "title": "Curated provenance information about the project"
     },
-    "DependencyResponseLicenses": {
+    "ProvenanceResponseDeclaredLocation": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
+        "type": {
+          "type": "string",
+          "title": "Declared location could be either from the owner or a contributor"
         },
-        "spdx_id": {
-          "type": "string"
-        },
-        "is_spdx_approved": {
-          "type": "boolean"
-        },
-        "url": {
-          "type": "string"
+        "location": {
+          "type": "string",
+          "title": "Country/State/City/Province/Place declared on the repo"
         }
-      }
+      },
+      "title": "Declared location for the project"
     },
     "protobufAny": {
       "type": "object",
@@ -180,92 +166,6 @@
         }
       }
     },
-    "v2DependencyRequest": {
-      "type": "object",
-      "properties": {
-        "files": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2DependencyRequestFiles"
-          },
-          "title": "List of dependency files"
-        },
-        "depth": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Depth to go when searching dependencies"
-        }
-      },
-      "title": "Dependency request data (JSON payload)"
-    },
-    "v2DependencyRequestFiles": {
-      "type": "object",
-      "properties": {
-        "file": {
-          "type": "string",
-          "title": "dependency filename"
-        },
-        "purls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2DependencyRequestPurls"
-          },
-          "title": "List of purls"
-        }
-      },
-      "title": "List of dependency files"
-    },
-    "v2DependencyRequestPurls": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "Purl name"
-        },
-        "requirement": {
-          "type": "string",
-          "title": "requirement - optional"
-        }
-      },
-      "title": "List of Purls/requirements"
-    },
-    "v2DependencyResponse": {
-      "type": "object",
-      "properties": {
-        "files": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2DependencyResponseFiles"
-          },
-          "title": "Dependency response details"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status (required?)"
-        }
-      },
-      "title": "Dependency response data (JSON payload)"
-    },
-    "v2DependencyResponseFiles": {
-      "type": "object",
-      "properties": {
-        "file": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "dependencies": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DependencyResponseDependencies"
-          }
-        }
-      }
-    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -283,6 +183,70 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2ProvenanceResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2ProvenanceResponsePurls"
+          },
+          "title": "Provenance details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "*\nComponent level Provenance Response data (JSON payload)"
+    },
+    "v2ProvenanceResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "declared_locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProvenanceResponseDeclaredLocation"
+          }
+        },
+        "curated_locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProvenanceResponseCuratedLocation"
+          }
+        }
+      }
+    },
+    "v2PurlRequest": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2PurlRequestPurls"
+          },
+          "title": "JSON request purls"
+        }
+      },
+      "title": "Purl request data (JSON payload)"
+    },
+    "v2PurlRequestPurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string"
+        }
+      }
     },
     "v2StatusCode": {
       "type": "string",
