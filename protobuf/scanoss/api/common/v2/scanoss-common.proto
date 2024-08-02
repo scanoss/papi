@@ -77,10 +77,3 @@ message PurlRequest {
   repeated Purls purls = 1;
 }
 
-
-/*
- * File request data (JSON payload)
- */
- message FileRequest {
-  repeated string files = 1;
-}
