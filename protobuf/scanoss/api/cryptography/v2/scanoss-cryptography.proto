@@ -118,7 +118,7 @@ message AlgorithmsInRangeResponse {
   message Purl {
     string purl = 1;
     repeated string versions = 2;
-    repeated Algorithm algorithm = 3;
+    repeated Algorithm algorithms = 3;
     
   }
   // Cryptography details
