@@ -49,7 +49,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Cryptography_Echo_FullMethodName                 = "/scanoss.api.cryptography.v2.Cryptography/Echo"
 	Cryptography_GetAlgorithms_FullMethodName        = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"
-	Cryptography_GetAlgorithmsInMajor_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInMajor"
+	Cryptography_GetAlgorithmsInRange_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"
 )
 
 // CryptographyClient is the client API for Cryptography service.
@@ -61,7 +61,7 @@ type CryptographyClient interface {
 	// Get Cryptographic algorithms associated with a list of PURLs
 	GetAlgorithms(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs
-	GetAlgorithmsInMajor(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsMajorResponse, error)
+	GetAlgorithmsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsInRangeResponse, error)
 }
 
 type cryptographyClient struct {
@@ -90,9 +90,9 @@ func (c *cryptographyClient) GetAlgorithms(ctx context.Context, in *commonv2.Pur
 	return out, nil
 }
 
-func (c *cryptographyClient) GetAlgorithmsInMajor(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsMajorResponse, error) {
-	out := new(AlgorithmsMajorResponse)
-	err := c.cc.Invoke(ctx, Cryptography_GetAlgorithmsInMajor_FullMethodName, in, out, opts...)
+func (c *cryptographyClient) GetAlgorithmsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsInRangeResponse, error) {
+	out := new(AlgorithmsInRangeResponse)
+	err := c.cc.Invoke(ctx, Cryptography_GetAlgorithmsInRange_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ type CryptographyServer interface {
 	// Get Cryptographic algorithms associated with a list of PURLs
 	GetAlgorithms(context.Context, *commonv2.PurlRequest) (*AlgorithmResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs
-	GetAlgorithmsInMajor(context.Context, *commonv2.PurlRequest) (*AlgorithmsMajorResponse, error)
+	GetAlgorithmsInRange(context.Context, *commonv2.PurlRequest) (*AlgorithmsInRangeResponse, error)
 	mustEmbedUnimplementedCryptographyServer()
 }
 
@@ -122,8 +122,8 @@ func (UnimplementedCryptographyServer) Echo(context.Context, *commonv2.EchoReque
 func (UnimplementedCryptographyServer) GetAlgorithms(context.Context, *commonv2.PurlRequest) (*AlgorithmResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAlgorithms not implemented")
 }
-func (UnimplementedCryptographyServer) GetAlgorithmsInMajor(context.Context, *commonv2.PurlRequest) (*AlgorithmsMajorResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAlgorithmsInMajor not implemented")
+func (UnimplementedCryptographyServer) GetAlgorithmsInRange(context.Context, *commonv2.PurlRequest) (*AlgorithmsInRangeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAlgorithmsInRange not implemented")
 }
 func (UnimplementedCryptographyServer) mustEmbedUnimplementedCryptographyServer() {}
 
@@ -174,20 +174,20 @@ func _Cryptography_GetAlgorithms_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cryptography_GetAlgorithmsInMajor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cryptography_GetAlgorithmsInRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(commonv2.PurlRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CryptographyServer).GetAlgorithmsInMajor(ctx, in)
+		return srv.(CryptographyServer).GetAlgorithmsInRange(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Cryptography_GetAlgorithmsInMajor_FullMethodName,
+		FullMethod: Cryptography_GetAlgorithmsInRange_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CryptographyServer).GetAlgorithmsInMajor(ctx, req.(*commonv2.PurlRequest))
+		return srv.(CryptographyServer).GetAlgorithmsInRange(ctx, req.(*commonv2.PurlRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -208,8 +208,8 @@ var Cryptography_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Cryptography_GetAlgorithms_Handler,
 		},
 		{
-			MethodName: "GetAlgorithmsInMajor",
-			Handler:    _Cryptography_GetAlgorithmsInMajor_Handler,
+			MethodName: "GetAlgorithmsInRange",
+			Handler:    _Cryptography_GetAlgorithmsInRange_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

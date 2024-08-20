@@ -59,15 +59,15 @@
         ]
       }
     },
-    "/api/v2/cryptography/algorithmsInMajor": {
+    "/api/v2/cryptography/algorithmsInRange": {
       "post": {
         "summary": "Get Cryptographic algorithms associated with a list of PURLs",
-        "operationId": "Cryptography_GetAlgorithmsInMajor",
+        "operationId": "Cryptography_GetAlgorithmsInRange",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2AlgorithmsMajorResponse"
+              "$ref": "#/definitions/v2AlgorithmsInRangeResponse"
             }
           },
           "404": {
@@ -152,7 +152,7 @@
         }
       }
     },
-    "AlgorithmsMajorResponseAlgorithm": {
+    "AlgorithmsInRangeResponseAlgorithm": {
       "type": "object",
       "properties": {
         "algorithm": {
@@ -163,7 +163,7 @@
         }
       }
     },
-    "AlgorithmsMajorResponsePurl": {
+    "AlgorithmsInRangeResponsePurl": {
       "type": "object",
       "properties": {
         "purl": {
@@ -178,7 +178,7 @@
         "algorithm": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmsMajorResponseAlgorithm"
+            "$ref": "#/definitions/AlgorithmsInRangeResponseAlgorithm"
           }
         }
       }
@@ -253,13 +253,13 @@
         }
       }
     },
-    "v2AlgorithmsMajorResponse": {
+    "v2AlgorithmsInRangeResponse": {
       "type": "object",
       "properties": {
         "purls": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmsMajorResponsePurl"
+            "$ref": "#/definitions/AlgorithmsInRangeResponsePurl"
           },
           "title": "Cryptography details"
         },
@@ -267,7 +267,8 @@
           "$ref": "#/definitions/v2StatusResponse",
           "title": "Response status"
         }
-      }
+      },
+      "title": "Cryptography Algorithm response data for a given range or criteria (JSON payload)"
     },
     "v2EchoRequest": {
       "type": "object",

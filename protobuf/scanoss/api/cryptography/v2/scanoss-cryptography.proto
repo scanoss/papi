@@ -79,9 +79,9 @@ service Cryptography {
     };
   };
   // Get Cryptographic algorithms associated with a list of PURLs
-  rpc GetAlgorithmsInMajor(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsMajorResponse) {
+  rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/algorithmsInMajor"
+      post: "/api/v2/cryptography/algorithmsInRange"
       body: "*"
     };
   };
@@ -106,7 +106,10 @@ message AlgorithmResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-message AlgorithmsMajorResponse {
+/*
+ * Cryptography Algorithm response data for a given range or criteria (JSON payload)
+ */
+message AlgorithmsInRangeResponse {
   message Algorithm {
     string algorithm = 1;
     string strength = 2;
