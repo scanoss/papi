@@ -78,6 +78,13 @@ service Cryptography {
       body: "*"
     };
   };
+  // Get Cryptographic algorithms associated with a list of PURLs
+  rpc GetAlgorithmsInMajor(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsMajorResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/algorithmsInMajor"
+      body: "*"
+    };
+  };
 }
 
 /*
@@ -95,6 +102,24 @@ message AlgorithmResponse {
   }
   // Cryptography details
   repeated Purls purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+message AlgorithmsMajorResponse {
+  message Algorithm {
+    string algorithm = 1;
+    string strength = 2;
+  }
+ 
+  message Purl {
+    string purl = 1;
+    repeated string versions = 2;
+    repeated Algorithm algorithm = 3;
+    
+  }
+  // Cryptography details
+  repeated Purl purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }

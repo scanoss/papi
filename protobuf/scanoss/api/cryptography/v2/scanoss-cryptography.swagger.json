@@ -59,6 +59,46 @@
         ]
       }
     },
+    "/api/v2/cryptography/algorithmsInMajor": {
+      "post": {
+        "summary": "Get Cryptographic algorithms associated with a list of PURLs",
+        "operationId": "Cryptography_GetAlgorithmsInMajor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2AlgorithmsMajorResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
     "/api/v2/cryptography/echo": {
       "post": {
         "summary": "Standard echo",
@@ -109,6 +149,37 @@
         },
         "strength": {
           "type": "string"
+        }
+      }
+    },
+    "AlgorithmsMajorResponseAlgorithm": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "strength": {
+          "type": "string"
+        }
+      }
+    },
+    "AlgorithmsMajorResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "algorithm": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlgorithmsMajorResponseAlgorithm"
+          }
         }
       }
     },
@@ -179,6 +250,22 @@
           "items": {
             "$ref": "#/definitions/AlgorithmResponseAlgorithms"
           }
+        }
+      }
+    },
+    "v2AlgorithmsMajorResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlgorithmsMajorResponsePurl"
+          },
+          "title": "Cryptography details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
         }
       }
     },
