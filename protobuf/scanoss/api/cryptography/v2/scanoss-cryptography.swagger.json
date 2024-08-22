@@ -59,6 +59,46 @@
         ]
       }
     },
+    "/api/v2/cryptography/algorithmsInRange": {
+      "post": {
+        "summary": "Get Cryptographic algorithms associated with a list of PURLs",
+        "operationId": "Cryptography_GetAlgorithmsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2AlgorithmsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
     "/api/v2/cryptography/echo": {
       "post": {
         "summary": "Standard echo",
@@ -109,6 +149,37 @@
         },
         "strength": {
           "type": "string"
+        }
+      }
+    },
+    "AlgorithmsInRangeResponseAlgorithm": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "strength": {
+          "type": "string"
+        }
+      }
+    },
+    "AlgorithmsInRangeResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlgorithmsInRangeResponseAlgorithm"
+          }
         }
       }
     },
@@ -181,6 +252,23 @@
           }
         }
       }
+    },
+    "v2AlgorithmsInRangeResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlgorithmsInRangeResponsePurl"
+          },
+          "title": "Cryptography details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Cryptography Algorithm response data for a given range or criteria (JSON payload)"
     },
     "v2EchoRequest": {
       "type": "object",
