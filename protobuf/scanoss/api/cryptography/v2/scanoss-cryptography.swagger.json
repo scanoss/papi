@@ -138,6 +138,46 @@
           "Cryptography"
         ]
       }
+    },
+    "/api/v2/cryptography/versionsInRange": {
+      "post": {
+        "summary": "Get Cryptographic algorithms associated with a list of PURLs",
+        "operationId": "Cryptography_GetVersionsIncludeInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2DetectionsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
     }
   },
   "definitions": {
@@ -149,37 +189,6 @@
         },
         "strength": {
           "type": "string"
-        }
-      }
-    },
-    "AlgorithmsInRangeResponseAlgorithm": {
-      "type": "object",
-      "properties": {
-        "algorithm": {
-          "type": "string"
-        },
-        "strength": {
-          "type": "string"
-        }
-      }
-    },
-    "AlgorithmsInRangeResponsePurl": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string"
-        },
-        "versions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "algorithms": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AlgorithmsInRangeResponseAlgorithm"
-          }
         }
       }
     },
@@ -259,7 +268,7 @@
         "purls": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmsInRangeResponsePurl"
+            "$ref": "#/definitions/v2AlgorithmsInRangeResponsePurl"
           },
           "title": "Cryptography details"
         },
@@ -269,6 +278,74 @@
         }
       },
       "title": "Cryptography Algorithm response data for a given range or criteria (JSON payload)"
+    },
+    "v2AlgorithmsInRangeResponseAlgorithm": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "strength": {
+          "type": "string"
+        }
+      }
+    },
+    "v2AlgorithmsInRangeResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2AlgorithmsInRangeResponseAlgorithm"
+          }
+        }
+      }
+    },
+    "v2DetectionsInRangeResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2DetectionsInRangeResponsePurl"
+          },
+          "title": "Cryptography details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "DetectionsInRangeResponse response group those versions that contains cryptographic algorithms and those that do not contain (JSON payload)"
+    },
+    "v2DetectionsInRangeResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "versions_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "versions_without": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "v2EchoRequest": {
       "type": "object",
