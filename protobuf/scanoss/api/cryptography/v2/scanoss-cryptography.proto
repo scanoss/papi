@@ -85,6 +85,13 @@ service Cryptography {
       body: "*"
     };
   };
+  // Get Cryptographic algorithms associated with a list of PURLs
+  rpc GetVersionsIncludeInRange(scanoss.api.common.v2.PurlRequest) returns(DetectionsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/versionsInRange"
+      body: "*"
+    };
+  };
 }
 
 /*
@@ -121,6 +128,28 @@ message AlgorithmsInRangeResponse {
     repeated Algorithm algorithms = 3;
     
   }
+  // Cryptography details
+  repeated Purl purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * DetectionsInRangeResponse response group those versions that contains cryptographic algorithms and those that do not contain (JSON payload)
+ */
+ message DetectionsInRangeResponse {
+  message Algorithm {
+    string algorithm = 1;
+    string strength = 2;
+  }
+ 
+  message Purl {
+    string purl = 1;
+    repeated string versions_with = 2;
+    repeated string versions_without = 3;
+    
+  }
+
   // Cryptography details
   repeated Purl purls = 1;
   // Response status

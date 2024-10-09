@@ -47,9 +47,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Cryptography_Echo_FullMethodName                 = "/scanoss.api.cryptography.v2.Cryptography/Echo"
-	Cryptography_GetAlgorithms_FullMethodName        = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"
-	Cryptography_GetAlgorithmsInRange_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"
+	Cryptography_Echo_FullMethodName                      = "/scanoss.api.cryptography.v2.Cryptography/Echo"
+	Cryptography_GetAlgorithms_FullMethodName             = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"
+	Cryptography_GetAlgorithmsInRange_FullMethodName      = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"
+	Cryptography_GetVersionsIncludeInRange_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetVersionsIncludeInRange"
 )
 
 // CryptographyClient is the client API for Cryptography service.
@@ -62,6 +63,8 @@ type CryptographyClient interface {
 	GetAlgorithms(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs
 	GetAlgorithmsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsInRangeResponse, error)
+	// Get Cryptographic algorithms associated with a list of PURLs
+	GetVersionsIncludeInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*DetectionsInRangeResponse, error)
 }
 
 type cryptographyClient struct {
@@ -99,6 +102,15 @@ func (c *cryptographyClient) GetAlgorithmsInRange(ctx context.Context, in *commo
 	return out, nil
 }
 
+func (c *cryptographyClient) GetVersionsIncludeInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*DetectionsInRangeResponse, error) {
+	out := new(DetectionsInRangeResponse)
+	err := c.cc.Invoke(ctx, Cryptography_GetVersionsIncludeInRange_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CryptographyServer is the server API for Cryptography service.
 // All implementations must embed UnimplementedCryptographyServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type CryptographyServer interface {
 	GetAlgorithms(context.Context, *commonv2.PurlRequest) (*AlgorithmResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs
 	GetAlgorithmsInRange(context.Context, *commonv2.PurlRequest) (*AlgorithmsInRangeResponse, error)
+	// Get Cryptographic algorithms associated with a list of PURLs
+	GetVersionsIncludeInRange(context.Context, *commonv2.PurlRequest) (*DetectionsInRangeResponse, error)
 	mustEmbedUnimplementedCryptographyServer()
 }
 
@@ -124,6 +138,9 @@ func (UnimplementedCryptographyServer) GetAlgorithms(context.Context, *commonv2.
 }
 func (UnimplementedCryptographyServer) GetAlgorithmsInRange(context.Context, *commonv2.PurlRequest) (*AlgorithmsInRangeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAlgorithmsInRange not implemented")
+}
+func (UnimplementedCryptographyServer) GetVersionsIncludeInRange(context.Context, *commonv2.PurlRequest) (*DetectionsInRangeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVersionsIncludeInRange not implemented")
 }
 func (UnimplementedCryptographyServer) mustEmbedUnimplementedCryptographyServer() {}
 
@@ -192,6 +209,24 @@ func _Cryptography_GetAlgorithmsInRange_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cryptography_GetVersionsIncludeInRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.PurlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CryptographyServer).GetVersionsIncludeInRange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Cryptography_GetVersionsIncludeInRange_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CryptographyServer).GetVersionsIncludeInRange(ctx, req.(*commonv2.PurlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cryptography_ServiceDesc is the grpc.ServiceDesc for Cryptography service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -210,6 +245,10 @@ var Cryptography_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAlgorithmsInRange",
 			Handler:    _Cryptography_GetAlgorithmsInRange_Handler,
+		},
+		{
+			MethodName: "GetVersionsIncludeInRange",
+			Handler:    _Cryptography_GetVersionsIncludeInRange_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
