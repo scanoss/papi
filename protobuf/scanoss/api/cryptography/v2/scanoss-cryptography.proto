@@ -95,7 +95,7 @@ service Cryptography {
 }
 
 /*
- * Cryptography Algorithm response data for a given list of purls
+ * Cryptography Algorithm response data 
  */
 message AlgorithmResponse {
   // Information about the algorithm
@@ -115,7 +115,7 @@ message AlgorithmResponse {
     // Algorithms list detected for that version requirement
     repeated Algorithms algorithms = 3;
   }
-
+  
   // Cryptography details
   repeated Purls purls = 1;
   // Response status

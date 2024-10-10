@@ -246,7 +246,7 @@
           "title": "Response status"
         }
       },
-      "title": "Cryptography Algorithm response data for a given list of purls"
+      "title": "Cryptography Algorithm response data"
     },
     "v2AlgorithmResponsePurls": {
       "type": "object",

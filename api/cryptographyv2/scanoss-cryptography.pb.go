@@ -51,7 +51,7 @@ const (
 )
 
 //
-// Cryptography Algorithm response data for a given list of purls
+// Cryptography Algorithm response data
 type AlgorithmResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
