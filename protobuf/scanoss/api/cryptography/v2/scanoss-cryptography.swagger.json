@@ -21,7 +21,7 @@
   "paths": {
     "/api/v2/cryptography/algorithms": {
       "post": {
-        "summary": "Get Cryptographic algorithms associated with a list of PURLs",
+        "summary": "Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement",
         "operationId": "Cryptography_GetAlgorithms",
         "responses": {
           "200": {
@@ -61,7 +61,7 @@
     },
     "/api/v2/cryptography/algorithmsInRange": {
       "post": {
-        "summary": "Get Cryptographic algorithms associated with a list of PURLs",
+        "summary": "Given a list of PURLS and version ranges get a list of cryptographic algorithms used",
         "operationId": "Cryptography_GetAlgorithmsInRange",
         "responses": {
           "200": {
@@ -138,6 +138,46 @@
           "Cryptography"
         ]
       }
+    },
+    "/api/v2/cryptography/versionsInRange": {
+      "post": {
+        "summary": "Given a list of PURLS and version ranges get a list of versions that does contain and does not cryptographic algorithms",
+        "operationId": "Cryptography_GetVersionsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2VersionsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
     }
   },
   "definitions": {
@@ -145,43 +185,15 @@
       "type": "object",
       "properties": {
         "algorithm": {
-          "type": "string"
+          "type": "string",
+          "title": "Name of the detected algorithm"
         },
         "strength": {
-          "type": "string"
+          "type": "string",
+          "title": "Algorithm strenght"
         }
-      }
-    },
-    "AlgorithmsInRangeResponseAlgorithm": {
-      "type": "object",
-      "properties": {
-        "algorithm": {
-          "type": "string"
-        },
-        "strength": {
-          "type": "string"
-        }
-      }
-    },
-    "AlgorithmsInRangeResponsePurl": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string"
-        },
-        "versions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "algorithms": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AlgorithmsInRangeResponseAlgorithm"
-          }
-        }
-      }
+      },
+      "title": "Information about the algorithm"
     },
     "protobufAny": {
       "type": "object",
@@ -234,24 +246,28 @@
           "title": "Response status"
         }
       },
-      "title": "Cryptography Algorithm response data (JSON payload)"
+      "title": "Cryptography Algorithm response data for a given list of purls"
     },
     "v2AlgorithmResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "description": "The requested purl. If the requested version is not found on the KB, data about the latest version on the KB is responsed."
         },
         "version": {
-          "type": "string"
+          "type": "string",
+          "title": "Requested version requirement"
         },
         "algorithms": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/AlgorithmResponseAlgorithms"
-          }
+          },
+          "title": "Algorithms list detected for that version requirement"
         }
-      }
+      },
+      "title": "Information for a given purl"
     },
     "v2AlgorithmsInRangeResponse": {
       "type": "object",
@@ -259,7 +275,7 @@
         "purls": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmsInRangeResponsePurl"
+            "$ref": "#/definitions/v2AlgorithmsInRangeResponsePurl"
           },
           "title": "Cryptography details"
         },
@@ -269,6 +285,44 @@
         }
       },
       "title": "Cryptography Algorithm response data for a given range or criteria (JSON payload)"
+    },
+    "v2AlgorithmsInRangeResponseAlgorithm": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "title": "Name of the detected algorithm"
+        },
+        "strength": {
+          "type": "string",
+          "title": "Algorithm strenght"
+        }
+      },
+      "title": "Information about the algorithm"
+    },
+    "v2AlgorithmsInRangeResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "The requested purl. If a version in a range does not exist on the KB, it won't be present on versions field."
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in that range that contains cryptography"
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2AlgorithmsInRangeResponseAlgorithm"
+          },
+          "title": "Algorithms list detected in that range"
+        }
+      },
+      "title": "Information for a given PURL"
     },
     "v2EchoRequest": {
       "type": "object",
@@ -305,7 +359,8 @@
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "@description: purl to be requested"
         },
         "requirement": {
           "type": "string"
@@ -337,6 +392,47 @@
         }
       },
       "title": "Detailed response details"
+    },
+    "v2VersionsInRangeResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2VersionsInRangeResponsePurl"
+          },
+          "title": "Cryptography details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "VersionsInRangeResponse response group those versions that contains cryptographic algorithms and those that do not contain"
+    },
+    "v2VersionsInRangeResponsePurl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The requested purl. If a version in a range does not exist on the KB, it won't be present neither versions_with nor version_without"
+        },
+        "versions_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions that contains cryptography"
+        },
+        "versions_without": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions that dooes not contains cryptography"
+        }
+      },
+      "title": "Information for a given PURL"
     }
   }
 }

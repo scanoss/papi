@@ -71,35 +71,51 @@ service Cryptography {
       body: "*"
     };
   };
-  // Get Cryptographic algorithms associated with a list of PURLs
+  // Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
   rpc GetAlgorithms(scanoss.api.common.v2.PurlRequest) returns(AlgorithmResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/algorithms"
       body: "*"
     };
   };
-  // Get Cryptographic algorithms associated with a list of PURLs
+  // Given a list of PURLS and version ranges get a list of cryptographic algorithms used
   rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/algorithmsInRange"
       body: "*"
     };
   };
+  // Given a list of PURLS and version ranges get a list of versions that does contain and does not cryptographic algorithms
+  rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/versionsInRange"
+      body: "*"
+    };
+  };
 }
 
 /*
- * Cryptography Algorithm response data (JSON payload)
+ * Cryptography Algorithm response data for a given list of purls
  */
 message AlgorithmResponse {
+  // Information about the algorithm
   message Algorithms {
+    // Name of the detected algorithm
     string algorithm = 1;
+    // Algorithm strenght
     string strength = 2;
   }
+
+  // Information for a given purl
   message Purls {
+    // The requested purl. If the requested version is not found on the KB, data about the latest version on the KB is responsed.
     string purl = 1;
+    // Requested version requirement
     string version = 2;
+    // Algorithms list detected for that version requirement
     repeated Algorithms algorithms = 3;
   }
+
   // Cryptography details
   repeated Purls purls = 1;
   // Response status
@@ -110,17 +126,52 @@ message AlgorithmResponse {
  * Cryptography Algorithm response data for a given range or criteria (JSON payload)
  */
 message AlgorithmsInRangeResponse {
+  // Information about the algorithm
   message Algorithm {
-    string algorithm = 1;
+    // Name of the detected algorithm
+    string algorithm = 1; 
+    // Algorithm strenght
     string strength = 2;
   }
- 
+
+  // Information for a given PURL
   message Purl {
+    // The requested purl. If a version in a range does not exist on the KB, it won't be present on versions field.
     string purl = 1;
+    // List of versions in that range that contains cryptography
     repeated string versions = 2;
+    // Algorithms list detected in that range
     repeated Algorithm algorithms = 3;
-    
   }
+
+  // Cryptography details
+  repeated Purl purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * VersionsInRangeResponse response group those versions that contains cryptographic algorithms and those that do not contain
+ */
+ message VersionsInRangeResponse {
+  // Information about the algorithm
+  message Algorithm {
+    //  Name of the detected algorithm
+    string algorithm = 1;
+    // Algorithm strenght
+    string strength = 2;
+  }
+
+  // Information for a given PURL
+  message Purl {
+    // The requested purl. If a version in a range does not exist on the KB, it won't be present neither versions_with nor version_without
+    string purl = 1;
+    // List of versions that contains cryptography
+    repeated string versions_with = 2;
+    // List of versions that dooes not contains cryptography
+    repeated string versions_without = 3;
+  }
+
   // Cryptography details
   repeated Purl purls = 1;
   // Response status

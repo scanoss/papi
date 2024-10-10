@@ -206,7 +206,8 @@
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "@description: purl to be requested"
         },
         "requirement": {
           "type": "string"
