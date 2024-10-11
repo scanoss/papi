@@ -71,7 +71,7 @@ service Provenance {
       body: "*"
     };
   };
-  // Get Provenance countrues associated with a list of PURLs
+  // Get Provenance countries associated with a list of PURLs
   rpc GetComponentProvenance(scanoss.api.common.v2.PurlRequest) returns(ProvenanceResponse) {
     option (google.api.http) = {
       post: "/api/v2/provenance/countries"
@@ -101,11 +101,15 @@ message ProvenanceResponse {
     // Ocurrences for users or contributors on this specific country
     int32 count = 2;
   }
-
+  // Information about a given purl
   message Purls {
+    // The purl string
     string purl = 1;
+    // The purl version
     string version = 2;
+    // List of locations declared on user repository
     repeated DeclaredLocation declared_locations = 3;
+    // List of craft curated location
     repeated CuratedLocation curated_locations = 4;
     
   }
