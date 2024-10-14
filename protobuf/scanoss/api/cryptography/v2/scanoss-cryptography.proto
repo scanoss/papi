@@ -85,7 +85,7 @@ service Cryptography {
       body: "*"
     };
   };
-  // Given a list of PURLS and version ranges get a list of versions that does contain and does not cryptographic algorithms
+  // Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms
   rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/versionsInRange"
@@ -95,27 +95,25 @@ service Cryptography {
 }
 
 /*
- * Cryptography Algorithm response data 
+ * Cryptographic Algorithm response data
  */
 message AlgorithmResponse {
   // Information about the algorithm
   message Algorithms {
     // Name of the detected algorithm
     string algorithm = 1;
-    // Algorithm strenght
+    // Algorithm strength
     string strength = 2;
   }
-
   // Information for a given purl
   message Purls {
-    // The requested purl. If the requested version is not found on the KB, data about the latest version on the KB is responsed.
+    // The requested purl.
     string purl = 1;
-    // Requested version requirement
+    // PURL version
     string version = 2;
-    // Algorithms list detected for that version requirement
+    // Algorithms list detected for that version
     repeated Algorithms algorithms = 3;
   }
-  
   // Cryptography details
   repeated Purls purls = 1;
   // Response status
@@ -123,27 +121,25 @@ message AlgorithmResponse {
 }
 
 /*
- * Cryptography Algorithm response data for a given range or criteria (JSON payload)
+ * Cryptographic Algorithm response data for a given range or criteria
  */
 message AlgorithmsInRangeResponse {
   // Information about the algorithm
   message Algorithm {
     // Name of the detected algorithm
     string algorithm = 1; 
-    // Algorithm strenght
+    // Algorithm strength
     string strength = 2;
   }
-
   // Information for a given PURL
   message Purl {
-    // The requested purl. If a version in a range does not exist on the KB, it won't be present on versions field.
+    // The requested purl
     string purl = 1;
     // List of versions in that range that contains cryptography
     repeated string versions = 2;
     // Algorithms list detected in that range
     repeated Algorithm algorithms = 3;
   }
-
   // Cryptography details
   repeated Purl purls = 1;
   // Response status
@@ -151,27 +147,18 @@ message AlgorithmsInRangeResponse {
 }
 
 /*
- * VersionsInRangeResponse response group those versions that contains cryptographic algorithms and those that do not contain
+ *  Versions with/without cryptographic algorithms detected for the given range or criteria
  */
  message VersionsInRangeResponse {
-  // Information about the algorithm
-  message Algorithm {
-    //  Name of the detected algorithm
-    string algorithm = 1;
-    // Algorithm strenght
-    string strength = 2;
-  }
-
   // Information for a given PURL
   message Purl {
-    // The requested purl. If a version in a range does not exist on the KB, it won't be present neither versions_with nor version_without
+    // The requested purl
     string purl = 1;
     // List of versions that contains cryptography
     repeated string versions_with = 2;
-    // List of versions that dooes not contains cryptography
+    // List of versions that do not contain cryptography
     repeated string versions_without = 3;
   }
-
   // Cryptography details
   repeated Purl purls = 1;
   // Response status
