@@ -34,3 +34,12 @@ TBD
 
 ## Build
 For details on how to compile the supported language libraries, please look in [LIBRARY_BUILD.md](LIBRARY_BUILD.md).
+
+# Architecture
+```mermaid
+graph LR
+    A[HTTP/JSON Client] -->|REST| B[gRPC-Gateway]
+    C[gRPC Client] -->|gRPC| D[gRPC Server]
+    B -->|gRPC| D
+    B -.->|generates| E[Swagger/OpenAPI]
+```
