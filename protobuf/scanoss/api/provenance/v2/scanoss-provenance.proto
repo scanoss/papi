@@ -105,9 +105,9 @@ message ProvenanceResponse {
   message Purls {
     string purl = 1;
     string version = 2;
-    repeated DeclaredLocation declared_locations = 3;
-    repeated CuratedLocation curated_locations = 4;
-    
+    int32 contributors = 3;
+    repeated DeclaredLocation declared_locations = 4;
+    repeated CuratedLocation curated_locations = 5;
   }
  
   // Provenance details
