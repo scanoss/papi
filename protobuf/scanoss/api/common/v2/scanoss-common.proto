@@ -70,6 +70,7 @@ message EchoResponse {
  */
 message PurlRequest {
   message Purls {
+    // @description: purl to be requested
     string purl = 1;
     string requirement = 2;
   }

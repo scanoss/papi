@@ -316,6 +316,7 @@ type PurlRequest_Purls struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// @description: purl to be requested
 	Purl        string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	Requirement string `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
 }

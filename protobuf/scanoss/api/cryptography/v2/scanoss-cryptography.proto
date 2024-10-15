@@ -71,33 +71,47 @@ service Cryptography {
       body: "*"
     };
   };
-  // Get Cryptographic algorithms associated with a list of PURLs
+  // Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
   rpc GetAlgorithms(scanoss.api.common.v2.PurlRequest) returns(AlgorithmResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/algorithms"
       body: "*"
     };
   };
-  // Get Cryptographic algorithms associated with a list of PURLs
+  // Given a list of PURLS and version ranges get a list of cryptographic algorithms used
   rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/algorithmsInRange"
       body: "*"
     };
   };
+  // Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms
+  rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/versionsInRange"
+      body: "*"
+    };
+  };
 }
 
 /*
- * Cryptography Algorithm response data (JSON payload)
+ * Cryptographic Algorithm response data
  */
 message AlgorithmResponse {
+  // Information about the algorithm
   message Algorithms {
+    // Name of the detected algorithm
     string algorithm = 1;
+    // Algorithm strength
     string strength = 2;
   }
+  // Information for a given purl
   message Purls {
+    // The requested purl.
     string purl = 1;
+    // PURL version
     string version = 2;
+    // Algorithms list detected for that version
     repeated Algorithms algorithms = 3;
   }
   // Cryptography details
@@ -107,19 +121,43 @@ message AlgorithmResponse {
 }
 
 /*
- * Cryptography Algorithm response data for a given range or criteria (JSON payload)
+ * Cryptographic Algorithm response data for a given range or criteria
  */
 message AlgorithmsInRangeResponse {
+  // Information about the algorithm
   message Algorithm {
-    string algorithm = 1;
+    // Name of the detected algorithm
+    string algorithm = 1; 
+    // Algorithm strength
     string strength = 2;
   }
- 
+  // Information for a given PURL
   message Purl {
+    // The requested purl
     string purl = 1;
+    // List of versions in that range that contains cryptography
     repeated string versions = 2;
+    // Algorithms list detected in that range
     repeated Algorithm algorithms = 3;
-    
+  }
+  // Cryptography details
+  repeated Purl purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ *  Versions with/without cryptographic algorithms detected for the given range or criteria
+ */
+ message VersionsInRangeResponse {
+  // Information for a given PURL
+  message Purl {
+    // The requested purl
+    string purl = 1;
+    // List of versions that contains cryptography
+    repeated string versions_with = 2;
+    // List of versions that do not contain cryptography
+    repeated string versions_without = 3;
   }
   // Cryptography details
   repeated Purl purls = 1;
