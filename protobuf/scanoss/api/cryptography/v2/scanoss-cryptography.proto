@@ -92,6 +92,13 @@ service Cryptography {
       body: "*"
     };
   };
+ // Given a list of PURLS and version ranges get a list of detections related to protocol/library/sdk/framwork
+  rpc GetECDetectionsInRange(scanoss.api.common.v2.PurlRequest) returns(HintsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/echintsInRange"
+      body: "*"
+    };
+  };
 }
 
 /*
@@ -160,6 +167,38 @@ message AlgorithmsInRangeResponse {
     repeated string versions_without = 3;
   }
   // Cryptography details
+  repeated Purl purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/**
+ * Export control detections response data for a given range or criteria (JSON payload)
+ */
+ message HintsInRangeResponse {
+  // Information about the detected usage
+  message Detection {
+    // unique id
+    string id = 1;
+    // Name of protocol/library/sdk/framwork
+    string name = 2;
+    // A brief description about of the detected usage
+    string description = 3;
+    // Link to project main page, repository or documentation
+    string url = 4;
+    // Describe detection category (protocol/library/sdk/framwork)
+    string category = 5;
+    // The purl of the original library/sdk/framwork 
+    string purl = 6;
+   }
+  // Information about the requested purl
+  message Purl {
+    string purl = 1;
+    repeated string versions = 2;
+    repeated Detection detections = 3;
+    
+  }
+  // Export control detections
   repeated Purl purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
