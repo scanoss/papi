@@ -21,7 +21,7 @@
   "paths": {
     "/api/v2/provenance/countries": {
       "post": {
-        "summary": "Get Provenance countrues associated with a list of PURLs",
+        "summary": "Get Provenance countries associated with a list of PURLs",
         "operationId": "Provenance_GetComponentProvenance",
         "responses": {
           "200": {
@@ -205,24 +205,29 @@
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "The purl string"
         },
         "version": {
-          "type": "string"
+          "type": "string",
+          "title": "The purl version"
         },
         "declared_locations": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ProvenanceResponseDeclaredLocation"
-          }
+          },
+          "title": "List of locations declared on user repository"
         },
         "curated_locations": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ProvenanceResponseCuratedLocation"
-          }
+          },
+          "title": "List of craft curated location"
         }
-      }
+      },
+      "title": "Information about a given purl"
     },
     "v2PurlRequest": {
       "type": "object",
