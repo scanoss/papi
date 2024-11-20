@@ -210,6 +210,10 @@
         "version": {
           "type": "string"
         },
+        "contributors": {
+          "type": "integer",
+          "format": "int32"
+        },
         "declared_locations": {
           "type": "array",
           "items": {
