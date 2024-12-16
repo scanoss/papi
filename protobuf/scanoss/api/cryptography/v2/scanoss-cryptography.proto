@@ -191,6 +191,8 @@ message Hint {
   string category = 5;
   // The purl of the original library/sdk/framework
   string purl = 6;
+  // Describe implemented technology of the protocol/library/sdk/framework
+  repeated string technologies = 7;
 }
 
 /*

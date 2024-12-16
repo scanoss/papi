@@ -61,53 +61,13 @@
     },
     "/api/v2/cryptography/algorithmsInRange": {
       "post": {
-        "summary": "Given a list of PURLS and version ranges get a list of cryptographic algorithms used",
+        "summary": "Given a list of PURLS and version ranges, get a list of cryptographic algorithms used",
         "operationId": "Cryptography_GetAlgorithmsInRange",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/v2AlgorithmsInRangeResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Cryptography"
-        ]
-      }
-    },
-    "/api/v2/cryptography/echintsInRange": {
-      "post": {
-        "summary": "Given a list of PURLS and version ranges get a list of detections related to protocol/library/sdk/framwork",
-        "operationId": "Cryptography_GetECDetectionsInRange",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v2HintsInRangeResponse"
             }
           },
           "404": {
@@ -179,9 +139,89 @@
         ]
       }
     },
+    "/api/v2/cryptography/hints": {
+      "post": {
+        "summary": "Given a list of PURLS, get hints related to protocol/library/sdk/framework",
+        "operationId": "Cryptography_GetEncryptionHints",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2HintsResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/api/v2/cryptography/hintsInRange": {
+      "post": {
+        "summary": "Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework",
+        "operationId": "Cryptography_GetHintsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2HintsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
     "/api/v2/cryptography/versionsInRange": {
       "post": {
-        "summary": "Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms",
+        "summary": "Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms",
         "operationId": "Cryptography_GetVersionsInRange",
         "responses": {
           "200": {
@@ -221,64 +261,6 @@
     }
   },
   "definitions": {
-    "AlgorithmResponseAlgorithms": {
-      "type": "object",
-      "properties": {
-        "algorithm": {
-          "type": "string",
-          "title": "Name of the detected algorithm"
-        },
-        "strength": {
-          "type": "string",
-          "title": "Algorithm strength"
-        }
-      },
-      "title": "Information about the algorithm"
-    },
-    "AlgorithmsInRangeResponseAlgorithm": {
-      "type": "object",
-      "properties": {
-        "algorithm": {
-          "type": "string",
-          "title": "Name of the detected algorithm"
-        },
-        "strength": {
-          "type": "string",
-          "title": "Algorithm strength"
-        }
-      },
-      "title": "Information about the algorithm"
-    },
-    "HintsInRangeResponseDetection": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "title": "unique id"
-        },
-        "name": {
-          "type": "string",
-          "title": "Name of protocol/library/sdk/framwork"
-        },
-        "description": {
-          "type": "string",
-          "title": "A brief description about of the detected usage"
-        },
-        "url": {
-          "type": "string",
-          "title": "Link to project main page, repository or documentation"
-        },
-        "category": {
-          "type": "string",
-          "title": "Describe detection category (protocol/library/sdk/framwork)"
-        },
-        "purl": {
-          "type": "string",
-          "title": "The purl of the original library/sdk/framwork"
-        }
-      },
-      "title": "Information about the detected usage"
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -315,6 +297,20 @@
         }
       }
     },
+    "v2Algorithm": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "title": "Name of the detected algorithm"
+        },
+        "strength": {
+          "type": "string",
+          "title": "Algorithm strength"
+        }
+      },
+      "title": "Cryptographic algorithm details"
+    },
     "v2AlgorithmResponse": {
       "type": "object",
       "properties": {
@@ -346,7 +342,7 @@
         "algorithms": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmResponseAlgorithms"
+            "$ref": "#/definitions/v2Algorithm"
           },
           "title": "Algorithms list detected for that version"
         }
@@ -387,7 +383,7 @@
         "algorithms": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlgorithmsInRangeResponseAlgorithm"
+            "$ref": "#/definitions/v2Algorithm"
           },
           "title": "Algorithms list detected in that range"
         }
@@ -412,6 +408,43 @@
       },
       "title": "Echo Message Response"
     },
+    "v2Hint": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "unique id"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name of protocol/library/sdk/framework"
+        },
+        "description": {
+          "type": "string",
+          "title": "A brief description about of the detected usage"
+        },
+        "url": {
+          "type": "string",
+          "title": "Link to project main page, repository or documentation"
+        },
+        "category": {
+          "type": "string",
+          "title": "Describe detection category (protocol/library/sdk/framework)"
+        },
+        "purl": {
+          "type": "string",
+          "title": "The purl of the original library/sdk/framework"
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Describe implemented technology of the protocol/library/sdk/framework"
+        }
+      },
+      "title": "Structure to record hints of Encryption protocols, libraries, SDKs and frameworks"
+    },
     "v2HintsInRangeResponse": {
       "type": "object",
       "properties": {
@@ -420,35 +453,76 @@
           "items": {
             "$ref": "#/definitions/v2HintsInRangeResponsePurl"
           },
-          "title": "Export control detections"
+          "title": "Purl encryption hints"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
           "title": "Response status"
         }
       },
-      "title": "*\nExport control detections response data for a given range or criteria (JSON payload)"
+      "title": "*\nHints of Encryption protocols, libraries, SDKs and frameworks for a purls in range"
     },
     "v2HintsInRangeResponsePurl": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "The requested purl"
         },
         "versions": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "List of versions in range"
         },
-        "detections": {
+        "hints": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/HintsInRangeResponseDetection"
-          }
+            "$ref": "#/definitions/v2Hint"
+          },
+          "title": "Encryption hints"
         }
       },
       "title": "Information about the requested purl"
+    },
+    "v2HintsResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2HintsResponsePurls"
+          },
+          "title": "Purl encryption Hint"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Encryption Hints response data"
+    },
+    "v2HintsResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "The requested purl."
+        },
+        "version": {
+          "type": "string",
+          "title": "PURL version"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2Hint"
+          },
+          "title": "Algorithms list detected for that version"
+        }
+      },
+      "title": "Information for a given purl"
     },
     "v2PurlRequest": {
       "type": "object",

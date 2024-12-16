@@ -47,11 +47,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Cryptography_Echo_FullMethodName                   = "/scanoss.api.cryptography.v2.Cryptography/Echo"
-	Cryptography_GetAlgorithms_FullMethodName          = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"
-	Cryptography_GetAlgorithmsInRange_FullMethodName   = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"
-	Cryptography_GetVersionsInRange_FullMethodName     = "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange"
-	Cryptography_GetECDetectionsInRange_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetECDetectionsInRange"
+	Cryptography_Echo_FullMethodName                 = "/scanoss.api.cryptography.v2.Cryptography/Echo"
+	Cryptography_GetAlgorithms_FullMethodName        = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"
+	Cryptography_GetAlgorithmsInRange_FullMethodName = "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"
+	Cryptography_GetVersionsInRange_FullMethodName   = "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange"
+	Cryptography_GetHintsInRange_FullMethodName      = "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange"
+	Cryptography_GetEncryptionHints_FullMethodName   = "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints"
 )
 
 // CryptographyClient is the client API for Cryptography service.
@@ -62,12 +63,14 @@ type CryptographyClient interface {
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
 	GetAlgorithms(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmResponse, error)
-	// Given a list of PURLS and version ranges get a list of cryptographic algorithms used
+	// Given a list of PURLS and version ranges, get a list of cryptographic algorithms used
 	GetAlgorithmsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*AlgorithmsInRangeResponse, error)
-	// Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms
+	// Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms
 	GetVersionsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*VersionsInRangeResponse, error)
-	// Given a list of PURLS and version ranges get a list of detections related to protocol/library/sdk/framwork
-	GetECDetectionsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsInRangeResponse, error)
+	// Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework
+	GetHintsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsInRangeResponse, error)
+	// Given a list of PURLS, get hints related to protocol/library/sdk/framework
+	GetEncryptionHints(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsResponse, error)
 }
 
 type cryptographyClient struct {
@@ -114,9 +117,18 @@ func (c *cryptographyClient) GetVersionsInRange(ctx context.Context, in *commonv
 	return out, nil
 }
 
-func (c *cryptographyClient) GetECDetectionsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsInRangeResponse, error) {
+func (c *cryptographyClient) GetHintsInRange(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsInRangeResponse, error) {
 	out := new(HintsInRangeResponse)
-	err := c.cc.Invoke(ctx, Cryptography_GetECDetectionsInRange_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Cryptography_GetHintsInRange_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cryptographyClient) GetEncryptionHints(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*HintsResponse, error) {
+	out := new(HintsResponse)
+	err := c.cc.Invoke(ctx, Cryptography_GetEncryptionHints_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -131,12 +143,14 @@ type CryptographyServer interface {
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
 	// Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
 	GetAlgorithms(context.Context, *commonv2.PurlRequest) (*AlgorithmResponse, error)
-	// Given a list of PURLS and version ranges get a list of cryptographic algorithms used
+	// Given a list of PURLS and version ranges, get a list of cryptographic algorithms used
 	GetAlgorithmsInRange(context.Context, *commonv2.PurlRequest) (*AlgorithmsInRangeResponse, error)
-	// Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms
+	// Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms
 	GetVersionsInRange(context.Context, *commonv2.PurlRequest) (*VersionsInRangeResponse, error)
-	// Given a list of PURLS and version ranges get a list of detections related to protocol/library/sdk/framwork
-	GetECDetectionsInRange(context.Context, *commonv2.PurlRequest) (*HintsInRangeResponse, error)
+	// Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework
+	GetHintsInRange(context.Context, *commonv2.PurlRequest) (*HintsInRangeResponse, error)
+	// Given a list of PURLS, get hints related to protocol/library/sdk/framework
+	GetEncryptionHints(context.Context, *commonv2.PurlRequest) (*HintsResponse, error)
 	mustEmbedUnimplementedCryptographyServer()
 }
 
@@ -156,8 +170,11 @@ func (UnimplementedCryptographyServer) GetAlgorithmsInRange(context.Context, *co
 func (UnimplementedCryptographyServer) GetVersionsInRange(context.Context, *commonv2.PurlRequest) (*VersionsInRangeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVersionsInRange not implemented")
 }
-func (UnimplementedCryptographyServer) GetECDetectionsInRange(context.Context, *commonv2.PurlRequest) (*HintsInRangeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetECDetectionsInRange not implemented")
+func (UnimplementedCryptographyServer) GetHintsInRange(context.Context, *commonv2.PurlRequest) (*HintsInRangeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHintsInRange not implemented")
+}
+func (UnimplementedCryptographyServer) GetEncryptionHints(context.Context, *commonv2.PurlRequest) (*HintsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEncryptionHints not implemented")
 }
 func (UnimplementedCryptographyServer) mustEmbedUnimplementedCryptographyServer() {}
 
@@ -244,20 +261,38 @@ func _Cryptography_GetVersionsInRange_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cryptography_GetECDetectionsInRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cryptography_GetHintsInRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(commonv2.PurlRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CryptographyServer).GetECDetectionsInRange(ctx, in)
+		return srv.(CryptographyServer).GetHintsInRange(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Cryptography_GetECDetectionsInRange_FullMethodName,
+		FullMethod: Cryptography_GetHintsInRange_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CryptographyServer).GetECDetectionsInRange(ctx, req.(*commonv2.PurlRequest))
+		return srv.(CryptographyServer).GetHintsInRange(ctx, req.(*commonv2.PurlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cryptography_GetEncryptionHints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.PurlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CryptographyServer).GetEncryptionHints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Cryptography_GetEncryptionHints_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CryptographyServer).GetEncryptionHints(ctx, req.(*commonv2.PurlRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -286,8 +321,12 @@ var Cryptography_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Cryptography_GetVersionsInRange_Handler,
 		},
 		{
-			MethodName: "GetECDetectionsInRange",
-			Handler:    _Cryptography_GetECDetectionsInRange_Handler,
+			MethodName: "GetHintsInRange",
+			Handler:    _Cryptography_GetHintsInRange_Handler,
+		},
+		{
+			MethodName: "GetEncryptionHints",
+			Handler:    _Cryptography_GetEncryptionHints_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
