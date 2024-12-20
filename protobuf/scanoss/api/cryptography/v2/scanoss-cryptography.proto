@@ -185,14 +185,13 @@ message Hint {
   string name = 2;
   // A brief description about of the detected usage
   string description = 3;
-  // Link to project main page, repository or documentation
-  string url = 4;
   // Describe detection category (protocol/library/sdk/framework)
   string category = 5;
+  // Link to project main page, repository or documentation
+  optional string url = 4;
   // The purl of the original library/sdk/framework
-  string purl = 6;
-  // Describe implemented technology of the protocol/library/sdk/framework
-  repeated string technologies = 7;
+  optional string purl = 6;
+ 
 }
 
 /*
