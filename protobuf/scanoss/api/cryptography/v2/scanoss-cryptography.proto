@@ -186,9 +186,9 @@ message Hint {
   // A brief description about of the detected usage
   string description = 3;
   // Describe detection category (protocol/library/sdk/framework)
-  string category = 5;
+  string category = 4;
   // Link to project main page, repository or documentation
-  optional string url = 4;
+  optional string url = 5;
   // The purl of the original library/sdk/framework
   optional string purl = 6;
  
