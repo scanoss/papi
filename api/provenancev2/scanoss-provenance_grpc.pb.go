@@ -56,7 +56,7 @@ const (
 type ProvenanceClient interface {
 	// Standard echo
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get Provenance countrues associated with a list of PURLs
+	// Get Provenance countries associated with a list of PURLs
 	GetComponentProvenance(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*ProvenanceResponse, error)
 }
 
@@ -92,7 +92,7 @@ func (c *provenanceClient) GetComponentProvenance(ctx context.Context, in *commo
 type ProvenanceServer interface {
 	// Standard echo
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get Provenance countrues associated with a list of PURLs
+	// Get Provenance countries associated with a list of PURLs
 	GetComponentProvenance(context.Context, *commonv2.PurlRequest) (*ProvenanceResponse, error)
 	mustEmbedUnimplementedProvenanceServer()
 }

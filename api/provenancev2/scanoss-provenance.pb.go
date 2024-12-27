@@ -224,15 +224,20 @@ func (x *ProvenanceResponse_CuratedLocation) GetCount() int32 {
 	return 0
 }
 
+// Information about a given purl
 type ProvenanceResponse_Purls struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Purl              string                                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	Version           string                                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	// The purl string
+	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	// The purl version
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	// List of locations declared on user repository
 	DeclaredLocations []*ProvenanceResponse_DeclaredLocation `protobuf:"bytes,3,rep,name=declared_locations,json=declaredLocations,proto3" json:"declared_locations,omitempty"`
-	CuratedLocations  []*ProvenanceResponse_CuratedLocation  `protobuf:"bytes,4,rep,name=curated_locations,json=curatedLocations,proto3" json:"curated_locations,omitempty"`
+	// List of craft curated location
+	CuratedLocations []*ProvenanceResponse_CuratedLocation `protobuf:"bytes,4,rep,name=curated_locations,json=curatedLocations,proto3" json:"curated_locations,omitempty"`
 }
 
 func (x *ProvenanceResponse_Purls) Reset() {

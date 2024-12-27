@@ -78,33 +78,50 @@ service Cryptography {
       body: "*"
     };
   };
-  // Given a list of PURLS and version ranges get a list of cryptographic algorithms used
+  // Given a list of PURLS and version ranges, get a list of cryptographic algorithms used
   rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/algorithmsInRange"
       body: "*"
     };
   };
-  // Given a list of PURLS and version ranges get a list of versions that do/do not contain cryptographic algorithms
+  // Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms
   rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
     option (google.api.http) = {
       post: "/api/v2/cryptography/versionsInRange"
       body: "*"
     };
   };
+ // Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework
+  rpc GetHintsInRange(scanoss.api.common.v2.PurlRequest) returns(HintsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/hintsInRange"
+      body: "*"
+    };
+  };
+  // Given a list of PURLS, get hints related to protocol/library/sdk/framework
+  rpc GetEncryptionHints(scanoss.api.common.v2.PurlRequest) returns(HintsResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/cryptography/hints"
+      body: "*"
+    };
+  };
+}
+
+/*
+ * Cryptographic algorithm details
+ */
+message Algorithm {
+  // Name of the detected algorithm
+  string algorithm = 1;
+  // Algorithm strength
+  string strength = 2;
 }
 
 /*
  * Cryptographic Algorithm response data
  */
 message AlgorithmResponse {
-  // Information about the algorithm
-  message Algorithms {
-    // Name of the detected algorithm
-    string algorithm = 1;
-    // Algorithm strength
-    string strength = 2;
-  }
   // Information for a given purl
   message Purls {
     // The requested purl.
@@ -112,7 +129,7 @@ message AlgorithmResponse {
     // PURL version
     string version = 2;
     // Algorithms list detected for that version
-    repeated Algorithms algorithms = 3;
+    repeated Algorithm algorithms = 3;
   }
   // Cryptography details
   repeated Purls purls = 1;
@@ -124,13 +141,6 @@ message AlgorithmResponse {
  * Cryptographic Algorithm response data for a given range or criteria
  */
 message AlgorithmsInRangeResponse {
-  // Information about the algorithm
-  message Algorithm {
-    // Name of the detected algorithm
-    string algorithm = 1; 
-    // Algorithm strength
-    string strength = 2;
-  }
   // Information for a given PURL
   message Purl {
     // The requested purl
@@ -160,6 +170,63 @@ message AlgorithmsInRangeResponse {
     repeated string versions_without = 3;
   }
   // Cryptography details
+  repeated Purl purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Structure to record hints of Encryption protocols, libraries, SDKs and frameworks
+ */
+message Hint {
+  // unique id
+  string id = 1;
+  // Name of protocol/library/sdk/framework
+  string name = 2;
+  // A brief description about of the detected usage
+  string description = 3;
+  // Describe detection category (protocol/library/sdk/framework)
+  string category = 4;
+  // Link to project main page, repository or documentation
+  optional string url = 5;
+  // The purl of the original library/sdk/framework
+  optional string purl = 6;
+ 
+}
+
+/*
+ * Encryption Hints response data
+ */
+message HintsResponse {
+  // Information for a given purl
+  message Purls {
+    // The requested purl.
+    string purl = 1;
+    // PURL version
+    string version = 2;
+    // Algorithms list detected for that version
+    repeated Hint hints = 3;
+  }
+  // Purl encryption Hint
+  repeated Purls purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/**
+ * Hints of Encryption protocols, libraries, SDKs and frameworks for a purls in range
+ */
+ message HintsInRangeResponse {
+  // Information about the requested purl
+  message Purl {
+    // The requested purl
+    string purl = 1;
+    // List of versions in range
+    repeated string versions = 2;
+    // Encryption hints
+    repeated Hint hints = 3;
+  }
+  // Purl encryption hints
   repeated Purl purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
