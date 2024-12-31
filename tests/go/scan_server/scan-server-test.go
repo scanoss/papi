@@ -49,7 +49,7 @@ type server struct {
 	scan.UnimplementedScanningServer
 }
 
-// Implment the Echo gRPC
+// Echo Implements the Echo gRPC
 func (s *server) Echo(ctx context.Context, in *common.EchoRequest) (*common.EchoResponse, error) {
 	log.Printf("Received: %v", in.GetMessage())
 	return &common.EchoResponse{Message: in.GetMessage()}, nil
