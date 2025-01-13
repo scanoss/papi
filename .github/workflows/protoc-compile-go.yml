@@ -1,0 +1,27 @@
+name: Protoc - Golang
+# This workflow will produce the golang APIs for the modified protos
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get tags to allow build script to get build version
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22.x
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+
+      - name: Build
+        run: make build_go
