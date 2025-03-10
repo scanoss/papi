@@ -78,6 +78,14 @@ service Dependencies {
       body: "*"
     };
   };
+
+  rpc GetTransitiveDependencies(TransitiveDependencyRequest) returns(DependencyResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/dependencies/transitive"
+      body: "*"
+    };
+  };
+
 }
 
 /*
@@ -132,6 +140,32 @@ message DependencyResponse {
   }
   // Dependency response details
   repeated Files files = 1;
+  // Response status (required?)
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Transitive dependency request data (JSON payload)
+ */
+
+message TransitiveDependencyRequest {
+  string ecosystem = 1;
+  // List of Purls from the same ecosystem
+  scanoss.api.common.v2.PurlRequest purls = 2;
+  // Depth to go when searching dependencies
+  int32 depth = 3;
+}
+
+/*
+ * Transitive dependency response data (JSON payload)
+ */
+message TransitiveDependencyResponse {
+  message Dependencies {
+    string purl = 2;
+    string version = 3;
+  }
+  // Dependency response details
+  repeated Dependencies dependencies = 1;
   // Response status (required?)
   scanoss.api.common.v2.StatusResponse status = 2;
 }
