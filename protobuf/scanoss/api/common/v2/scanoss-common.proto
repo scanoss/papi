@@ -69,6 +69,7 @@ message EchoResponse {
  * Purl request data (JSON payload)
  */
 message PurlRequest {
+  // TODO: Replace by Purl message
   message Purls {
     // @description: purl to be requested
     string purl = 1;
@@ -78,3 +79,10 @@ message PurlRequest {
   repeated Purls purls = 1;
 }
 
+/*
+* Purl to be requested
+*/
+message Purl {
+  string purl = 1;
+  string requirement = 2;
+}

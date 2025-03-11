@@ -62,7 +62,7 @@ type DependenciesClient interface {
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	GetDependencies(ctx context.Context, in *DependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error)
-	GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error)
+	GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*TransitiveDependencyResponse, error)
 }
 
 type dependenciesClient struct {
@@ -93,9 +93,9 @@ func (c *dependenciesClient) GetDependencies(ctx context.Context, in *Dependency
 	return out, nil
 }
 
-func (c *dependenciesClient) GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error) {
+func (c *dependenciesClient) GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*TransitiveDependencyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DependencyResponse)
+	out := new(TransitiveDependencyResponse)
 	err := c.cc.Invoke(ctx, Dependencies_GetTransitiveDependencies_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ type DependenciesServer interface {
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	GetDependencies(context.Context, *DependencyRequest) (*DependencyResponse, error)
-	GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*DependencyResponse, error)
+	GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*TransitiveDependencyResponse, error)
 	mustEmbedUnimplementedDependenciesServer()
 }
 
@@ -130,7 +130,7 @@ func (UnimplementedDependenciesServer) Echo(context.Context, *commonv2.EchoReque
 func (UnimplementedDependenciesServer) GetDependencies(context.Context, *DependencyRequest) (*DependencyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDependencies not implemented")
 }
-func (UnimplementedDependenciesServer) GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*DependencyResponse, error) {
+func (UnimplementedDependenciesServer) GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*TransitiveDependencyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransitiveDependencies not implemented")
 }
 func (UnimplementedDependenciesServer) mustEmbedUnimplementedDependenciesServer() {}

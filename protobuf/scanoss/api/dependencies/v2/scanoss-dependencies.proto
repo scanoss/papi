@@ -79,7 +79,7 @@ service Dependencies {
     };
   };
 
-  rpc GetTransitiveDependencies(TransitiveDependencyRequest) returns(DependencyResponse) {
+  rpc GetTransitiveDependencies(TransitiveDependencyRequest) returns(TransitiveDependencyResponse) {
     option (google.api.http) = {
       post: "/api/v2/dependencies/transitive"
       body: "*"
@@ -150,10 +150,12 @@ message DependencyResponse {
 
 message TransitiveDependencyRequest {
   string ecosystem = 1;
-  // List of Purls from the same ecosystem
-  scanoss.api.common.v2.PurlRequest purls = 2;
   // Depth to go when searching dependencies
-  int32 depth = 3;
+  int32 depth = 2;
+  // Limit used on response
+  int32 limit = 3;
+  // List of Purls from the same ecosystem
+  repeated scanoss.api.common.v2.Purl purls = 4;
 }
 
 /*
@@ -166,6 +168,8 @@ message TransitiveDependencyResponse {
   }
   // Dependency response details
   repeated Dependencies dependencies = 1;
-  // Response status (required?)
+  // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
+
+

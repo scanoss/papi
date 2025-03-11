@@ -106,7 +106,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2DependencyResponse"
+              "$ref": "#/definitions/v2TransitiveDependencyResponse"
             }
           },
           "404": {
@@ -323,30 +323,17 @@
       },
       "title": "Echo Message Response"
     },
-    "v2PurlRequest": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v2PurlRequestPurls"
-          },
-          "title": "JSON request purls"
-        }
-      },
-      "title": "Purl request data (JSON payload)"
-    },
-    "v2PurlRequestPurls": {
+    "v2Purl": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string",
-          "title": "@description: purl to be requested"
+          "type": "string"
         },
         "requirement": {
           "type": "string"
         }
-      }
+      },
+      "title": "Purl to be requested"
     },
     "v2StatusCode": {
       "type": "string",
@@ -380,14 +367,50 @@
         "ecosystem": {
           "type": "string"
         },
-        "purls": {
-          "$ref": "#/definitions/v2PurlRequest",
-          "title": "List of Purls from the same ecosystem"
-        },
         "depth": {
           "type": "integer",
           "format": "int32",
           "title": "Depth to go when searching dependencies"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Limit used on response"
+        },
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2Purl"
+          },
+          "title": "List of Purls from the same ecosystem"
+        }
+      }
+    },
+    "v2TransitiveDependencyResponse": {
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2TransitiveDependencyResponseDependencies"
+          },
+          "title": "Dependency response details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Transitive dependency response data (JSON payload)"
+    },
+    "v2TransitiveDependencyResponseDependencies": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
         }
       }
     }

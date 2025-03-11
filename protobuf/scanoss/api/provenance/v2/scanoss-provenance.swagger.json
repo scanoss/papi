@@ -252,7 +252,8 @@
         "requirement": {
           "type": "string"
         }
-      }
+      },
+      "title": "TODO: Replace by Purl message"
     },
     "v2StatusCode": {
       "type": "string",
