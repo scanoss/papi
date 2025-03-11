@@ -98,35 +98,48 @@
           "Dependencies"
         ]
       }
+    },
+    "/api/v2/dependencies/transitive": {
+      "post": {
+        "operationId": "Dependencies_GetTransitiveDependencies",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2DependencyResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2TransitiveDependencyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Dependencies"
+        ]
+      }
     }
   },
   "definitions": {
-    "DependencyResponseDependencies": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "type": "string"
-        },
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "licenses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DependencyResponseLicenses"
-          }
-        },
-        "url": {
-          "type": "string"
-        },
-        "comment": {
-          "type": "string"
-        }
-      }
-    },
     "DependencyResponseLicenses": {
       "type": "object",
       "properties": {
@@ -246,6 +259,32 @@
       },
       "title": "Dependency response data (JSON payload)"
     },
+    "v2DependencyResponseDependencies": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "type": "string"
+        },
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DependencyResponseLicenses"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
     "v2DependencyResponseFiles": {
       "type": "object",
       "properties": {
@@ -261,7 +300,7 @@
         "dependencies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DependencyResponseDependencies"
+            "$ref": "#/definitions/v2DependencyResponseDependencies"
           }
         }
       }
@@ -283,6 +322,31 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2PurlRequest": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2PurlRequestPurls"
+          },
+          "title": "JSON request purls"
+        }
+      },
+      "title": "Purl request data (JSON payload)"
+    },
+    "v2PurlRequestPurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "@description: purl to be requested"
+        },
+        "requirement": {
+          "type": "string"
+        }
+      }
     },
     "v2StatusCode": {
       "type": "string",
@@ -309,6 +373,23 @@
         }
       },
       "title": "Detailed response details"
+    },
+    "v2TransitiveDependencyRequest": {
+      "type": "object",
+      "properties": {
+        "ecosystem": {
+          "type": "string"
+        },
+        "purls": {
+          "$ref": "#/definitions/v2PurlRequest",
+          "title": "List of Purls from the same ecosystem"
+        },
+        "depth": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Depth to go when searching dependencies"
+        }
+      }
     }
   }
 }
