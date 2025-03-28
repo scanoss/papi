@@ -170,11 +170,11 @@ message TransitiveDependencyRequest {
  */
 message TransitiveDependencyResponse {
   message Dependencies {
-    string purl = 2;
-    string version = 3;
+    string purl = 1;
+    string version = 2;
 
     // TODO: Add scope field
-    // optional string scope = 4;
+    // optional string scope = 3;
   }
   // Dependency response details
   repeated Dependencies dependencies = 1;
