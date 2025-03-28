@@ -69,13 +69,11 @@ message EchoResponse {
  * Purl request data (JSON payload)
  */
 message PurlRequest {
-
   /*
     TODO: Refactor this API
       - Remove nested Purls message and replace with top-level Purl message type.
       - Update field definition below to: repeated Purl purls = 1;
    */
-
   message Purls {
     // @description: purl to be requested
     string purl = 1;
