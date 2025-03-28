@@ -154,8 +154,15 @@ message TransitiveDependencyRequest {
   int32 depth = 2;
   // Limit used on response
   int32 limit = 3;
+
+  /* TODO: Add scope filters:
+      repeated string scopes = 4;
+      Using a list of strings allows filtering by multiple scopes simultaneously
+      (e.g., include both "dev" and "test" dependencies in a single request)
+  */
+
   // List of Purls from the same ecosystem
-  repeated scanoss.api.common.v2.Purl purls = 4;
+  repeated scanoss.api.common.v2.Purl purls = 5;
 }
 
 /*
@@ -165,6 +172,9 @@ message TransitiveDependencyResponse {
   message Dependencies {
     string purl = 2;
     string version = 3;
+
+    // TODO: Add scope field
+    // optional string scope = 4;
   }
   // Dependency response details
   repeated Dependencies dependencies = 1;
