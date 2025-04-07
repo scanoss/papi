@@ -113,8 +113,8 @@ message HFHResponse {
         string purl = 1;
         // Component match version (could be multiple)
         repeated string versions = 2;
-        // Result confidence percentage
-        float confidence = 3;
+        // Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
+        int32 rank = 3;
     }
     // Result item, link a path with a list of components
     message Result {
@@ -122,6 +122,10 @@ message HFHResponse {
         string path_id = 1;
         // List of matching components
         repeated Component components = 2;
+        //Matching probability
+        float probability = 3;
+        //result stage
+        int32 stage = 4;
     }
     // List of folders containing unique components
     repeated Result results = 1;
