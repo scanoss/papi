@@ -183,6 +183,7 @@ func RegisterDependenciesHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 
 		forward_Dependencies_GetDependencies_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("POST", pattern_Dependencies_GetTransitiveDependencies_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -205,6 +206,7 @@ func RegisterDependenciesHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 
 		forward_Dependencies_GetTransitiveDependencies_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
@@ -285,6 +287,7 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 
 		forward_Dependencies_GetDependencies_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("POST", pattern_Dependencies_GetTransitiveDependencies_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -304,6 +307,7 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 
 		forward_Dependencies_GetTransitiveDependencies_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
