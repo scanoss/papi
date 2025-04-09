@@ -140,10 +140,10 @@
           },
           "title": "Component match version (could be multiple)"
         },
-        "confidence": {
-          "type": "number",
-          "format": "float",
-          "title": "Result confidence percentage"
+        "rank": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage."
         }
       },
       "title": "Matched component details"
@@ -161,6 +161,16 @@
             "$ref": "#/definitions/HFHResponseComponent"
           },
           "title": "List of matching components"
+        },
+        "probability": {
+          "type": "number",
+          "format": "float",
+          "title": "Matching probability"
+        },
+        "stage": {
+          "type": "integer",
+          "format": "int32",
+          "title": "result stage"
         }
       },
       "title": "Result item, link a path with a list of components"
