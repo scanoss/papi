@@ -47,8 +47,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Dependencies_Echo_FullMethodName            = "/scanoss.api.dependencies.v2.Dependencies/Echo"
-	Dependencies_GetDependencies_FullMethodName = "/scanoss.api.dependencies.v2.Dependencies/GetDependencies"
+	Dependencies_Echo_FullMethodName                      = "/scanoss.api.dependencies.v2.Dependencies/Echo"
+	Dependencies_GetDependencies_FullMethodName           = "/scanoss.api.dependencies.v2.Dependencies/GetDependencies"
+	Dependencies_GetTransitiveDependencies_FullMethodName = "/scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies"
 )
 
 // DependenciesClient is the client API for Dependencies service.
@@ -59,6 +60,8 @@ type DependenciesClient interface {
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	GetDependencies(ctx context.Context, in *DependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error)
+	// Get transitive dependency details
+	GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*TransitiveDependencyResponse, error)
 }
 
 type dependenciesClient struct {
@@ -87,6 +90,15 @@ func (c *dependenciesClient) GetDependencies(ctx context.Context, in *Dependency
 	return out, nil
 }
 
+func (c *dependenciesClient) GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*TransitiveDependencyResponse, error) {
+	out := new(TransitiveDependencyResponse)
+	err := c.cc.Invoke(ctx, Dependencies_GetTransitiveDependencies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DependenciesServer is the server API for Dependencies service.
 // All implementations must embed UnimplementedDependenciesServer
 // for forward compatibility
@@ -95,6 +107,8 @@ type DependenciesServer interface {
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
 	// Get dependency details
 	GetDependencies(context.Context, *DependencyRequest) (*DependencyResponse, error)
+	// Get transitive dependency details
+	GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*TransitiveDependencyResponse, error)
 	mustEmbedUnimplementedDependenciesServer()
 }
 
@@ -107,6 +121,9 @@ func (UnimplementedDependenciesServer) Echo(context.Context, *commonv2.EchoReque
 }
 func (UnimplementedDependenciesServer) GetDependencies(context.Context, *DependencyRequest) (*DependencyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDependencies not implemented")
+}
+func (UnimplementedDependenciesServer) GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*TransitiveDependencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransitiveDependencies not implemented")
 }
 func (UnimplementedDependenciesServer) mustEmbedUnimplementedDependenciesServer() {}
 
@@ -157,6 +174,24 @@ func _Dependencies_GetDependencies_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Dependencies_GetTransitiveDependencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransitiveDependencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DependenciesServer).GetTransitiveDependencies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dependencies_GetTransitiveDependencies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DependenciesServer).GetTransitiveDependencies(ctx, req.(*TransitiveDependencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Dependencies_ServiceDesc is the grpc.ServiceDesc for Dependencies service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -171,6 +206,10 @@ var Dependencies_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDependencies",
 			Handler:    _Dependencies_GetDependencies_Handler,
+		},
+		{
+			MethodName: "GetTransitiveDependencies",
+			Handler:    _Dependencies_GetTransitiveDependencies_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -98,35 +98,49 @@
           "Dependencies"
         ]
       }
+    },
+    "/api/v2/dependencies/transitive": {
+      "post": {
+        "summary": "Get transitive dependency details",
+        "operationId": "Dependencies_GetTransitiveDependencies",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2TransitiveDependencyResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2TransitiveDependencyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Dependencies"
+        ]
+      }
     }
   },
   "definitions": {
-    "DependencyResponseDependencies": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "type": "string"
-        },
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "licenses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DependencyResponseLicenses"
-          }
-        },
-        "url": {
-          "type": "string"
-        },
-        "comment": {
-          "type": "string"
-        }
-      }
-    },
     "DependencyResponseLicenses": {
       "type": "object",
       "properties": {
@@ -246,6 +260,32 @@
       },
       "title": "Dependency response data (JSON payload)"
     },
+    "v2DependencyResponseDependencies": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "type": "string"
+        },
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DependencyResponseLicenses"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
     "v2DependencyResponseFiles": {
       "type": "object",
       "properties": {
@@ -261,7 +301,7 @@
         "dependencies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DependencyResponseDependencies"
+            "$ref": "#/definitions/v2DependencyResponseDependencies"
           }
         }
       }
@@ -283,6 +323,18 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2Purl": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string"
+        }
+      },
+      "title": "Purl to be requested"
     },
     "v2StatusCode": {
       "type": "string",
@@ -309,6 +361,61 @@
         }
       },
       "title": "Detailed response details"
+    },
+    "v2TransitiveDependencyRequest": {
+      "type": "object",
+      "properties": {
+        "ecosystem": {
+          "type": "string",
+          "title": "Ecosystem to restrict reporting on (i.e. npm, maven, github, etc.) - optional"
+        },
+        "depth": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Depth (number of layers) to go when searching for dependencies - optional"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Limit the number of components reported back - optional"
+        },
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2Purl"
+          },
+          "title": "List of Purls from the same ecosystem"
+        }
+      },
+      "title": "Transitive dependency request data (JSON payload)"
+    },
+    "v2TransitiveDependencyResponse": {
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2TransitiveDependencyResponseDependencies"
+          },
+          "title": "Dependency response details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Transitive dependency response data (JSON payload)"
+    },
+    "v2TransitiveDependencyResponseDependencies": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
     }
   }
 }
