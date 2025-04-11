@@ -160,7 +160,7 @@ message CompSearchResponse {
 message CompVersionRequest {
   // Component to search for (purl)
   string purl = 1;
-  // Number of versions to return - default 20
+  // Number of versions to return - default 50
   int32 limit = 2;
 }
 
