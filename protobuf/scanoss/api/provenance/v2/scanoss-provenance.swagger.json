@@ -98,9 +98,67 @@
           "Provenance"
         ]
       }
+    },
+    "/api/v2/provenance/origin": {
+      "post": {
+        "operationId": "Provenance_GetComponentOrigin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2OriginResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Provenance"
+        ]
+      }
     }
   },
   "definitions": {
+    "OriginResponseCountries": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name of the country"
+        },
+        "developers": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of developers for that country"
+        },
+        "percentage": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Percentage of developers"
+        }
+      }
+    },
     "ProvenanceResponseCuratedLocation": {
       "type": "object",
       "properties": {
@@ -183,6 +241,39 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2OriginResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2OriginResponsePurls"
+          },
+          "title": "Provenance details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "*\nComponent level Origin Response data (JSON payload)"
+    },
+    "v2OriginResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The purl string"
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OriginResponseCountries"
+          },
+          "title": "The list of countries with contributors"
+        }
+      }
     },
     "v2ProvenanceResponse": {
       "type": "object",

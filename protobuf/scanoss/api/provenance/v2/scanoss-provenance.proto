@@ -78,6 +78,12 @@ service Provenance {
       body: "*"
     };
   };
+  rpc GetComponentOrigin(scanoss.api.common.v2.PurlRequest) returns(OriginResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/provenance/origin"
+      body: "*"
+    };
+  };
 }
 
  
@@ -120,3 +126,31 @@ message ProvenanceResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+
+ 
+/**
+ * Component level Origin Response data (JSON payload)
+ */
+message OriginResponse {
+
+    message Countries {
+        // Name of the country
+        string name = 1;
+        // Number of developers for that country
+        uint32 developers = 2;
+        // Percentage of developers  
+        uint32 percentage = 3;
+    }
+
+    message Purls {
+        // The purl string
+        string purl = 1;
+        // The list of countries with contributors
+        repeated Countries countries = 2;
+    }
+
+  // Provenance details
+  repeated Purls purls = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
