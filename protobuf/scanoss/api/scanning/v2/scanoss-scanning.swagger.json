@@ -58,9 +58,123 @@
           "Scanning"
         ]
       }
+    },
+    "/api/v2/scanning/hfh/scan": {
+      "post": {
+        "summary": "Scan the given folder request looking for matches",
+        "operationId": "Scanning_FolderHashScan",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2HFHResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2HFHRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Scanning"
+        ]
+      }
     }
   },
   "definitions": {
+    "HFHRequestChildren": {
+      "type": "object",
+      "properties": {
+        "path_id": {
+          "type": "string",
+          "title": "Folder path (can be actual or obfuscated)"
+        },
+        "sim_hash_names": {
+          "type": "string",
+          "description": "Proximity hash calculated from this nodes filenames (and their children)."
+        },
+        "sim_hash_content": {
+          "type": "string",
+          "description": "Proximity hash calculated from this nodes file contents (and their children)."
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HFHRequestChildren"
+          },
+          "title": "Sub-folders inside this child"
+        }
+      },
+      "title": "Child node from the folder structure"
+    },
+    "HFHResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Component PURL"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Component match version (could be multiple)"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage."
+        }
+      },
+      "title": "Matched component details"
+    },
+    "HFHResponseResult": {
+      "type": "object",
+      "properties": {
+        "path_id": {
+          "type": "string",
+          "title": "Folder path (can be actual or obfuscated)"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HFHResponseComponent"
+          },
+          "title": "List of matching components"
+        },
+        "probability": {
+          "type": "number",
+          "format": "float",
+          "title": "Matching probability"
+        },
+        "stage": {
+          "type": "integer",
+          "format": "int32",
+          "title": "result stage"
+        }
+      },
+      "title": "Result item, link a path with a list of components"
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -114,6 +228,67 @@
         }
       },
       "title": "Echo Message Response"
+    },
+    "v2HFHRequest": {
+      "type": "object",
+      "properties": {
+        "best_match": {
+          "type": "boolean",
+          "title": "Report best match (most hits) or not. Default: false"
+        },
+        "threshold": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Detection threshold (distance) for component selection. Default: 60"
+        },
+        "root": {
+          "$ref": "#/definitions/HFHRequestChildren",
+          "title": "Folder root node to be scanned"
+        }
+      },
+      "title": "High precision Folder Hashing scan request"
+    },
+    "v2HFHResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HFHResponseResult"
+          },
+          "title": "List of folders containing unique components"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse"
+        }
+      },
+      "title": "High precision Folder Hashing scan response"
+    },
+    "v2StatusCode": {
+      "type": "string",
+      "enum": [
+        "UNSPECIFIED",
+        "SUCCESS",
+        "SUCCEEDED_WITH_WARNINGS",
+        "WARNING",
+        "FAILED"
+      ],
+      "default": "UNSPECIFIED",
+      "title": "Status code Enum"
+    },
+    "v2StatusResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/v2StatusCode",
+          "title": "response status"
+        },
+        "message": {
+          "type": "string",
+          "title": "Status message"
+        }
+      },
+      "title": "Detailed response details"
     }
   }
 }

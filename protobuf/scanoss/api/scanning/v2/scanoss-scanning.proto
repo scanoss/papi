@@ -1,7 +1,7 @@
 /*
  SPDX-License-Identifier: MIT
 
-   Copyright (c) 2021, SCANOSS
+   Copyright (c) 2024, SCANOSS
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -60,7 +60,9 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     }
 };
 
- // Expose all of the SCANOSS Scanning RPCs here
+/**
+ * Expose all of the SCANOSS Scanning RPCs here
+ */
 service Scanning {
   // Standard echo
     rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
@@ -69,4 +71,63 @@ service Scanning {
             body: "*"
         };
     };
+    // Scan the given folder request looking for matches
+    rpc FolderHashScan(HFHRequest) returns(HFHResponse) {
+        option (google.api.http) = {
+            post: "/api/v2/scanning/hfh/scan"
+            body: "*"
+        };
+    };
+}
+
+/*
+ * High precision Folder Hashing scan request
+ */
+message HFHRequest {
+    // Child node from the folder structure
+    message Children {
+        // Folder path (can be actual or obfuscated)
+        string path_id = 1;
+        // Proximity hash calculated from this nodes filenames (and their children).
+        string sim_hash_names = 2;
+        // Proximity hash calculated from this nodes file contents (and their children).
+        string sim_hash_content = 3;
+        // Sub-folders inside this child
+        repeated Children children = 4;
+    }
+    // Report best match (most hits) or not. Default: false
+    bool best_match = 1;
+    // Detection threshold (distance) for component selection. Default: 60
+    int32 threshold = 2;
+    // Folder root node to be scanned
+    Children root = 3;
+}
+
+/*
+ * High precision Folder Hashing scan response
+ */
+message HFHResponse {
+    // Matched component details
+    message Component {
+        // Component PURL
+        string purl = 1;
+        // Component match version (could be multiple)
+        repeated string versions = 2;
+        // Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
+        int32 rank = 3;
+    }
+    // Result item, link a path with a list of components
+    message Result {
+        // Folder path (can be actual or obfuscated)
+        string path_id = 1;
+        // List of matching components
+        repeated Component components = 2;
+        //Matching probability
+        float probability = 3;
+        //result stage
+        int32 stage = 4;
+    }
+    // List of folders containing unique components
+    repeated Result results = 1;
+    scanoss.api.common.v2.StatusResponse status = 2;
 }

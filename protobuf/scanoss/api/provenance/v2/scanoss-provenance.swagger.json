@@ -252,7 +252,8 @@
         "requirement": {
           "type": "string"
         }
-      }
+      },
+      "title": "TODO: Refactor this API\n- Remove nested Purls message and replace with top-level Purl message type.\n- Update field definition below to: repeated Purl purls = 1;"
     },
     "v2StatusCode": {
       "type": "string",

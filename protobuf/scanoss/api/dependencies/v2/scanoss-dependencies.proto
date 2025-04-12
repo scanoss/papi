@@ -78,6 +78,14 @@ service Dependencies {
       body: "*"
     };
   };
+// Get transitive dependency details
+  rpc GetTransitiveDependencies(TransitiveDependencyRequest) returns(TransitiveDependencyResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/dependencies/transitive"
+      body: "*"
+    };
+  };
+
 }
 
 /*
@@ -135,3 +143,39 @@ message DependencyResponse {
   // Response status (required?)
   scanoss.api.common.v2.StatusResponse status = 2;
 }
+
+/*
+ * Transitive dependency request data (JSON payload)
+ */
+message TransitiveDependencyRequest {
+  // Ecosystem to restrict reporting on (i.e. npm, maven, github, etc.) - optional
+  string ecosystem = 1;
+  // Depth (number of layers) to go when searching for dependencies - optional
+  int32 depth = 2;
+  // Limit the number of components reported back - optional
+  int32 limit = 3;
+  /* TODO: Add scope filters:
+      repeated string scopes = 4;
+      Using a list of strings allows filtering by multiple scopes simultaneously
+      (e.g., include both "dev" and "test" dependencies in a single request)
+  */
+  // List of Purls from the same ecosystem
+  repeated scanoss.api.common.v2.Purl purls = 5;
+}
+
+/*
+ * Transitive dependency response data (JSON payload)
+ */
+message TransitiveDependencyResponse {
+  message Dependencies {
+    string purl = 1;
+    string version = 2;
+    // optional string scope = 3; // TODO: Add scope field
+  }
+  // Dependency response details
+  repeated Dependencies dependencies = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
