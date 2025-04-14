@@ -23,12 +23,12 @@
  */
 
 /**
- * Provenance definition details
+ * Geo Provenance definition details
 */
 syntax = "proto3";
 package scanoss.api.provenance.v2;
 
-option go_package = "github.com/scanoss/papi/api/provenancev2;provenancev2";
+option go_package = "github.com/scanoss/papi/api/geoprovenancev2;geoprovenancev2";
 
 import "scanoss/api/common/v2/scanoss-common.proto";
 import "google/api/annotations.proto";
@@ -36,11 +36,11 @@ import "protoc-gen-swagger/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   info: {
-    title: "SCANOSS Provenance Service";
+    title: "SCANOSS GEO Provenance Service";
     version: "2.0";
     contact: {
-      name: "scanoss-provenance";
-      url: "https://github.com/scanoss/provenance";
+      name: "scanoss-geo-provenance";
+      url: "https://github.com/scanoss/geoprovenance";
       email: "support@scanoss.com";
     };
   };
@@ -61,37 +61,36 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 };
 
 /**
- * Expose all of the SCANOSS Provenance RPCs here
+ * Expose all of the SCANOSS Geo Provenance RPCs here
  */
-service Provenance {
+service GeoProvenance {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenance/echo"
+      post: "/api/v2/geoprovenance/echo"
       body: "*"
     };
   };
-  // Get Provenance countries associated with a list of PURLs
-  rpc GetComponentProvenance(scanoss.api.common.v2.PurlRequest) returns(ProvenanceResponse) {
+  // Get component-level Geo Provenance based on contributor declared location
+  rpc GetComponentContributors(scanoss.api.common.v2.PurlRequest) returns(ContributorResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenance/countries"
+      post: "/api/v2/geoprovenance/countries"
       body: "*"
     };
   };
+  // Get component-level Geo Provenance based on contributor origin commit times
   rpc GetComponentOrigin(scanoss.api.common.v2.PurlRequest) returns(OriginResponse) {
     option (google.api.http) = {
-      post: "/api/v2/provenance/origin"
+      post: "/api/v2/geoprovenance/origin"
       body: "*"
     };
   };
 }
 
- 
 /**
  * Component level Provenance Response data (JSON payload)
  */
-message ProvenanceResponse {
-  
+message ContributorResponse {
   // Declared location for the project
   message DeclaredLocation {
     // Declared location could be either from the owner or a contributor
@@ -99,12 +98,11 @@ message ProvenanceResponse {
     // Country/State/City/Province/Place declared on the repo
     string location = 2;
   }
-  
-  // Curated provenance information about the project 
+  // Curated provenance information about the project
   message CuratedLocation {
     // Country for the owner or contributor
     string country = 1;
-    // Ocurrences for users or contributors on this specific country
+    // Occurrences for users or contributors of this specific country
     int32 count = 2;
   }
   // Information about a given purl
@@ -112,44 +110,39 @@ message ProvenanceResponse {
     // The purl string
     string purl = 1;
     // The purl version
-    string version = 2;
+    string version = 2;  // TODO do we actually need/know the version?
     // List of locations declared on user repository
     repeated DeclaredLocation declared_locations = 3;
     // List of craft curated location
     repeated CuratedLocation curated_locations = 4;
-    
   }
- 
   // Provenance details
   repeated Purls purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-
- 
 /**
  * Component level Origin Response data (JSON payload)
  */
 message OriginResponse {
-
-    message Countries {
+    // Origin country details
+    message Country {  // TODO change this to Location?
         // Name of the country
         string name = 1;
-        // Number of developers for that country
-        uint32 developers = 2;
-        // Percentage of developers  
-        uint32 percentage = 3;
+        // Percentage of developers
+        uint32 percentage = 2;
+      // Number of developers for that country
+//      uint32 developers = 3;  // TODO add later
     }
-
+    // Information about the given PURL
     message Purls {
         // The purl string
         string purl = 1;
         // The list of countries with contributors
-        repeated Countries countries = 2;
+        repeated Country countries = 2;  // TODO change to locations?
     }
-
-  // Provenance details
+  // Geo Provenance details
   repeated Purls purls = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
