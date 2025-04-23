@@ -294,8 +294,8 @@
           "title": "Name of the country"
         },
         "percentage": {
-          "type": "integer",
-          "format": "int64",
+          "type": "number",
+          "format": "float",
           "title": "Percentage of developers"
         }
       },

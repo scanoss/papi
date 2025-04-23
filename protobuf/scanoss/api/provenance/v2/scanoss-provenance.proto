@@ -131,7 +131,7 @@ message OriginResponse {
         // Name of the country
         string name = 1;
         // Percentage of developers
-        uint32 percentage = 2; 
+        float percentage = 2; 
 
     }
     // Information about the given PURL
