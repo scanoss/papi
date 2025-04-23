@@ -127,20 +127,19 @@ message ContributorResponse {
  */
 message OriginResponse {
     // Origin country details
-    message Country {  // TODO change this to Location?
+    message Location {  
         // Name of the country
         string name = 1;
         // Percentage of developers
-        uint32 percentage = 2;
-      // Number of developers for that country
-//      uint32 developers = 3;  // TODO add later
+        uint32 percentage = 2; 
+
     }
     // Information about the given PURL
     message Purls {
         // The purl string
         string purl = 1;
         // The list of countries with contributors
-        repeated Country countries = 2;  // TODO change to locations?
+        repeated Location locations = 2;  
     }
   // Geo Provenance details
   repeated Purls purls = 1;
