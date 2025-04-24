@@ -26,7 +26,7 @@
  * Geo Provenance definition details
 */
 syntax = "proto3";
-package scanoss.api.provenance.v2;
+package scanoss.api.geoprovenance.v2;
 
 option go_package = "github.com/scanoss/papi/api/geoprovenancev2;geoprovenancev2";
 
