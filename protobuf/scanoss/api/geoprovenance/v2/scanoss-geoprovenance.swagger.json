@@ -4,7 +4,7 @@
     "title": "SCANOSS GEO Provenance Service",
     "version": "2.0",
     "contact": {
-      "name": "scanoss-geo-provenance",
+      "name": "scanoss-geoprovenance",
       "url": "https://github.com/scanoss/geoprovenance",
       "email": "support@scanoss.com"
     }
