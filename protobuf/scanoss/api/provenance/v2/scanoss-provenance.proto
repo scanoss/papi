@@ -109,12 +109,10 @@ message ContributorResponse {
   message Purls {
     // The purl string
     string purl = 1;
-    // The purl version
-    string version = 2;  // TODO do we actually need/know the version?
     // List of locations declared on user repository
-    repeated DeclaredLocation declared_locations = 3;
+    repeated DeclaredLocation declared_locations = 2;
     // List of craft curated location
-    repeated CuratedLocation curated_locations = 4;
+    repeated CuratedLocation curated_locations = 3;
   }
   // Provenance details
   repeated Purls purls = 1;
@@ -128,7 +126,7 @@ message ContributorResponse {
 message OriginResponse {
     // Origin country details
     message Location {  
-        // Name of the country
+        // ISO Country code 
         string name = 1;
         // Percentage of developers
         float percentage = 2; 
