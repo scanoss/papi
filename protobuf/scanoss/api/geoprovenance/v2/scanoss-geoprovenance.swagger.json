@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "SCANOSS Provenance Service",
+    "title": "SCANOSS GEO Provenance Service",
     "version": "2.0",
     "contact": {
-      "name": "scanoss-provenance",
-      "url": "https://github.com/scanoss/provenance",
+      "name": "scanoss-geoprovenance",
+      "url": "https://github.com/scanoss/geoprovenance",
       "email": "support@scanoss.com"
     }
   },
@@ -19,15 +19,15 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/provenance/countries": {
+    "/api/v2/geoprovenance/countries": {
       "post": {
-        "summary": "Get Provenance countries associated with a list of PURLs",
-        "operationId": "Provenance_GetComponentProvenance",
+        "summary": "Get component-level Geo Provenance based on contributor declared location",
+        "operationId": "GeoProvenance_GetComponentContributors",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2ProvenanceResponse"
+              "$ref": "#/definitions/v2ContributorResponse"
             }
           },
           "404": {
@@ -55,14 +55,14 @@
           }
         ],
         "tags": [
-          "Provenance"
+          "GeoProvenance"
         ]
       }
     },
-    "/api/v2/provenance/echo": {
+    "/api/v2/geoprovenance/echo": {
       "post": {
         "summary": "Standard echo",
-        "operationId": "Provenance_Echo",
+        "operationId": "GeoProvenance_Echo",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -95,13 +95,53 @@
           }
         ],
         "tags": [
-          "Provenance"
+          "GeoProvenance"
+        ]
+      }
+    },
+    "/api/v2/geoprovenance/origin": {
+      "post": {
+        "summary": "Get component-level Geo Provenance based on contributor origin commit times",
+        "operationId": "GeoProvenance_GetComponentOrigin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2OriginResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2PurlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GeoProvenance"
         ]
       }
     }
   },
   "definitions": {
-    "ProvenanceResponseCuratedLocation": {
+    "ContributorResponseCuratedLocation": {
       "type": "object",
       "properties": {
         "country": {
@@ -111,12 +151,12 @@
         "count": {
           "type": "integer",
           "format": "int32",
-          "title": "Ocurrences for users or contributors on this specific country"
+          "title": "Occurrences for users or contributors of this specific country"
         }
       },
       "title": "Curated provenance information about the project"
     },
-    "ProvenanceResponseDeclaredLocation": {
+    "ContributorResponseDeclaredLocation": {
       "type": "object",
       "properties": {
         "type": {
@@ -166,6 +206,47 @@
         }
       }
     },
+    "v2ContributorResponse": {
+      "type": "object",
+      "properties": {
+        "purls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2ContributorResponsePurls"
+          },
+          "title": "Provenance details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "*\nComponent level Provenance Response data (JSON payload)"
+    },
+    "v2ContributorResponsePurls": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The purl string"
+        },
+        "declared_locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContributorResponseDeclaredLocation"
+          },
+          "title": "List of locations declared on user repository"
+        },
+        "curated_locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContributorResponseCuratedLocation"
+          },
+          "title": "List of craft curated location"
+        }
+      },
+      "title": "Information about a given purl"
+    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -184,50 +265,54 @@
       },
       "title": "Echo Message Response"
     },
-    "v2ProvenanceResponse": {
+    "v2OriginResponse": {
       "type": "object",
       "properties": {
         "purls": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v2ProvenanceResponsePurls"
+            "$ref": "#/definitions/v2OriginResponsePurls"
           },
-          "title": "Provenance details"
+          "title": "Geo Provenance details"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
           "title": "Response status"
         }
       },
-      "title": "*\nComponent level Provenance Response data (JSON payload)"
+      "title": "*\nComponent level Origin Response data (JSON payload)"
     },
-    "v2ProvenanceResponsePurls": {
+    "v2OriginResponseLocation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "ISO Country code"
+        },
+        "percentage": {
+          "type": "number",
+          "format": "float",
+          "title": "Percentage of developers"
+        }
+      },
+      "title": "Origin country details"
+    },
+    "v2OriginResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
           "type": "string",
           "title": "The purl string"
         },
-        "version": {
-          "type": "string",
-          "title": "The purl version"
-        },
-        "declared_locations": {
+        "locations": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ProvenanceResponseDeclaredLocation"
+            "$ref": "#/definitions/v2OriginResponseLocation"
           },
-          "title": "List of locations declared on user repository"
-        },
-        "curated_locations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ProvenanceResponseCuratedLocation"
-          },
-          "title": "List of craft curated location"
+          "title": "The list of countries with contributors"
         }
       },
-      "title": "Information about a given purl"
+      "title": "Information about the given PURL"
     },
     "v2PurlRequest": {
       "type": "object",

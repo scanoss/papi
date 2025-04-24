@@ -372,7 +372,7 @@
         "limit": {
           "type": "integer",
           "format": "int32",
-          "title": "Number of versions to return - default 20"
+          "title": "Number of versions to return - default 50"
         }
       },
       "title": "Component Version request data (JSON payload)"

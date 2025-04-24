@@ -339,7 +339,7 @@ type CompVersionRequest struct {
 
 	// Component to search for (purl)
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	// Number of versions to return - default 20
+	// Number of versions to return - default 50
 	Limit int32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 }
 
