@@ -46,9 +46,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	GeoProvenance_Echo_FullMethodName                     = "/scanoss.api.provenance.v2.GeoProvenance/Echo"
-	GeoProvenance_GetComponentContributors_FullMethodName = "/scanoss.api.provenance.v2.GeoProvenance/GetComponentContributors"
-	GeoProvenance_GetComponentOrigin_FullMethodName       = "/scanoss.api.provenance.v2.GeoProvenance/GetComponentOrigin"
+	GeoProvenance_Echo_FullMethodName                     = "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo"
+	GeoProvenance_GetComponentContributors_FullMethodName = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors"
+	GeoProvenance_GetComponentOrigin_FullMethodName       = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin"
 )
 
 // GeoProvenanceClient is the client API for GeoProvenance service.
@@ -195,7 +195,7 @@ func _GeoProvenance_GetComponentOrigin_Handler(srv interface{}, ctx context.Cont
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GeoProvenance_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "scanoss.api.provenance.v2.GeoProvenance",
+	ServiceName: "scanoss.api.geoprovenance.v2.GeoProvenance",
 	HandlerType: (*GeoProvenanceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
