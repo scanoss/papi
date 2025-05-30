@@ -1,0 +1,125 @@
+/*
+ SPDX-License-Identifier: MIT
+
+   Copyright (c) 2022, SCANOSS
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+ */
+
+/***
+ * License definition details
+***/
+syntax = "proto3";
+package scanoss.api.licenses.v2;
+
+option go_package = "github.com/scanoss/papi/api/licensesv2;licensesv2";
+
+import "scanoss/api/common/v2/scanoss-common.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+    title: "SCANOSS License Service";
+    version: "2.0";
+    contact: {
+      name: "scanoss-licenses";
+      url: "https://github.com/scanoss/licenses";
+      email: "support@scanoss.com";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
+
+/*
+ * Expose all of the SCANOSS License RPCs here
+ */
+service LicenseService {
+  // Standard echo
+  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/licenses/echo"
+      body: "*"
+    };
+  };
+  // Get licenses given a purl and or version/requirement
+  rpc GetByPurl(scanoss.api.common.v2.PurlRequest) returns(GetLicensesResponse) {
+    option (google.api.http) = {
+      body: "*"
+    };
+  };
+
+  // Search licenses given a query
+  rpc Search(LicenseSearchRequest) returns(LicenseSearchResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/licenses/search"
+      body: "*"
+    };
+  };
+}
+
+message License {
+    string name = 1;
+    string spdx_id = 2;
+    string url = 4;
+    // Copyleft, permissive, etc --> Could be an enum
+    LicenseType license_type = 5;
+}
+
+message GetLicensesResponse {
+    // List of licenses
+    repeated License licenses = 1;
+
+    // Request status
+    scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+enum LicenseType {
+    PERMISSIVE = 0;
+    COPYLEFT = 1;
+    // Add more
+}
+
+message LicenseSearchRequest {
+    // This could be either name, spdx_id, wether if it's copyleft or not, etc
+    string query = 1;
+    // User could query for permissive, copyleft, etc
+    repeated LicenseType license_types = 2;
+}
+
+message LicenseSearchResponse {
+    // List of licenses
+    repeated License licenses = 1;
+
+    // Request status
+    scanoss.api.common.v2.StatusResponse status = 2;
+}
