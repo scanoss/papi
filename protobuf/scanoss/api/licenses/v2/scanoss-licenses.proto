@@ -74,6 +74,7 @@ service LicenseService {
   // Get licenses given a purl and or version/requirement
   rpc GetByPurl(scanoss.api.common.v2.PurlRequest) returns(GetLicensesResponse) {
     option (google.api.http) = {
+      post: "/api/v2/licenses/purl"
       body: "*"
     };
   };
@@ -87,39 +88,145 @@ service LicenseService {
   };
 }
 
+
+
+message OSADLUseCase {
+  string name = 1;              // "Binary delivery", "Network service", "Source code delivery"
+  string obligation_text = 2;
+  string obligation_json = 3;
+}
+
+/*
+ * OSADL (Open Source Automation Development Lab) License Compliance System
+ * 
+ * OSADL creates structured compliance checklists for each license using a canonical vocabulary system.
+ * The system breaks down complex legal language into machine-readable components:
+ * 
+ * - Language Elements: Legal modifiers like "YOU MUST", "YOU MUST NOT", "IF", "EXCEPT IF"
+ * - Actions: What to do - "Provide", "Include", "Distribute", "Attribute"
+ * - Terms: What objects - "Copyright notice", "License text", "Source code"
+ * 
+ * These combine into precise obligations like: "YOU MUST Provide Copyright notice"
+ * which breaks down to Language="YOU MUST", Action="Provide", Term="Copyright notice"
+ * 
+ * This creates consistent, unambiguous license compliance guidance across all licenses.
+ */
+message OSADL {
+  string checklist_json_url = 1;          // https://www.osadl.org/fileadmin/checklists/jsonlicenses/AGPL-3.0-or-later.json
+  string checklist_text_url = 2;    // https://www.osadl.org/fileadmin/checklists/unreflicenses/AGPL-3.0-or-later.txt
+  string checklist_optimized_json_url = 3; // https://www.osadl.org/fileadmin/checklists/jsonlicenses-opt/AGPL-3.0-or-later-opt.json
+  bool copyleft_clause = 4;
+  bool patent_hints = 5;
+  repeated string compatibility = 6;        // Compatible licenses
+  repeated string depending_compatibility = 7; // Conditionally compatible
+  repeated string incompatibility = 8;      // Incompatible licenses
+  repeated OSADLUseCase use_cases = 9;
+}
+
+
+enum OSICategory {
+  CATEGORY_UNSPECIFIED = 0;
+  INTERNATIONAL = 1;
+  NON_REUSABLE = 2;
+  OTHER_MISCELLANEOUS = 3;
+  POPULAR_STRONG_COMMUNITY = 4;
+  REDUNDANT_WITH_MORE_POPULAR = 5;
+  SPECIAL_PURPOSE = 6;
+  SUPERSEDED = 7;
+  UNCATEGORIZED = 8;
+  VOLUNTARILY_RETIRED = 9;
+}
+
+message OSI {
+  bool is_osi_approved = 1;
+  string submission_date = 2;
+  string submitter = 3;
+  string approval_date = 4;
+  string board_minutes_url = 5;
+  // The organization or entity that maintains and controls the official version of the license (e.g., "Free Software Foundation")
+  string steward = 6;
+  // URL to the authoritative/canonical license text hosted by the steward organization
+  string steward_url = 7;
+  // OSI category classification for this license
+  OSICategory category = 9;
+}
+
+message SPDXCrossRef {
+  string url = 1;
+  bool is_valid = 2;
+  bool is_live = 3;
+  string timestamp = 4;
+  bool is_wayback_link = 5;
+  int32 order = 6;
+  string match = 7;
+}
+
+message LicenseException {
+  string id = 1;                      // "Classpath-exception-2.0"
+  string name = 2;                    // "Classpath exception 2.0"
+  string details_url = 3;             // SPDX exception JSON URL
+  repeated string see_also = 5;       // Reference URLs
+  bool is_deprecated = 6;             // Exception is deprecated
+}
+
+message SPDX {
+  string id = 1;                     // "GPL-2.0-only", "MIT" - the SPDX license identifier
+  string name = 2;                   // Official SPDX license name
+  string details_url = 4;            // JSON API URL for full details
+  string reference_url = 5;          // HTML page URL
+  bool is_deprecated = 6;            // License is deprecated
+  bool is_fsf_libre = 7;             // FSF considers it libre/free
+  repeated string see_also = 8;      // Related URLs
+  repeated SPDXCrossRef cross_refs = 9; // Structured cross-references with validation info
+  repeated LicenseException exceptions = 10; // SPDX exceptions applied to this license (empty if none)
+}
+
+
+enum LicenseType {
+  PERMISSIVE = 0;
+  COPYLEFT = 1;
+  COMMERCIAL = 2;
+  PROPRIETARY = 3;
+  PUBLIC_DOMAIN = 4;
+}
+
+message SCANOSS {
+  LicenseType license_type = 1;  // SCANOSS categorization
+  string scanoss_id = 2;         // Internal SCANOSS identifier
+  string risk_level = 3;         // "LOW", "MEDIUM", "HIGH"
+  repeated string tags = 4;      // ["viral", "attribution", "patent-grant"]
+}
+
 message License {
-    string name = 1;
-    string spdx_id = 2;
-    string url = 4;
-    // Copyleft, permissive, etc --> Could be an enum
-    LicenseType license_type = 5;
+  string name = 1;                   // Parsed license portion from license_statement (e.g., "MIT", "GPL-2.0 WITH Classpath-exception-2.0")
+  SPDX spdx = 3;                    // Optional - SPDX data including license_id and exceptions (null if not in SPDX registry)
+  OSADL osadl = 4;                  // Optional - OSADL compliance metadata (null for custom/proprietary)
+  OSI osi = 5;                      // Optional - OSI approval metadata (null if not OSI approved)
+  SCANOSS scanoss = 6;              // Always present - SCANOSS can analyze any license
 }
 
 message GetLicensesResponse {
-    // List of licenses
-    repeated License licenses = 1;
-
-    // Request status
-    scanoss.api.common.v2.StatusResponse status = 2;
-}
-
-enum LicenseType {
-    PERMISSIVE = 0;
-    COPYLEFT = 1;
-    // Add more
+  // Raw license statement exactly as declared in the project source code
+  // Examples: "MIT", "GPL-2.0-only OR Apache-2.0", "GitLab Enterprise Edition (EE) license", "All Rights Reserved"
+  // Can be SPDX expressions, custom license names, proprietary statements, or legacy formats
+  // SCANOSS parses this statement into the licenses array, providing detailed metadata for each individual license
+  string license_statement = 1;
+  // List of individual licenses parsed from the statement with available metadata
+  repeated License licenses = 2;
+  // Request status
+  scanoss.api.common.v2.StatusResponse status = 3;
 }
 
 message LicenseSearchRequest {
-    // This could be either name, spdx_id, wether if it's copyleft or not, etc
-    string query = 1;
-    // User could query for permissive, copyleft, etc
-    repeated LicenseType license_types = 2;
+  // This could be either name, spdx_id, whether if it's copyleft or not, etc
+  string query = 1;
+  // User could query for permissive, copyleft, etc
+  repeated LicenseType license_types = 2;
 }
 
 message LicenseSearchResponse {
-    // List of licenses
-    repeated License licenses = 1;
-
-    // Request status
-    scanoss.api.common.v2.StatusResponse status = 2;
+  // List of licenses
+  repeated License licenses = 1;
+  // Request status
+  scanoss.api.common.v2.StatusResponse status = 2;
 }
