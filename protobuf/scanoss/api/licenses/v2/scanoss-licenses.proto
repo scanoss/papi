@@ -71,40 +71,83 @@ service LicenseService {
       body: "*"
     };
   };
+
   // Get basic license info given a purl
-  rpc GetByPurl(scanoss.api.common.v2.PurlRequest) returns(GetByPurlResponse) {
+  rpc GetBasic(scanoss.api.common.v2.PurlRequest) returns(BasicResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/purl"
       body: "*"
     };
   };
 
-  // Get detailed license metadata for a specific license ID
-  rpc GetLicenseDetails(GetLicenseDetailsRequest) returns(GetLicenseDetailsResponse) {
+  // Get detailed metadata for a specific license
+  rpc GetDetails(DetailsRequest) returns(DetailsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/details"
       body: "*"
     };
   };
 
-  // Get license obligations and compliance data
-  rpc GetLicenseObligations(GetLicenseObligationsRequest) returns(GetLicenseObligationsResponse) {
+  // Get obligations and compliance data for a license
+  rpc GetObligations(ObligationsRequest) returns(ObligationsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/obligations"
       body: "*"
     };
   };
 
-  // Search licenses given a query
-  rpc Search(LicenseSearchRequest) returns(LicenseSearchResponse) {
-    option (google.api.http) = {
-      post: "/api/v2/licenses/search"
-      body: "*"
-    };
-  };
+  // TODO: Add method - Search licenses given a query
 }
 
 
+
+// ========================================================================
+// ENUMS
+// ========================================================================
+
+enum Type {
+  UNKNOWN = 0;
+  PERMISSIVE = 1;
+  COPYLEFT = 2;
+  COMMERCIAL = 3;
+  PROPRIETARY = 4;
+  PUBLIC_DOMAIN = 5;
+}
+
+// ========================================================================
+// CORE DATA STRUCTURES
+// ========================================================================
+
+message SPDXCrossRef {
+  string url = 1;
+  bool is_valid = 2;
+  bool is_live = 3;
+  string timestamp = 4;
+  bool is_wayback_link = 5;
+  int32 order = 6;
+  string match = 7;
+}
+
+message SPDXException {
+  string id = 1;                      // "Classpath-exception-2.0"
+  string full_name = 2;               // "Classpath exception 2.0"
+  string details_url = 3;             // SPDX exception JSON URL
+  repeated string see_also = 5;       // Reference URLs
+  bool is_deprecated = 6;             // Exception is deprecated
+}
+
+message SPDX {
+  string id = 1;                     // "GPL-2.0-only", "MIT" - the SPDX license identifier
+  string full_name = 2;              // Official SPDX registry name (empty if license not in SPDX registry)
+  string details_url = 4;            // JSON API URL for full details
+  string reference_url = 5;          // HTML page URL
+  bool is_deprecated = 6;            // License is deprecated
+  bool is_fsf_libre = 7;             // FSF considers it libre/free
+  bool is_osi_approved = 8;
+  repeated string see_also = 9;      // Related URLs
+  repeated SPDXCrossRef cross_refs = 10; // Structured cross-references with validation info
+  repeated SPDXException exceptions = 11; // SPDX exceptions applied to this license (empty if none)
+}
 
 message OSADLUseCase {
   string name = 1;              // "Binary delivery", "Network service", "Source code delivery"
@@ -113,8 +156,6 @@ message OSADLUseCase {
 }
 
 /*
- * OSADL (Open Source Automation Development Lab) License Compliance System
- * 
  * OSADL creates structured compliance checklists for each license using a canonical vocabulary system.
  * The system breaks down complex legal language into machine-readable components:
  * 
@@ -139,131 +180,154 @@ message OSADL {
   repeated OSADLUseCase use_cases = 9;
 }
 
-
-enum OSICategory {
-  CATEGORY_UNSPECIFIED = 0;
-  INTERNATIONAL = 1;
-  NON_REUSABLE = 2;
-  OTHER_MISCELLANEOUS = 3;
-  POPULAR_STRONG_COMMUNITY = 4;
-  REDUNDANT_WITH_MORE_POPULAR = 5;
-  SPECIAL_PURPOSE = 6;
-  SUPERSEDED = 7;
-  UNCATEGORIZED = 8;
-  VOLUNTARILY_RETIRED = 9;
-}
-
-message OSI {
-  bool is_osi_approved = 1;
-  string submission_date = 2;
-  string submitter = 3;
-  string approval_date = 4;
-  string board_minutes_url = 5;
-  // The organization or entity that maintains and controls the official version of the license (e.g., "Free Software Foundation")
-  string steward = 6;
-  // URL to the authoritative/canonical license text hosted by the steward organization
-  string steward_url = 7;
-  // OSI category classification for this license
-  OSICategory category = 9;
-}
-
-message SPDXCrossRef {
-  string url = 1;
-  bool is_valid = 2;
-  bool is_live = 3;
-  string timestamp = 4;
-  bool is_wayback_link = 5;
-  int32 order = 6;
-  string match = 7;
-}
-
-message LicenseException {
-  string id = 1;                      // "Classpath-exception-2.0"
-  string name = 2;                    // "Classpath exception 2.0"
-  string details_url = 3;             // SPDX exception JSON URL
-  repeated string see_also = 5;       // Reference URLs
-  bool is_deprecated = 6;             // Exception is deprecated
-}
-
-message SPDX {
-  string id = 1;                     // "GPL-2.0-only", "MIT" - the SPDX license identifier
-  string name = 2;                   // Official SPDX license name
-  string details_url = 4;            // JSON API URL for full details
-  string reference_url = 5;          // HTML page URL
-  bool is_deprecated = 6;            // License is deprecated
-  bool is_fsf_libre = 7;             // FSF considers it libre/free
-  repeated string see_also = 8;      // Related URLs
-  repeated SPDXCrossRef cross_refs = 9; // Structured cross-references with validation info
-  repeated LicenseException exceptions = 10; // SPDX exceptions applied to this license (empty if none)
-}
-
-
-enum LicenseType {
-  PERMISSIVE = 0;
-  COPYLEFT = 1;
-  COMMERCIAL = 2;
-  PROPRIETARY = 3;
-  PUBLIC_DOMAIN = 4;
-}
-
-message SCANOSS {
-  LicenseType license_type = 1;  // SCANOSS categorization
-  string scanoss_id = 2;         // Internal SCANOSS identifier
-  string risk_level = 3;         // "LOW", "MEDIUM", "HIGH"
-  repeated string tags = 4;      // ["viral", "attribution", "patent-grant"]
-}
+// ========================================================================
+// LICENSE REPRESENTATIONS
+// ========================================================================
 
 message BasicLicense {
-  string full_name = 1;             // Expanded license name (e.g., "General Public License version 2.0", "MIT License")
-  string id = 2;                    // SPDX identifier or licenseRef (e.g., "GPL-2.0-only", "MIT", "licenseRef-GitLab-Enterprise")
+  // Identifier for an individual license extracted from the license statement, following SPDX conventions
+  // - For SPDX registry licenses: Standard SPDX ID (e.g., "MIT", "GPL-2.0-only")
+  // - For non-registry licenses: licenseRef format (e.g., "licenseRef-GitLab-Enterprise")
+  string id = 1;
+
+  // Best human-readable license name (normalized when possible)
+  // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
+  // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
+  // Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
+  string full_name = 2;
 }
 
 message License {
-  string name = 1;                  // Parsed license portion from license_statement (e.g., "MIT", "GPL-2.0 WITH Classpath-exception-2.0")
-  SPDX spdx = 3;                    // Optional - SPDX data including license_id and exceptions (null if not in SPDX registry)
-  OSADL osadl = 4;                  // Optional - OSADL compliance metadata (null for custom/proprietary)
-  OSI osi = 5;                      // Optional - OSI approval metadata (null if not OSI approved)
-  SCANOSS scanoss = 6;              // Always present - SCANOSS can analyze any license
+  // Best human-readable license name (normalized when possible)
+  // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
+  // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
+  // Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
+  string full_name = 1;
+
+  Type type = 2;
+  SPDX spdx = 3;                    // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
+  OSADL osadl = 4;                  // Optional - OSADL compliance metadata
+  //SCANOSS scanoss = 6;            // For future use, specific SCANOSS metadata
 }
 
-message GetByPurlResponse {
-  // Raw license statement as declared in source code
-  string statement = 1;
-  // Individual licenses parsed from the statement with basic info
-  repeated BasicLicense licenses = 2;
-  // Request status
+// ========================================================================
+// API MESSAGES
+// ========================================================================
+
+// GetBasic endpoint
+message BasicResponse {
+  string statement = 1;             // Raw license statement as declared in source code
+  repeated BasicLicense licenses = 2; // Individual licenses parsed from the statement with basic info
   scanoss.api.common.v2.StatusResponse status = 3;
 }
 
-message GetLicenseDetailsRequest {
-  string license_id = 1;            // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+// GetDetails endpoint
+message DetailsRequest {
+  string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
 }
 
-message GetLicenseDetailsResponse {
+message DetailsResponse {
   License license = 1;              // Full license details with all metadata
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-message GetLicenseObligationsRequest {
-  string license_id = 1;            // SPDX identifier or licenseRef
+// GetObligations endpoint
+message ObligationsRequest {
+  string id = 1;                    // SPDX identifier or licenseRef
 }
 
-message GetLicenseObligationsResponse {
+message ObligationsResponse {
   OSADL obligations = 1;            // OSADL compliance data with use cases and obligations
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+// ========================================================================
+// USAGE EXAMPLES
+// ========================================================================
 
-message LicenseSearchRequest {
-  // This could be either name, spdx_id, whether if it's copyleft or not, etc
-  string query = 1;
-  // User could query for permissive, copyleft, etc
-  repeated LicenseType license_types = 2;
-}
+/*
+ * Example 1: Multiple SPDX Licenses
+ * 
+ * Query: GetBasic({ purl: "pkg:github/org/dual-licensed@1.0.0"})
+ * Response:
+ * {
+ *   "statement": "MIT OR Apache-2.0",
+ *   "licenses": [
+ *     {
+ *       "id": "MIT",
+ *       "full_name": "MIT License"
+ *     },
+ *     {
+ *       "id": "Apache-2.0", 
+ *       "full_name": "Apache License 2.0"
+ *     }
+ *   ]
+ * }
+ */
 
-message LicenseSearchResponse {
-  // List of licenses
-  repeated License licenses = 1;
-  // Request status
-  scanoss.api.common.v2.StatusResponse status = 2;
-}
+/*
+ * Example 2: Mixed SPDX and Custom License
+ * 
+ * Query: GetBasic({ purl: "pkg:github/enterprise-lib@1.0.0" })
+ * Response:
+ * {
+ *   "statement": "GPL-3.0-only OR MyCompany Commercial License",
+ *   "licenses": [
+ *     {
+ *       "id": "GPL-3.0-only",
+ *       "full_name": "GNU General Public License v3.0 only"
+ *     },
+ *     {
+ *       "id": "licenseRef-MyCompany-Commercial",
+ *       "full_name": "MyCompany Commercial License"
+ *     }
+ *   ]
+ * }
+ */
+
+/*
+ * Example 3: GetDetails for SPDX License
+ * 
+ * Query: GetDetails({"id": "MIT"})
+ * 
+ * Response:
+ * {
+ *   "license": {
+ *     "full_name": "MIT License",
+ *     "type": "PERMISSIVE",
+ *     "spdx": {
+ *       "id": "MIT",
+ *       "full_name": "MIT License",
+ *       "details_url": "https://spdx.org/licenses/MIT.json",
+ *       "reference_url": "https://spdx.org/licenses/MIT.html",
+ *       "is_deprecated": false,
+ *       "is_fsf_libre": true,
+ *       "is_osi_approved": true
+ *     },
+ *     "osadl": {
+ *       "checklist_json_url": "https://www.osadl.org/fileadmin/checklists/jsonlicenses/MIT.json",
+ *       "copyleft_clause": false,
+ *       "patent_hints": false
+          ....
+ *     }
+ *   }
+ * }
+ */
+
+/*
+ * Example 4: GetDetails for Custom License
+ * 
+ * Query: GetDetails({"id": "licenseRef-MyCompany-Commercial"})
+ * 
+ * Response:
+ * {
+ *   "license": {
+ *     "full_name": "MyCompany Commercial License",
+ *     "type": "COMMERCIAL",
+ *     "spdx": {
+ *       "id": "licenseRef-MyCompany-Commercial",
+ *     },
+ *     "osadl": null  // No OSADL data for custom licenses
+ *   }
+ * }
+ */
