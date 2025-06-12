@@ -188,9 +188,9 @@ message Hint {
   // Describe detection category (protocol/library/sdk/framework)
   string category = 4;
   // Link to project main page, repository or documentation
-  optional string url = 5;
+  string url = 5;
   // The purl of the original library/sdk/framework
-  optional string purl = 6;
+  string purl = 6;
  
 }
 
