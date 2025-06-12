@@ -1,112 +1,77 @@
-# Single comprehensive Alpine-based image for protobuf generation
 FROM alpine:3.19
 
+# Frozen versions for reproducible builds
+ARG PROTOC_VERSION=31.1
+ARG PROTOBUF_JS_VERSION=3.21.4
+ARG GO_VERSION=1.23.4
+ARG NODE_VERSION=20.15.1
+ARG PYTHON_VERSION=3.11
+
 # Base system tools
-RUN apk add --no-cache \
-    git \
-    bash \
-    wget \
-    unzip
+RUN apk add --no-cache git bash wget unzip
 
-# Language runtimes
-RUN apk add --no-cache \
-    python3 \
-    py3-pip \
-    nodejs \
-    npm
+# Language runtimes with frozen versions
+RUN apk add --no-cache python3=~${PYTHON_VERSION} py3-pip nodejs=~${NODE_VERSION} npm gcc musl-dev linux-headers
 
-# Install Go 1.23 manually (Alpine's Go is too old)
-RUN GO_VERSION=1.23.4 && \
-    ARCH=$(uname -m) && \
-    case ${ARCH} in \
-        x86_64) GO_ARCH="amd64" ;; \
-        aarch64) GO_ARCH="arm64" ;; \
-        armv7l) GO_ARCH="armv6l" ;; \
-        i386|i686) GO_ARCH="386" ;; \
-        *) echo "Unsupported Go architecture: ${ARCH}" && exit 1 ;; \
-    esac && \
-    wget -O /tmp/go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz" && \
+# Install Go compiler (x86_64, QEMU handles emulation on other architectures)
+RUN echo "Installing Go ${GO_VERSION}" && \
+    wget -O /tmp/go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" && \
     tar -C /usr/local -xzf /tmp/go.tar.gz && \
     rm /tmp/go.tar.gz
 
-# Build tools for compilation
-RUN apk add --no-cache \
-    gcc \
-    musl-dev \
-    linux-headers
-
-# Install protoc binary (configurable version and auto-detect architecture)
-ARG PROTOC_VERSION=31.1
-RUN ARCH=$(uname -m) && \
-    case ${ARCH} in \
-        x86_64) PROTOC_ARCH="linux-x86_64" ;; \
-        aarch64) PROTOC_ARCH="linux-aarch_64" ;; \
-        armv7l) PROTOC_ARCH="linux-armv7" ;; \
-        ppc64le) PROTOC_ARCH="linux-ppcle_64" ;; \
-        s390x) PROTOC_ARCH="linux-s390_64" ;; \
-        i386|i686) PROTOC_ARCH="linux-x86_32" ;; \
-        *) echo "Unsupported architecture: ${ARCH}" && exit 1 ;; \
-    esac && \
-    echo "Installing protoc ${PROTOC_VERSION} for ${PROTOC_ARCH}" && \
-    wget -O /tmp/protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip" && \
+# Install protoc compiler
+RUN echo "Installing protoc ${PROTOC_VERSION}" && \
+    wget -O /tmp/protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip" && \
     unzip /tmp/protoc.zip -d /usr/local && \
     chmod +x /usr/local/bin/protoc && \
-    rm /tmp/protoc.zip && \
-    protoc --version
+    rm /tmp/protoc.zip
 
-# Set up Go environment
-ENV GOROOT=/usr/local/go
-ENV GOPATH=/go
-ENV PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH" && \
-    go version
-
-# Install Go protobuf plugins
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
-    go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest && \
-    go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@latest
-
-# Install Python protobuf plugins (bypass PEP 668 in container)
-RUN pip install --no-cache-dir --break-system-packages \
-    grpcio-tools \
-    grpcio \
-    googleapis-common-protos \
-    mypy-protobuf
-
-# Install JavaScript/Node.js protobuf tools (without problematic npm protoc-gen-js)
-RUN npm install -g \
-    google-protobuf \
-    @grpc/grpc-js \
-    @grpc/proto-loader \
-    grpc-tools \
-    grpc_tools_node_protoc_ts \
-    ts-protoc-gen
-
-# Install official protobuf-javascript with architecture detection
-ARG PROTOBUF_JS_VERSION=3.21.4
-RUN ARCH=$(uname -m) && \
-    case ${ARCH} in \
-        x86_64) PROTOBUF_JS_ARCH="linux-x86_64" ;; \
-        aarch64) PROTOBUF_JS_ARCH="linux-aarch_64" ;; \
-        armv7l) echo "ARM v7 not supported by protobuf-javascript" && exit 1 ;; \
-        ppc64le) PROTOBUF_JS_ARCH="linux-ppcle_64" ;; \
-        s390x) PROTOBUF_JS_ARCH="linux-s390_64" ;; \
-        i386|i686) PROTOBUF_JS_ARCH="linux-x86_32" ;; \
-        *) echo "Unsupported architecture for protobuf-javascript: ${ARCH}" && exit 1 ;; \
-    esac && \
-    echo "Installing protobuf-javascript ${PROTOBUF_JS_VERSION} for ${PROTOBUF_JS_ARCH}" && \
-    wget -O /tmp/protobuf-js.tar.gz "https://github.com/protocolbuffers/protobuf-javascript/releases/download/v${PROTOBUF_JS_VERSION}/protobuf-javascript-${PROTOBUF_JS_VERSION}-${PROTOBUF_JS_ARCH}.tar.gz" && \
+# Install protobuf-javascript plugin
+RUN echo "Installing protobuf-javascript ${PROTOBUF_JS_VERSION}" && \
+    wget -O /tmp/protobuf-js.tar.gz "https://github.com/protocolbuffers/protobuf-javascript/releases/download/v${PROTOBUF_JS_VERSION}/protobuf-javascript-${PROTOBUF_JS_VERSION}-linux-x86_64.tar.gz" && \
     tar -C /tmp -xzf /tmp/protobuf-js.tar.gz && \
     cp /tmp/bin/protoc-gen-js /usr/local/bin/protoc-gen-js && \
     chmod +x /usr/local/bin/protoc-gen-js && \
     rm -rf /tmp/protobuf-js.tar.gz /tmp/bin
 
+# Set up Go environment
+ENV GOROOT=/usr/local/go
+ENV GOPATH=/go
+ENV PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH" && go version
+
+# Install Go protobuf plugins with frozen versions
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6 && \
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1 && \
+    go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.26.3 && \
+    go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@v1.16.0
+
+# Install Python protobuf plugins with frozen versions
+RUN pip install --no-cache-dir --break-system-packages \
+    grpcio-tools==1.73.0 \
+    grpcio==1.73.0 \
+    googleapis-common-protos==1.70.0 \
+    mypy-protobuf==3.6.0
+
+# Install JavaScript/Node.js protobuf tools with frozen versions
+RUN npm install -g \
+    google-protobuf@3.21.4 \
+    @grpc/grpc-js@1.11.3 \
+    @grpc/proto-loader@0.7.13 \
+    grpc-tools@1.12.4 \
+    grpc_tools_node_protoc_ts@5.3.3 \
+    ts-protoc-gen@0.15.0
+
 # Install glibc compatibility and verify installation
 RUN apk add --no-cache gcompat && \
     protoc --version && \
+    go version && \
     which protoc-gen-js && \
-    echo "protoc and protoc-gen-js are ready"
+    echo "All tools are ready"
+
+# Copy container build script
+COPY scripts/container-build.sh /usr/local/bin/build-protoc
+RUN chmod +x /usr/local/bin/build-protoc
 
 WORKDIR /workspace
-ENTRYPOINT ["bash", "protobuf/build.sh"]
+ENTRYPOINT ["/usr/local/bin/build-protoc"]
