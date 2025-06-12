@@ -81,7 +81,7 @@ service LicenseService {
   };
 
   // Get detailed metadata for a specific license
-  rpc GetDetails(DetailsRequest) returns(DetailsResponse) {
+  rpc GetDetails(LicenseRequest) returns(DetailsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/details"
       body: "*"
@@ -89,7 +89,7 @@ service LicenseService {
   };
 
   // Get obligations and compliance data for a license
-  rpc GetObligations(ObligationsRequest) returns(ObligationsResponse) {
+  rpc GetObligations(LicenseRequest) returns(ObligationsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/obligations"
       body: "*"
@@ -115,10 +115,13 @@ enum Type {
 }
 
 // ========================================================================
-// CORE DATA STRUCTURES
+// LICENSE METADATA STRUCTURES
 // ========================================================================
 
-message SPDXCrossRef {
+/*
+ * SPDX cross-reference with validation metadata.
+ */
+message SPDX_CrossRef {
   string url = 1;
   bool is_valid = 2;
   bool is_live = 3;
@@ -128,7 +131,10 @@ message SPDXCrossRef {
   string match = 7;
 }
 
-message SPDXException {
+/*
+ * SPDX license exception details.
+ */
+message SPDX_Exception {
   string id = 1;                      // "Classpath-exception-2.0"
   string full_name = 2;               // "Classpath exception 2.0"
   string details_url = 3;             // SPDX exception JSON URL
@@ -136,6 +142,9 @@ message SPDXException {
   bool is_deprecated = 6;             // Exception is deprecated
 }
 
+/*
+ * SPDX license registry metadata.
+ */
 message SPDX {
   string id = 1;                     // "GPL-2.0-only", "MIT" - the SPDX license identifier
   string full_name = 2;              // Official SPDX registry name (empty if license not in SPDX registry)
@@ -145,39 +154,29 @@ message SPDX {
   bool is_fsf_libre = 7;             // FSF considers it libre/free
   bool is_osi_approved = 8;
   repeated string see_also = 9;      // Related URLs
-  repeated SPDXCrossRef cross_refs = 10; // Structured cross-references with validation info
-  repeated SPDXException exceptions = 11; // SPDX exceptions applied to this license (empty if none)
-}
-
-message OSADLUseCase {
-  string name = 1;              // "Binary delivery", "Network service", "Source code delivery"
-  string obligation_text = 2;
-  string obligation_json = 3;
+  repeated SPDX_CrossRef cross_refs = 10; // Structured cross-references with validation info
+  repeated SPDX_Exception exceptions = 11; // SPDX exceptions applied to this license (empty if none)
 }
 
 /*
- * OSADL creates structured compliance checklists for each license using a canonical vocabulary system.
- * The system breaks down complex legal language into machine-readable components:
- * 
- * - Language Elements: Legal modifiers like "YOU MUST", "YOU MUST NOT", "IF", "EXCEPT IF"
- * - Actions: What to do - "Provide", "Include", "Distribute", "Attribute"
- * - Terms: What objects - "Copyright notice", "License text", "Source code"
- * 
- * These combine into precise obligations like: "YOU MUST Provide Copyright notice"
- * which breaks down to Language="YOU MUST", Action="Provide", Term="Copyright notice"
- * 
- * This creates consistent, unambiguous license compliance guidance across all licenses.
+ * OSADL use case with structured obligations.
+ */
+message OSADL_UseCase {
+  string name = 1;              // "Binary delivery", "Network service", "Source code delivery"
+  string obligation_text = 2;   // Human-readable obligation text
+  string obligation_json = 3;   // Machine-readable structured obligations with Language/Action/Term breakdown
+}
+
+/*
+ * OSADL compliance metadata providing license analysis and compatibility information.
  */
 message OSADL {
-  string checklist_json_url = 1;          // https://www.osadl.org/fileadmin/checklists/jsonlicenses/AGPL-3.0-or-later.json
-  string checklist_text_url = 2;    // https://www.osadl.org/fileadmin/checklists/unreflicenses/AGPL-3.0-or-later.txt
-  string checklist_optimized_json_url = 3; // https://www.osadl.org/fileadmin/checklists/jsonlicenses-opt/AGPL-3.0-or-later-opt.json
-  bool copyleft_clause = 4;
-  bool patent_hints = 5;
-  repeated string compatibility = 6;        // Compatible licenses
-  repeated string depending_compatibility = 7; // Conditionally compatible
-  repeated string incompatibility = 8;      // Incompatible licenses
-  repeated OSADLUseCase use_cases = 9;
+  bool copyleft_clause = 1;
+  bool patent_hints = 2;
+  repeated string compatibility = 3;
+  repeated string depending_compatibility = 4;
+  repeated string incompatibility = 5;
+  repeated OSADL_UseCase use_cases = 6;
 }
 
 // ========================================================================
@@ -207,12 +206,17 @@ message License {
   Type type = 2;
   SPDX spdx = 3;                    // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
   OSADL osadl = 4;                  // Optional - OSADL compliance metadata
-  //SCANOSS scanoss = 6;            // For future use, specific SCANOSS metadata
+  //SCANOSS scanoss = 5;            // For future use, specific SCANOSS metadata
 }
 
 // ========================================================================
 // API MESSAGES
 // ========================================================================
+
+// GetDetails & GetObligations endpoint
+message LicenseRequest {
+  string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+}
 
 // GetBasic endpoint
 message BasicResponse {
@@ -221,19 +225,9 @@ message BasicResponse {
   scanoss.api.common.v2.StatusResponse status = 3;
 }
 
-// GetDetails endpoint
-message DetailsRequest {
-  string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
-}
-
 message DetailsResponse {
   License license = 1;              // Full license details with all metadata
   scanoss.api.common.v2.StatusResponse status = 2;
-}
-
-// GetObligations endpoint
-message ObligationsRequest {
-  string id = 1;                    // SPDX identifier or licenseRef
 }
 
 message ObligationsResponse {
