@@ -14,9 +14,17 @@ clean:  ## Clean all dev data
 	@echo "Removing dev data..."
 	@rm -rf python
 
-build_go:  ## Build the Go library from protos
+build_go_native:  ## Build the Go library from protos
 	@echo "Building Go API libraries..."
 	bash protobuf/build.sh -f -t go -d .
+
+build_go:  ## Build the Go library from protos using Docker
+	@echo "Building Go API libraries with Docker..."
+	@echo "Cleaning existing API files..."
+	rm -rf api
+	docker build -t scanoss-protoc -f Containerfile.protoc .
+	@USER_FLAG=$$(docker info 2>/dev/null | grep -q "rootless" || echo "--user $$(id -u):$$(id -g)"); \
+	docker run --rm -v $$(pwd):/workspace $$USER_FLAG scanoss-protoc -f -t go -d .
 
 build_python:  ## Build the Python library from protos
 	@echo "Building Python API libraries..."
