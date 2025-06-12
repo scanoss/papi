@@ -71,10 +71,26 @@ service LicenseService {
       body: "*"
     };
   };
-  // Get licenses given a purl and or version/requirement
-  rpc GetByPurl(scanoss.api.common.v2.PurlRequest) returns(GetLicensesResponse) {
+  // Get basic license info given a purl
+  rpc GetByPurl(scanoss.api.common.v2.PurlRequest) returns(GetByPurlResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/purl"
+      body: "*"
+    };
+  };
+
+  // Get detailed license metadata for a specific license ID
+  rpc GetLicenseDetails(GetLicenseDetailsRequest) returns(GetLicenseDetailsResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/licenses/details"
+      body: "*"
+    };
+  };
+
+  // Get license obligations and compliance data
+  rpc GetLicenseObligations(GetLicenseObligationsRequest) returns(GetLicenseObligationsResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/licenses/obligations"
       body: "*"
     };
   };
@@ -197,25 +213,46 @@ message SCANOSS {
   repeated string tags = 4;      // ["viral", "attribution", "patent-grant"]
 }
 
+message BasicLicense {
+  string full_name = 1;             // Expanded license name (e.g., "General Public License version 2.0", "MIT License")
+  string id = 2;                    // SPDX identifier or licenseRef (e.g., "GPL-2.0-only", "MIT", "licenseRef-GitLab-Enterprise")
+}
+
 message License {
-  string name = 1;                   // Parsed license portion from license_statement (e.g., "MIT", "GPL-2.0 WITH Classpath-exception-2.0")
+  string name = 1;                  // Parsed license portion from license_statement (e.g., "MIT", "GPL-2.0 WITH Classpath-exception-2.0")
   SPDX spdx = 3;                    // Optional - SPDX data including license_id and exceptions (null if not in SPDX registry)
   OSADL osadl = 4;                  // Optional - OSADL compliance metadata (null for custom/proprietary)
   OSI osi = 5;                      // Optional - OSI approval metadata (null if not OSI approved)
   SCANOSS scanoss = 6;              // Always present - SCANOSS can analyze any license
 }
 
-message GetLicensesResponse {
-  // Raw license statement exactly as declared in the project source code
-  // Examples: "MIT", "GPL-2.0-only OR Apache-2.0", "GitLab Enterprise Edition (EE) license", "All Rights Reserved"
-  // Can be SPDX expressions, custom license names, proprietary statements, or legacy formats
-  // SCANOSS parses this statement into the licenses array, providing detailed metadata for each individual license
-  string license_statement = 1;
-  // List of individual licenses parsed from the statement with available metadata
-  repeated License licenses = 2;
+message GetByPurlResponse {
+  // Raw license statement as declared in source code
+  string statement = 1;
+  // Individual licenses parsed from the statement with basic info
+  repeated BasicLicense licenses = 2;
   // Request status
   scanoss.api.common.v2.StatusResponse status = 3;
 }
+
+message GetLicenseDetailsRequest {
+  string license_id = 1;            // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+}
+
+message GetLicenseDetailsResponse {
+  License license = 1;              // Full license details with all metadata
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+message GetLicenseObligationsRequest {
+  string license_id = 1;            // SPDX identifier or licenseRef
+}
+
+message GetLicenseObligationsResponse {
+  OSADL obligations = 1;            // OSADL compliance data with use cases and obligations
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
 
 message LicenseSearchRequest {
   // This could be either name, spdx_id, whether if it's copyleft or not, etc
