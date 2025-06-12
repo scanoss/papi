@@ -423,24 +423,17 @@
           "type": "string",
           "title": "A brief description about of the detected usage"
         },
-        "url": {
-          "type": "string",
-          "title": "Link to project main page, repository or documentation"
-        },
         "category": {
           "type": "string",
           "title": "Describe detection category (protocol/library/sdk/framework)"
         },
+        "url": {
+          "type": "string",
+          "title": "Link to project main page, repository or documentation"
+        },
         "purl": {
           "type": "string",
           "title": "The purl of the original library/sdk/framework"
-        },
-        "technologies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "Describe implemented technology of the protocol/library/sdk/framework"
         }
       },
       "title": "Structure to record hints of Encryption protocols, libraries, SDKs and frameworks"
@@ -547,7 +540,8 @@
         "requirement": {
           "type": "string"
         }
-      }
+      },
+      "title": "TODO: Refactor this API\n- Remove nested Purls message and replace with top-level Purl message type.\n- Update field definition below to: repeated Purl purls = 1;"
     },
     "v2StatusCode": {
       "type": "string",
