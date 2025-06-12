@@ -36,9 +36,17 @@ export protobuf_dir=protobuf
 # Print help info
 #
 help() {
-  echo "Usage: proto-build [-h]
+  echo "Usage: proto-build [--docker|--native] [-h]
                [-d folder]
                -t <python|go|js>"
+  echo ""
+  echo "Options:"
+  echo "  --docker    Use Docker for builds"
+  echo "  --native    Use native tools for builds"
+  echo "  -t LANG     Target language (python, go, js)"
+  echo "  -d DIR      Destination directory"
+  echo "  -f          Force (skip confirmation)"
+  echo "  -h          Show this help"
   exit 2
 }
 
@@ -150,9 +158,73 @@ build_go() {
 }
 
 #
+# Docker build functions
+#
+docker_build_image() {
+  local image_name="scanoss-protoc"
+  
+  echo "Building $image_name Docker image..."
+  if ! docker build -t "$image_name" -f "$b_dir/../Containerfile.protoc" "$b_dir/.."; then
+    echo "Error: Failed to build Docker image"
+    exit 1
+  fi
+}
+
+docker_run() {
+  local lang=$1
+  local dest=$2
+  local extra_args=$3
+  local image_name="scanoss-protoc"
+  
+  # Clean up destination directory
+  if [ "$lang" = "go" ]; then
+    rm -rf "$dest/api"
+  elif [ "$lang" = "python" ]; then
+    rm -rf "$dest/python"
+  elif [ "$lang" = "js" ]; then
+    rm -rf "$dest/javascript"
+  fi
+  
+  # Determine user flag for Docker
+  USER_FLAG=""
+  if ! docker info 2>/dev/null | grep -q "rootless"; then
+    # Regular Docker: use --user flag to map host user to container user
+    USER_FLAG="--user $(id -u):$(id -g)"
+  fi
+  # Rootless Docker: don't use --user flag, files will have correct ownership automatically
+  
+  echo "Running Docker container for $lang build..."
+  if ! docker run --rm -v "$(pwd):/workspace" $USER_FLAG "$image_name" --native -f -t "$lang" $extra_args; then
+    echo "Error: Docker build failed for $lang"
+    exit 1
+  fi
+}
+
+#
 # Parse command options and take action
 #
 force=false
+use_docker=false
+use_native=false
+
+# Parse long options first
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --docker)
+      use_docker=true
+      shift
+      ;;
+    --native)
+      use_native=true
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+# Parse short options
 while getopts ":d:t:,hf" o; do
   case "${o}" in
   t)
@@ -175,6 +247,7 @@ while getopts ":d:t:,hf" o; do
 done
 shift $((OPTIND - 1))
 
+# Validation
 if [ -z "${t}" ]; then
   echo "Please specify a language (python, go or js)."
   help
@@ -184,42 +257,91 @@ if [ "$t" != "go" ] && [ "$t" != "python" ] && [ "$t" != "js" ]; then
   help
 fi
 
-if [ "$t" = "python" ]; then
-  confirm $force "Create Python library from proto?"
-  cd "$b_dir/.." || {
-    echo "Error: Failed to cd to $b_dir"
-    exit 1
-  }
-  dest="python"
-  if [ ! -z "$d" ]; then
-    dest="$d"
-  else
-    mkdir -p "$dest"
-  fi
-  build_python "$dest"
-elif [ "$t" = "go" ]; then
-  confirm $force "Create Go library from proto?"
-  dest="$b_dir/.."
-  if [ ! -z "$d" ]; then
-    dest="$d"
-  fi
-  build_go "$dest"
-elif [ "$t" = "js" ]; then
-  confirm $force "Create Javascript library from proto?"
-  cd "$b_dir/.." || {
-    echo "Error: Failed to cd to $b_dir"
-    exit 1
-  }
-  dest="javascript"
-  if [ -n "$d" ]; then
-    dest="$d"
-  else
-    mkdir -p "$dest"
-  fi
-  build_js "$dest"
-else
-  echo "Error: Unknown language type: $t"
+# Default to native if neither option specified
+if [ "$use_docker" = false ] && [ "$use_native" = false ]; then
+  use_native=true
+fi
+
+# Validate only one build method specified
+if [ "$use_docker" = true ] && [ "$use_native" = true ]; then
+  echo "Error: Cannot specify both --docker and --native"
   help
+fi
+
+# Main build logic
+if [ "$use_docker" = true ]; then
+  echo "Using Docker build method for $t"
+  confirm $force "Create $t library from proto using Docker?"
+  
+  # Change to project root
+  cd "$b_dir/.." || {
+    echo "Error: Failed to cd to $b_dir/.."
+    exit 1
+  }
+  
+  # Set destination based on language and -d flag
+  if [ "$t" = "python" ]; then
+    dest="."
+    extra_args=""
+    if [ ! -z "$d" ]; then
+      dest="$d"
+    fi
+  elif [ "$t" = "go" ]; then
+    dest="."
+    extra_args="-d ."
+    if [ ! -z "$d" ]; then
+      dest="$d"
+      extra_args="-d $d"
+    fi
+  elif [ "$t" = "js" ]; then
+    dest="."
+    extra_args=""
+    if [ ! -z "$d" ]; then
+      dest="$d"
+    fi
+  fi
+  
+  # Build and run Docker
+  docker_build_image
+  docker_run "$t" "$dest" "$extra_args"
+  
+else
+  echo "Using native build method for $t"
+  # Existing native build logic
+  if [ "$t" = "python" ]; then
+    confirm $force "Create Python library from proto?"
+    cd "$b_dir/.." || {
+      echo "Error: Failed to cd to $b_dir"
+      exit 1
+    }
+    dest="python"
+    if [ ! -z "$d" ]; then
+      dest="$d"
+    else
+      mkdir -p "$dest"
+    fi
+    build_python "$dest"
+  elif [ "$t" = "go" ]; then
+    confirm $force "Create Go library from proto?"
+    dest="$b_dir/.."
+    if [ ! -z "$d" ]; then
+      dest="$d"
+    fi
+    build_go "$dest"
+  elif [ "$t" = "js" ]; then
+    confirm $force "Create Javascript library from proto?"
+    cd "$b_dir/.." || {
+      echo "Error: Failed to cd to $b_dir"
+      exit 1
+    }
+    dest="javascript"
+    if [ -n "$d" ]; then
+      dest="$d"
+    else
+      mkdir -p "$dest"
+    fi
+    build_js "$dest"
+  fi
 fi
 
 exit 0
