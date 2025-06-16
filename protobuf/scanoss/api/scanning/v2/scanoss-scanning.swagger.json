@@ -122,6 +122,18 @@
             "$ref": "#/definitions/HFHRequestChildren"
           },
           "title": "Sub-folders inside this child"
+        },
+        "sim_hash_dir_names": {
+          "type": "string",
+          "description": "Proximity hash calculated from this nodes directory names (and their children)."
+        },
+        "lang_extensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": "Language extensions count (dictionary) - language name -\u003e count"
         }
       },
       "title": "Child node from the folder structure"
@@ -144,6 +156,9 @@
           "type": "integer",
           "format": "int32",
           "description": "Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage."
+        },
+        "version": {
+          "type": "string"
         }
       },
       "title": "Matched component details"
@@ -244,6 +259,20 @@
         "root": {
           "$ref": "#/definitions/HFHRequestChildren",
           "title": "Folder root node to be scanned"
+        },
+        "rank_threshold": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Get results with rank above this threshold (e.g i only want to see results from rank 3 and above)"
+        },
+        "category": {
+          "type": "string",
+          "title": "Filter results by category (e.g i only want to see results from github projects, npm, etc)"
+        },
+        "query_limit": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Maximum number of results to query"
         }
       },
       "title": "High precision Folder Hashing scan request"

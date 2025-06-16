@@ -94,13 +94,28 @@ message HFHRequest {
         string sim_hash_content = 3;
         // Sub-folders inside this child
         repeated Children children = 4;
+        // Proximity hash calculated from this nodes directory names (and their children).
+        string sim_hash_dir_names = 5;
+        // Language extensions count (dictionary) - language name -> count
+        map<string, int32> lang_extensions = 6;
     }
-    // Report best match (most hits) or not. Default: false
-    bool best_match = 1;
-    // Detection threshold (distance) for component selection. Default: 60
-    int32 threshold = 2;
-    // Folder root node to be scanned
+     // Report best match (most hits) or not. Default: false
+    bool best_match = 1 [deprecated = true];
+
+     // Detection threshold (distance) for component selection. Default: 60
+    int32 threshold = 2 [deprecated = true];
+
+     // Folder root node to be scanned
     Children root = 3;
+
+     // Get results with rank above this threshold (e.g i only want to see results from rank 3 and above)
+    int32 rank_threshold = 4; // TODO: Discuss naming?
+
+     // Filter results by category (e.g i only want to see results from github projects, npm, etc)
+    string category = 5;
+
+    // Maximum number of results to query
+    int32 query_limit = 6;    
 }
 
 /*
@@ -115,6 +130,8 @@ message HFHResponse {
         repeated string versions = 2;
         // Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
         int32 rank = 3;
+
+        string version = 4;
     }
     // Result item, link a path with a list of components
     message Result {
@@ -123,9 +140,9 @@ message HFHResponse {
         // List of matching components
         repeated Component components = 2;
         //Matching probability
-        float probability = 3;
+        float probability = 3 [deprecated = true];
         //result stage
-        int32 stage = 4;
+        int32 stage = 4 [deprecated = true];
     }
     // List of folders containing unique components
     repeated Result results = 1;
