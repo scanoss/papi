@@ -29,11 +29,10 @@ RUN echo "Installing Go ${GO_VERSION}" && \
     tar -C /usr/local -xzf /tmp/go.tar.gz && \
     rm /tmp/go.tar.gz
 
-# Set up Go environment #TODO REVIEW THIS STEP
+# Set up Go environment
 ENV GOROOT=/usr/local/go
 ENV GOPATH=/go
 ENV PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH" && go version
 
 
 # Install protoc compiler
@@ -70,18 +69,12 @@ RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
 # Install Python protobuf plugins with frozen versions
 RUN pip install --no-cache-dir --break-system-packages \
     grpcio-tools==1.73.0 \
-    grpcio==1.73.0 \
-    googleapis-common-protos==1.70.0 \
-    mypy-protobuf==3.6.0
+    grpcio==1.73.0
 
 RUN protoc --version && \
     go version && \
     which protoc-gen-js && \
     echo "All tools are ready"
 
-# Copy container build script
-COPY scripts/build-protobuf.sh /usr/local/bin/build-protobuf
-RUN chmod +x /usr/local/bin/build-protobuf
-
 WORKDIR /workspace
-ENTRYPOINT ["/usr/local/bin/build-protobuf"]
+ENTRYPOINT ["./scripts/proto-build.sh"]

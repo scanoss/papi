@@ -25,6 +25,7 @@
 # This file contains the commands required to produce API code for the following languages
 # - Python
 # - Go
+# - JS
 
 b_dir=$(dirname "$0") # script location
 if [ "$b_dir" = "" ]; then
@@ -37,7 +38,7 @@ export protobuf_dir=protobuf
 #
 help() {
   echo "Usage: proto-build [-h]
-               [-d folder]
+               [-d output folder]
                -t <python|go|js>"
   exit 2
 }
