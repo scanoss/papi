@@ -1,23 +1,40 @@
-FROM alpine:3.19
+FROM alpine:3.22
 
-# Frozen versions for reproducible builds
+#All binaries are download for x86_64, QEMU handles emulation on other architectures
+
+##Installed using apk from alpine
+#More info on package pinning here: https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper#Package_pinning
+ARG NODE_VERSION=~22.16
+ARG NPM_VERSION=~11.3
+ARG PYTHON_VERSION=~3.12
+ARG PIP_VERSION=~25.1
+
+#Download compiled from GoLang Official Website
+ARG GO_VERSION=1.23.4
+
+#Download from Github Releases
 ARG PROTOC_VERSION=31.1
 ARG PROTOBUF_JS_VERSION=3.21.4
-ARG GO_VERSION=1.23.4
-ARG NODE_VERSION=20.15.1
-ARG PYTHON_VERSION=3.11
 
-# Base system tools
-RUN apk add --no-cache git bash wget unzip
+# Language runtimes
+RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} nodejs=${NODE_VERSION} npm=${NPM_VERSION}
 
-# Language runtimes with frozen versions
-RUN apk add --no-cache python3=~${PYTHON_VERSION} py3-pip nodejs=~${NODE_VERSION} npm gcc musl-dev linux-headers
+# Extra tools
+RUN apk add --no-cache wget unzip bash
 
-# Install Go compiler (x86_64, QEMU handles emulation on other architectures)
+
+# Install Go
 RUN echo "Installing Go ${GO_VERSION}" && \
     wget -O /tmp/go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" && \
     tar -C /usr/local -xzf /tmp/go.tar.gz && \
     rm /tmp/go.tar.gz
+
+# Set up Go environment #TODO REVIEW THIS STEP
+ENV GOROOT=/usr/local/go
+ENV GOPATH=/go
+ENV PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH" && go version
+
 
 # Install protoc compiler
 RUN echo "Installing protoc ${PROTOC_VERSION}" && \
@@ -34,16 +51,20 @@ RUN echo "Installing protobuf-javascript ${PROTOBUF_JS_VERSION}" && \
     chmod +x /usr/local/bin/protoc-gen-js && \
     rm -rf /tmp/protobuf-js.tar.gz /tmp/bin
 
-# Set up Go environment
-ENV GOROOT=/usr/local/go
-ENV GOPATH=/go
-ENV PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH" && go version
 
-# Install Go protobuf plugins with frozen versions
+
+# I think that grpc-tools should be enought to compile protobuf and grpc, but because we want TS support we can complement with grpc-web, read here: https://github.com/protobufjs/protobuf.js/issues/1327
+RUN npm install -g grpc-tools@1.13.0
+RUN npm install -g grpc-web
+RUN npm install -g protobufjs # An alternative tool instead of using grpc-tools (google) that does not support TS
+
+
+
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6 && \
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1 && \
-    go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.26.3 && \
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+
+# Install gRPC <-> HTTP Gateway. Used to generate the gateway code
+RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.26.3 && \
     go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@v1.16.0
 
 # Install Python protobuf plugins with frozen versions
@@ -53,25 +74,14 @@ RUN pip install --no-cache-dir --break-system-packages \
     googleapis-common-protos==1.70.0 \
     mypy-protobuf==3.6.0
 
-# Install JavaScript/Node.js protobuf tools with frozen versions
-RUN npm install -g \
-    google-protobuf@3.21.4 \
-    @grpc/grpc-js@1.11.3 \
-    @grpc/proto-loader@0.7.13 \
-    grpc-tools@1.12.4 \
-    grpc_tools_node_protoc_ts@5.3.3 \
-    ts-protoc-gen@0.15.0
-
-# Install glibc compatibility and verify installation
-RUN apk add --no-cache gcompat && \
-    protoc --version && \
+RUN protoc --version && \
     go version && \
     which protoc-gen-js && \
     echo "All tools are ready"
 
 # Copy container build script
-COPY scripts/container-build.sh /usr/local/bin/build-protoc
-RUN chmod +x /usr/local/bin/build-protoc
+COPY scripts/build-protobuf.sh /usr/local/bin/build-protobuf
+RUN chmod +x /usr/local/bin/build-protobuf
 
 WORKDIR /workspace
-ENTRYPOINT ["/usr/local/bin/build-protoc"]
+ENTRYPOINT ["/usr/local/bin/build-protobuf"]
