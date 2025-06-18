@@ -1,38 +1,40 @@
+# All binaries are downloaded for x86_64 architecture
+# Docker/QEMU handles cross-platform emulation when running on ARM (e.g., Apple Silicon)
 FROM alpine:3.22
 
-#All binaries are download for x86_64, QEMU handles emulation on other architectures
-
-##Installed using apk from alpine
-#More info on package pinning here: https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper#Package_pinning
+# IMPORTANT: Python gRPC Plugin Limitation
+# The official protoc gRPC Python plugin (grpcio-tools) is implemented as a Python
+# C extension module, NOT as a standalone binary like Go or Node.js plugins.
+#
+# This means:
+# - You CANNOT extract a standalone 'protoc-gen-python' binary
+# - You MUST use 'python3 -m grpc_tools.protoc' instead of 'protoc --plugin=protoc-gen-python'
+# - Python runtime is required for Python protobuf generation
 ARG PYTHON_VERSION=~3.12
 ARG PIP_VERSION=~25.1
 
-#Download from Github Releases
-ARG PROTOC_VERSION=31.1
-ARG PROTOBUF_JS_VERSION=3.21.4
-ARG PROTOC_GEN_GO_VERSION=1.36.6
-ARG PROTOC_GEN_GO_GRPC_VERSION=1.5.1
-ARG GRPC_GATEWAY_VERSION=2.26.3
-ARG GRPC_TOOLS_VERSION=1.13.0
+# Tool versions are defined with defaults in download-tools.sh
+# Override versions at build time with: docker build --build-arg PROTOC_VERSION=32.0
 
-# Language runtimes
+# Install Python runtime required for gRPC Python plugin
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
 
-# Extra tools
-RUN apk add --no-cache wget unzip bash curl
+# Install utilities needed for downloading and extracting tools
+# gcompat provides glibc compatibility for protoc-gen-js binary
+RUN apk add --no-cache wget unzip bash curl gcompat
 
-# Copy helper scripts
+# Copy installation scripts into the container
 COPY scripts/install-helpers.sh /usr/local/bin/
 COPY scripts/download-tools.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh
 
-# Install all protobuf tools using helper scripts
+# Install all protocol buffer tools and plugins
 RUN /usr/local/bin/download-tools.sh
 
-# Install Python protobuf plugins with frozen versions
-RUN pip install --no-cache-dir --break-system-packages \
-    grpcio-tools==1.73.0 \
-    grpcio==1.73.0
-
+# Set working directory to /workspace where user's project will be mounted
+# This matches the volume mount in proto-build-with-docker.sh: -v "$(pwd):/workspace"
 WORKDIR /workspace
+
+# Entry point runs the proto-build.sh script from the user's project
+# Script must exist at ./scripts/proto-build.sh relative to the mounted workspace
 ENTRYPOINT ["./scripts/proto-build.sh"]

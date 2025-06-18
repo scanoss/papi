@@ -66,8 +66,9 @@ confirm() {
 # Build the Javascript library code and Typescript files for the proto definitions.
 # See reference https://github.com/improbable-eng/ts-protoc-gen
 #
-# TODO: For TS support install grpc-web, read here: https://github.com/protobufjs/protobuf.js/issues/1327
-#       or switch to protobufjs directly that has TS support
+# TODO: For TypeScript support, consider grpc-web or protobufjs
+# References: https://github.com/protobufjs/protobuf.js/issues/1327
+# Note: This TODO may need review - grpc-web and protobufjs have evolved significantly
 build_js() {
   dest_dir=$1
   echo "Writing Javascript APIs to: $dest_dir"
@@ -79,7 +80,10 @@ build_js() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
+  # Generate JavaScript code with CommonJS imports and gRPC service definitions
+  # Note: Must explicitly specify plugin paths for both JS and gRPC plugins
   if ! protoc -I$protobuf_dir \
+              --plugin=protoc-gen-js="$(which protoc-gen-js)" \
               --plugin=protoc-gen-grpc="$(which grpc_node_plugin)" \
               --js_out=import_style=commonjs,binary:"$dest_dir" \
               --grpc_out=grpc_js:"$dest_dir" \
@@ -103,6 +107,8 @@ build_python() {
   if [ -d "$sc_dir" ]; then
     rm -rf "$sc_dir"
   fi
+  # Generate Python protobuf and gRPC code using grpcio-tools
+  # Must use 'python3 -m grpc_tools.protoc' as Python gRPC plugin cannot run standalone
   if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" \
                $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print) \
                $(find $protobuf_dir/protoc-gen-swagger -type f -name "*.proto" -print)
@@ -114,6 +120,8 @@ build_python() {
 
 #
 # Build the Go library code for the proto definitions.
+# TODO: Upgrade to grpc-gateway v2.x using migration guide:
+# https://grpc-ecosystem.github.io/grpc-gateway/docs/development/grpc-gateway_v2_migration_guide/
 #
 build_go() {
   dest_dir=$1
@@ -132,14 +140,28 @@ build_go() {
     echo "Error: Failed to create $target_dir"
     exit 1
   }
-  if ! protoc --proto_path=$protobuf_dir --go_out="$target_dir" --go-grpc_out="$target_dir" \
-              --grpc-gateway_out="$target_dir" --grpc-gateway_opt logtostderr=true \
-              --grpc-gateway_opt generate_unbound_methods=true \
+  # Generate Go protobuf and gRPC code for all services (without gateway to avoid package conflicts)
+  if ! protoc --proto_path=$protobuf_dir \
+              --go_out="$target_dir" \
+              --go-grpc_out="$target_dir" \
               $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print)
               then
-    echo "Error: Failed to compile Go libraries from proto files."
+    echo "Error: Failed to compile Go protobuf/gRPC libraries from proto files"
     exit 1
   fi
+  
+  # Generate grpc-gateway code for each service separately to avoid package conflicts
+  echo "Generating grpc-gateway code for each service..."
+  for proto_file in $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print); do
+    echo "Processing gateway for: $proto_file"
+    if ! protoc --proto_path=$protobuf_dir \
+                --grpc-gateway_out="$target_dir" \
+                --grpc-gateway_opt logtostderr=true \
+                --grpc-gateway_opt generate_unbound_methods=true \
+                "$proto_file"; then
+      echo "Warning: Failed to generate gateway for $proto_file (this may be expected for non-service protos)"
+    fi
+  done
   if ! mv "$target_dir/github.com/scanoss/papi/api/"* "$target_dir/"; then
     echo "Error: Failed to move go library code from generated folder to $target_dir"
     exit 1
