@@ -80,10 +80,8 @@ build_js() {
     rm -rf "$sc_dir"
   fi
   if ! protoc -I$protobuf_dir \
-              --plugin=protoc-gen-ts="$(which protoc-gen-ts)" \
               --plugin=protoc-gen-grpc="$(which grpc_node_plugin)" \
               --js_out=import_style=commonjs,binary:"$dest_dir" \
-              --ts_out=service=grpc-node,mode=grpc-js:"$dest_dir"\
               --grpc_out=grpc_js:"$dest_dir" \
               $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print);
               then
