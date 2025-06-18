@@ -66,6 +66,8 @@ confirm() {
 # Build the Javascript library code and Typescript files for the proto definitions.
 # See reference https://github.com/improbable-eng/ts-protoc-gen
 #
+# TODO: For TS support install grpc-web, read here: https://github.com/protobufjs/protobuf.js/issues/1327
+#       or switch to protobufjs directly that has TS support
 build_js() {
   dest_dir=$1
   echo "Writing Javascript APIs to: $dest_dir"
@@ -79,7 +81,7 @@ build_js() {
   fi
   if ! protoc -I$protobuf_dir \
               --plugin=protoc-gen-ts="$(which protoc-gen-ts)" \
-              --plugin=protoc-gen-grpc="$(which grpc_tools_node_protoc_plugin)" \
+              --plugin=protoc-gen-grpc="$(which grpc_node_plugin)" \
               --js_out=import_style=commonjs,binary:"$dest_dir" \
               --ts_out=service=grpc-node,mode=grpc-js:"$dest_dir"\
               --grpc_out=grpc_js:"$dest_dir" \

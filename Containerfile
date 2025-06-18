@@ -4,8 +4,6 @@ FROM alpine:3.22
 
 ##Installed using apk from alpine
 #More info on package pinning here: https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper#Package_pinning
-ARG NODE_VERSION=~22.16
-ARG NPM_VERSION=~11.3
 ARG PYTHON_VERSION=~3.12
 ARG PIP_VERSION=~25.1
 
@@ -17,7 +15,7 @@ ARG PROTOC_VERSION=31.1
 ARG PROTOBUF_JS_VERSION=3.21.4
 
 # Language runtimes
-RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} nodejs=${NODE_VERSION} npm=${NPM_VERSION}
+RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
 
 # Extra tools
 RUN apk add --no-cache wget unzip bash
@@ -51,16 +49,20 @@ RUN echo "Installing protobuf-javascript ${PROTOBUF_JS_VERSION}" && \
     rm -rf /tmp/protobuf-js.tar.gz /tmp/bin
 
 
+# Install grpc-tools binary manually
+RUN echo "Installing grpc-tools 1.13.0" && \
+    wget -O /tmp/grpc-tools.tar.gz "https://node-precompiled-binaries.grpc.io/grpc-tools/v1.13.0/linux-x64.tar.gz" && \
+    tar -C /tmp -xzf /tmp/grpc-tools.tar.gz && \
+    cp /tmp/bin/* /usr/local/bin/ && \
+    chmod +x /usr/local/bin/grpc_node_plugin && \
+    rm -rf /tmp/grpc-tools.tar.gz /tmp/bin
 
-# I think that grpc-tools should be enought to compile protobuf and grpc, but because we want TS support we can complement with grpc-web, read here: https://github.com/protobufjs/protobuf.js/issues/1327
-RUN npm install -g grpc-tools@1.13.0
-RUN npm install -g grpc-web
-RUN npm install -g protobufjs # An alternative tool instead of using grpc-tools (google) that does not support TS
-
+RUN npm install -g protoc-gen-ts@0.8.7
 
 
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6 && \
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+
 
 # Install gRPC <-> HTTP Gateway. Used to generate the gateway code
 RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.26.3 && \
@@ -71,10 +73,7 @@ RUN pip install --no-cache-dir --break-system-packages \
     grpcio-tools==1.73.0 \
     grpcio==1.73.0
 
-RUN protoc --version && \
-    go version && \
-    which protoc-gen-js && \
-    echo "All tools are ready"
+RUN protoc --version
 
 WORKDIR /workspace
 ENTRYPOINT ["./scripts/proto-build.sh"]
