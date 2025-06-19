@@ -32,9 +32,9 @@ option go_package = "github.com/scanoss/papi/api/geoprovenancev2;geoprovenancev2
 
 import "scanoss/api/common/v2/scanoss-common.proto";
 import "google/api/annotations.proto";
-import "protoc-gen-swagger/options/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
-option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
     title: "SCANOSS GEO Provenance Service";
     version: "2.0";
