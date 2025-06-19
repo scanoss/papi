@@ -17,7 +17,7 @@ JS_GRPC_TOOLS_VERSION=${JS_GRPC_TOOLS_VERSION:-1.13.0}
 # Go tools
 GO_PROTOC_GEN_VERSION=${GO_PROTOC_GEN_VERSION:-1.36.6}
 GO_PROTOC_GEN_GRPC_VERSION=${GO_PROTOC_GEN_GRPC_VERSION:-1.5.1}
-GO_GRPC_GATEWAY_VERSION=${GO_GRPC_GATEWAY_VERSION:-1.16.0}
+GO_GRPC_GATEWAY_VERSION=${GO_GRPC_GATEWAY_VERSION:-2.27.0}
 
 # Python tools
 PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.73.0}
@@ -70,10 +70,10 @@ rm /tmp/protoc-gen-go-grpc.tar.gz
 # Install grpc-gateway tools (direct binaries)
 echo "Installing grpc-gateway tools ${GO_GRPC_GATEWAY_VERSION}"
 download_github_release "grpc-ecosystem/grpc-gateway" "v${GO_GRPC_GATEWAY_VERSION}" "protoc-gen-grpc-gateway-v${GO_GRPC_GATEWAY_VERSION}-linux-x86_64" "/tmp/protoc-gen-grpc-gateway"
-download_github_release "grpc-ecosystem/grpc-gateway" "v${GO_GRPC_GATEWAY_VERSION}" "protoc-gen-swagger-v${GO_GRPC_GATEWAY_VERSION}-linux-x86_64" "/tmp/protoc-gen-swagger"
+download_github_release "grpc-ecosystem/grpc-gateway" "v${GO_GRPC_GATEWAY_VERSION}" "protoc-gen-openapiv2-v${GO_GRPC_GATEWAY_VERSION}-linux-x86_64" "/tmp/protoc-gen-openapiv2"
 install_binary "/tmp/protoc-gen-grpc-gateway"
-install_binary "/tmp/protoc-gen-swagger"
-rm /tmp/protoc-gen-grpc-gateway /tmp/protoc-gen-swagger
+install_binary "/tmp/protoc-gen-openapiv2"
+rm /tmp/protoc-gen-grpc-gateway /tmp/protoc-gen-openapiv2
 
 # Install Python gRPC tools
 # --break-system-packages flag bypasses pip's environment isolation in containerized environments
@@ -88,7 +88,7 @@ protoc --version
 protoc-gen-go --version
 protoc-gen-go-grpc --version
 which protoc-gen-grpc-gateway
-which protoc-gen-swagger
+which protoc-gen-openapiv2
 which protoc-gen-js
 which grpc_node_plugin
 python3 -c "import grpc_tools.protoc; print('Python gRPC tools available')"
