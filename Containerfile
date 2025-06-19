@@ -1,27 +1,18 @@
-# All binaries are downloaded for x86_64 architecture
-# Docker/QEMU handles cross-platform emulation when running on ARM (e.g., Apple Silicon)
-FROM alpine:3.22
-
-# IMPORTANT: Python gRPC Plugin Limitation
-# The official protoc gRPC Python plugin (grpcio-tools) is implemented as a Python
-# C extension module, NOT as a standalone binary like Go or Node.js plugins.
+# Base Image: python:3.12-alpine
 #
-# This means:
-# - You CANNOT extract a standalone 'protoc-gen-python' binary
-# - You MUST use 'python3 -m grpc_tools.protoc' instead of 'protoc --plugin=protoc-gen-python'
-# - Python runtime is required for Python protobuf generation
-ARG PYTHON_VERSION=~3.12
-ARG PIP_VERSION=~25.1
-
-# Tool versions are defined with defaults in download-tools.sh
-# Override versions at build time with: docker build --build-arg PROTOC_VERSION=32.0
-
-# Install Python runtime required for gRPC Python plugin
-RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
+# Why python:3.12-alpine instead of plain alpine:latest?
+# - Python gRPC plugin (grpcio-tools) is a C extension, NOT a standalone binary
+# - Python runtime is mandatory for protobuf Python generation
+# - Cannot extract 'protoc-gen-python' binary - must use 'python3 -m grpc_tools.protoc'
+# - python:3.12-alpine provides optimized setup while keeping image small
+#
+# All binaries downloaded for x86_64 (Docker/QEMU handles ARM emulation)
+# Tool versions configurable via build args: docker build --build-arg PROTOC_VERSION=32.0
+FROM python:3.12-alpine
 
 # Install utilities needed for downloading and extracting tools
-# gcompat provides glibc compatibility for protoc-gen-js binary
-RUN apk add --no-cache wget unzip bash curl gcompat
+# gcompat, libstdc++, libgcc provide glibc compatibility for protoc-gen-js binary
+RUN apk add --no-cache wget unzip bash curl gcompat libstdc++ libgcc
 
 # Copy installation scripts into the container
 COPY scripts/install-helpers.sh /usr/local/bin/
