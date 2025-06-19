@@ -3,9 +3,6 @@
 # Download and install all protobuf tools
 #
 
-# Source helper functions
-source /usr/local/bin/install-helpers.sh
-
 # All tool are pinned to specific versions to ensure:
 # - Reproducible builds across different environments
 # - Compatibility between protobuf tools and generated code
@@ -25,6 +22,17 @@ GO_GRPC_GATEWAY_VERSION=${GO_GRPC_GATEWAY_VERSION:-1.16.0}
 # Python tools
 PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.73.0}
 PY_GRPCIO_VERSION=${PY_GRPCIO_VERSION:-1.73.0}
+
+
+# Determine repository root directory from script location
+# Works regardless of where the script is executed from
+script_path=$(realpath "$0")
+script_dir=$(dirname "$script_path")
+if [ "$script_dir" = "" ]; then
+  echo "Error: Cannot determine script_dir directory" >&2
+  exit 1
+fi
+source "$script_dir/install-helpers.sh"
 
 echo "=== Installing protobuf tools ==="
 
