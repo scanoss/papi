@@ -169,7 +169,7 @@ build_go() {
   rm -rf "$target_dir/github.com"
   echo "Producing Swagger files..."
   find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -exec \
-    protoc --proto_path=$protobuf_dir --swagger_out=logtostderr=true:$protobuf_dir "{}" \;
+    protoc --proto_path=$protobuf_dir --openapiv2_out=logtostderr=true:$protobuf_dir "{}" \;
 }
 
 #
