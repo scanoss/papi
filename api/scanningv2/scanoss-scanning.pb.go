@@ -54,22 +54,14 @@ const (
 // High precision Folder Hashing scan request
 type HFHRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Report best match (most hits) or not. Default: false
-	//
-	// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-	BestMatch bool `protobuf:"varint,1,opt,name=best_match,json=bestMatch,proto3" json:"best_match,omitempty"`
-	// Detection threshold (distance) for component selection. Default: 60
-	//
-	// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-	Threshold int32 `protobuf:"varint,2,opt,name=threshold,proto3" json:"threshold,omitempty"`
 	// Folder root node to be scanned
-	Root *HFHRequest_Children `protobuf:"bytes,3,opt,name=root,proto3" json:"root,omitempty"`
+	Root *HFHRequest_Children `protobuf:"bytes,1,opt,name=root,proto3" json:"root,omitempty"`
 	// Get results with rank above this threshold (e.g i only want to see results from rank 3 and above)
-	RankThreshold int32 `protobuf:"varint,4,opt,name=rank_threshold,json=rankThreshold,proto3" json:"rank_threshold,omitempty"` // TODO: Discuss naming?
+	RankThreshold int32 `protobuf:"varint,2,opt,name=rank_threshold,json=rankThreshold,proto3" json:"rank_threshold,omitempty"` // TODO: Discuss naming?
 	// Filter results by category (e.g i only want to see results from github projects, npm, etc)
-	Category string `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
+	Category string `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
 	// Maximum number of results to query
-	QueryLimit    int32 `protobuf:"varint,6,opt,name=query_limit,json=queryLimit,proto3" json:"query_limit,omitempty"`
+	QueryLimit    int32 `protobuf:"varint,4,opt,name=query_limit,json=queryLimit,proto3" json:"query_limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -102,22 +94,6 @@ func (x *HFHRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use HFHRequest.ProtoReflect.Descriptor instead.
 func (*HFHRequest) Descriptor() ([]byte, []int) {
 	return file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDescGZIP(), []int{0}
-}
-
-// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-func (x *HFHRequest) GetBestMatch() bool {
-	if x != nil {
-		return x.BestMatch
-	}
-	return false
-}
-
-// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-func (x *HFHRequest) GetThreshold() int32 {
-	if x != nil {
-		return x.Threshold
-	}
-	return 0
 }
 
 func (x *HFHRequest) GetRoot() *HFHRequest_Children {
@@ -301,8 +277,7 @@ type HFHResponse_Component struct {
 	// Component match version (could be multiple)
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
-	Rank          int32  `protobuf:"varint,3,opt,name=rank,proto3" json:"rank,omitempty"`
-	Version       string `protobuf:"bytes,4,opt,name=version,proto3" json:"version,omitempty"`
+	Rank          int32 `protobuf:"varint,3,opt,name=rank,proto3" json:"rank,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -358,28 +333,13 @@ func (x *HFHResponse_Component) GetRank() int32 {
 	return 0
 }
 
-func (x *HFHResponse_Component) GetVersion() string {
-	if x != nil {
-		return x.Version
-	}
-	return ""
-}
-
 // Result item, link a path with a list of components
 type HFHResponse_Result struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Folder path (can be actual or obfuscated)
 	PathId string `protobuf:"bytes,1,opt,name=path_id,json=pathId,proto3" json:"path_id,omitempty"`
 	// List of matching components
-	Components []*HFHResponse_Component `protobuf:"bytes,2,rep,name=components,proto3" json:"components,omitempty"`
-	// Matching probability
-	//
-	// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-	Probability float32 `protobuf:"fixed32,3,opt,name=probability,proto3" json:"probability,omitempty"`
-	// result stage
-	//
-	// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-	Stage         int32 `protobuf:"varint,4,opt,name=stage,proto3" json:"stage,omitempty"`
+	Components    []*HFHResponse_Component `protobuf:"bytes,2,rep,name=components,proto3" json:"components,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -428,36 +388,17 @@ func (x *HFHResponse_Result) GetComponents() []*HFHResponse_Component {
 	return nil
 }
 
-// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-func (x *HFHResponse_Result) GetProbability() float32 {
-	if x != nil {
-		return x.Probability
-	}
-	return 0
-}
-
-// Deprecated: Marked as deprecated in scanoss/api/scanning/v2/scanoss-scanning.proto.
-func (x *HFHResponse_Result) GetStage() int32 {
-	if x != nil {
-		return x.Stage
-	}
-	return 0
-}
-
 var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\x92\x05\n" +
+	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\xcd\x04\n" +
 	"\n" +
-	"HFHRequest\x12!\n" +
-	"\n" +
-	"best_match\x18\x01 \x01(\bB\x02\x18\x01R\tbestMatch\x12 \n" +
-	"\tthreshold\x18\x02 \x01(\x05B\x02\x18\x01R\tthreshold\x12@\n" +
-	"\x04root\x18\x03 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +
-	"\x0erank_threshold\x18\x04 \x01(\x05R\rrankThreshold\x12\x1a\n" +
-	"\bcategory\x18\x05 \x01(\tR\bcategory\x12\x1f\n" +
-	"\vquery_limit\x18\x06 \x01(\x05R\n" +
+	"HFHRequest\x12@\n" +
+	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +
+	"\x0erank_threshold\x18\x02 \x01(\x05R\rrankThreshold\x12\x1a\n" +
+	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x1f\n" +
+	"\vquery_limit\x18\x04 \x01(\x05R\n" +
 	"queryLimit\x1a\x98\x03\n" +
 	"\bChildren\x12\x17\n" +
 	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12$\n" +
@@ -468,22 +409,19 @@ const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0elangExtensions\x1aA\n" +
 	"\x13LangExtensionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\xb2\x03\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\xd7\x02\n" +
 	"\vHFHResponse\x12E\n" +
 	"\aresults\x18\x01 \x03(\v2+.scanoss.api.scanning.v2.HFHResponse.ResultR\aresults\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1ai\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1aO\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x12\x12\n" +
-	"\x04rank\x18\x03 \x01(\x05R\x04rank\x12\x18\n" +
-	"\aversion\x18\x04 \x01(\tR\aversion\x1a\xb1\x01\n" +
+	"\x04rank\x18\x03 \x01(\x05R\x04rank\x1aq\n" +
 	"\x06Result\x12\x17\n" +
 	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12N\n" +
 	"\n" +
 	"components\x18\x02 \x03(\v2..scanoss.api.scanning.v2.HFHResponse.ComponentR\n" +
-	"components\x12$\n" +
-	"\vprobability\x18\x03 \x01(\x02B\x02\x18\x01R\vprobability\x12\x18\n" +
-	"\x05stage\x18\x04 \x01(\x05B\x02\x18\x01R\x05stage2\x81\x02\n" +
+	"components2\x81\x02\n" +
 	"\bScanning\x12q\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/scanning/echo\x12\x81\x01\n" +
 	"\x0eFolderHashScan\x12#.scanoss.api.scanning.v2.HFHRequest\x1a$.scanoss.api.scanning.v2.HFHResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v2/scanning/hfh/scanB\x8a\x02\x92A\xd3\x01\x12m\n" +
