@@ -63,7 +63,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 /*
  * Expose all of the SCANOSS License RPCs here
  */
-service LicenseService {
+service License {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
