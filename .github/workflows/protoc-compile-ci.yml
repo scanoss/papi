@@ -4,8 +4,8 @@ name: Protoc - Compile
 on:
   workflow_dispatch:
   push:
-#  pull_request:
-#    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -18,13 +18,14 @@ jobs:
       - name: Build Go Protobuf
         run: make build_go
 
-      - name: Build Go Protobuf
+      - name: Build Python Protobuf
         run: make build_python
 
-      - name: Build Go Protobuf
+      - name: Build JavaScript Protobuf
         run: make build_js
 
-      - name: List
+      - name: List API Code
         run: |
+          tree api
           tree python
           tree javascript
