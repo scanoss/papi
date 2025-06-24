@@ -37,6 +37,7 @@ import "protoc-gen-swagger/options/annotations.proto";
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   info: {
     title: "SCANOSS Components Service";
+    description: "Provides component intelligence services",
     version: "2.0";
     contact: {
       name: "scanoss-components";
@@ -44,7 +45,27 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
       email: "support@scanoss.com";
     };
   };
-  schemes: HTTP;
+  host: "api.scanoss.com"
+  schemes: [HTTPS, HTTP];
+  security_definitions: {
+    security: {
+      key: "api_key";
+      value: {
+        type: TYPE_API_KEY;
+        description: "API key for authentication";
+        name: "x-api-key";
+        in: IN_HEADER;
+      }
+    }
+  };
+  security: {
+    security_requirement: {
+      key: "api_key";
+      value: {
+        scope: [];
+      }
+    }
+  };
   consumes: "application/json";
   produces: "application/json";
   responses: {

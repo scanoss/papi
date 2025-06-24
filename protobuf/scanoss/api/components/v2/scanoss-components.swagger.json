@@ -2,6 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "SCANOSS Components Service",
+    "description": "Provides component intelligence services",
     "version": "2.0",
     "contact": {
       "name": "scanoss-components",
@@ -9,7 +10,9 @@
       "email": "support@scanoss.com"
     }
   },
+  "host": "api.scanoss.com",
   "schemes": [
+    "https",
     "http"
   ],
   "consumes": [
@@ -500,5 +503,18 @@
       },
       "title": "Detailed response details"
     }
-  }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "description": "API key for authentication",
+      "name": "x-api-key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
 }
