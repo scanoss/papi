@@ -234,7 +234,7 @@ elif [ "$t" = "js" ]; then
     exit 1
   }
   dest="javascript"
-  if [ -n "$d" ]; then
+  if [ ! -z "$d" ]; then
     dest="$d"
   else
     mkdir -p "$dest"
