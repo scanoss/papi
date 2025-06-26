@@ -183,7 +183,7 @@ message OSADL {
 // LICENSE REPRESENTATIONS
 // ========================================================================
 
-message BasicLicense {
+message BasicLicenseResponse {
   // Identifier for an individual license extracted from the license statement, following SPDX conventions
   // - For SPDX registry licenses: Standard SPDX ID (e.g., "MIT", "GPL-2.0-only")
   // - For non-registry licenses: licenseRef format (e.g., "licenseRef-GitLab-Enterprise")
@@ -196,7 +196,7 @@ message BasicLicense {
   string full_name = 2;
 }
 
-message License {
+message LicenseResponse {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
@@ -221,12 +221,12 @@ message LicenseRequest {
 // GetBasic endpoint
 message BasicResponse {
   string statement = 1;             // Raw license statement as declared in source code
-  repeated BasicLicense licenses = 2; // Individual licenses parsed from the statement with basic info
+  repeated BasicLicenseResponse licenses = 2; // Individual licenses parsed from the statement with basic info
   scanoss.api.common.v2.StatusResponse status = 3;
 }
 
 message DetailsResponse {
-  License license = 1;              // Full license details with all metadata
+  LicenseResponse license = 1;              // Full license details with all metadata
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
