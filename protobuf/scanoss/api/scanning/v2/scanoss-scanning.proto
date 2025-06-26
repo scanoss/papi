@@ -99,31 +99,40 @@ message HFHRequest {
         // Language extensions count (dictionary) - language name -> count
         map<string, int32> lang_extensions = 6;
     }
-     // Folder root node to be scanned
+    // Folder root node to be scanned
     Children root = 1;
 
-     // Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality.
-    int32 rank_threshold = 2; // TODO: Discuss naming?
+    // Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality.
+    int32 rank_threshold = 2;
 
-     // Filter results by category (e.g i only want to see results from github projects, npm, etc)
+    // Filter results by category (e.g i only want to see results from github projects, npm, etc)
     string category = 3;
 
     // Maximum number of results to query
-    int32 query_limit = 4;    
+    int32 query_limit = 4;
 }
 
 /*
  * High precision Folder Hashing scan response
  */
 message HFHResponse {
+    // Component version details
+    message Version {
+        // Component version
+        string version = 1;
+        // Component score (0-1)
+        float score = 2;
+    }
     // Matched component details
     message Component {
         // Component PURL
         string purl = 1;
         // Component match version (could be multiple)
-        repeated string versions = 2;
-        // Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
+        repeated Version versions = 2;
+        // Component Ranking from 1 to 9. 1 means official well known repository, 9 might be garbage.
         int32 rank = 3;
+        // This is the order of the best match to worst match (1 is the best match)
+        int32 order = 4;
     }
     // Result item, link a path with a list of components
     message Result {
