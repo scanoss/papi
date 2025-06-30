@@ -36,5 +36,7 @@ tmp/
 *.gz
 *.tar
 *.tgz
+venv
 
 .DS_Store
+

@@ -122,6 +122,18 @@
             "$ref": "#/definitions/HFHRequestChildren"
           },
           "title": "Sub-folders inside this child"
+        },
+        "sim_hash_dir_names": {
+          "type": "string",
+          "description": "Proximity hash calculated from this nodes directory names (and their children)."
+        },
+        "lang_extensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": "Language extensions count (dictionary) - language name -\u003e count"
         }
       },
       "title": "Child node from the folder structure"
@@ -161,16 +173,6 @@
             "$ref": "#/definitions/HFHResponseComponent"
           },
           "title": "List of matching components"
-        },
-        "probability": {
-          "type": "number",
-          "format": "float",
-          "title": "Matching probability"
-        },
-        "stage": {
-          "type": "integer",
-          "format": "int32",
-          "title": "result stage"
         }
       },
       "title": "Result item, link a path with a list of components"
@@ -232,18 +234,23 @@
     "v2HFHRequest": {
       "type": "object",
       "properties": {
-        "best_match": {
-          "type": "boolean",
-          "title": "Report best match (most hits) or not. Default: false"
-        },
-        "threshold": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Detection threshold (distance) for component selection. Default: 60"
-        },
         "root": {
           "$ref": "#/definitions/HFHRequestChildren",
           "title": "Folder root node to be scanned"
+        },
+        "rank_threshold": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Get results with rank above this threshold (e.g i only want to see results from rank 3 and above)"
+        },
+        "category": {
+          "type": "string",
+          "title": "Filter results by category (e.g i only want to see results from github projects, npm, etc)"
+        },
+        "query_limit": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Maximum number of results to query"
         }
       },
       "title": "High precision Folder Hashing scan request"

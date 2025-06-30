@@ -94,27 +94,49 @@ message HFHRequest {
         string sim_hash_content = 3;
         // Sub-folders inside this child
         repeated Children children = 4;
+        // Proximity hash calculated from this nodes directory names (and their children).
+        string sim_hash_dir_names = 5;
+        // Language extensions count (dictionary) - language name -> count
+        map<string, int32> lang_extensions = 6;
     }
-    // Report best match (most hits) or not. Default: false
-    bool best_match = 1;
-    // Detection threshold (distance) for component selection. Default: 60
-    int32 threshold = 2;
     // Folder root node to be scanned
-    Children root = 3;
+    Children root = 1;
+
+    // Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality.
+    int32 rank_threshold = 2;
+
+    // Filter results by category (e.g i only want to see results from github projects, npm, etc)
+    string category = 3;
+
+    // Maximum number of results to query
+    int32 query_limit = 4;
 }
 
 /*
  * High precision Folder Hashing scan response
  */
 message HFHResponse {
+    // Component version details
+    message Version {
+        // Component version
+        string version = 1;
+        // Component score (0-1)
+        float score = 2;
+    }
     // Matched component details
     message Component {
         // Component PURL
         string purl = 1;
+        // Component name
+        string name = 2;
+        // Component vendor
+        string vendor = 3;
         // Component match version (could be multiple)
-        repeated string versions = 2;
-        // Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage.
-        int32 rank = 3;
+        repeated Version versions = 4;
+        // Component Ranking from 1 to 9. 1 means official well known repository, 9 might be garbage.
+        int32 rank = 5;
+        // This is the order of the best match to worst match (1 is the best match)
+        int32 order = 6;
     }
     // Result item, link a path with a list of components
     message Result {
@@ -122,10 +144,6 @@ message HFHResponse {
         string path_id = 1;
         // List of matching components
         repeated Component components = 2;
-        //Matching probability
-        float probability = 3;
-        //result stage
-        int32 stage = 4;
     }
     // List of folders containing unique components
     repeated Result results = 1;
