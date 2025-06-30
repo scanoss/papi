@@ -25,6 +25,7 @@ vendor/
 # Proto Buffer folders to ignore
 python/
 javascript/
+.scanoss/
 # Ignore the tmp folder used for testing
 tmp/
 
@@ -36,3 +37,6 @@ tmp/
 *.tar
 *.tgz
 venv
+
+.DS_Store
+
