@@ -34,7 +34,7 @@
 package dependenciesv2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -675,7 +675,7 @@ var File_scanoss_api_dependencies_v2_scanoss_dependencies_proto protoreflect.Fil
 
 const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\n" +
-	"6scanoss/api/dependencies/v2/scanoss-dependencies.proto\x12\x1bscanoss.api.dependencies.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\x9d\x02\n" +
+	"6scanoss/api/dependencies/v2/scanoss-dependencies.proto\x12\x1bscanoss.api.dependencies.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\x9d\x02\n" +
 	"\x11DependencyRequest\x12J\n" +
 	"\x05files\x18\x01 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.FilesR\x05files\x12\x14\n" +
 	"\x05depth\x18\x02 \x01(\x05R\x05depth\x1a=\n" +

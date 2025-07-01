@@ -33,7 +33,7 @@
 package geoprovenancev2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -450,7 +450,7 @@ var File_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto protoreflect.F
 
 const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = "" +
 	"\n" +
-	"8scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto\x12\x1cscanoss.api.geoprovenance.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\xab\x04\n" +
+	"8scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto\x12\x1cscanoss.api.geoprovenance.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xab\x04\n" +
 	"\x13ContributorResponse\x12M\n" +
 	"\x05purls\x18\x01 \x03(\v27.scanoss.api.geoprovenance.v2.ContributorResponse.PurlsR\x05purls\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1aB\n" +

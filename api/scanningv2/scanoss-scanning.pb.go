@@ -34,7 +34,7 @@
 package scanningv2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -474,7 +474,7 @@ var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescrip
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\xcd\x04\n" +
+	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xcd\x04\n" +
 	"\n" +
 	"HFHRequest\x12@\n" +
 	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +

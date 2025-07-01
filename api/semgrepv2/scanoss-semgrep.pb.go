@@ -34,7 +34,7 @@
 package semgrepv2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -298,7 +298,7 @@ var File_scanoss_api_semgrep_v2_scanoss_semgrep_proto protoreflect.FileDescripto
 
 const file_scanoss_api_semgrep_v2_scanoss_semgrep_proto_rawDesc = "" +
 	"\n" +
-	",scanoss/api/semgrep/v2/scanoss-semgrep.proto\x12\x16scanoss.api.semgrep.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\xee\x03\n" +
+	",scanoss/api/semgrep/v2/scanoss-semgrep.proto\x12\x16scanoss.api.semgrep.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xee\x03\n" +
 	"\x0fSemgrepResponse\x12C\n" +
 	"\x05purls\x18\x01 \x03(\v2-.scanoss.api.semgrep.v2.SemgrepResponse.PurlsR\x05purls\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a_\n" +

@@ -34,7 +34,7 @@
 package cryptographyv2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -797,7 +797,7 @@ var File_scanoss_api_cryptography_v2_scanoss_cryptography_proto protoreflect.Fil
 
 const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\n" +
-	"6scanoss/api/cryptography/v2/scanoss-cryptography.proto\x12\x1bscanoss.api.cryptography.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"E\n" +
+	"6scanoss/api/cryptography/v2/scanoss-cryptography.proto\x12\x1bscanoss.api.cryptography.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"E\n" +
 	"\tAlgorithm\x12\x1c\n" +
 	"\talgorithm\x18\x01 \x01(\tR\talgorithm\x12\x1a\n" +
 	"\bstrength\x18\x02 \x01(\tR\bstrength\"\x9d\x02\n" +

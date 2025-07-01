@@ -34,7 +34,7 @@
 package componentsv2
 
 import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -798,7 +798,7 @@ var File_scanoss_api_components_v2_scanoss_components_proto protoreflect.FileDes
 
 const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
-	"2scanoss/api/components/v2/scanoss-components.proto\x12\x19scanoss.api.components.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a,protoc-gen-swagger/options/annotations.proto\"\xa9\x01\n" +
+	"2scanoss/api/components/v2/scanoss-components.proto\x12\x19scanoss.api.components.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xa9\x01\n" +
 	"\x11CompSearchRequest\x12\x16\n" +
 	"\x06search\x18\x01 \x01(\tR\x06search\x12\x16\n" +
 	"\x06vendor\x18\x02 \x01(\tR\x06vendor\x12\x1c\n" +
