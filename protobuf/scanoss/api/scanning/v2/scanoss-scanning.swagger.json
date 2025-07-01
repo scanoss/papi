@@ -145,17 +145,30 @@
           "type": "string",
           "title": "Component PURL"
         },
+        "name": {
+          "type": "string",
+          "title": "Component name"
+        },
+        "vendor": {
+          "type": "string",
+          "title": "Component vendor"
+        },
         "versions": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/HFHResponseVersion"
           },
           "title": "Component match version (could be multiple)"
         },
         "rank": {
           "type": "integer",
           "format": "int32",
-          "description": "Component Ranking from 1 to 10. 1 means official well known repository, 10 might be garbage."
+          "description": "Component Ranking from 1 to 9. 1 means official well known repository, 9 might be garbage."
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32",
+          "title": "This is the order of the best match to worst match (1 is the best match)"
         }
       },
       "title": "Matched component details"
@@ -176,6 +189,21 @@
         }
       },
       "title": "Result item, link a path with a list of components"
+    },
+    "HFHResponseVersion": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "title": "Component version"
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "title": "Component score (0-1)"
+        }
+      },
+      "title": "Component version details"
     },
     "protobufAny": {
       "type": "object",
@@ -241,7 +269,7 @@
         "rank_threshold": {
           "type": "integer",
           "format": "int32",
-          "title": "Get results with rank above this threshold (e.g i only want to see results from rank 3 and above)"
+          "description": "Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality."
         },
         "category": {
           "type": "string",
