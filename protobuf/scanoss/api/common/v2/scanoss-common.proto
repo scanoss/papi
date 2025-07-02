@@ -66,6 +66,7 @@ message EchoResponse {
 }
 
 /*
+ * WARNING: PurlRequest is deprecated, use PurlQueryRequest instead.
  * Purl request data (JSON payload)
  */
 message PurlRequest {
@@ -88,5 +89,23 @@ message PurlRequest {
  */
 message Purl {
   string purl = 1;
+  string requirement = 2;
+}
+
+/*
+ * Request containing PURL queries for batch operations
+ */
+message PurlQueryRequest {
+  // List of component queries to process
+  repeated PurlQuery queries = 1;
+}
+
+/*
+ * Query specification for a component using PURL (Package URL)
+ */
+message PurlQuery {
+  // Package URL (PURL) identifying the component (e.g., "pkg:npm/express@4.0.0")
+  string purl = 1;
+  // Optional version requirement or constraint (e.g., "^1.0.0", ">=2.0.0", "<3.0.0")
   string requirement = 2;
 }
