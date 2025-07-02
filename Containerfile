@@ -8,11 +8,12 @@
 #
 # All binaries downloaded for x86_64 (Docker/QEMU handles ARM emulation)
 # Tool versions configurable via build args: docker build --build-arg PROTOC_VERSION=32.0
-FROM python:3.12-alpine
+FROM python:3.8-alpine
 
 # Install utilities needed for downloading and extracting tools
 # gcompat, libstdc++, libgcc provide glibc compatibility for protoc-gen-js binary
-RUN apk add --no-cache wget unzip bash curl gcompat libstdc++ libgcc
+# g++, gcc, musl-dev are required for building grpcio-tools from source
+RUN apk add --no-cache wget unzip bash curl gcompat libstdc++ libgcc g++ gcc musl-dev
 
 # Copy installation scripts into the container
 COPY scripts/install-helpers.sh /usr/local/bin/
