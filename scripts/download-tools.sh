@@ -8,7 +8,7 @@
 # - Compatibility between protobuf tools and generated code
 
 # Core protobuf compiler
-PROTOC_VERSION=${PROTOC_VERSION:-31.1}
+PROTOC_VERSION=${PROTOC_VERSION:-29.0}
 
 # JavaScript/Node.js tools
 JS_PROTOBUF_VERSION=${JS_PROTOBUF_VERSION:-3.21.4}
@@ -20,9 +20,8 @@ GO_PROTOC_GEN_GRPC_VERSION=${GO_PROTOC_GEN_GRPC_VERSION:-1.5.1}
 GO_GRPC_GATEWAY_VERSION=${GO_GRPC_GATEWAY_VERSION:-2.27.0}
 
 # Python tools
-PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.73.0}
-PY_GRPCIO_VERSION=${PY_GRPCIO_VERSION:-1.73.0}
-
+PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.70.0}
+PY_GRPCIO_VERSION=${PY_GRPCIO_VERSION:-1.70.0}
 
 # Determine repository root directory from script location
 # Works regardless of where the script is executed from
@@ -77,9 +76,8 @@ rm /tmp/protoc-gen-grpc-gateway /tmp/protoc-gen-openapiv2
 
 # Install Python gRPC tools
 # --break-system-packages flag bypasses pip's environment isolation in containerized environments
-echo "Installing Python gRPC tools ${PY_GRPCIO_TOOLS_VERSION}"
+echo "Installing Python gRPC tools"
 pip install --no-cache-dir --break-system-packages grpcio-tools==${PY_GRPCIO_TOOLS_VERSION} grpcio==${PY_GRPCIO_VERSION}
-
 echo "=== All tools installed successfully ==="
 
 # Verify installations
