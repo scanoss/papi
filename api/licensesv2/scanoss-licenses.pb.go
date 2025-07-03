@@ -959,10 +959,10 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
 	"COMMERCIAL\x10\x03\x12\x0f\n" +
 	"\vPROPRIETARY\x10\x04\x12\x11\n" +
-	"\rPUBLIC_DOMAIN\x10\x052\x90\x04\n" +
+	"\rPUBLIC_DOMAIN\x10\x052\x9e\x04\n" +
 	"\aLicense\x12q\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/echo\x12x\n" +
-	"\bGetBasic\x12\".scanoss.api.common.v2.PurlRequest\x1a&.scanoss.api.licenses.v2.BasicResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/purl\x12\x84\x01\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/echo\x12\x85\x01\n" +
+	"\vGetLicenses\x12,.scanoss.api.common.v2.ComponentBatchRequest\x1a&.scanoss.api.licenses.v2.BasicResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/purl\x12\x84\x01\n" +
 	"\n" +
 	"GetDetails\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a(.scanoss.api.licenses.v2.DetailsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/api/v2/licenses/details\x12\x90\x01\n" +
 	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\x89\x02\x92A\xd2\x01\x12l\n" +
@@ -987,22 +987,22 @@ func file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP() []byte {
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_goTypes = []any{
-	(Type)(0),                       // 0: scanoss.api.licenses.v2.Type
-	(*SPDX_CrossRef)(nil),           // 1: scanoss.api.licenses.v2.SPDX_CrossRef
-	(*SPDX_Exception)(nil),          // 2: scanoss.api.licenses.v2.SPDX_Exception
-	(*SPDX)(nil),                    // 3: scanoss.api.licenses.v2.SPDX
-	(*OSADL_UseCase)(nil),           // 4: scanoss.api.licenses.v2.OSADL_UseCase
-	(*OSADL)(nil),                   // 5: scanoss.api.licenses.v2.OSADL
-	(*BasicLicenseResponse)(nil),    // 6: scanoss.api.licenses.v2.BasicLicenseResponse
-	(*LicenseResponse)(nil),         // 7: scanoss.api.licenses.v2.LicenseResponse
-	(*LicenseRequest)(nil),          // 8: scanoss.api.licenses.v2.LicenseRequest
-	(*BasicResponse)(nil),           // 9: scanoss.api.licenses.v2.BasicResponse
-	(*DetailsResponse)(nil),         // 10: scanoss.api.licenses.v2.DetailsResponse
-	(*ObligationsResponse)(nil),     // 11: scanoss.api.licenses.v2.ObligationsResponse
-	(*commonv2.StatusResponse)(nil), // 12: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),    // 13: scanoss.api.common.v2.EchoRequest
-	(*commonv2.PurlRequest)(nil),    // 14: scanoss.api.common.v2.PurlRequest
-	(*commonv2.EchoResponse)(nil),   // 15: scanoss.api.common.v2.EchoResponse
+	(Type)(0),                              // 0: scanoss.api.licenses.v2.Type
+	(*SPDX_CrossRef)(nil),                  // 1: scanoss.api.licenses.v2.SPDX_CrossRef
+	(*SPDX_Exception)(nil),                 // 2: scanoss.api.licenses.v2.SPDX_Exception
+	(*SPDX)(nil),                           // 3: scanoss.api.licenses.v2.SPDX
+	(*OSADL_UseCase)(nil),                  // 4: scanoss.api.licenses.v2.OSADL_UseCase
+	(*OSADL)(nil),                          // 5: scanoss.api.licenses.v2.OSADL
+	(*BasicLicenseResponse)(nil),           // 6: scanoss.api.licenses.v2.BasicLicenseResponse
+	(*LicenseResponse)(nil),                // 7: scanoss.api.licenses.v2.LicenseResponse
+	(*LicenseRequest)(nil),                 // 8: scanoss.api.licenses.v2.LicenseRequest
+	(*BasicResponse)(nil),                  // 9: scanoss.api.licenses.v2.BasicResponse
+	(*DetailsResponse)(nil),                // 10: scanoss.api.licenses.v2.DetailsResponse
+	(*ObligationsResponse)(nil),            // 11: scanoss.api.licenses.v2.ObligationsResponse
+	(*commonv2.StatusResponse)(nil),        // 12: scanoss.api.common.v2.StatusResponse
+	(*commonv2.EchoRequest)(nil),           // 13: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentBatchRequest)(nil), // 14: scanoss.api.common.v2.ComponentBatchRequest
+	(*commonv2.EchoResponse)(nil),          // 15: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	1,  // 0: scanoss.api.licenses.v2.SPDX.cross_refs:type_name -> scanoss.api.licenses.v2.SPDX_CrossRef
@@ -1018,11 +1018,11 @@ var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	5,  // 10: scanoss.api.licenses.v2.ObligationsResponse.obligations:type_name -> scanoss.api.licenses.v2.OSADL
 	12, // 11: scanoss.api.licenses.v2.ObligationsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	13, // 12: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	14, // 13: scanoss.api.licenses.v2.License.GetBasic:input_type -> scanoss.api.common.v2.PurlRequest
+	14, // 13: scanoss.api.licenses.v2.License.GetLicenses:input_type -> scanoss.api.common.v2.ComponentBatchRequest
 	8,  // 14: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
 	8,  // 15: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
 	15, // 16: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	9,  // 17: scanoss.api.licenses.v2.License.GetBasic:output_type -> scanoss.api.licenses.v2.BasicResponse
+	9,  // 17: scanoss.api.licenses.v2.License.GetLicenses:output_type -> scanoss.api.licenses.v2.BasicResponse
 	10, // 18: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.DetailsResponse
 	11, // 19: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
 	16, // [16:20] is the sub-list for method output_type
