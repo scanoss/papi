@@ -84,6 +84,15 @@ message PurlRequest {
   repeated Purls purls = 1;
 }
 
+/*
+ * Purl request data (JSON payload)
+ * Used by transitive dependencies request
+ */
+message Purl {
+  // @description: purl to be requested
+  string purl = 1;
+  string requirement = 2;
+}
 
 /*
  * Component batch request data (JSON payload)
