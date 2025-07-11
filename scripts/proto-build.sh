@@ -111,7 +111,7 @@ build_python() {
   # Must use 'python3 -m grpc_tools.protoc' as Python gRPC plugin cannot run standalone
   if ! python3 -m grpc_tools.protoc -I$protobuf_dir --python_out="$dest_dir" --grpc_python_out="$dest_dir" \
                $(find $protobuf_dir/scanoss -type f -name "scanoss*.proto" -print) \
-               $(find $protobuf_dir/protoc-gen-swagger -type f -name "*.proto" -print)
+               $(find $protobuf_dir/protoc-gen-openapiv2 -type f -name "*.proto" -print)
                then
     echo "Error: Failed to compile Python libraries from proto files"
     exit 1
