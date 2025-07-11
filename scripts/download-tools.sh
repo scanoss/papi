@@ -8,7 +8,7 @@
 # - Compatibility between protobuf tools and generated code
 
 # Core protobuf compiler
-PROTOC_VERSION=${PROTOC_VERSION:-29.0}
+PROTOC_VERSION=${PROTOC_VERSION:-31.1}
 
 # JavaScript/Node.js tools
 JS_PROTOBUF_VERSION=${JS_PROTOBUF_VERSION:-3.21.4}
@@ -20,8 +20,8 @@ GO_PROTOC_GEN_GRPC_VERSION=${GO_PROTOC_GEN_GRPC_VERSION:-1.5.1}
 GO_GRPC_GATEWAY_VERSION=${GO_GRPC_GATEWAY_VERSION:-2.27.0}
 
 # Python tools
-PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.70.0}
-PY_GRPCIO_VERSION=${PY_GRPCIO_VERSION:-1.70.0}
+PY_GRPCIO_TOOLS_VERSION=${PY_GRPCIO_TOOLS_VERSION:-1.73.1}
+PY_GRPCIO_VERSION=${PY_GRPCIO_VERSION:-1.73.1}
 
 # Determine repository root directory from script location
 # Works regardless of where the script is executed from
@@ -91,3 +91,4 @@ which protoc-gen-js
 which grpc_node_plugin
 python3 -c "import grpc_tools.protoc; print('Python gRPC tools available')"
 echo "All tools are ready"
+pip install --no-cache-dir --break-system-packages grpcio-tools grpcio
