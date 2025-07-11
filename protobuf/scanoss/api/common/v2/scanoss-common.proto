@@ -67,6 +67,7 @@ message EchoResponse {
 
 /*
  * Purl request data (JSON payload)
+ * WARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.
  */
 message PurlRequest {
   /*
@@ -84,9 +85,27 @@ message PurlRequest {
 }
 
 /*
- * Purl to be requested
+ * Purl request data (JSON payload)
+ * Used by transitive dependencies request
  */
 message Purl {
+  // @description: purl to be requested
+  string purl = 1;
+  string requirement = 2;
+}
+
+/*
+ * Component batch request data (JSON payload)
+ */
+message ComponentBatchRequest {
+  // JSON request purls
+  repeated ComponentRequest components = 1;
+}
+
+/*
+ * Component request data (JSON payload)
+ */
+message ComponentRequest {
   string purl = 1;
   string requirement = 2;
 }
