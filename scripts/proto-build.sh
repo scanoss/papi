@@ -120,8 +120,6 @@ build_python() {
 
 #
 # Build the Go library code for the proto definitions.
-# TODO: Upgrade to grpc-gateway v2.x using migration guide:
-# https://grpc-ecosystem.github.io/grpc-gateway/docs/development/grpc-gateway_v2_migration_guide/
 #
 build_go() {
   dest_dir=$1
