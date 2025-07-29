@@ -52,6 +52,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.",
             "in": "body",
             "required": true,
             "schema": {
@@ -132,6 +133,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.",
             "in": "body",
             "required": true,
             "schema": {
@@ -328,7 +330,7 @@
           "title": "JSON request purls"
         }
       },
-      "title": "Purl request data (JSON payload)"
+      "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentBatchRequest instead."
     },
     "v2PurlRequestPurls": {
       "type": "object",

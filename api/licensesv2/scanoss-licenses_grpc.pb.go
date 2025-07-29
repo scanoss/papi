@@ -48,7 +48,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	License_Echo_FullMethodName           = "/scanoss.api.licenses.v2.License/Echo"
-	License_GetBasic_FullMethodName       = "/scanoss.api.licenses.v2.License/GetBasic"
+	License_GetLicenses_FullMethodName    = "/scanoss.api.licenses.v2.License/GetLicenses"
 	License_GetDetails_FullMethodName     = "/scanoss.api.licenses.v2.License/GetDetails"
 	License_GetObligations_FullMethodName = "/scanoss.api.licenses.v2.License/GetObligations"
 )
@@ -61,10 +61,10 @@ const (
 type LicenseClient interface {
 	// Standard echo
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get basic license info given a purl
-	GetBasic(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*BasicResponse, error)
+	// Get basic license info given a component batch request
+	GetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error)
 	// Get detailed metadata for a specific license
-	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*DetailsResponse, error)
+	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error)
 	// Get obligations and compliance data for a license
 	GetObligations(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*ObligationsResponse, error)
 }
@@ -87,19 +87,19 @@ func (c *licenseClient) Echo(ctx context.Context, in *commonv2.EchoRequest, opts
 	return out, nil
 }
 
-func (c *licenseClient) GetBasic(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*BasicResponse, error) {
+func (c *licenseClient) GetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BasicResponse)
-	err := c.cc.Invoke(ctx, License_GetBasic_FullMethodName, in, out, cOpts...)
+	out := new(BatchLicenseResponse)
+	err := c.cc.Invoke(ctx, License_GetLicenses_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *licenseClient) GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*DetailsResponse, error) {
+func (c *licenseClient) GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DetailsResponse)
+	out := new(LicenseDetailsResponse)
 	err := c.cc.Invoke(ctx, License_GetDetails_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -125,10 +125,10 @@ func (c *licenseClient) GetObligations(ctx context.Context, in *LicenseRequest, 
 type LicenseServer interface {
 	// Standard echo
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get basic license info given a purl
-	GetBasic(context.Context, *commonv2.PurlRequest) (*BasicResponse, error)
+	// Get basic license info given a component batch request
+	GetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error)
 	// Get detailed metadata for a specific license
-	GetDetails(context.Context, *LicenseRequest) (*DetailsResponse, error)
+	GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error)
 	// Get obligations and compliance data for a license
 	GetObligations(context.Context, *LicenseRequest) (*ObligationsResponse, error)
 	mustEmbedUnimplementedLicenseServer()
@@ -144,10 +144,10 @@ type UnimplementedLicenseServer struct{}
 func (UnimplementedLicenseServer) Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
 }
-func (UnimplementedLicenseServer) GetBasic(context.Context, *commonv2.PurlRequest) (*BasicResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBasic not implemented")
+func (UnimplementedLicenseServer) GetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLicenses not implemented")
 }
-func (UnimplementedLicenseServer) GetDetails(context.Context, *LicenseRequest) (*DetailsResponse, error) {
+func (UnimplementedLicenseServer) GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetails not implemented")
 }
 func (UnimplementedLicenseServer) GetObligations(context.Context, *LicenseRequest) (*ObligationsResponse, error) {
@@ -192,20 +192,20 @@ func _License_Echo_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _License_GetBasic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(commonv2.PurlRequest)
+func _License_GetLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentBatchRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LicenseServer).GetBasic(ctx, in)
+		return srv.(LicenseServer).GetLicenses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: License_GetBasic_FullMethodName,
+		FullMethod: License_GetLicenses_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LicenseServer).GetBasic(ctx, req.(*commonv2.PurlRequest))
+		return srv.(LicenseServer).GetLicenses(ctx, req.(*commonv2.ComponentBatchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -258,8 +258,8 @@ var License_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _License_Echo_Handler,
 		},
 		{
-			MethodName: "GetBasic",
-			Handler:    _License_GetBasic_Handler,
+			MethodName: "GetLicenses",
+			Handler:    _License_GetLicenses_Handler,
 		},
 		{
 			MethodName: "GetDetails",

@@ -250,6 +250,7 @@ func (x *EchoResponse) GetMessage() string {
 }
 
 // Purl request data (JSON payload)
+// WARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.
 type PurlRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// JSON request purls
@@ -295,11 +296,13 @@ func (x *PurlRequest) GetPurls() []*PurlRequest_Purls {
 	return nil
 }
 
-// Purl to be requested
+// Purl request data (JSON payload)
+// Used by transitive dependencies request
 type Purl struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// @description: purl to be requested
+	Purl          string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	Requirement   string `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -348,6 +351,105 @@ func (x *Purl) GetRequirement() string {
 	return ""
 }
 
+// Component batch request data (JSON payload)
+type ComponentBatchRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// JSON request purls
+	Components    []*ComponentRequest `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentBatchRequest) Reset() {
+	*x = ComponentBatchRequest{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentBatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentBatchRequest) ProtoMessage() {}
+
+func (x *ComponentBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentBatchRequest.ProtoReflect.Descriptor instead.
+func (*ComponentBatchRequest) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ComponentBatchRequest) GetComponents() []*ComponentRequest {
+	if x != nil {
+		return x.Components
+	}
+	return nil
+}
+
+// Component request data (JSON payload)
+type ComponentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentRequest) Reset() {
+	*x = ComponentRequest{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentRequest) ProtoMessage() {}
+
+func (x *ComponentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentRequest.ProtoReflect.Descriptor instead.
+func (*ComponentRequest) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ComponentRequest) GetPurl() string {
+	if x != nil {
+		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentRequest) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
+	}
+	return ""
+}
+
 // TODO: Refactor this API
 // - Remove nested Purls message and replace with top-level Purl message type.
 // - Update field definition below to: repeated Purl purls = 1;
@@ -362,7 +464,7 @@ type PurlRequest_Purls struct {
 
 func (x *PurlRequest_Purls) Reset() {
 	*x = PurlRequest_Purls{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -374,7 +476,7 @@ func (x *PurlRequest_Purls) String() string {
 func (*PurlRequest_Purls) ProtoMessage() {}
 
 func (x *PurlRequest_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,6 +525,13 @@ const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"<\n" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"`\n" +
+	"\x15ComponentBatchRequest\x12G\n" +
+	"\n" +
+	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestR\n" +
+	"components\"H\n" +
+	"\x10ComponentRequest\x12\x12\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement*`\n" +
 	"\n" +
 	"StatusCode\x12\x0f\n" +
@@ -446,24 +555,27 @@ func file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP() []byte {
 }
 
 var file_scanoss_api_common_v2_scanoss_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_scanoss_api_common_v2_scanoss_common_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_scanoss_api_common_v2_scanoss_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_scanoss_api_common_v2_scanoss_common_proto_goTypes = []any{
-	(StatusCode)(0),           // 0: scanoss.api.common.v2.StatusCode
-	(*StatusResponse)(nil),    // 1: scanoss.api.common.v2.StatusResponse
-	(*EchoRequest)(nil),       // 2: scanoss.api.common.v2.EchoRequest
-	(*EchoResponse)(nil),      // 3: scanoss.api.common.v2.EchoResponse
-	(*PurlRequest)(nil),       // 4: scanoss.api.common.v2.PurlRequest
-	(*Purl)(nil),              // 5: scanoss.api.common.v2.Purl
-	(*PurlRequest_Purls)(nil), // 6: scanoss.api.common.v2.PurlRequest.Purls
+	(StatusCode)(0),               // 0: scanoss.api.common.v2.StatusCode
+	(*StatusResponse)(nil),        // 1: scanoss.api.common.v2.StatusResponse
+	(*EchoRequest)(nil),           // 2: scanoss.api.common.v2.EchoRequest
+	(*EchoResponse)(nil),          // 3: scanoss.api.common.v2.EchoResponse
+	(*PurlRequest)(nil),           // 4: scanoss.api.common.v2.PurlRequest
+	(*Purl)(nil),                  // 5: scanoss.api.common.v2.Purl
+	(*ComponentBatchRequest)(nil), // 6: scanoss.api.common.v2.ComponentBatchRequest
+	(*ComponentRequest)(nil),      // 7: scanoss.api.common.v2.ComponentRequest
+	(*PurlRequest_Purls)(nil),     // 8: scanoss.api.common.v2.PurlRequest.Purls
 }
 var file_scanoss_api_common_v2_scanoss_common_proto_depIdxs = []int32{
 	0, // 0: scanoss.api.common.v2.StatusResponse.status:type_name -> scanoss.api.common.v2.StatusCode
-	6, // 1: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	8, // 1: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
+	7, // 2: scanoss.api.common.v2.ComponentBatchRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_common_v2_scanoss_common_proto_init() }
@@ -477,7 +589,7 @@ func file_scanoss_api_common_v2_scanoss_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc), len(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

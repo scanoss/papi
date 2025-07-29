@@ -73,7 +73,7 @@ service License {
   };
 
   // Get basic license info given a component batch request
-  rpc GetLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(BasicResponse) {
+  rpc GetLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(BatchLicenseResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/purl"
       body: "*"
@@ -81,7 +81,7 @@ service License {
   };
 
   // Get detailed metadata for a specific license
-  rpc GetDetails(LicenseRequest) returns(DetailsResponse) {
+  rpc GetDetails(LicenseRequest) returns(LicenseDetailsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/details"
       body: "*"
@@ -176,15 +176,15 @@ message OSADL {
   repeated string compatibility = 3;
   repeated string depending_compatibility = 4;
   repeated string incompatibility = 5;
-  repeated OSADL_UseCase use_cases = 6;
+  repeated OSADL_UseCase use_cases = 6; //TODO: Mine data
 }
 
 // ========================================================================
 // LICENSE REPRESENTATIONS
 // ========================================================================
 
-message BasicLicenseResponse {
-  // Identifier for an individual license extracted from the license statement, following SPDX conventions
+message LicenseInfo {
+  // Identifier for an individual license
   // - For SPDX registry licenses: Standard SPDX ID (e.g., "MIT", "GPL-2.0-only")
   // - For non-registry licenses: licenseRef format (e.g., "licenseRef-GitLab-Enterprise")
   string id = 1;
@@ -192,11 +192,10 @@ message BasicLicenseResponse {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-  // Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
   string full_name = 2;
 }
 
-message LicenseResponse {
+message LicenseDetails {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
@@ -218,15 +217,22 @@ message LicenseRequest {
   string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
 }
 
-// GetBasic endpoint
-message BasicResponse {
-  string statement = 1;             // Raw license statement as declared in source code
-  repeated BasicLicenseResponse licenses = 2; // Individual licenses parsed from the statement with basic info
-  scanoss.api.common.v2.StatusResponse status = 3;
+// Individual component license information
+message ComponentLicenseInfo {
+  string purl = 1;
+  string version = 2;
+  string statement = 3;             // Raw license statement as declared in source code
+  repeated LicenseInfo licenses = 4; // Individual licenses parsed from the statement with basic info
 }
 
-message DetailsResponse {
-  LicenseResponse license = 1;              // Full license details with all metadata
+// GetLicenses endpoint batch response
+message BatchLicenseResponse {
+  repeated ComponentLicenseInfo components = 1; // License info for each component in the batch
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+message LicenseDetailsResponse {
+  LicenseDetails license = 1;              // Full license details with all metadata
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
