@@ -9,6 +9,11 @@
       "email": "support@scanoss.com"
     }
   },
+  "tags": [
+    {
+      "name": "License"
+    }
+  ],
   "schemes": [
     "http"
   ],
@@ -27,7 +32,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2DetailsResponse"
+              "$ref": "#/definitions/v2LicenseDetailsResponse"
             }
           },
           "404": {
@@ -40,7 +45,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -80,7 +85,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -120,7 +125,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -141,13 +146,13 @@
     },
     "/api/v2/licenses/purl": {
       "post": {
-        "summary": "Get basic license info given a purl",
-        "operationId": "License_GetBasic",
+        "summary": "Get basic license info given a component batch request",
+        "operationId": "License_GetLicenses",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2BasicResponse"
+              "$ref": "#/definitions/v2BatchLicenseResponse"
             }
           },
           "404": {
@@ -160,7 +165,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -170,7 +175,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentBatchRequest"
             }
           }
         ],
@@ -181,19 +186,6 @@
     }
   },
   "definitions": {
-    "PurlRequestPurls": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "@description: purl to be requested"
-        },
-        "requirement": {
-          "type": "string"
-        }
-      },
-      "title": "TODO: Refactor this API\n- Remove nested Purls message and replace with top-level Purl message type.\n- Update field definition below to: repeated Purl purls = 1;"
-    },
     "licensesv2Type": {
       "type": "string",
       "enum": [
@@ -209,24 +201,15 @@
     "protobufAny": {
       "type": "object",
       "properties": {
-        "type_url": {
-          "type": "string",
-          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-        },
-        "value": {
-          "type": "string",
-          "format": "byte",
-          "description": "Must be a valid serialized protocol buffer of the above specified type."
+        "@type": {
+          "type": "string"
         }
       },
-      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+      "additionalProperties": {}
     },
-    "runtimeError": {
+    "rpcStatus": {
       "type": "object",
       "properties": {
-        "error": {
-          "type": "string"
-        },
         "code": {
           "type": "integer",
           "format": "int32"
@@ -237,52 +220,78 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
       }
     },
-    "v2BasicLicenseResponse": {
+    "v2BatchLicenseResponse": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "title": "Identifier for an individual license extracted from the license statement, following SPDX conventions\n- For SPDX registry licenses: Standard SPDX ID (e.g., \"MIT\", \"GPL-2.0-only\")\n- For non-registry licenses: licenseRef format (e.g., \"licenseRef-GitLab-Enterprise\")"
-        },
-        "full_name": {
-          "type": "string",
-          "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement\nNote: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)"
-        }
-      }
-    },
-    "v2BasicResponse": {
-      "type": "object",
-      "properties": {
-        "statement": {
-          "type": "string"
-        },
-        "licenses": {
+        "components": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v2BasicLicenseResponse"
-          }
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentLicenseInfo"
+          },
+          "title": "License info for each component in the batch"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "title": "GetBasic endpoint"
+      "title": "GetLicenses endpoint batch response"
     },
-    "v2DetailsResponse": {
+    "v2ComponentBatchRequest": {
       "type": "object",
       "properties": {
-        "license": {
-          "$ref": "#/definitions/v2LicenseResponse"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse"
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "JSON request purls"
         }
-      }
+      },
+      "title": "Component batch request data (JSON payload)"
+    },
+    "v2ComponentLicenseInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string",
+          "title": "Raw license statement as declared in source code"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LicenseInfo"
+          },
+          "title": "Individual licenses parsed from the statement with basic info"
+        }
+      },
+      "title": "Individual component license information"
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string"
+        }
+      },
+      "title": "Component request data (JSON payload)"
     },
     "v2EchoRequest": {
       "type": "object",
@@ -302,19 +311,10 @@
       },
       "title": "Echo Message Response"
     },
-    "v2LicenseRequest": {
+    "v2LicenseDetails": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        }
-      },
-      "title": "GetDetails \u0026 GetObligations endpoint"
-    },
-    "v2LicenseResponse": {
-      "type": "object",
-      "properties": {
-        "full_name": {
+        "fullName": {
           "type": "string",
           "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement\nNote: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)"
         },
@@ -322,20 +322,57 @@
           "$ref": "#/definitions/licensesv2Type"
         },
         "spdx": {
-          "$ref": "#/definitions/v2SPDX"
+          "$ref": "#/definitions/v2SPDX",
+          "title": "Always present - SPDX.id always populated, other fields empty if not in SPDX License list"
         },
         "osadl": {
-          "$ref": "#/definitions/v2OSADL"
+          "$ref": "#/definitions/v2OSADL",
+          "title": "Optional - OSADL compliance metadata"
         }
       }
+    },
+    "v2LicenseDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "license": {
+          "$ref": "#/definitions/v2LicenseDetails",
+          "title": "Full license details with all metadata"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse"
+        }
+      }
+    },
+    "v2LicenseInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Identifier for an individual license\n- For SPDX registry licenses: Standard SPDX ID (e.g., \"MIT\", \"GPL-2.0-only\")\n- For non-registry licenses: licenseRef format (e.g., \"licenseRef-GitLab-Enterprise\")"
+        },
+        "fullName": {
+          "type": "string",
+          "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
+        }
+      }
+    },
+    "v2LicenseRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "SPDX identifier or licenseRef (e.g., \"MIT\", \"licenseRef-GitLab-Enterprise\")"
+        }
+      },
+      "title": "GetDetails \u0026 GetObligations endpoint"
     },
     "v2OSADL": {
       "type": "object",
       "properties": {
-        "copyleft_clause": {
+        "copyleftClause": {
           "type": "boolean"
         },
-        "patent_hints": {
+        "patentHints": {
           "type": "boolean"
         },
         "compatibility": {
@@ -344,7 +381,7 @@
             "type": "string"
           }
         },
-        "depending_compatibility": {
+        "dependingCompatibility": {
           "type": "array",
           "items": {
             "type": "string"
@@ -356,11 +393,13 @@
             "type": "string"
           }
         },
-        "use_cases": {
+        "useCases": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v2OSADL_UseCase"
-          }
+          },
+          "title": "TODO: Mine data"
         }
       },
       "description": "OSADL compliance metadata providing license analysis and compatibility information."
@@ -369,13 +408,16 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "\"Binary delivery\", \"Network service\", \"Source code delivery\""
         },
-        "obligation_text": {
-          "type": "string"
+        "obligationText": {
+          "type": "string",
+          "title": "Human-readable obligation text"
         },
-        "obligation_json": {
-          "type": "string"
+        "obligationJson": {
+          "type": "string",
+          "title": "Machine-readable structured obligations with Language/Action/Term breakdown"
         }
       },
       "description": "OSADL use case with structured obligations."
@@ -384,67 +426,66 @@
       "type": "object",
       "properties": {
         "obligations": {
-          "$ref": "#/definitions/v2OSADL"
+          "$ref": "#/definitions/v2OSADL",
+          "title": "OSADL compliance data with use cases and obligations"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
       }
     },
-    "v2PurlRequest": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PurlRequestPurls"
-          },
-          "title": "JSON request purls"
-        }
-      },
-      "title": "Purl request data (JSON payload)"
-    },
     "v2SPDX": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "title": "\"GPL-2.0-only\", \"MIT\" - the SPDX license identifier"
         },
-        "full_name": {
-          "type": "string"
+        "fullName": {
+          "type": "string",
+          "title": "Official SPDX registry name (empty if license not in SPDX registry)"
         },
-        "details_url": {
-          "type": "string"
+        "detailsUrl": {
+          "type": "string",
+          "title": "JSON API URL for full details"
         },
-        "reference_url": {
-          "type": "string"
+        "referenceUrl": {
+          "type": "string",
+          "title": "HTML page URL"
         },
-        "is_deprecated": {
+        "isDeprecated": {
+          "type": "boolean",
+          "title": "License is deprecated"
+        },
+        "isFsfLibre": {
+          "type": "boolean",
+          "title": "FSF considers it libre/free"
+        },
+        "isOsiApproved": {
           "type": "boolean"
         },
-        "is_fsf_libre": {
-          "type": "boolean"
-        },
-        "is_osi_approved": {
-          "type": "boolean"
-        },
-        "see_also": {
+        "seeAlso": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "Related URLs"
         },
-        "cross_refs": {
+        "crossRefs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v2SPDX_CrossRef"
-          }
+          },
+          "title": "Structured cross-references with validation info"
         },
         "exceptions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v2SPDX_Exception"
-          }
+          },
+          "title": "SPDX exceptions applied to this license (empty if none)"
         }
       },
       "description": "SPDX license registry metadata."
@@ -455,16 +496,16 @@
         "url": {
           "type": "string"
         },
-        "is_valid": {
+        "isValid": {
           "type": "boolean"
         },
-        "is_live": {
+        "isLive": {
           "type": "boolean"
         },
         "timestamp": {
           "type": "string"
         },
-        "is_wayback_link": {
+        "isWaybackLink": {
           "type": "boolean"
         },
         "order": {
@@ -481,22 +522,27 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "title": "\"Classpath-exception-2.0\""
         },
-        "full_name": {
-          "type": "string"
+        "fullName": {
+          "type": "string",
+          "title": "\"Classpath exception 2.0\""
         },
-        "details_url": {
-          "type": "string"
+        "detailsUrl": {
+          "type": "string",
+          "title": "SPDX exception JSON URL"
         },
-        "see_also": {
+        "seeAlso": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "Reference URLs"
         },
-        "is_deprecated": {
-          "type": "boolean"
+        "isDeprecated": {
+          "type": "boolean",
+          "title": "Exception is deprecated"
         }
       },
       "description": "SPDX license exception details."

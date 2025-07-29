@@ -332,13 +332,14 @@
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "@description: purl to be requested"
         },
         "requirement": {
           "type": "string"
         }
       },
-      "title": "Purl to be requested"
+      "title": "Purl request data (JSON payload)\nUsed by transitive dependencies request"
     },
     "v2StatusCode": {
       "type": "string",
