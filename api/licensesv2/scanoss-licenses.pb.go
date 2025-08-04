@@ -721,9 +721,10 @@ func (x *LicenseRequest) GetId() string {
 type ComponentLicenseInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	Version       string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	Statement     string                 `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"` // Raw license statement as declared in source code
-	Licenses      []*LicenseInfo         `protobuf:"bytes,4,rep,name=licenses,proto3" json:"licenses,omitempty"`   // Individual licenses parsed from the statement with basic info
+	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	Version       string                 `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
+	Statement     string                 `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"` // Raw license statement as declared in source code
+	Licenses      []*LicenseInfo         `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`   // Individual licenses parsed from the statement with basic info
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -761,6 +762,13 @@ func (*ComponentLicenseInfo) Descriptor() ([]byte, []int) {
 func (x *ComponentLicenseInfo) GetPurl() string {
 	if x != nil {
 		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentLicenseInfo) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
 	}
 	return ""
 }
@@ -1000,12 +1008,13 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xa4\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xc6\x01\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\x12\x1c\n" +
-	"\tstatement\x18\x03 \x01(\tR\tstatement\x12@\n" +
-	"\blicenses\x18\x04 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\"\xa4\x01\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
+	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
+	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
+	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\"\xa4\x01\n" +
 	"\x14BatchLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +

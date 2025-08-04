@@ -263,6 +263,9 @@
         "purl": {
           "type": "string"
         },
+        "requirement": {
+          "type": "string"
+        },
         "version": {
           "type": "string"
         },

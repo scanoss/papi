@@ -220,9 +220,10 @@ message LicenseRequest {
 // Individual component license information
 message ComponentLicenseInfo {
   string purl = 1;
-  string version = 2;
-  string statement = 3;             // Raw license statement as declared in source code
-  repeated LicenseInfo licenses = 4; // Individual licenses parsed from the statement with basic info
+  string requirement = 2;
+  string version = 3;
+  string statement = 4;             // Raw license statement as declared in source code
+  repeated LicenseInfo licenses = 5; // Individual licenses parsed from the statement with basic info
 }
 
 // GetLicenses endpoint batch response
