@@ -109,7 +109,10 @@ message HFHRequest {
     string category = 3;
 
     // Maximum number of results to query
-    int32 query_limit = 4 [json_name = "query_limit"];
+    int32 query_limit = 4;
+
+    // Minimum score threshold to consider a match
+    float min_cutoff_threshold = 5;
 }
 
 /*
