@@ -1,7 +1,7 @@
 //
 //SPDX-License-Identifier: MIT
 //
-//Copyright (c) 2022, SCANOSS
+//Copyright (c) 2025, SCANOSS
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -57,15 +57,15 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Expose all of the SCANOSS License RPCs here
+// License Service Definition
 type LicenseClient interface {
-	// Standard echo
+	// Echo Method
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get basic license info given a component batch request
+	// GetLicense Method
 	GetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error)
-	// Get detailed metadata for a specific license
+	// GetDetails Method
 	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error)
-	// Get obligations and compliance data for a license
+	// GetObligations Method
 	GetObligations(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*ObligationsResponse, error)
 }
 
@@ -121,15 +121,15 @@ func (c *licenseClient) GetObligations(ctx context.Context, in *LicenseRequest, 
 // All implementations must embed UnimplementedLicenseServer
 // for forward compatibility.
 //
-// Expose all of the SCANOSS License RPCs here
+// License Service Definition
 type LicenseServer interface {
-	// Standard echo
+	// Echo Method
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get basic license info given a component batch request
+	// GetLicense Method
 	GetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error)
-	// Get detailed metadata for a specific license
+	// GetDetails Method
 	GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error)
-	// Get obligations and compliance data for a license
+	// GetObligations Method
 	GetObligations(context.Context, *LicenseRequest) (*ObligationsResponse, error)
 	mustEmbedUnimplementedLicenseServer()
 }

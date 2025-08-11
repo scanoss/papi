@@ -1,7 +1,7 @@
 /*
  SPDX-License-Identifier: MIT
 
-   Copyright (c) 2021, SCANOSS
+   Copyright (c) 2021-2025, SCANOSS
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,8 @@ syntax = "proto3";
 package scanoss.api.common.v2;
 
 option go_package = "github.com/scanoss/papi/api/commonv2;commonv2";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 /*
  * Status code Enum
@@ -65,6 +67,44 @@ message EchoResponse {
   string message = 1;
 }
 
+
+message ComponentRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      description: "Represents a software component to be analyzed by SCANOSS API services.\n"
+                   "Combines a Package URL for component identification with optional version constraints for resolution.\n";
+      example: "{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}";
+    }
+  };
+
+  string purl = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Package URL identifying the component to analyze.";
+    example: "\"pkg:github/scanoss/engine\"";
+  }];
+
+  string requirement = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Version constraint for component resolution when PURL lacks explicit version.";
+    example: "\"^1.0.0\"";
+  }];
+}
+
+
+message ComponentBatchRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      description: "Represents a list of software component to be analyzed by SCANOSS API services.\n"
+                   "Allows analysis of multiple software components in a single API call, improving performance over individual requests.\n";
+      example: "{\"components:\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]}";
+    }
+  };
+
+  repeated ComponentRequest components = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Array of component requests to analyze";
+    example: "[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]";
+  }];
+}
+
+
 /*
  * Purl request data (JSON payload)
  * WARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.
@@ -90,22 +130,6 @@ message PurlRequest {
  */
 message Purl {
   // @description: purl to be requested
-  string purl = 1;
-  string requirement = 2;
-}
-
-/*
- * Component batch request data (JSON payload)
- */
-message ComponentBatchRequest {
-  // JSON request purls
-  repeated ComponentRequest components = 1;
-}
-
-/*
- * Component request data (JSON payload)
- */
-message ComponentRequest {
   string purl = 1;
   string requirement = 2;
 }
