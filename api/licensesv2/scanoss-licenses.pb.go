@@ -1,7 +1,7 @@
 //
 //SPDX-License-Identifier: MIT
 //
-//Copyright (c) 2022, SCANOSS
+//Copyright (c) 2025, SCANOSS
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -51,20 +51,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Type int32
+type LicenseType int32
 
 const (
-	Type_UNKNOWN       Type = 0
-	Type_PERMISSIVE    Type = 1
-	Type_COPYLEFT      Type = 2
-	Type_COMMERCIAL    Type = 3
-	Type_PROPRIETARY   Type = 4
-	Type_PUBLIC_DOMAIN Type = 5
+	LicenseType_UNKNOWN       LicenseType = 0
+	LicenseType_PERMISSIVE    LicenseType = 1
+	LicenseType_COPYLEFT      LicenseType = 2
+	LicenseType_COMMERCIAL    LicenseType = 3
+	LicenseType_PROPRIETARY   LicenseType = 4
+	LicenseType_PUBLIC_DOMAIN LicenseType = 5
 )
 
-// Enum value maps for Type.
+// Enum value maps for LicenseType.
 var (
-	Type_name = map[int32]string{
+	LicenseType_name = map[int32]string{
 		0: "UNKNOWN",
 		1: "PERMISSIVE",
 		2: "COPYLEFT",
@@ -72,7 +72,7 @@ var (
 		4: "PROPRIETARY",
 		5: "PUBLIC_DOMAIN",
 	}
-	Type_value = map[string]int32{
+	LicenseType_value = map[string]int32{
 		"UNKNOWN":       0,
 		"PERMISSIVE":    1,
 		"COPYLEFT":      2,
@@ -82,61 +82,55 @@ var (
 	}
 )
 
-func (x Type) Enum() *Type {
-	p := new(Type)
+func (x LicenseType) Enum() *LicenseType {
+	p := new(LicenseType)
 	*p = x
 	return p
 }
 
-func (x Type) String() string {
+func (x LicenseType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Type) Descriptor() protoreflect.EnumDescriptor {
+func (LicenseType) Descriptor() protoreflect.EnumDescriptor {
 	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_enumTypes[0].Descriptor()
 }
 
-func (Type) Type() protoreflect.EnumType {
+func (LicenseType) Type() protoreflect.EnumType {
 	return &file_scanoss_api_licenses_v2_scanoss_licenses_proto_enumTypes[0]
 }
 
-func (x Type) Number() protoreflect.EnumNumber {
+func (x LicenseType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Type.Descriptor instead.
-func (Type) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use LicenseType.Descriptor instead.
+func (LicenseType) EnumDescriptor() ([]byte, []int) {
 	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{0}
 }
 
-// SPDX cross-reference with validation metadata.
-type SPDX_CrossRef struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	IsValid       bool                   `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
-	IsLive        bool                   `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
-	Timestamp     string                 `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	IsWaybackLink bool                   `protobuf:"varint,5,opt,name=is_wayback_link,json=isWaybackLink,proto3" json:"is_wayback_link,omitempty"`
-	Order         int32                  `protobuf:"varint,6,opt,name=order,proto3" json:"order,omitempty"`
-	Match         string                 `protobuf:"bytes,7,opt,name=match,proto3" json:"match,omitempty"`
+type BatchLicenseResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Components    []*ComponentLicenseInfo  `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"` // License info for each component in the batch
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SPDX_CrossRef) Reset() {
-	*x = SPDX_CrossRef{}
+func (x *BatchLicenseResponse) Reset() {
+	*x = BatchLicenseResponse{}
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SPDX_CrossRef) String() string {
+func (x *BatchLicenseResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SPDX_CrossRef) ProtoMessage() {}
+func (*BatchLicenseResponse) ProtoMessage() {}
 
-func (x *SPDX_CrossRef) ProtoReflect() protoreflect.Message {
+func (x *BatchLicenseResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -148,135 +142,127 @@ func (x *SPDX_CrossRef) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SPDX_CrossRef.ProtoReflect.Descriptor instead.
-func (*SPDX_CrossRef) Descriptor() ([]byte, []int) {
+// Deprecated: Use BatchLicenseResponse.ProtoReflect.Descriptor instead.
+func (*BatchLicenseResponse) Descriptor() ([]byte, []int) {
 	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SPDX_CrossRef) GetUrl() string {
+func (x *BatchLicenseResponse) GetComponents() []*ComponentLicenseInfo {
 	if x != nil {
-		return x.Url
-	}
-	return ""
-}
-
-func (x *SPDX_CrossRef) GetIsValid() bool {
-	if x != nil {
-		return x.IsValid
-	}
-	return false
-}
-
-func (x *SPDX_CrossRef) GetIsLive() bool {
-	if x != nil {
-		return x.IsLive
-	}
-	return false
-}
-
-func (x *SPDX_CrossRef) GetTimestamp() string {
-	if x != nil {
-		return x.Timestamp
-	}
-	return ""
-}
-
-func (x *SPDX_CrossRef) GetIsWaybackLink() bool {
-	if x != nil {
-		return x.IsWaybackLink
-	}
-	return false
-}
-
-func (x *SPDX_CrossRef) GetOrder() int32 {
-	if x != nil {
-		return x.Order
-	}
-	return 0
-}
-
-func (x *SPDX_CrossRef) GetMatch() string {
-	if x != nil {
-		return x.Match
-	}
-	return ""
-}
-
-// SPDX license exception details.
-type SPDX_Exception struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                          // "Classpath-exception-2.0"
-	FullName      string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`              // "Classpath exception 2.0"
-	DetailsUrl    string                 `protobuf:"bytes,3,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`        // SPDX exception JSON URL
-	SeeAlso       []string               `protobuf:"bytes,5,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`                 // Reference URLs
-	IsDeprecated  bool                   `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"` // Exception is deprecated
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SPDX_Exception) Reset() {
-	*x = SPDX_Exception{}
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SPDX_Exception) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SPDX_Exception) ProtoMessage() {}
-
-func (x *SPDX_Exception) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SPDX_Exception.ProtoReflect.Descriptor instead.
-func (*SPDX_Exception) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *SPDX_Exception) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *SPDX_Exception) GetFullName() string {
-	if x != nil {
-		return x.FullName
-	}
-	return ""
-}
-
-func (x *SPDX_Exception) GetDetailsUrl() string {
-	if x != nil {
-		return x.DetailsUrl
-	}
-	return ""
-}
-
-func (x *SPDX_Exception) GetSeeAlso() []string {
-	if x != nil {
-		return x.SeeAlso
+		return x.Components
 	}
 	return nil
 }
 
-func (x *SPDX_Exception) GetIsDeprecated() bool {
+func (x *BatchLicenseResponse) GetStatus() *commonv2.StatusResponse {
 	if x != nil {
-		return x.IsDeprecated
+		return x.Status
 	}
-	return false
+	return nil
+}
+
+type LicenseDetailsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	License       *LicenseDetails          `protobuf:"bytes,1,opt,name=license,proto3" json:"license,omitempty"` // Full license details with all metadata
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LicenseDetailsResponse) Reset() {
+	*x = LicenseDetailsResponse{}
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LicenseDetailsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LicenseDetailsResponse) ProtoMessage() {}
+
+func (x *LicenseDetailsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LicenseDetailsResponse.ProtoReflect.Descriptor instead.
+func (*LicenseDetailsResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *LicenseDetailsResponse) GetLicense() *LicenseDetails {
+	if x != nil {
+		return x.License
+	}
+	return nil
+}
+
+func (x *LicenseDetailsResponse) GetStatus() *commonv2.StatusResponse {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+type ObligationsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Obligations   *OSADL                   `protobuf:"bytes,1,opt,name=obligations,proto3" json:"obligations,omitempty"` // OSADL compliance data with use cases and obligations
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ObligationsResponse) Reset() {
+	*x = ObligationsResponse{}
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ObligationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ObligationsResponse) ProtoMessage() {}
+
+func (x *ObligationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ObligationsResponse.ProtoReflect.Descriptor instead.
+func (*ObligationsResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ObligationsResponse) GetObligations() *OSADL {
+	if x != nil {
+		return x.Obligations
+	}
+	return nil
+}
+
+func (x *ObligationsResponse) GetStatus() *commonv2.StatusResponse {
+	if x != nil {
+		return x.Status
+	}
+	return nil
 }
 
 // SPDX license registry metadata.
@@ -290,15 +276,15 @@ type SPDX struct {
 	IsFsfLibre    bool                   `protobuf:"varint,7,opt,name=is_fsf_libre,json=isFsfLibre,proto3" json:"is_fsf_libre,omitempty"`     // FSF considers it libre/free
 	IsOsiApproved bool                   `protobuf:"varint,8,opt,name=is_osi_approved,json=isOsiApproved,proto3" json:"is_osi_approved,omitempty"`
 	SeeAlso       []string               `protobuf:"bytes,9,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`        // Related URLs
-	CrossRefs     []*SPDX_CrossRef       `protobuf:"bytes,10,rep,name=cross_refs,json=crossRefs,proto3" json:"cross_refs,omitempty"` // Structured cross-references with validation info
-	Exceptions    []*SPDX_Exception      `protobuf:"bytes,11,rep,name=exceptions,proto3" json:"exceptions,omitempty"`                // SPDX exceptions applied to this license (empty if none)
+	CrossRefs     []*SPDX_SPDXCrossRef   `protobuf:"bytes,10,rep,name=cross_refs,json=crossRefs,proto3" json:"cross_refs,omitempty"` // Structured cross-references with validation info
+	Exceptions    []*SPDX_SPDXException  `protobuf:"bytes,11,rep,name=exceptions,proto3" json:"exceptions,omitempty"`                // SPDX exceptions applied to this license (empty if none)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SPDX) Reset() {
 	*x = SPDX{}
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[2]
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -310,7 +296,7 @@ func (x *SPDX) String() string {
 func (*SPDX) ProtoMessage() {}
 
 func (x *SPDX) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[2]
+	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -323,7 +309,7 @@ func (x *SPDX) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SPDX.ProtoReflect.Descriptor instead.
 func (*SPDX) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{2}
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SPDX) GetId() string {
@@ -382,79 +368,18 @@ func (x *SPDX) GetSeeAlso() []string {
 	return nil
 }
 
-func (x *SPDX) GetCrossRefs() []*SPDX_CrossRef {
+func (x *SPDX) GetCrossRefs() []*SPDX_SPDXCrossRef {
 	if x != nil {
 		return x.CrossRefs
 	}
 	return nil
 }
 
-func (x *SPDX) GetExceptions() []*SPDX_Exception {
+func (x *SPDX) GetExceptions() []*SPDX_SPDXException {
 	if x != nil {
 		return x.Exceptions
 	}
 	return nil
-}
-
-// OSADL use case with structured obligations.
-type OSADL_UseCase struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                                           // "Binary delivery", "Network service", "Source code delivery"
-	ObligationText string                 `protobuf:"bytes,2,opt,name=obligation_text,json=obligationText,proto3" json:"obligation_text,omitempty"` // Human-readable obligation text
-	ObligationJson string                 `protobuf:"bytes,3,opt,name=obligation_json,json=obligationJson,proto3" json:"obligation_json,omitempty"` // Machine-readable structured obligations with Language/Action/Term breakdown
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *OSADL_UseCase) Reset() {
-	*x = OSADL_UseCase{}
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *OSADL_UseCase) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*OSADL_UseCase) ProtoMessage() {}
-
-func (x *OSADL_UseCase) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use OSADL_UseCase.ProtoReflect.Descriptor instead.
-func (*OSADL_UseCase) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *OSADL_UseCase) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *OSADL_UseCase) GetObligationText() string {
-	if x != nil {
-		return x.ObligationText
-	}
-	return ""
-}
-
-func (x *OSADL_UseCase) GetObligationJson() string {
-	if x != nil {
-		return x.ObligationJson
-	}
-	return ""
 }
 
 // OSADL compliance metadata providing license analysis and compatibility information.
@@ -465,7 +390,7 @@ type OSADL struct {
 	Compatibility          []string               `protobuf:"bytes,3,rep,name=compatibility,proto3" json:"compatibility,omitempty"`
 	DependingCompatibility []string               `protobuf:"bytes,4,rep,name=depending_compatibility,json=dependingCompatibility,proto3" json:"depending_compatibility,omitempty"`
 	Incompatibility        []string               `protobuf:"bytes,5,rep,name=incompatibility,proto3" json:"incompatibility,omitempty"`
-	UseCases               []*OSADL_UseCase       `protobuf:"bytes,6,rep,name=use_cases,json=useCases,proto3" json:"use_cases,omitempty"` //TODO: Mine data
+	UseCases               []*OSADL_OSADLUseCase  `protobuf:"bytes,6,rep,name=use_cases,json=useCases,proto3" json:"use_cases,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -535,7 +460,7 @@ func (x *OSADL) GetIncompatibility() []string {
 	return nil
 }
 
-func (x *OSADL) GetUseCases() []*OSADL_UseCase {
+func (x *OSADL) GetUseCases() []*OSADL_OSADLUseCase {
 	if x != nil {
 		return x.UseCases
 	}
@@ -543,15 +468,9 @@ func (x *OSADL) GetUseCases() []*OSADL_UseCase {
 }
 
 type LicenseInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Identifier for an individual license
-	// - For SPDX registry licenses: Standard SPDX ID (e.g., "MIT", "GPL-2.0-only")
-	// - For non-registry licenses: licenseRef format (e.g., "licenseRef-GitLab-Enterprise")
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Best human-readable license name (normalized when possible)
-	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
-	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-	FullName      string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	FullName      string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -606,10 +525,10 @@ type LicenseDetails struct {
 	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
 	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
 	// Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
-	FullName      string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	Type          Type   `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.Type" json:"type,omitempty"`
-	Spdx          *SPDX  `protobuf:"bytes,3,opt,name=spdx,proto3" json:"spdx,omitempty"`   // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
-	Osadl         *OSADL `protobuf:"bytes,4,opt,name=osadl,proto3" json:"osadl,omitempty"` // Optional - OSADL compliance metadata
+	FullName      string      `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	Type          LicenseType `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.LicenseType" json:"type,omitempty"`
+	Spdx          *SPDX       `protobuf:"bytes,3,opt,name=spdx,proto3" json:"spdx,omitempty"`   // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
+	Osadl         *OSADL      `protobuf:"bytes,4,opt,name=osadl,proto3" json:"osadl,omitempty"` // Optional - OSADL compliance metadata
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -651,11 +570,11 @@ func (x *LicenseDetails) GetFullName() string {
 	return ""
 }
 
-func (x *LicenseDetails) GetType() Type {
+func (x *LicenseDetails) GetType() LicenseType {
 	if x != nil {
 		return x.Type
 	}
-	return Type_UNKNOWN
+	return LicenseType_UNKNOWN
 }
 
 func (x *LicenseDetails) GetSpdx() *SPDX {
@@ -717,14 +636,13 @@ func (x *LicenseRequest) GetId() string {
 	return ""
 }
 
-// Individual component license information
 type ComponentLicenseInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	Version       string                 `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
-	Statement     string                 `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"` // Raw license statement as declared in source code
-	Licenses      []*LicenseInfo         `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`   // Individual licenses parsed from the statement with basic info
+	Statement     string                 `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"`
+	Licenses      []*LicenseInfo         `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -794,29 +712,33 @@ func (x *ComponentLicenseInfo) GetLicenses() []*LicenseInfo {
 	return nil
 }
 
-// GetLicenses endpoint batch response
-type BatchLicenseResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Components    []*ComponentLicenseInfo  `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"` // License info for each component in the batch
-	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+type SPDX_SPDXCrossRef struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	IsValid       bool                   `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	IsLive        bool                   `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
+	Timestamp     string                 `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	IsWaybackLink bool                   `protobuf:"varint,5,opt,name=is_wayback_link,json=isWaybackLink,proto3" json:"is_wayback_link,omitempty"`
+	Order         int32                  `protobuf:"varint,6,opt,name=order,proto3" json:"order,omitempty"`
+	Match         string                 `protobuf:"bytes,7,opt,name=match,proto3" json:"match,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *BatchLicenseResponse) Reset() {
-	*x = BatchLicenseResponse{}
+func (x *SPDX_SPDXCrossRef) Reset() {
+	*x = SPDX_SPDXCrossRef{}
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *BatchLicenseResponse) String() string {
+func (x *SPDX_SPDXCrossRef) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*BatchLicenseResponse) ProtoMessage() {}
+func (*SPDX_SPDXCrossRef) ProtoMessage() {}
 
-func (x *BatchLicenseResponse) ProtoReflect() protoreflect.Message {
+func (x *SPDX_SPDXCrossRef) ProtoReflect() protoreflect.Message {
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -828,47 +750,85 @@ func (x *BatchLicenseResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchLicenseResponse.ProtoReflect.Descriptor instead.
-func (*BatchLicenseResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{9}
+// Deprecated: Use SPDX_SPDXCrossRef.ProtoReflect.Descriptor instead.
+func (*SPDX_SPDXCrossRef) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{3, 0}
 }
 
-func (x *BatchLicenseResponse) GetComponents() []*ComponentLicenseInfo {
+func (x *SPDX_SPDXCrossRef) GetUrl() string {
 	if x != nil {
-		return x.Components
+		return x.Url
 	}
-	return nil
+	return ""
 }
 
-func (x *BatchLicenseResponse) GetStatus() *commonv2.StatusResponse {
+func (x *SPDX_SPDXCrossRef) GetIsValid() bool {
 	if x != nil {
-		return x.Status
+		return x.IsValid
 	}
-	return nil
+	return false
 }
 
-type LicenseDetailsResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	License       *LicenseDetails          `protobuf:"bytes,1,opt,name=license,proto3" json:"license,omitempty"` // Full license details with all metadata
-	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+func (x *SPDX_SPDXCrossRef) GetIsLive() bool {
+	if x != nil {
+		return x.IsLive
+	}
+	return false
+}
+
+func (x *SPDX_SPDXCrossRef) GetTimestamp() string {
+	if x != nil {
+		return x.Timestamp
+	}
+	return ""
+}
+
+func (x *SPDX_SPDXCrossRef) GetIsWaybackLink() bool {
+	if x != nil {
+		return x.IsWaybackLink
+	}
+	return false
+}
+
+func (x *SPDX_SPDXCrossRef) GetOrder() int32 {
+	if x != nil {
+		return x.Order
+	}
+	return 0
+}
+
+func (x *SPDX_SPDXCrossRef) GetMatch() string {
+	if x != nil {
+		return x.Match
+	}
+	return ""
+}
+
+type SPDX_SPDXException struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                          // "Classpath-exception-2.0"
+	FullName      string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`              // "Classpath exception 2.0"
+	DetailsUrl    string                 `protobuf:"bytes,3,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`        // SPDX exception JSON URL
+	SeeAlso       []string               `protobuf:"bytes,5,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`                 // Reference URLs
+	IsDeprecated  bool                   `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"` // Exception is deprecated
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LicenseDetailsResponse) Reset() {
-	*x = LicenseDetailsResponse{}
+func (x *SPDX_SPDXException) Reset() {
+	*x = SPDX_SPDXException{}
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LicenseDetailsResponse) String() string {
+func (x *SPDX_SPDXException) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LicenseDetailsResponse) ProtoMessage() {}
+func (*SPDX_SPDXException) ProtoMessage() {}
 
-func (x *LicenseDetailsResponse) ProtoReflect() protoreflect.Message {
+func (x *SPDX_SPDXException) ProtoReflect() protoreflect.Message {
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -880,47 +840,70 @@ func (x *LicenseDetailsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LicenseDetailsResponse.ProtoReflect.Descriptor instead.
-func (*LicenseDetailsResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use SPDX_SPDXException.ProtoReflect.Descriptor instead.
+func (*SPDX_SPDXException) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{3, 1}
 }
 
-func (x *LicenseDetailsResponse) GetLicense() *LicenseDetails {
+func (x *SPDX_SPDXException) GetId() string {
 	if x != nil {
-		return x.License
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SPDX_SPDXException) GetFullName() string {
+	if x != nil {
+		return x.FullName
+	}
+	return ""
+}
+
+func (x *SPDX_SPDXException) GetDetailsUrl() string {
+	if x != nil {
+		return x.DetailsUrl
+	}
+	return ""
+}
+
+func (x *SPDX_SPDXException) GetSeeAlso() []string {
+	if x != nil {
+		return x.SeeAlso
 	}
 	return nil
 }
 
-func (x *LicenseDetailsResponse) GetStatus() *commonv2.StatusResponse {
+func (x *SPDX_SPDXException) GetIsDeprecated() bool {
 	if x != nil {
-		return x.Status
+		return x.IsDeprecated
 	}
-	return nil
+	return false
 }
 
-type ObligationsResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Obligations   *OSADL                   `protobuf:"bytes,1,opt,name=obligations,proto3" json:"obligations,omitempty"` // OSADL compliance data with use cases and obligations
-	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+// OSADL use case with structured obligations.
+type OSADL_OSADLUseCase struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                                           // "Binary delivery", "Network service", "Source code delivery"
+	ObligationText string                 `protobuf:"bytes,2,opt,name=obligation_text,json=obligationText,proto3" json:"obligation_text,omitempty"` // Human-readable obligation text
+	ObligationJson string                 `protobuf:"bytes,3,opt,name=obligation_json,json=obligationJson,proto3" json:"obligation_json,omitempty"` // Machine-readable structured obligations with Language/Action/Term breakdown
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
-func (x *ObligationsResponse) Reset() {
-	*x = ObligationsResponse{}
+func (x *OSADL_OSADLUseCase) Reset() {
+	*x = OSADL_OSADLUseCase{}
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ObligationsResponse) String() string {
+func (x *OSADL_OSADLUseCase) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ObligationsResponse) ProtoMessage() {}
+func (*OSADL_OSADLUseCase) ProtoMessage() {}
 
-func (x *ObligationsResponse) ProtoReflect() protoreflect.Message {
+func (x *OSADL_OSADLUseCase) ProtoReflect() protoreflect.Message {
 	mi := &file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -932,89 +915,37 @@ func (x *ObligationsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ObligationsResponse.ProtoReflect.Descriptor instead.
-func (*ObligationsResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{11}
+// Deprecated: Use OSADL_OSADLUseCase.ProtoReflect.Descriptor instead.
+func (*OSADL_OSADLUseCase) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *ObligationsResponse) GetObligations() *OSADL {
+func (x *OSADL_OSADLUseCase) GetName() string {
 	if x != nil {
-		return x.Obligations
+		return x.Name
 	}
-	return nil
+	return ""
 }
 
-func (x *ObligationsResponse) GetStatus() *commonv2.StatusResponse {
+func (x *OSADL_OSADLUseCase) GetObligationText() string {
 	if x != nil {
-		return x.Status
+		return x.ObligationText
 	}
-	return nil
+	return ""
+}
+
+func (x *OSADL_OSADLUseCase) GetObligationJson() string {
+	if x != nil {
+		return x.ObligationJson
+	}
+	return ""
 }
 
 var File_scanoss_api_licenses_v2_scanoss_licenses_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xc7\x01\n" +
-	"\rSPDX_CrossRef\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\x12\x19\n" +
-	"\bis_valid\x18\x02 \x01(\bR\aisValid\x12\x17\n" +
-	"\ais_live\x18\x03 \x01(\bR\x06isLive\x12\x1c\n" +
-	"\ttimestamp\x18\x04 \x01(\tR\ttimestamp\x12&\n" +
-	"\x0fis_wayback_link\x18\x05 \x01(\bR\risWaybackLink\x12\x14\n" +
-	"\x05order\x18\x06 \x01(\x05R\x05order\x12\x14\n" +
-	"\x05match\x18\a \x01(\tR\x05match\"\x9e\x01\n" +
-	"\x0eSPDX_Exception\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
-	"\vdetails_url\x18\x03 \x01(\tR\n" +
-	"detailsUrl\x12\x19\n" +
-	"\bsee_also\x18\x05 \x03(\tR\aseeAlso\x12#\n" +
-	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\"\x93\x03\n" +
-	"\x04SPDX\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
-	"\vdetails_url\x18\x04 \x01(\tR\n" +
-	"detailsUrl\x12#\n" +
-	"\rreference_url\x18\x05 \x01(\tR\freferenceUrl\x12#\n" +
-	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\x12 \n" +
-	"\fis_fsf_libre\x18\a \x01(\bR\n" +
-	"isFsfLibre\x12&\n" +
-	"\x0fis_osi_approved\x18\b \x01(\bR\risOsiApproved\x12\x19\n" +
-	"\bsee_also\x18\t \x03(\tR\aseeAlso\x12E\n" +
-	"\n" +
-	"cross_refs\x18\n" +
-	" \x03(\v2&.scanoss.api.licenses.v2.SPDX_CrossRefR\tcrossRefs\x12G\n" +
-	"\n" +
-	"exceptions\x18\v \x03(\v2'.scanoss.api.licenses.v2.SPDX_ExceptionR\n" +
-	"exceptions\"u\n" +
-	"\rOSADL_UseCase\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12'\n" +
-	"\x0fobligation_text\x18\x02 \x01(\tR\x0eobligationText\x12'\n" +
-	"\x0fobligation_json\x18\x03 \x01(\tR\x0eobligationJson\"\xa1\x02\n" +
-	"\x05OSADL\x12'\n" +
-	"\x0fcopyleft_clause\x18\x01 \x01(\bR\x0ecopyleftClause\x12!\n" +
-	"\fpatent_hints\x18\x02 \x01(\bR\vpatentHints\x12$\n" +
-	"\rcompatibility\x18\x03 \x03(\tR\rcompatibility\x127\n" +
-	"\x17depending_compatibility\x18\x04 \x03(\tR\x16dependingCompatibility\x12(\n" +
-	"\x0fincompatibility\x18\x05 \x03(\tR\x0fincompatibility\x12C\n" +
-	"\tuse_cases\x18\x06 \x03(\v2&.scanoss.api.licenses.v2.OSADL_UseCaseR\buseCases\":\n" +
-	"\vLicenseInfo\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName\"\xc9\x01\n" +
-	"\x0eLicenseDetails\x12\x1b\n" +
-	"\tfull_name\x18\x01 \x01(\tR\bfullName\x121\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x1d.scanoss.api.licenses.v2.TypeR\x04type\x121\n" +
-	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
-	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
-	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xc6\x01\n" +
-	"\x14ComponentLicenseInfo\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
-	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
-	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
-	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
-	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\"\xa4\x01\n" +
+	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xa4\x01\n" +
 	"\x14BatchLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +
@@ -1025,8 +956,71 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
 	"\x13ObligationsResponse\x12@\n" +
 	"\vobligations\x18\x01 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\vobligations\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status*e\n" +
-	"\x04Type\x12\v\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x84\x06\n" +
+	"\x04SPDX\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
+	"\vdetails_url\x18\x04 \x01(\tR\n" +
+	"detailsUrl\x12#\n" +
+	"\rreference_url\x18\x05 \x01(\tR\freferenceUrl\x12#\n" +
+	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\x12 \n" +
+	"\fis_fsf_libre\x18\a \x01(\bR\n" +
+	"isFsfLibre\x12&\n" +
+	"\x0fis_osi_approved\x18\b \x01(\bR\risOsiApproved\x12\x19\n" +
+	"\bsee_also\x18\t \x03(\tR\aseeAlso\x12I\n" +
+	"\n" +
+	"cross_refs\x18\n" +
+	" \x03(\v2*.scanoss.api.licenses.v2.SPDX.SPDXCrossRefR\tcrossRefs\x12K\n" +
+	"\n" +
+	"exceptions\x18\v \x03(\v2+.scanoss.api.licenses.v2.SPDX.SPDXExceptionR\n" +
+	"exceptions\x1a\xc6\x01\n" +
+	"\fSPDXCrossRef\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12\x19\n" +
+	"\bis_valid\x18\x02 \x01(\bR\aisValid\x12\x17\n" +
+	"\ais_live\x18\x03 \x01(\bR\x06isLive\x12\x1c\n" +
+	"\ttimestamp\x18\x04 \x01(\tR\ttimestamp\x12&\n" +
+	"\x0fis_wayback_link\x18\x05 \x01(\bR\risWaybackLink\x12\x14\n" +
+	"\x05order\x18\x06 \x01(\x05R\x05order\x12\x14\n" +
+	"\x05match\x18\a \x01(\tR\x05match\x1a\x9d\x01\n" +
+	"\rSPDXException\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
+	"\vdetails_url\x18\x03 \x01(\tR\n" +
+	"detailsUrl\x12\x19\n" +
+	"\bsee_also\x18\x05 \x03(\tR\aseeAlso\x12#\n" +
+	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\"\x9c\x03\n" +
+	"\x05OSADL\x12'\n" +
+	"\x0fcopyleft_clause\x18\x01 \x01(\bR\x0ecopyleftClause\x12!\n" +
+	"\fpatent_hints\x18\x02 \x01(\bR\vpatentHints\x12$\n" +
+	"\rcompatibility\x18\x03 \x03(\tR\rcompatibility\x127\n" +
+	"\x17depending_compatibility\x18\x04 \x03(\tR\x16dependingCompatibility\x12(\n" +
+	"\x0fincompatibility\x18\x05 \x03(\tR\x0fincompatibility\x12H\n" +
+	"\tuse_cases\x18\x06 \x03(\v2+.scanoss.api.licenses.v2.OSADL.OSADLUseCaseR\buseCases\x1at\n" +
+	"\fOSADLUseCase\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12'\n" +
+	"\x0fobligation_text\x18\x02 \x01(\tR\x0eobligationText\x12'\n" +
+	"\x0fobligation_json\x18\x03 \x01(\tR\x0eobligationJson\"\xf4\x02\n" +
+	"\vLicenseInfo\x12\x9b\x01\n" +
+	"\x02id\x18\x01 \x01(\tB\x8a\x01\x92A\x86\x012}License identifier.\n" +
+	"For SPDX registry licenses: Standard SPDX ID.\n" +
+	"For non-registry licenses: licenseRef-<custom_license_name>J\x05\"MIT\"R\x02id\x12M\n" +
+	"\tfull_name\x18\x02 \x01(\tB0\x92A-2\x1cHuman-readable license name.J\r\"MIT License\"R\bfullName:x\x92Au\n" +
+	"s2FIndividual license identification with SPDX ID and human-readable nameJ){\"id\": \"MIT\", \"full_name\": \"MIT License\"}\"\xd0\x01\n" +
+	"\x0eLicenseDetails\x12\x1b\n" +
+	"\tfull_name\x18\x01 \x01(\tR\bfullName\x128\n" +
+	"\x04type\x18\x02 \x01(\x0e2$.scanoss.api.licenses.v2.LicenseTypeR\x04type\x121\n" +
+	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
+	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
+	"\x0eLicenseRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\x82\t\n" +
+	"\x14ComponentLicenseInfo\x12\xb7\x01\n" +
+	"\x04purl\x18\x01 \x01(\tB\xa2\x01\x92A\x9e\x012yPackage URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logicJ!\"pkg:github/scanoss/engine@1.0.0\"R\x04purl\x12\xa1\x01\n" +
+	"\vrequirement\x18\x02 \x01(\tB\x7f\x92A|2pEchoes the client's version constraint from the request. See Common API Types documentation for resolution logicJ\b\"^1.0.0\"R\vrequirement\x12[\n" +
+	"\aversion\x18\x03 \x01(\tBA\x92A>23Specific version of the component that was analyzedJ\a\"1.0.0\"R\aversion\x12\x9c\x01\n" +
+	"\tstatement\x18\x04 \x01(\tB~\x92A{2RSPDX expression when licensing terms are clearly determinable from source analysisJ%\"MIT OR licenseRef-GitLab-Enterprise\"R\tstatement\x12\x80\x02\n" +
+	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoB\xbd\x01\x92A\xb9\x012/Individual licenses identified in the componentJ\x85\x01[{\"id\": \"MIT\", \"full_name\": \"MIT License\"}, {\"id\": \"licenseRef-GitLab-Enterprise\", \"full_name\": \"GitLab Enterprise Edition License\"}]R\blicenses:\x8c\x02\x92A\x88\x02\n" +
+	"\x85\x02*\x14ComponentLicenseInfo2KLicense information for a specific component identified by PURL and versionJ\x9f\x01{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\", \"full_name\": \"MIT License\"}]}*l\n" +
+	"\vLicenseType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x0e\n" +
 	"\n" +
 	"PERMISSIVE\x10\x01\x12\f\n" +
@@ -1034,14 +1028,17 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
 	"COMMERCIAL\x10\x03\x12\x0f\n" +
 	"\vPROPRIETARY\x10\x04\x12\x11\n" +
-	"\rPUBLIC_DOMAIN\x10\x052\xac\x04\n" +
-	"\aLicense\x12q\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/echo\x12\x8c\x01\n" +
-	"\vGetLicenses\x12,.scanoss.api.common.v2.ComponentBatchRequest\x1a-.scanoss.api.licenses.v2.BatchLicenseResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/purl\x12\x8b\x01\n" +
+	"\rPUBLIC_DOMAIN\x10\x052\xc2\b\n" +
+	"\aLicense\x12\xcd\x01\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"|\x92AY\x12WReturns the same message that was sent, used for health checks and connectivity testing\x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/echo\x12\xc5\x04\n" +
+	"\vGetLicenses\x12,.scanoss.api.common.v2.ComponentBatchRequest\x1a-.scanoss.api.licenses.v2.BatchLicenseResponse\"\xd8\x03\x92A\xb4\x03\x129Get license information for a list of software components\x1a\x9e\x02Retrieves license information for software components identified by Package URLs.\n" +
+	"Examines source code, license files, and package metadata to determine which licenses apply to each component.\n" +
+	"Returns license data in both individual SPDX license and SPDX expressions when determinable.\n" +
+	"\"V\x12Thttps://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md\x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/purl\x12\x8b\x01\n" +
 	"\n" +
 	"GetDetails\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a/.scanoss.api.licenses.v2.LicenseDetailsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/api/v2/licenses/details\x12\x90\x01\n" +
-	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\x89\x02\x92A\xd2\x01\x12l\n" +
-	"\x17SCANOSS License Service\"L\n" +
+	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\xd2\x02\x92A\x9b\x02\x12\xb4\x01\n" +
+	"\x17SCANOSS License Service\x12FLicense service provides license intelligence for software components.\"L\n" +
 	"\x10scanoss-licenses\x12#https://github.com/scanoss/licenses\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
 	"*Returned when the resource does not exist.\x12\x06\n" +
@@ -1062,46 +1059,46 @@ func file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP() []byte {
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_goTypes = []any{
-	(Type)(0),                              // 0: scanoss.api.licenses.v2.Type
-	(*SPDX_CrossRef)(nil),                  // 1: scanoss.api.licenses.v2.SPDX_CrossRef
-	(*SPDX_Exception)(nil),                 // 2: scanoss.api.licenses.v2.SPDX_Exception
-	(*SPDX)(nil),                           // 3: scanoss.api.licenses.v2.SPDX
-	(*OSADL_UseCase)(nil),                  // 4: scanoss.api.licenses.v2.OSADL_UseCase
+	(LicenseType)(0),                       // 0: scanoss.api.licenses.v2.LicenseType
+	(*BatchLicenseResponse)(nil),           // 1: scanoss.api.licenses.v2.BatchLicenseResponse
+	(*LicenseDetailsResponse)(nil),         // 2: scanoss.api.licenses.v2.LicenseDetailsResponse
+	(*ObligationsResponse)(nil),            // 3: scanoss.api.licenses.v2.ObligationsResponse
+	(*SPDX)(nil),                           // 4: scanoss.api.licenses.v2.SPDX
 	(*OSADL)(nil),                          // 5: scanoss.api.licenses.v2.OSADL
 	(*LicenseInfo)(nil),                    // 6: scanoss.api.licenses.v2.LicenseInfo
 	(*LicenseDetails)(nil),                 // 7: scanoss.api.licenses.v2.LicenseDetails
 	(*LicenseRequest)(nil),                 // 8: scanoss.api.licenses.v2.LicenseRequest
 	(*ComponentLicenseInfo)(nil),           // 9: scanoss.api.licenses.v2.ComponentLicenseInfo
-	(*BatchLicenseResponse)(nil),           // 10: scanoss.api.licenses.v2.BatchLicenseResponse
-	(*LicenseDetailsResponse)(nil),         // 11: scanoss.api.licenses.v2.LicenseDetailsResponse
-	(*ObligationsResponse)(nil),            // 12: scanoss.api.licenses.v2.ObligationsResponse
+	(*SPDX_SPDXCrossRef)(nil),              // 10: scanoss.api.licenses.v2.SPDX.SPDXCrossRef
+	(*SPDX_SPDXException)(nil),             // 11: scanoss.api.licenses.v2.SPDX.SPDXException
+	(*OSADL_OSADLUseCase)(nil),             // 12: scanoss.api.licenses.v2.OSADL.OSADLUseCase
 	(*commonv2.StatusResponse)(nil),        // 13: scanoss.api.common.v2.StatusResponse
 	(*commonv2.EchoRequest)(nil),           // 14: scanoss.api.common.v2.EchoRequest
 	(*commonv2.ComponentBatchRequest)(nil), // 15: scanoss.api.common.v2.ComponentBatchRequest
 	(*commonv2.EchoResponse)(nil),          // 16: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
-	1,  // 0: scanoss.api.licenses.v2.SPDX.cross_refs:type_name -> scanoss.api.licenses.v2.SPDX_CrossRef
-	2,  // 1: scanoss.api.licenses.v2.SPDX.exceptions:type_name -> scanoss.api.licenses.v2.SPDX_Exception
-	4,  // 2: scanoss.api.licenses.v2.OSADL.use_cases:type_name -> scanoss.api.licenses.v2.OSADL_UseCase
-	0,  // 3: scanoss.api.licenses.v2.LicenseDetails.type:type_name -> scanoss.api.licenses.v2.Type
-	3,  // 4: scanoss.api.licenses.v2.LicenseDetails.spdx:type_name -> scanoss.api.licenses.v2.SPDX
-	5,  // 5: scanoss.api.licenses.v2.LicenseDetails.osadl:type_name -> scanoss.api.licenses.v2.OSADL
-	6,  // 6: scanoss.api.licenses.v2.ComponentLicenseInfo.licenses:type_name -> scanoss.api.licenses.v2.LicenseInfo
-	9,  // 7: scanoss.api.licenses.v2.BatchLicenseResponse.components:type_name -> scanoss.api.licenses.v2.ComponentLicenseInfo
-	13, // 8: scanoss.api.licenses.v2.BatchLicenseResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 9: scanoss.api.licenses.v2.LicenseDetailsResponse.license:type_name -> scanoss.api.licenses.v2.LicenseDetails
-	13, // 10: scanoss.api.licenses.v2.LicenseDetailsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	5,  // 11: scanoss.api.licenses.v2.ObligationsResponse.obligations:type_name -> scanoss.api.licenses.v2.OSADL
-	13, // 12: scanoss.api.licenses.v2.ObligationsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	9,  // 0: scanoss.api.licenses.v2.BatchLicenseResponse.components:type_name -> scanoss.api.licenses.v2.ComponentLicenseInfo
+	13, // 1: scanoss.api.licenses.v2.BatchLicenseResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 2: scanoss.api.licenses.v2.LicenseDetailsResponse.license:type_name -> scanoss.api.licenses.v2.LicenseDetails
+	13, // 3: scanoss.api.licenses.v2.LicenseDetailsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	5,  // 4: scanoss.api.licenses.v2.ObligationsResponse.obligations:type_name -> scanoss.api.licenses.v2.OSADL
+	13, // 5: scanoss.api.licenses.v2.ObligationsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	10, // 6: scanoss.api.licenses.v2.SPDX.cross_refs:type_name -> scanoss.api.licenses.v2.SPDX.SPDXCrossRef
+	11, // 7: scanoss.api.licenses.v2.SPDX.exceptions:type_name -> scanoss.api.licenses.v2.SPDX.SPDXException
+	12, // 8: scanoss.api.licenses.v2.OSADL.use_cases:type_name -> scanoss.api.licenses.v2.OSADL.OSADLUseCase
+	0,  // 9: scanoss.api.licenses.v2.LicenseDetails.type:type_name -> scanoss.api.licenses.v2.LicenseType
+	4,  // 10: scanoss.api.licenses.v2.LicenseDetails.spdx:type_name -> scanoss.api.licenses.v2.SPDX
+	5,  // 11: scanoss.api.licenses.v2.LicenseDetails.osadl:type_name -> scanoss.api.licenses.v2.OSADL
+	6,  // 12: scanoss.api.licenses.v2.ComponentLicenseInfo.licenses:type_name -> scanoss.api.licenses.v2.LicenseInfo
 	14, // 13: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
 	15, // 14: scanoss.api.licenses.v2.License.GetLicenses:input_type -> scanoss.api.common.v2.ComponentBatchRequest
 	8,  // 15: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
 	8,  // 16: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
 	16, // 17: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	10, // 18: scanoss.api.licenses.v2.License.GetLicenses:output_type -> scanoss.api.licenses.v2.BatchLicenseResponse
-	11, // 19: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
-	12, // 20: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
+	1,  // 18: scanoss.api.licenses.v2.License.GetLicenses:output_type -> scanoss.api.licenses.v2.BatchLicenseResponse
+	2,  // 19: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
+	3,  // 20: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
 	17, // [17:21] is the sub-list for method output_type
 	13, // [13:17] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name

@@ -1,7 +1,7 @@
 //
 //SPDX-License-Identifier: MIT
 //
-//Copyright (c) 2021, SCANOSS
+//Copyright (c) 2021-2025, SCANOSS
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@
 package commonv2
 
 import (
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -249,6 +250,102 @@ func (x *EchoResponse) GetMessage() string {
 	return ""
 }
 
+type ComponentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentRequest) Reset() {
+	*x = ComponentRequest{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentRequest) ProtoMessage() {}
+
+func (x *ComponentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentRequest.ProtoReflect.Descriptor instead.
+func (*ComponentRequest) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ComponentRequest) GetPurl() string {
+	if x != nil {
+		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentRequest) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
+	}
+	return ""
+}
+
+type ComponentBatchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Components    []*ComponentRequest    `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentBatchRequest) Reset() {
+	*x = ComponentBatchRequest{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentBatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentBatchRequest) ProtoMessage() {}
+
+func (x *ComponentBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentBatchRequest.ProtoReflect.Descriptor instead.
+func (*ComponentBatchRequest) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ComponentBatchRequest) GetComponents() []*ComponentRequest {
+	if x != nil {
+		return x.Components
+	}
+	return nil
+}
+
 // Purl request data (JSON payload)
 // WARNING: PurlRequest is deprecated, use ComponentBatchRequest instead.
 type PurlRequest struct {
@@ -261,7 +358,7 @@ type PurlRequest struct {
 
 func (x *PurlRequest) Reset() {
 	*x = PurlRequest{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[3]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -273,7 +370,7 @@ func (x *PurlRequest) String() string {
 func (*PurlRequest) ProtoMessage() {}
 
 func (x *PurlRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[3]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -286,7 +383,7 @@ func (x *PurlRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PurlRequest.ProtoReflect.Descriptor instead.
 func (*PurlRequest) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{3}
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *PurlRequest) GetPurls() []*PurlRequest_Purls {
@@ -309,7 +406,7 @@ type Purl struct {
 
 func (x *Purl) Reset() {
 	*x = Purl{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[4]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -321,7 +418,7 @@ func (x *Purl) String() string {
 func (*Purl) ProtoMessage() {}
 
 func (x *Purl) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[4]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -334,7 +431,7 @@ func (x *Purl) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Purl.ProtoReflect.Descriptor instead.
 func (*Purl) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{4}
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Purl) GetPurl() string {
@@ -345,105 +442,6 @@ func (x *Purl) GetPurl() string {
 }
 
 func (x *Purl) GetRequirement() string {
-	if x != nil {
-		return x.Requirement
-	}
-	return ""
-}
-
-// Component batch request data (JSON payload)
-type ComponentBatchRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// JSON request purls
-	Components    []*ComponentRequest `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ComponentBatchRequest) Reset() {
-	*x = ComponentBatchRequest{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ComponentBatchRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ComponentBatchRequest) ProtoMessage() {}
-
-func (x *ComponentBatchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ComponentBatchRequest.ProtoReflect.Descriptor instead.
-func (*ComponentBatchRequest) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *ComponentBatchRequest) GetComponents() []*ComponentRequest {
-	if x != nil {
-		return x.Components
-	}
-	return nil
-}
-
-// Component request data (JSON payload)
-type ComponentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ComponentRequest) Reset() {
-	*x = ComponentRequest{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ComponentRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ComponentRequest) ProtoMessage() {}
-
-func (x *ComponentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ComponentRequest.ProtoReflect.Descriptor instead.
-func (*ComponentRequest) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *ComponentRequest) GetPurl() string {
-	if x != nil {
-		return x.Purl
-	}
-	return ""
-}
-
-func (x *ComponentRequest) GetRequirement() string {
 	if x != nil {
 		return x.Requirement
 	}
@@ -489,7 +487,7 @@ func (x *PurlRequest_Purls) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PurlRequest_Purls.ProtoReflect.Descriptor instead.
 func (*PurlRequest_Purls) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{3, 0}
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{5, 0}
 }
 
 func (x *PurlRequest_Purls) GetPurl() string {
@@ -510,27 +508,33 @@ var File_scanoss_api_common_v2_scanoss_common_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\n" +
-	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\"e\n" +
+	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\x1a.protoc-gen-openapiv2/options/annotations.proto\"e\n" +
 	"\x0eStatusResponse\x129\n" +
 	"\x06status\x18\x01 \x01(\x0e2!.scanoss.api.common.v2.StatusCodeR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"'\n" +
 	"\vEchoRequest\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"(\n" +
 	"\fEchoResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"\x8c\x01\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"\xe3\x03\n" +
+	"\x10ComponentRequest\x12g\n" +
+	"\x04purl\x18\x01 \x01(\tBS\x92AP21Package URL identifying the component to analyze.J\x1b\"pkg:github/scanoss/engine\"R\x04purl\x12~\n" +
+	"\vrequirement\x18\x02 \x01(\tB\\\x92AY2MVersion constraint for component resolution when PURL lacks explicit version.J\b\"^1.0.0\"R\vrequirement:\xe5\x01\x92A\xe1\x01\n" +
+	"\xde\x012\xae\x01Represents a software component to be analyzed by SCANOSS API services.\n" +
+	"Combines a Package URL for component identification with optional version constraints for resolution.\n" +
+	"J+{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}\"\xd1\x04\n" +
+	"\x15ComponentBatchRequest\x12\xe5\x01\n" +
+	"\n" +
+	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestB\x9b\x01\x92A\x97\x012&Array of component requests to analyzeJm[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]R\n" +
+	"components:\xcf\x02\x92A\xcb\x02\n" +
+	"\xc8\x022\xc6\x01Represents a list of software component to be analyzed by SCANOSS API services.\n" +
+	"Allows analysis of multiple software components in a single API call, improving performance over individual requests.\n" +
+	"J}{\"components:\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]}\"\x8c\x01\n" +
 	"\vPurlRequest\x12>\n" +
 	"\x05purls\x18\x01 \x03(\v2(.scanoss.api.common.v2.PurlRequest.PurlsR\x05purls\x1a=\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"<\n" +
 	"\x04Purl\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
-	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"`\n" +
-	"\x15ComponentBatchRequest\x12G\n" +
-	"\n" +
-	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestR\n" +
-	"components\"H\n" +
-	"\x10ComponentRequest\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement*`\n" +
 	"\n" +
@@ -561,16 +565,16 @@ var file_scanoss_api_common_v2_scanoss_common_proto_goTypes = []any{
 	(*StatusResponse)(nil),        // 1: scanoss.api.common.v2.StatusResponse
 	(*EchoRequest)(nil),           // 2: scanoss.api.common.v2.EchoRequest
 	(*EchoResponse)(nil),          // 3: scanoss.api.common.v2.EchoResponse
-	(*PurlRequest)(nil),           // 4: scanoss.api.common.v2.PurlRequest
-	(*Purl)(nil),                  // 5: scanoss.api.common.v2.Purl
-	(*ComponentBatchRequest)(nil), // 6: scanoss.api.common.v2.ComponentBatchRequest
-	(*ComponentRequest)(nil),      // 7: scanoss.api.common.v2.ComponentRequest
+	(*ComponentRequest)(nil),      // 4: scanoss.api.common.v2.ComponentRequest
+	(*ComponentBatchRequest)(nil), // 5: scanoss.api.common.v2.ComponentBatchRequest
+	(*PurlRequest)(nil),           // 6: scanoss.api.common.v2.PurlRequest
+	(*Purl)(nil),                  // 7: scanoss.api.common.v2.Purl
 	(*PurlRequest_Purls)(nil),     // 8: scanoss.api.common.v2.PurlRequest.Purls
 }
 var file_scanoss_api_common_v2_scanoss_common_proto_depIdxs = []int32{
 	0, // 0: scanoss.api.common.v2.StatusResponse.status:type_name -> scanoss.api.common.v2.StatusCode
-	8, // 1: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
-	7, // 2: scanoss.api.common.v2.ComponentBatchRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
+	4, // 1: scanoss.api.common.v2.ComponentBatchRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
+	8, // 2: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
