@@ -79,20 +79,35 @@ service License {
   };
 
   /*
-   * GetLicense Method
-   */
-  rpc GetLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(BatchLicenseResponse) {
+  * GetLicenses Method
+  */
+  rpc GetLicenses(scanoss.api.common.v2.ComponentRequest) returns(LicenseResponse) {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Get license information for a list of software components";
-      description: "Retrieves license information for software components identified by Package URLs.\n"
-          "Examines source code, license files, and package metadata to determine which licenses apply to each component.\n"
+      summary: "Get license information for a single software component";
+      description: "Retrieves license information for a software component identified by Package URL.\n"
+          "Examines source code, license files, and package metadata to determine which licenses apply to the component.\n"
           "Returns license data in both individual SPDX license and SPDX expressions when determinable.\n";
       external_docs: {
         url: "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md";
       };
     };
     option (google.api.http) = {
-      post: "/api/v2/licenses/purl"
+      get: "/api/v2/licenses/component"
+    };
+  };
+
+  /*
+   * BatchGetLicenses Method
+   */
+  rpc BatchGetLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(BatchLicenseResponse) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Batch version of GetLicenses - retrieves license information for multiple components in a single request.\n";
+      external_docs: {
+        url: "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md";
+      };
+    };
+    option (google.api.http) = {
+      post: "/api/v2/licenses/components"
       body: "*"
     };
 
@@ -122,6 +137,11 @@ service License {
 
 message BatchLicenseResponse {
   repeated ComponentLicenseInfo components = 1; // License info for each component in the batch
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+message LicenseResponse {
+  ComponentLicenseInfo component = 1; // License info for the component
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 

@@ -47,10 +47,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	License_Echo_FullMethodName           = "/scanoss.api.licenses.v2.License/Echo"
-	License_GetLicenses_FullMethodName    = "/scanoss.api.licenses.v2.License/GetLicenses"
-	License_GetDetails_FullMethodName     = "/scanoss.api.licenses.v2.License/GetDetails"
-	License_GetObligations_FullMethodName = "/scanoss.api.licenses.v2.License/GetObligations"
+	License_Echo_FullMethodName             = "/scanoss.api.licenses.v2.License/Echo"
+	License_GetLicenses_FullMethodName      = "/scanoss.api.licenses.v2.License/GetLicenses"
+	License_BatchGetLicenses_FullMethodName = "/scanoss.api.licenses.v2.License/BatchGetLicenses"
+	License_GetDetails_FullMethodName       = "/scanoss.api.licenses.v2.License/GetDetails"
+	License_GetObligations_FullMethodName   = "/scanoss.api.licenses.v2.License/GetObligations"
 )
 
 // LicenseClient is the client API for License service.
@@ -61,8 +62,10 @@ const (
 type LicenseClient interface {
 	// Echo Method
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// GetLicense Method
-	GetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error)
+	// GetLicenses Method
+	GetLicenses(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*LicenseResponse, error)
+	// BatchGetLicenses Method
+	BatchGetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error)
 	// GetDetails Method
 	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error)
 	// GetObligations Method
@@ -87,10 +90,20 @@ func (c *licenseClient) Echo(ctx context.Context, in *commonv2.EchoRequest, opts
 	return out, nil
 }
 
-func (c *licenseClient) GetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error) {
+func (c *licenseClient) GetLicenses(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*LicenseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LicenseResponse)
+	err := c.cc.Invoke(ctx, License_GetLicenses_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *licenseClient) BatchGetLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*BatchLicenseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BatchLicenseResponse)
-	err := c.cc.Invoke(ctx, License_GetLicenses_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, License_BatchGetLicenses_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,8 +138,10 @@ func (c *licenseClient) GetObligations(ctx context.Context, in *LicenseRequest, 
 type LicenseServer interface {
 	// Echo Method
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// GetLicense Method
-	GetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error)
+	// GetLicenses Method
+	GetLicenses(context.Context, *commonv2.ComponentRequest) (*LicenseResponse, error)
+	// BatchGetLicenses Method
+	BatchGetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error)
 	// GetDetails Method
 	GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error)
 	// GetObligations Method
@@ -144,8 +159,11 @@ type UnimplementedLicenseServer struct{}
 func (UnimplementedLicenseServer) Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
 }
-func (UnimplementedLicenseServer) GetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error) {
+func (UnimplementedLicenseServer) GetLicenses(context.Context, *commonv2.ComponentRequest) (*LicenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLicenses not implemented")
+}
+func (UnimplementedLicenseServer) BatchGetLicenses(context.Context, *commonv2.ComponentBatchRequest) (*BatchLicenseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetLicenses not implemented")
 }
 func (UnimplementedLicenseServer) GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetails not implemented")
@@ -193,7 +211,7 @@ func _License_Echo_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _License_GetLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(commonv2.ComponentBatchRequest)
+	in := new(commonv2.ComponentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -205,7 +223,25 @@ func _License_GetLicenses_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: License_GetLicenses_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LicenseServer).GetLicenses(ctx, req.(*commonv2.ComponentBatchRequest))
+		return srv.(LicenseServer).GetLicenses(ctx, req.(*commonv2.ComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _License_BatchGetLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentBatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LicenseServer).BatchGetLicenses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: License_BatchGetLicenses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LicenseServer).BatchGetLicenses(ctx, req.(*commonv2.ComponentBatchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -260,6 +296,10 @@ var License_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetLicenses",
 			Handler:    _License_GetLicenses_Handler,
+		},
+		{
+			MethodName: "BatchGetLicenses",
+			Handler:    _License_BatchGetLicenses_Handler,
 		},
 		{
 			MethodName: "GetDetails",

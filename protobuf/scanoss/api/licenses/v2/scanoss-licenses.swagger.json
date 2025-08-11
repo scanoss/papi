@@ -25,6 +25,100 @@
     "application/json"
   ],
   "paths": {
+    "/api/v2/licenses/component": {
+      "get": {
+        "summary": "Get license information for a single software component",
+        "description": "Retrieves license information for a software component identified by Package URL.\nExamines source code, license files, and package metadata to determine which licenses apply to the component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n",
+        "operationId": "License_GetLicenses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2LicenseResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "License"
+        ],
+        "externalDocs": {
+          "url": "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md"
+        }
+      }
+    },
+    "/api/v2/licenses/components": {
+      "post": {
+        "summary": "Batch version of GetLicenses - retrieves license information for multiple components in a single request.\n",
+        "operationId": "License_BatchGetLicenses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2BatchLicenseResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.\n",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentBatchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "License"
+        ],
+        "externalDocs": {
+          "url": "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md"
+        }
+      }
+    },
     "/api/v2/licenses/details": {
       "post": {
         "summary": "GetDetails Method",
@@ -143,51 +237,6 @@
         "tags": [
           "License"
         ]
-      }
-    },
-    "/api/v2/licenses/purl": {
-      "post": {
-        "summary": "Get license information for a list of software components",
-        "description": "Retrieves license information for software components identified by Package URLs.\nExamines source code, license files, and package metadata to determine which licenses apply to each component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n",
-        "operationId": "License_GetLicenses",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v2BatchLicenseResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.\n",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2ComponentBatchRequest"
-            }
-          }
-        ],
-        "tags": [
-          "License"
-        ],
-        "externalDocs": {
-          "url": "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md"
-        }
       }
     }
   },
@@ -498,6 +547,18 @@
         }
       },
       "title": "GetDetails \u0026 GetObligations endpoint"
+    },
+    "v2LicenseResponse": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentLicenseInfo",
+          "title": "License info for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse"
+        }
+      }
     },
     "v2LicenseType": {
       "type": "string",
