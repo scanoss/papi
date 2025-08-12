@@ -31,6 +31,7 @@ package scanoss.api.common.v2;
 option go_package = "github.com/scanoss/papi/api/commonv2;commonv2";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/field_behavior.proto";
 
 /*
  * Status code Enum
@@ -67,41 +68,34 @@ message EchoResponse {
   string message = 1;
 }
 
-
+/*
+ * Represents a software component to be analyzed by SCANOSS API services.
+ * Combines a Package URL for component identification with optional version constraints for resolution.
+ */
 message ComponentRequest {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
-    json_schema: {
-      description: "Represents a software component to be analyzed by SCANOSS API services.\n"
-                   "Combines a Package URL for component identification with optional version constraints for resolution.\n";
-      example: "{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}";
-    }
+    example: "{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"}";
+
   };
 
-  string purl = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Package URL identifying the component to analyze.";
-    example: "\"pkg:github/scanoss/engine\"";
-  }];
-
-  string requirement = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Version constraint for component resolution when PURL lacks explicit version.";
-    example: "\"^1.0.0\"";
-  }];
+  // Package URL identifying the component to analyze.
+  string purl = 1 [(google.api.field_behavior) = REQUIRED];
+  // Version constraint for component resolution when PURL lacks explicit version.
+  string requirement = 2;
 }
 
-
+/*
+ * Represents a list of software component to be analyzed by SCANOSS API services.
+ * Allows analysis of multiple software components in a single API call, improving performance over individual requests.
+ */
 message ComponentBatchRequest {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
-    json_schema: {
-      description: "Represents a list of software component to be analyzed by SCANOSS API services.\n"
-                   "Allows analysis of multiple software components in a single API call, improving performance over individual requests.\n";
-      example: "{\"components:\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]}";
-    }
+    example: "{\"components\":[{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"},{\"purl\":\"pkg:github/scanoss/scanoss.py@v1.30.0\"}]}";
+
   };
 
-  repeated ComponentRequest components = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Array of component requests to analyze";
-    example: "[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]";
-  }];
+  // Array of component requests to analyze
+  repeated ComponentRequest components = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 
