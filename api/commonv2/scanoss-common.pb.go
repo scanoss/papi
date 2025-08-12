@@ -35,6 +35,7 @@ package commonv2
 
 import (
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -250,10 +251,14 @@ func (x *EchoResponse) GetMessage() string {
 	return ""
 }
 
+// Represents a software component to be analyzed by SCANOSS API services.
+// Combines a Package URL for component identification with optional version constraints for resolution.
 type ComponentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Purl          string                 `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	Requirement   string                 `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Package URL identifying the component to analyze.
+	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	// Version constraint for component resolution when PURL lacks explicit version.
+	Requirement   string `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -302,9 +307,12 @@ func (x *ComponentRequest) GetRequirement() string {
 	return ""
 }
 
+// Represents a list of software component to be analyzed by SCANOSS API services.
+// Allows analysis of multiple software components in a single API call, improving performance over individual requests.
 type ComponentBatchRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Components    []*ComponentRequest    `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Array of component requests to analyze
+	Components    []*ComponentRequest `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -508,27 +516,21 @@ var File_scanoss_api_common_v2_scanoss_common_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\n" +
-	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\x1a.protoc-gen-openapiv2/options/annotations.proto\"e\n" +
+	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\"e\n" +
 	"\x0eStatusResponse\x129\n" +
 	"\x06status\x18\x01 \x01(\x0e2!.scanoss.api.common.v2.StatusCodeR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"'\n" +
 	"\vEchoRequest\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"(\n" +
 	"\fEchoResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"\xe3\x03\n" +
-	"\x10ComponentRequest\x12g\n" +
-	"\x04purl\x18\x01 \x01(\tBS\x92AP21Package URL identifying the component to analyze.J\x1b\"pkg:github/scanoss/engine\"R\x04purl\x12~\n" +
-	"\vrequirement\x18\x02 \x01(\tB\\\x92AY2MVersion constraint for component resolution when PURL lacks explicit version.J\b\"^1.0.0\"R\vrequirement:\xe5\x01\x92A\xe1\x01\n" +
-	"\xde\x012\xae\x01Represents a software component to be analyzed by SCANOSS API services.\n" +
-	"Combines a Package URL for component identification with optional version constraints for resolution.\n" +
-	"J+{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}\"\xd1\x04\n" +
-	"\x15ComponentBatchRequest\x12\xe5\x01\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"~\n" +
+	"\x10ComponentRequest\x12\x17\n" +
+	"\x04purl\x18\x01 \x01(\tB\x03\xe0A\x02R\x04purl\x12 \n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement:/\x92A,2*{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"}\"\xd8\x01\n" +
+	"\x15ComponentBatchRequest\x12L\n" +
 	"\n" +
-	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestB\x9b\x01\x92A\x97\x012&Array of component requests to analyzeJm[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]R\n" +
-	"components:\xcf\x02\x92A\xcb\x02\n" +
-	"\xc8\x022\xc6\x01Represents a list of software component to be analyzed by SCANOSS API services.\n" +
-	"Allows analysis of multiple software components in a single API call, improving performance over individual requests.\n" +
-	"J}{\"components:\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\"}, {\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"^1.0.0\"}]}\"\x8c\x01\n" +
+	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestB\x03\xe0A\x02R\n" +
+	"components:q\x92An2l{\"components\":[{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"},{\"purl\":\"pkg:github/scanoss/scanoss.py@v1.30.0\"}]}\"\x8c\x01\n" +
 	"\vPurlRequest\x12>\n" +
 	"\x05purls\x18\x01 \x03(\v2(.scanoss.api.common.v2.PurlRequest.PurlsR\x05purls\x1a=\n" +
 	"\x05Purls\x12\x12\n" +

@@ -2,7 +2,7 @@
 
 Analyzes software components to identify licensing information.
 
-## GetLicenses
+## GetComponentLicenses
 Retrieves license information for a single software component identified by Package URL. 
 Examines source code, license files, and package metadata to determine which licenses apply to the component. 
 
@@ -52,16 +52,28 @@ so the method returns each discovered license individually.
 This allows consumers to understand all licensing obligations present in the component.
 
 ```json
-  {
+{
+  "component": {
     "purl": "pkg:github/ffmpeg/ffmpeg@n7.0",
     "requirement": "",
     "version": "n7.0",
     "statement": "",
     "licenses": [
-      {"id": "LGPL-2.1-or-later", "full_name": "GNU Lesser General Public License v2.1 or later"},
-      {"id": "GPL-2.0-or-later", "full_name": "GNU General Public License v2.0 or later"}
+      {
+        "id": "LGPL-2.1-or-later",
+        "full_name": "GNU Lesser General Public License v2.1 or later"
+      },
+      {
+        "id": "GPL-2.0-or-later",
+        "full_name": "GNU General Public License v2.0 or later"
+      }
     ]
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Licenses Successfully retrieved"
   }
+}
 ```
 
 #### SPDX Expression with Choice (OR)
@@ -77,7 +89,8 @@ indicating users can choose either license for compliance.
 Individual license objects are also provided for detailed analysis.
 
 ```json
-  {
+{
+  "component": {
     "purl": "pkg:maven/ch.qos.logback/logback-classic@1.5.0",
     "requirement": "",
     "version": "1.5.0",
@@ -86,7 +99,12 @@ Individual license objects are also provided for detailed analysis.
       {"id": "EPL-1.0", "full_name": "Eclipse Public License 1.0"},
       {"id": "LGPL-2.1-only", "full_name": "GNU Lesser General Public License v2.1 only"}
     ]
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Licenses Successfully retrieved"
   }
+}
 ```
 
 #### SPDX Expression with Requirements (AND)
@@ -98,7 +116,8 @@ OpenSSL documentation states that "both the conditions of the OpenSSL License an
 This indicates users must comply with both licenses, generating the SPDX expression `OpenSSL AND SSLeay`. 
 
 ```json
-  {
+{
+  "component": {
     "purl": "pkg:github/openssl/openssl@1.1.1n",
     "requirement": "",
     "version": "1.1.1n",
@@ -107,12 +126,17 @@ This indicates users must comply with both licenses, generating the SPDX express
       {"id": "OpenSSL", "full_name": "OpenSSL License"},
       {"id": "SSLeay", "full_name": "Original SSLeay License"}
     ]
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Licenses Successfully retrieved"
   }
+}
 ```
 
 
 
-## BatchGetLicenses
+## GetComponentsLicenses
 
 Batch version of GetLicenses - retrieves license information for multiple components in a single request.
 

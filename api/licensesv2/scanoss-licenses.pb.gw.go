@@ -63,9 +63,9 @@ func local_request_License_Echo_0(ctx context.Context, marshaler runtime.Marshal
 	return msg, metadata, err
 }
 
-var filter_License_GetLicenses_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var filter_License_GetComponentLicenses_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
-func request_License_GetLicenses_0(ctx context.Context, marshaler runtime.Marshaler, client LicenseClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_License_GetComponentLicenses_0(ctx context.Context, marshaler runtime.Marshaler, client LicenseClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.ComponentRequest
 		metadata runtime.ServerMetadata
@@ -76,14 +76,14 @@ func request_License_GetLicenses_0(ctx context.Context, marshaler runtime.Marsha
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_License_GetLicenses_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_License_GetComponentLicenses_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := client.GetLicenses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetComponentLicenses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_License_GetLicenses_0(ctx context.Context, marshaler runtime.Marshaler, server LicenseServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_License_GetComponentLicenses_0(ctx context.Context, marshaler runtime.Marshaler, server LicenseServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.ComponentRequest
 		metadata runtime.ServerMetadata
@@ -91,14 +91,14 @@ func local_request_License_GetLicenses_0(ctx context.Context, marshaler runtime.
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_License_GetLicenses_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_License_GetComponentLicenses_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.GetLicenses(ctx, &protoReq)
+	msg, err := server.GetComponentLicenses(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_License_BatchGetLicenses_0(ctx context.Context, marshaler runtime.Marshaler, client LicenseClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_License_GetComponentsLicenses_0(ctx context.Context, marshaler runtime.Marshaler, client LicenseClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.ComponentBatchRequest
 		metadata runtime.ServerMetadata
@@ -109,11 +109,11 @@ func request_License_BatchGetLicenses_0(ctx context.Context, marshaler runtime.M
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	msg, err := client.BatchGetLicenses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetComponentsLicenses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_License_BatchGetLicenses_0(ctx context.Context, marshaler runtime.Marshaler, server LicenseServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_License_GetComponentsLicenses_0(ctx context.Context, marshaler runtime.Marshaler, server LicenseServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.ComponentBatchRequest
 		metadata runtime.ServerMetadata
@@ -121,7 +121,7 @@ func local_request_License_BatchGetLicenses_0(ctx context.Context, marshaler run
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.BatchGetLicenses(ctx, &protoReq)
+	msg, err := server.GetComponentsLicenses(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -205,45 +205,45 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		}
 		forward_License_Echo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_License_GetLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_License_GetComponentLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_License_GetLicenses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_License_GetComponentLicenses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_License_GetLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_License_GetComponentLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_License_BatchGetLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_License_GetComponentsLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/BatchGetLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_License_BatchGetLicenses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_License_GetComponentsLicenses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_License_BatchGetLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_License_GetComponentsLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_License_GetDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -342,39 +342,39 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		}
 		forward_License_Echo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_License_GetLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_License_GetComponentLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_License_GetLicenses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_License_GetComponentLicenses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_License_GetLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_License_GetComponentLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_License_BatchGetLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_License_GetComponentsLicenses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/BatchGetLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_License_BatchGetLicenses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_License_GetComponentsLicenses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_License_BatchGetLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_License_GetComponentsLicenses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_License_GetDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -414,17 +414,17 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 }
 
 var (
-	pattern_License_Echo_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "echo"}, ""))
-	pattern_License_GetLicenses_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "component"}, ""))
-	pattern_License_BatchGetLicenses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "components"}, ""))
-	pattern_License_GetDetails_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "details"}, ""))
-	pattern_License_GetObligations_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "obligations"}, ""))
+	pattern_License_Echo_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "echo"}, ""))
+	pattern_License_GetComponentLicenses_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "component"}, ""))
+	pattern_License_GetComponentsLicenses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "components"}, ""))
+	pattern_License_GetDetails_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "details"}, ""))
+	pattern_License_GetObligations_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "obligations"}, ""))
 )
 
 var (
-	forward_License_Echo_0             = runtime.ForwardResponseMessage
-	forward_License_GetLicenses_0      = runtime.ForwardResponseMessage
-	forward_License_BatchGetLicenses_0 = runtime.ForwardResponseMessage
-	forward_License_GetDetails_0       = runtime.ForwardResponseMessage
-	forward_License_GetObligations_0   = runtime.ForwardResponseMessage
+	forward_License_Echo_0                  = runtime.ForwardResponseMessage
+	forward_License_GetComponentLicenses_0  = runtime.ForwardResponseMessage
+	forward_License_GetComponentsLicenses_0 = runtime.ForwardResponseMessage
+	forward_License_GetDetails_0            = runtime.ForwardResponseMessage
+	forward_License_GetObligations_0        = runtime.ForwardResponseMessage
 )

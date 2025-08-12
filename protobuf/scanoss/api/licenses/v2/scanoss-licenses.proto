@@ -48,17 +48,6 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   schemes: HTTP;
   consumes: "application/json";
   produces: "application/json";
-  responses: {
-    key: "404";
-    value: {
-      description: "Returned when the resource does not exist.";
-      schema: {
-        json_schema: {
-          type: STRING;
-        }
-      }
-    }
-  }
 };
 
 /*
@@ -66,12 +55,9 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
  */
 service License {
   /*
-   * Echo Method
+   * Returns the same message that was sent, used for health checks and connectivity testing
    */
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Returns the same message that was sent, used for health checks and connectivity testing";
-    };
     option (google.api.http) = {
       post: "/api/v2/licenses/echo"
       body: "*"
@@ -79,43 +65,34 @@ service License {
   };
 
   /*
-  * GetLicenses Method
+  * Get license information for a single software component.
+  *
+  * Examines source code, license files, and package metadata to determine which licenses apply to the component.
+  * Returns license data in both individual SPDX license and SPDX expressions when determinable.
+  *
+  * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentlicenses
   */
-  rpc GetLicenses(scanoss.api.common.v2.ComponentRequest) returns(LicenseResponse) {
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Get license information for a single software component";
-      description: "Retrieves license information for a software component identified by Package URL.\n"
-          "Examines source code, license files, and package metadata to determine which licenses apply to the component.\n"
-          "Returns license data in both individual SPDX license and SPDX expressions when determinable.\n";
-      external_docs: {
-        url: "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md";
-      };
-    };
+  rpc GetComponentLicenses(scanoss.api.common.v2.ComponentRequest) returns(ComponentLicenseResponse) {
     option (google.api.http) = {
-      get: "/api/v2/licenses/component"
+      get: "/api/v2/licenses/component";
     };
   };
 
   /*
-   * BatchGetLicenses Method
+   * Get license information for multiple software components in a single request.
+   *
+   * Examines source code, license files, and package metadata to determine which licenses apply to each component.
+   * Returns license data in both individual SPDX license and SPDX expressions when determinable.
+   *
+   * See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
    */
-  rpc BatchGetLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(BatchLicenseResponse) {
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Batch version of GetLicenses - retrieves license information for multiple components in a single request.\n";
-      external_docs: {
-        url: "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md";
-      };
-    };
+  rpc GetComponentsLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(ComponentsLicenseResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/components"
       body: "*"
     };
-
   };
 
-  /*
-   * GetDetails Method
-   */
   rpc GetDetails(LicenseRequest) returns(LicenseDetailsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/details"
@@ -123,9 +100,6 @@ service License {
     };
   };
 
-  /*
-   * GetObligations Method
-   */
   rpc GetObligations(LicenseRequest) returns(ObligationsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/obligations"
@@ -134,27 +108,39 @@ service License {
   };
 }
 
-
-message BatchLicenseResponse {
-  repeated ComponentLicenseInfo components = 1; // License info for each component in the batch
+message ComponentLicenseResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
+    }
+  };
+  // License info for the component
+  ComponentLicenseInfo component = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-message LicenseResponse {
-  ComponentLicenseInfo component = 1; // License info for the component
+message ComponentsLicenseResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\"}]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
+    }
+  };
+  // License info for each component in the batch
+  repeated ComponentLicenseInfo components = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
 message LicenseDetailsResponse {
-  LicenseDetails license = 1;              // Full license details with all metadata
+  // Full license details with all metadata
+  LicenseDetails license = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
 message ObligationsResponse {
-  OSADL obligations = 1;            // OSADL compliance data with use cases and obligations
+  // OSADL compliance data with use cases and obligations
+  OSADL obligations = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
-
 
 enum LicenseType {
   UNKNOWN = 0;
@@ -164,7 +150,6 @@ enum LicenseType {
   PROPRIETARY = 4;
   PUBLIC_DOMAIN = 5;
 }
-
 
 /*
  * SPDX license registry metadata.
@@ -181,39 +166,56 @@ message SPDX {
     string match = 7;
   }
 
+  /*
+   * SPDX exception grant an exception to a license condition or additional
+   * permissions beyond those granted in a license;
+   * NOTE: this is not a stand-alone license
+   */
   message SPDXException {
-    string id = 1;                      // "Classpath-exception-2.0"
-    string full_name = 2;               // "Classpath exception 2.0"
-    string details_url = 3;             // SPDX exception JSON URL
-    repeated string see_also = 5;       // Reference URLs
-    bool is_deprecated = 6;             // Exception is deprecated
+    // SPDX exception identifier, "Classpath-exception-2.0"
+    string id = 1;
+    // SPDX exception registry name, "Classpath exception 2.0"
+    string full_name = 2;
+    // SPDX exception JSON URL
+    string details_url = 3;
+    // Reference URLs
+    repeated string see_also = 5;
+    bool is_deprecated = 6;
   }
 
-  string id = 1;                     // "GPL-2.0-only", "MIT" - the SPDX license identifier
-  string full_name = 2;              // Official SPDX registry name (empty if license not in SPDX registry)
-  string details_url = 4;            // JSON API URL for full details
-  string reference_url = 5;          // HTML page URL
-  bool is_deprecated = 6;            // License is deprecated
-  bool is_fsf_libre = 7;             // FSF considers it libre/free
+  // SPDX license identifier, "GPL-2.0-only", "MIT"
+  string id = 1;
+  // Official SPDX registry name (empty if license not in SPDX registry)
+  string full_name = 2;
+  // JSON API URL for full details
+  string details_url = 4;
+  // HTML page URL
+  string reference_url = 5;
+  bool is_deprecated = 6;
+  // FSF considers it libre/free
+  bool is_fsf_libre = 7;
   bool is_osi_approved = 8;
-  repeated string see_also = 9;      // Related URLs
-  repeated SPDXCrossRef cross_refs = 10; // Structured cross-references with validation info
-  repeated SPDXException exceptions = 11; // SPDX exceptions applied to this license (empty if none)
+  // Related URLs
+  repeated string see_also = 9;
+  // Structured cross-references with validation info
+  repeated SPDXCrossRef cross_refs = 10;
+  // SPDX exceptions applied to this license (empty if none)
+  repeated SPDXException exceptions = 11;
 }
-
-
 
 /*
  * OSADL compliance metadata providing license analysis and compatibility information.
  */
 message OSADL {
-  /*
-  * OSADL use case with structured obligations.
-  */
+
+  // OSADL use case with structured obligations.
   message OSADLUseCase {
-    string name = 1;              // "Binary delivery", "Network service", "Source code delivery"
-    string obligation_text = 2;   // Human-readable obligation text
-    string obligation_json = 3;   // Machine-readable structured obligations with Language/Action/Term breakdown
+    // "Binary delivery", "Network service", "Source code delivery"
+    string name = 1;
+    // Human-readable obligation text
+    string obligation_text = 2;
+    // Machine-readable structured obligations with Language/Action/Term breakdown
+    string obligation_json = 3;
   }
 
   bool copyleft_clause = 1;
@@ -228,25 +230,23 @@ message OSADL {
 // LICENSE REPRESENTATIONS
 // ========================================================================
 
+// Individual license identification with SPDX ID and human-readable name
 message LicenseInfo {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      description: "Individual license identification with SPDX ID and human-readable name";
-      example: "{\"id\": \"MIT\", \"full_name\": \"MIT License\"}"
+      example: "{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}"
     }
   };
 
-  string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "License identifier.\n"
-                  "For SPDX registry licenses: Standard SPDX ID.\n"
-                  "For non-registry licenses: licenseRef-<custom_license_name>";
-    example: "\"MIT\"";
-  }];
+  /*
+   * License identifier:
+   *    - For SPDX registry licenses: Standard SPDX ID
+   *    - For non-registry licenses: licenseRef-<custom_license_name>
+   */
+  string id = 1;
 
-  string full_name = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Human-readable license name." ;
-    example: "\"MIT License\"";
-  }];
+  // Human-readable license name.
+  string full_name = 2;
 }
 
 message LicenseDetails {
@@ -271,38 +271,19 @@ message LicenseRequest {
   string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
 }
 
+/*
+ * License information for a specific component identified by PURL and version.
+ */
 message ComponentLicenseInfo {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
-    json_schema: {
-      title: "ComponentLicenseInfo";
-      description: "License information for a specific component identified by PURL and version";
-      example: "{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\", \"full_name\": \"MIT License\"}]}";
-    }
-  };
-
-  string purl = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic";
-    example: "\"pkg:github/scanoss/engine@1.0.0\"";
-  }];
-
-  string requirement = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic";
-    example: "\"^1.0.0\"";
-  }];
-
-  string version = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Specific version of the component that was analyzed";
-    example: "\"1.0.0\"";
-  }];
-
-  string statement = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "SPDX expression when licensing terms are clearly determinable from source analysis";
-    example: "\"MIT OR licenseRef-GitLab-Enterprise\"";
-  }];
-
-  repeated LicenseInfo licenses = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-    description: "Individual licenses identified in the component";
-    example: "[{\"id\": \"MIT\", \"full_name\": \"MIT License\"}, {\"id\": \"licenseRef-GitLab-Enterprise\", \"full_name\": \"GitLab Enterprise Edition License\"}]"
-  }];
+  // Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic.
+  string purl = 1;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 2;
+  // Specific version of the component that was analyzed
+  string version = 3;
+  // SPDX expression when licensing terms are clearly determinable from source analysis
+  string statement = 4;
+  // Individual licenses identified in the component
+  repeated LicenseInfo licenses = 5;
 }
 

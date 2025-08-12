@@ -27,21 +27,14 @@
   "paths": {
     "/api/v2/licenses/component": {
       "get": {
-        "summary": "Get license information for a single software component",
-        "description": "Retrieves license information for a software component identified by Package URL.\nExamines source code, license files, and package metadata to determine which licenses apply to the component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n",
-        "operationId": "License_GetLicenses",
+        "summary": "Get license information for a single software component.",
+        "description": "Examines source code, license files, and package metadata to determine which licenses apply to the component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentlicenses",
+        "operationId": "License_GetComponentLicenses",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2LicenseResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
+              "$ref": "#/definitions/v2ComponentLicenseResponse"
             }
           },
           "default": {
@@ -56,7 +49,7 @@
             "name": "purl",
             "description": "Package URL identifying the component to analyze.",
             "in": "query",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {
@@ -69,28 +62,19 @@
         ],
         "tags": [
           "License"
-        ],
-        "externalDocs": {
-          "url": "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md"
-        }
+        ]
       }
     },
     "/api/v2/licenses/components": {
       "post": {
-        "summary": "Batch version of GetLicenses - retrieves license information for multiple components in a single request.\n",
-        "operationId": "License_BatchGetLicenses",
+        "summary": "Get license information for multiple software components in a single request.",
+        "description": "Examines source code, license files, and package metadata to determine which licenses apply to each component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n\nSee https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses",
+        "operationId": "License_GetComponentsLicenses",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2BatchLicenseResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
+              "$ref": "#/definitions/v2ComponentsLicenseResponse"
             }
           },
           "default": {
@@ -103,7 +87,7 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.\n",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
@@ -113,28 +97,17 @@
         ],
         "tags": [
           "License"
-        ],
-        "externalDocs": {
-          "url": "https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md"
-        }
+        ]
       }
     },
     "/api/v2/licenses/details": {
       "post": {
-        "summary": "GetDetails Method",
         "operationId": "License_GetDetails",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/v2LicenseDetailsResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
             }
           },
           "default": {
@@ -170,13 +143,6 @@
               "$ref": "#/definitions/v2EchoResponse"
             }
           },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -201,20 +167,12 @@
     },
     "/api/v2/licenses/obligations": {
       "post": {
-        "summary": "GetObligations Method",
         "operationId": "License_GetObligations",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/v2ObligationsResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
             }
           },
           "default": {
@@ -291,11 +249,11 @@
       "properties": {
         "id": {
           "type": "string",
-          "title": "\"Classpath-exception-2.0\""
+          "title": "SPDX exception identifier, \"Classpath-exception-2.0\""
         },
         "fullName": {
           "type": "string",
-          "title": "\"Classpath exception 2.0\""
+          "title": "SPDX exception registry name, \"Classpath exception 2.0\""
         },
         "detailsUrl": {
           "type": "string",
@@ -309,10 +267,10 @@
           "title": "Reference URLs"
         },
         "isDeprecated": {
-          "type": "boolean",
-          "title": "Exception is deprecated"
+          "type": "boolean"
         }
-      }
+      },
+      "title": "SPDX exception grant an exception to a license condition or additional\npermissions beyond those granted in a license;\nNOTE: this is not a stand-alone license"
     },
     "protobufAny": {
       "type": "object",
@@ -342,8 +300,147 @@
         }
       }
     },
-    "v2BatchLicenseResponse": {
+    "v2ComponentBatchRequest": {
       "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
+    "v2ComponentLicenseInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic."
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
+        "statement": {
+          "type": "string",
+          "title": "SPDX expression when licensing terms are clearly determinable from source analysis"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LicenseInfo"
+          },
+          "title": "Individual licenses identified in the component"
+        }
+      },
+      "description": "License information for a specific component identified by PURL and version."
+    },
+    "v2ComponentLicenseResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine@1.0.0",
+          "requirement": "",
+          "version": "1.0.0",
+          "statement": "GPL-2.0",
+          "licenses": [
+            {
+              "id": "GPL-2.0",
+              "full_name": "GNU General Public License v2.0 only"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Licenses Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentLicenseInfo",
+          "title": "License info for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse"
+        }
+      }
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentsLicenseResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0",
+            "requirement": "",
+            "version": "1.0.0",
+            "statement": "GPL-2.0",
+            "licenses": [
+              {
+                "id": "GPL-2.0",
+                "full_name": "GNU General Public License v2.0 only"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0",
+            "requirement": "",
+            "version": "v1.30.0",
+            "statement": "MIT",
+            "licenses": [
+              {
+                "id": "MIT",
+                "full_name": "MIT License"
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Licenses Successfully retrieved"
+        }
+      },
       "properties": {
         "components": {
           "type": "array",
@@ -357,116 +454,6 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       }
-    },
-    "v2ComponentBatchRequest": {
-      "type": "object",
-      "example": {
-        "components:": [
-          {
-            "purl": "pkg:github/scanoss/engine@1.0.0"
-          },
-          {
-            "purl": "pkg:github/scanoss/engine",
-            "requirement": "^1.0.0"
-          }
-        ]
-      },
-      "properties": {
-        "components": {
-          "type": "array",
-          "example": [
-            {
-              "purl": "pkg:github/scanoss/engine@1.0.0"
-            },
-            {
-              "purl": "pkg:github/scanoss/engine",
-              "requirement": "^1.0.0"
-            }
-          ],
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2ComponentRequest"
-          },
-          "description": "Array of component requests to analyze"
-        }
-      },
-      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.\n"
-    },
-    "v2ComponentLicenseInfo": {
-      "type": "object",
-      "example": {
-        "purl": "pkg:github/scanoss/engine@1.0.0",
-        "requirement": "",
-        "version": "1.0.0",
-        "statement": "MIT",
-        "licenses": [
-          {
-            "id": "MIT",
-            "full_name": "MIT License"
-          }
-        ]
-      },
-      "properties": {
-        "purl": {
-          "type": "string",
-          "example": "pkg:github/scanoss/engine@1.0.0",
-          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic"
-        },
-        "requirement": {
-          "type": "string",
-          "example": "^1.0.0",
-          "description": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
-        },
-        "version": {
-          "type": "string",
-          "example": "1.0.0",
-          "description": "Specific version of the component that was analyzed"
-        },
-        "statement": {
-          "type": "string",
-          "example": "MIT OR licenseRef-GitLab-Enterprise",
-          "description": "SPDX expression when licensing terms are clearly determinable from source analysis"
-        },
-        "licenses": {
-          "type": "array",
-          "example": [
-            {
-              "id": "MIT",
-              "full_name": "MIT License"
-            },
-            {
-              "id": "licenseRef-GitLab-Enterprise",
-              "full_name": "GitLab Enterprise Edition License"
-            }
-          ],
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2LicenseInfo"
-          },
-          "description": "Individual licenses identified in the component"
-        }
-      },
-      "description": "License information for a specific component identified by PURL and version",
-      "title": "ComponentLicenseInfo"
-    },
-    "v2ComponentRequest": {
-      "type": "object",
-      "example": {
-        "purl": "pkg:github/scanoss/engine@1.0.0"
-      },
-      "properties": {
-        "purl": {
-          "type": "string",
-          "example": "pkg:github/scanoss/engine",
-          "description": "Package URL identifying the component to analyze."
-        },
-        "requirement": {
-          "type": "string",
-          "example": "^1.0.0",
-          "description": "Version constraint for component resolution when PURL lacks explicit version."
-        }
-      },
-      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.\n"
     },
     "v2EchoRequest": {
       "type": "object",
@@ -521,22 +508,20 @@
     "v2LicenseInfo": {
       "type": "object",
       "example": {
-        "id": "MIT",
-        "full_name": "MIT License"
+        "id": "GPL-2.0",
+        "full_name": "GNU General Public License v2.0 only"
       },
       "properties": {
         "id": {
           "type": "string",
-          "example": "MIT",
-          "description": "License identifier.\nFor SPDX registry licenses: Standard SPDX ID.\nFor non-registry licenses: licenseRef-\u003ccustom_license_name\u003e"
+          "title": "License identifier:\n   - For SPDX registry licenses: Standard SPDX ID\n   - For non-registry licenses: licenseRef-\u003ccustom_license_name\u003e"
         },
         "fullName": {
           "type": "string",
-          "example": "MIT License",
           "description": "Human-readable license name."
         }
       },
-      "description": "Individual license identification with SPDX ID and human-readable name"
+      "title": "Individual license identification with SPDX ID and human-readable name"
     },
     "v2LicenseRequest": {
       "type": "object",
@@ -547,18 +532,6 @@
         }
       },
       "title": "GetDetails \u0026 GetObligations endpoint"
-    },
-    "v2LicenseResponse": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "$ref": "#/definitions/v2ComponentLicenseInfo",
-          "title": "License info for the component"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse"
-        }
-      }
     },
     "v2LicenseType": {
       "type": "string",
@@ -626,7 +599,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "title": "\"GPL-2.0-only\", \"MIT\" - the SPDX license identifier"
+          "title": "SPDX license identifier, \"GPL-2.0-only\", \"MIT\""
         },
         "fullName": {
           "type": "string",
@@ -641,8 +614,7 @@
           "title": "HTML page URL"
         },
         "isDeprecated": {
-          "type": "boolean",
-          "title": "License is deprecated"
+          "type": "boolean"
         },
         "isFsfLibre": {
           "type": "boolean",
