@@ -75,7 +75,7 @@ type LicenseClient interface {
 	// Returns license data in both individual SPDX license and SPDX expressions when determinable.
 	//
 	// See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
-	GetComponentsLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*ComponentsLicenseResponse, error)
+	GetComponentsLicenses(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsLicenseResponse, error)
 	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error)
 	GetObligations(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*ObligationsResponse, error)
 }
@@ -108,7 +108,7 @@ func (c *licenseClient) GetComponentLicenses(ctx context.Context, in *commonv2.C
 	return out, nil
 }
 
-func (c *licenseClient) GetComponentsLicenses(ctx context.Context, in *commonv2.ComponentBatchRequest, opts ...grpc.CallOption) (*ComponentsLicenseResponse, error) {
+func (c *licenseClient) GetComponentsLicenses(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsLicenseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ComponentsLicenseResponse)
 	err := c.cc.Invoke(ctx, License_GetComponentsLicenses_FullMethodName, in, out, cOpts...)
@@ -159,7 +159,7 @@ type LicenseServer interface {
 	// Returns license data in both individual SPDX license and SPDX expressions when determinable.
 	//
 	// See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
-	GetComponentsLicenses(context.Context, *commonv2.ComponentBatchRequest) (*ComponentsLicenseResponse, error)
+	GetComponentsLicenses(context.Context, *commonv2.ComponentsRequest) (*ComponentsLicenseResponse, error)
 	GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error)
 	GetObligations(context.Context, *LicenseRequest) (*ObligationsResponse, error)
 	mustEmbedUnimplementedLicenseServer()
@@ -178,7 +178,7 @@ func (UnimplementedLicenseServer) Echo(context.Context, *commonv2.EchoRequest) (
 func (UnimplementedLicenseServer) GetComponentLicenses(context.Context, *commonv2.ComponentRequest) (*ComponentLicenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentLicenses not implemented")
 }
-func (UnimplementedLicenseServer) GetComponentsLicenses(context.Context, *commonv2.ComponentBatchRequest) (*ComponentsLicenseResponse, error) {
+func (UnimplementedLicenseServer) GetComponentsLicenses(context.Context, *commonv2.ComponentsRequest) (*ComponentsLicenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentsLicenses not implemented")
 }
 func (UnimplementedLicenseServer) GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error) {
@@ -245,7 +245,7 @@ func _License_GetComponentLicenses_Handler(srv interface{}, ctx context.Context,
 }
 
 func _License_GetComponentsLicenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(commonv2.ComponentBatchRequest)
+	in := new(commonv2.ComponentsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -257,7 +257,7 @@ func _License_GetComponentsLicenses_Handler(srv interface{}, ctx context.Context
 		FullMethod: License_GetComponentsLicenses_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LicenseServer).GetComponentsLicenses(ctx, req.(*commonv2.ComponentBatchRequest))
+		return srv.(LicenseServer).GetComponentsLicenses(ctx, req.(*commonv2.ComponentsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

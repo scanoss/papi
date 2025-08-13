@@ -100,7 +100,7 @@ func local_request_License_GetComponentLicenses_0(ctx context.Context, marshaler
 
 func request_License_GetComponentsLicenses_0(ctx context.Context, marshaler runtime.Marshaler, client LicenseClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq commonv2.ComponentBatchRequest
+		protoReq commonv2.ComponentsRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -115,7 +115,7 @@ func request_License_GetComponentsLicenses_0(ctx context.Context, marshaler runt
 
 func local_request_License_GetComponentsLicenses_0(ctx context.Context, marshaler runtime.Marshaler, server LicenseServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq commonv2.ComponentBatchRequest
+		protoReq commonv2.ComponentsRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {

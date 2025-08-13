@@ -91,7 +91,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2ComponentBatchRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -300,33 +300,6 @@
         }
       }
     },
-    "v2ComponentBatchRequest": {
-      "type": "object",
-      "example": {
-        "components": [
-          {
-            "purl": "pkg:github/scanoss/engine@1.0.0"
-          },
-          {
-            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
-          }
-        ]
-      },
-      "properties": {
-        "components": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2ComponentRequest"
-          },
-          "title": "Array of component requests to analyze"
-        }
-      },
-      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
-      "required": [
-        "components"
-      ]
-    },
     "v2ComponentLicenseInfo": {
       "type": "object",
       "properties": {
@@ -454,6 +427,33 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       }
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
     },
     "v2EchoRequest": {
       "type": "object",

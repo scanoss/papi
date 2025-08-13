@@ -141,7 +141,7 @@ This indicates users must comply with both licenses, generating the SPDX express
 Batch version of GetLicenses - retrieves license information for multiple components in a single request.
 
 ### Request Format
-See [Common API Types](../common/v2/README.md) for `ComponentBatchRequest` documentation.
+See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documentation.
 
 ### HTTP Request Example
 ```bash
