@@ -103,7 +103,7 @@
       }
     },
     "/api/v2/licenses/details": {
-      "post": {
+      "get": {
         "summary": "Get detailed metadata for a specific license by SPDX identifier.",
         "description": "Provides comprehensive license information including SPDX registry data,\nOSADL compliance metadata, license type classification, and official references.",
         "operationId": "License_GetDetails",
@@ -123,12 +123,11 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2LicenseRequest"
-            }
+            "name": "id",
+            "description": "SPDX identifier or licenseRef (e.g., \"MIT\", \"licenseRef-GitLab-Enterprise\")",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -171,7 +170,7 @@
       }
     },
     "/api/v2/licenses/obligations": {
-      "post": {
+      "get": {
         "summary": "Get compliance obligations and usage requirements for a specific license.",
         "description": "Returns structured OSADL compliance data including use cases, obligations,\ncompatibility information, and patent hints for the specified license.",
         "operationId": "License_GetObligations",
@@ -191,12 +190,11 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2LicenseRequest"
-            }
+            "name": "id",
+            "description": "SPDX identifier or licenseRef (e.g., \"MIT\", \"licenseRef-GitLab-Enterprise\")",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -233,7 +231,7 @@
         },
         "isValid": {
           "type": "boolean",
-          "description": "Indicates if SPDX consider this URL an authoritative/trustworthy source for the license."
+          "description": "Indicates if SPDX considers this URL an authoritative/trustworthy source for the license."
         },
         "isLive": {
           "type": "boolean",
@@ -504,7 +502,7 @@
         },
         "spdx": {
           "$ref": "#/definitions/v2SPDX",
-          "title": "SPDX registry metadata - always present, SPDX.id always populated, other fields empty if not license not in SPDX License list"
+          "title": "SPDX registry metadata - always present, SPDX.id always populated, other fields empty if license not in SPDX License list"
         },
         "osadl": {
           "$ref": "#/definitions/v2OSADL",
@@ -543,17 +541,7 @@
           "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
         }
       },
-      "description": "Individual license identification with SPDX ID and human-readable name."
-    },
-    "v2LicenseRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "title": "SPDX identifier or licenseRef (e.g., \"MIT\", \"licenseRef-GitLab-Enterprise\")"
-        }
-      },
-      "title": "GetDetails \u0026 GetObligations endpoint"
+      "description": "Individual license identification with SPDX ID and human-readable name.\n\nProvides basic license information including standardized identifiers and \nhuman-readable names for discovered licenses in software components."
     },
     "v2LicenseType": {
       "type": "string",

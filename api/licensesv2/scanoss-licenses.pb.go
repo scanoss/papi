@@ -565,6 +565,9 @@ func (x *OSADL) GetUseCases() []*OSADL_OSADLUseCase {
 }
 
 // Individual license identification with SPDX ID and human-readable name.
+//
+// Provides basic license information including standardized identifiers and
+// human-readable names for discovered licenses in software components.
 type LicenseInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// License identifier:
@@ -635,7 +638,7 @@ type LicenseDetails struct {
 	FullName string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	// License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)
 	Type LicenseType `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.LicenseType" json:"type,omitempty"`
-	// SPDX registry metadata - always present, SPDX.id always populated, other fields empty if not license not in SPDX License list
+	// SPDX registry metadata - always present, SPDX.id always populated, other fields empty if license not in SPDX License list
 	Spdx *SPDX `protobuf:"bytes,3,opt,name=spdx,proto3" json:"spdx,omitempty"`
 	// OSADL compliance metadata - optional, contains compatibility and obligation information
 	Osadl         *OSADL `protobuf:"bytes,4,opt,name=osadl,proto3" json:"osadl,omitempty"`
@@ -701,7 +704,11 @@ func (x *LicenseDetails) GetOsadl() *OSADL {
 	return nil
 }
 
-// GetDetails & GetObligations endpoint
+// Request message for license metadata and compliance information.
+//
+// Used by both GetDetails and GetObligations endpoints to query comprehensive
+// license information including SPDX registry data, OSADL compliance metadata,
+// license type classification, and usage obligations for a specific license identifier.
 type LicenseRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
@@ -838,7 +845,7 @@ type SPDX_SPDXCrossRef struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Reference URL to the license text
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	// Indicates if SPDX consider this URL an authoritative/trustworthy source for the license.
+	// Indicates if SPDX considers this URL an authoritative/trustworthy source for the license.
 	IsValid bool `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
 	// Whether the URL is currently accessible via HTTP request
 	IsLive bool `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
@@ -1174,14 +1181,14 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
 	"COMMERCIAL\x10\x03\x12\x0f\n" +
 	"\vPROPRIETARY\x10\x04\x12\x11\n" +
-	"\rPUBLIC_DOMAIN\x10\x052\xd6\x05\n" +
+	"\rPUBLIC_DOMAIN\x10\x052\xd0\x05\n" +
 	"\aLicense\x12q\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/licenses/echo\x12\x96\x01\n" +
 	"\x14GetComponentLicenses\x12'.scanoss.api.common.v2.ComponentRequest\x1a1.scanoss.api.licenses.v2.ComponentLicenseResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v2/licenses/component\x12\x9d\x01\n" +
-	"\x15GetComponentsLicenses\x12(.scanoss.api.common.v2.ComponentsRequest\x1a2.scanoss.api.licenses.v2.ComponentsLicenseResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v2/licenses/components\x12\x8b\x01\n" +
+	"\x15GetComponentsLicenses\x12(.scanoss.api.common.v2.ComponentsRequest\x1a2.scanoss.api.licenses.v2.ComponentsLicenseResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v2/licenses/components\x12\x88\x01\n" +
 	"\n" +
-	"GetDetails\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a/.scanoss.api.licenses.v2.LicenseDetailsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/api/v2/licenses/details\x12\x90\x01\n" +
-	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\xa7\x02\x92A\xf0\x01\x12\xb4\x01\n" +
+	"GetDetails\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a/.scanoss.api.licenses.v2.LicenseDetailsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/api/v2/licenses/details\x12\x8d\x01\n" +
+	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v2/licenses/obligationsB\xa7\x02\x92A\xf0\x01\x12\xb4\x01\n" +
 	"\x17SCANOSS License Service\x12FLicense service provides license intelligence for software components.\"L\n" +
 	"\x10scanoss-licenses\x12#https://github.com/scanoss/licenses\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x01\x022\x10application/json:\x10application/jsonZ1github.com/scanoss/papi/api/licensesv2;licensesv2b\x06proto3"
 
