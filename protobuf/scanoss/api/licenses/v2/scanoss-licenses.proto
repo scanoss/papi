@@ -94,6 +94,12 @@ service License {
     };
   };
 
+  /*
+   * Get detailed metadata for a specific license by SPDX identifier.
+   *
+   * Provides comprehensive license information including SPDX registry data,
+   * OSADL compliance metadata, license type classification, and official references.
+   */
   rpc GetDetails(LicenseRequest) returns(LicenseDetailsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/details"
@@ -101,6 +107,12 @@ service License {
     };
   };
 
+  /*
+   * Get compliance obligations and usage requirements for a specific license.
+   *
+   * Returns structured OSADL compliance data including use cases, obligations,
+   * compatibility information, and patent hints for the specified license.
+   */
   rpc GetObligations(LicenseRequest) returns(ObligationsResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/obligations"
@@ -109,6 +121,12 @@ service License {
   };
 }
 
+/*
+ * Response message for GetComponentLicenses method.
+ * 
+ * Contains license information for a single software component including
+ * discovered licenses and SPDX expressions when determinable.
+ */
 message ComponentLicenseResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
@@ -120,6 +138,12 @@ message ComponentLicenseResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+/*
+ * Response message for GetComponentsLicenses method.
+ * 
+ * Contains license information for multiple software components processed
+ * in a single batch request. Each component is analyzed independently.
+ */
 message ComponentsLicenseResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
@@ -131,24 +155,47 @@ message ComponentsLicenseResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+/*
+ * Response message for GetDetails method.
+ * 
+ * Provides comprehensive license metadata including SPDX registry information,
+ * OSADL compliance data, license type classification, and official references.
+ */
 message LicenseDetailsResponse {
   // Full license details with all metadata
   LicenseDetails license = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+/*
+ * Response message for GetObligations method.
+ * 
+ * Contains structured compliance obligations and usage requirements from
+ * OSADL database including use cases, compatibility, and patent information.
+ */
 message ObligationsResponse {
   // OSADL compliance data with use cases and obligations
   OSADL obligations = 1;
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+/*
+ * Classification of license types based on their usage restrictions and obligations.
+ * 
+ * Used to categorize licenses by their general characteristics and compliance requirements.
+ */
 enum LicenseType {
+  // License type could not be determined or classified
   UNKNOWN = 0;
+  // Allows liberal use with minimal restrictions (e.g., MIT, BSD, Apache)
   PERMISSIVE = 1;
+  // Requires derivative works to be distributed under the same license (e.g., GPL, LGPL)
   COPYLEFT = 2;
+  // Requires payment or commercial licensing agreement
   COMMERCIAL = 3;
+  // Proprietary license with restricted usage rights
   PROPRIETARY = 4;
+  // No copyright restrictions, dedicated to public domain (e.g., CC0, Unlicense)
   PUBLIC_DOMAIN = 5;
 }
 
@@ -157,20 +204,38 @@ enum LicenseType {
  */
 message SPDX {
 
+  /*
+   * Cross-reference information for SPDX license URLs.
+   * 
+   * Contains metadata about license reference URLs and their compliance with SPDX 
+   * License Matching Guidelines.
+   * See: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/
+   */
   message SPDXCrossRef {
+    // Reference URL to the license text
     string url = 1;
+    // Indicates if SPDX considers this URL an authoritative/trustworthy source for the license.
     bool is_valid = 2;
+    // Whether the URL is currently accessible via HTTP request
     bool is_live = 3;
+    // ISO 8601 timestamp when the validation was last performed
     string timestamp = 4;
+    // Whether this URL points to an archived/Wayback Machine version
     bool is_wayback_link = 5;
+    // Display order/priority for multiple references (0-based)
     int32 order = 6;
+    // SPDX License Matching Guidelines compliance result:
+    // "true" - URL content matches SPDX template patterns (suitable for automated validation)
+    // "false" - URL content doesn't match patterns, often due to additional text beyond original license
+    // "N/A" - Matching validation not applicable
+    // See: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/
     string match = 7;
   }
 
   /*
    * SPDX exception grant an exception to a license condition or additional
-   * permissions beyond those granted in a license;
-   * NOTE: this is not a stand-alone license
+   * permissions beyond those granted in a license.
+   * NOTE: this is not a stand-alone license.
    */
   message SPDXException {
     // SPDX exception identifier, "Classpath-exception-2.0"
@@ -181,6 +246,7 @@ message SPDX {
     string details_url = 3;
     // Reference URLs
     repeated string see_also = 5;
+    // Whether this SPDX exception is deprecated by the SPDX License List
     bool is_deprecated = 6;
   }
 
@@ -192,9 +258,11 @@ message SPDX {
   string details_url = 4;
   // HTML page URL
   string reference_url = 5;
+  // Whether this license is deprecated by the SPDX License List
   bool is_deprecated = 6;
-  // FSF considers it libre/free
+  // Whether the Free Software Foundation considers this license libre/free
   bool is_fsf_libre = 7;
+  // Whether this license is approved by the Open Source Initiative (OSI)
   bool is_osi_approved = 8;
   // Related URLs
   repeated string see_also = 9;
@@ -219,19 +287,27 @@ message OSADL {
     string obligation_json = 3;
   }
 
+  // Indicates whether the license contains copyleft obligations requiring derivative works to use the same license
   bool copyleft_clause = 1;
+  // Indicates whether the license contains patent-related clauses or considerations
   bool patent_hints = 2;
+  // List of licenses that are compatible for combination with this license
   repeated string compatibility = 3;
+  // List of licenses that are compatible when depending on components with this license
   repeated string depending_compatibility = 4;
+  // List of licenses that are incompatible and cannot be combined with this license
   repeated string incompatibility = 5;
+  // Structured use cases with specific obligations for different distribution scenarios
   repeated OSADLUseCase use_cases = 6;
 }
 
-// ========================================================================
-// LICENSE REPRESENTATIONS
-// ========================================================================
 
-// Individual license identification with SPDX ID and human-readable name
+/*
+ * Individual license identification with SPDX ID and human-readable name.
+ * 
+ * Provides basic license information including standardized identifiers and 
+ * human-readable names for discovered licenses in software components.
+ */
 message LicenseInfo {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
@@ -239,37 +315,49 @@ message LicenseInfo {
     }
   };
 
-  /*
-   * License identifier:
-   *    - For SPDX registry licenses: Standard SPDX ID
-   *    - For non-registry licenses: licenseRef-<custom_license_name>
-   */
+  // License identifier:
+  //  - For SPDX registry licenses: Standard SPDX ID
+  //  - For non-registry licenses: licenseRef-<custom_license_name>
   string id = 1;
 
-  // Human-readable license name.
+  // Best human-readable license name (normalized when possible)
+  // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
+  // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
   string full_name = 2;
 }
 
+/*
+ * Comprehensive license metadata container.
+ * 
+ * Provides detailed information about a specific license including SPDX registry data,
+ * OSADL compliance metadata, license type classification, and official references.
+ */
 message LicenseDetails {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-  // Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
   string full_name = 1;
 
+  // License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)
   LicenseType type = 2;
-  SPDX spdx = 3;                    // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
-  OSADL osadl = 4;                  // Optional - OSADL compliance metadata
-  //SCANOSS scanoss = 5;            // For future use, specific SCANOSS metadata
+  // SPDX registry metadata - always present, SPDX.id always populated, other fields empty if license not in SPDX License list
+  SPDX spdx = 3;
+  // OSADL compliance metadata - optional, contains compatibility and obligation information
+  OSADL osadl = 4;
+  // For future use, specific SCANOSS metadata
+  //SCANOSS scanoss = 5;
 }
 
-// ========================================================================
-// API MESSAGES
-// ========================================================================
-
-// GetDetails & GetObligations endpoint
+/*
+ * Request message for license metadata and compliance information.
+ * 
+ * Used by both GetDetails and GetObligations endpoints to query comprehensive
+ * license information including SPDX registry data, OSADL compliance metadata,
+ * license type classification, and usage obligations for a specific license identifier.
+ */
 message LicenseRequest {
-  string id = 1;                    // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+  // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+  string id = 1;
 }
 
 /*
@@ -287,4 +375,3 @@ message ComponentLicenseInfo {
   // Individual licenses identified in the component
   repeated LicenseInfo licenses = 5;
 }
-

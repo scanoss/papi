@@ -50,7 +50,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Status code Enum
+// Status code Enum.
 type StatusCode int32
 
 const (
@@ -106,7 +106,7 @@ func (StatusCode) EnumDescriptor() ([]byte, []int) {
 	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{0}
 }
 
-// Detailed response details
+// Detailed response details.
 type StatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// response status
@@ -161,7 +161,7 @@ func (x *StatusResponse) GetMessage() string {
 	return ""
 }
 
-// Echo Message Request
+// Echo Message Request.
 type EchoRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
@@ -206,7 +206,7 @@ func (x *EchoRequest) GetMessage() string {
 	return ""
 }
 
-// Echo Message Response
+// Echo Message Response.
 type EchoResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`

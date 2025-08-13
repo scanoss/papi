@@ -52,6 +52,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Echo Message Request.",
             "in": "body",
             "required": true,
             "schema": {
@@ -177,7 +178,7 @@
           "type": "string"
         }
       },
-      "title": "Echo Message Request"
+      "description": "Echo Message Request."
     },
     "v2EchoResponse": {
       "type": "object",
@@ -186,7 +187,7 @@
           "type": "string"
         }
       },
-      "title": "Echo Message Response"
+      "description": "Echo Message Response."
     },
     "v2PurlRequest": {
       "type": "object",
@@ -261,7 +262,7 @@
         "FAILED"
       ],
       "default": "UNSPECIFIED",
-      "title": "Status code Enum"
+      "description": "Status code Enum."
     },
     "v2StatusResponse": {
       "type": "object",
@@ -275,7 +276,7 @@
           "title": "Status message"
         }
       },
-      "title": "Detailed response details"
+      "description": "Detailed response details."
     }
   }
 }

@@ -34,7 +34,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/api/field_behavior.proto";
 
 /*
- * Status code Enum
+ * Status code Enum.
  */
 enum StatusCode {
   UNSPECIFIED = 0;
@@ -45,7 +45,7 @@ enum StatusCode {
 }
 
 /*
- * Detailed response details
+ * Detailed response details.
  */
 message StatusResponse {
   // response status
@@ -55,14 +55,14 @@ message StatusResponse {
 };
 
 /*
- * Echo Message Request
+ * Echo Message Request.
  */
 message EchoRequest {
   string message = 1;
 }
 
 /*
- * Echo Message Response
+ * Echo Message Response.
  */
 message EchoResponse {
   string message = 1;

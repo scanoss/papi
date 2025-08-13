@@ -76,7 +76,15 @@ type LicenseClient interface {
 	//
 	// See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
 	GetComponentsLicenses(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsLicenseResponse, error)
+	// Get detailed metadata for a specific license by SPDX identifier.
+	//
+	// Provides comprehensive license information including SPDX registry data,
+	// OSADL compliance metadata, license type classification, and official references.
 	GetDetails(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*LicenseDetailsResponse, error)
+	// Get compliance obligations and usage requirements for a specific license.
+	//
+	// Returns structured OSADL compliance data including use cases, obligations,
+	// compatibility information, and patent hints for the specified license.
 	GetObligations(ctx context.Context, in *LicenseRequest, opts ...grpc.CallOption) (*ObligationsResponse, error)
 }
 
@@ -160,7 +168,15 @@ type LicenseServer interface {
 	//
 	// See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
 	GetComponentsLicenses(context.Context, *commonv2.ComponentsRequest) (*ComponentsLicenseResponse, error)
+	// Get detailed metadata for a specific license by SPDX identifier.
+	//
+	// Provides comprehensive license information including SPDX registry data,
+	// OSADL compliance metadata, license type classification, and official references.
 	GetDetails(context.Context, *LicenseRequest) (*LicenseDetailsResponse, error)
+	// Get compliance obligations and usage requirements for a specific license.
+	//
+	// Returns structured OSADL compliance data including use cases, obligations,
+	// compatibility information, and patent hints for the specified license.
 	GetObligations(context.Context, *LicenseRequest) (*ObligationsResponse, error)
 	mustEmbedUnimplementedLicenseServer()
 }

@@ -51,14 +51,23 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Classification of license types based on their usage restrictions and obligations.
+//
+// Used to categorize licenses by their general characteristics and compliance requirements.
 type LicenseType int32
 
 const (
-	LicenseType_UNKNOWN       LicenseType = 0
-	LicenseType_PERMISSIVE    LicenseType = 1
-	LicenseType_COPYLEFT      LicenseType = 2
-	LicenseType_COMMERCIAL    LicenseType = 3
-	LicenseType_PROPRIETARY   LicenseType = 4
+	// License type could not be determined or classified
+	LicenseType_UNKNOWN LicenseType = 0
+	// Allows liberal use with minimal restrictions (e.g., MIT, BSD, Apache)
+	LicenseType_PERMISSIVE LicenseType = 1
+	// Requires derivative works to be distributed under the same license (e.g., GPL, LGPL)
+	LicenseType_COPYLEFT LicenseType = 2
+	// Requires payment or commercial licensing agreement
+	LicenseType_COMMERCIAL LicenseType = 3
+	// Proprietary license with restricted usage rights
+	LicenseType_PROPRIETARY LicenseType = 4
+	// No copyright restrictions, dedicated to public domain (e.g., CC0, Unlicense)
 	LicenseType_PUBLIC_DOMAIN LicenseType = 5
 )
 
@@ -109,6 +118,10 @@ func (LicenseType) EnumDescriptor() ([]byte, []int) {
 	return file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescGZIP(), []int{0}
 }
 
+// Response message for GetComponentLicenses method.
+//
+// Contains license information for a single software component including
+// discovered licenses and SPDX expressions when determinable.
 type ComponentLicenseResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// License info for the component
@@ -162,6 +175,10 @@ func (x *ComponentLicenseResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+// Response message for GetComponentsLicenses method.
+//
+// Contains license information for multiple software components processed
+// in a single batch request. Each component is analyzed independently.
 type ComponentsLicenseResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// License info for each component in the batch
@@ -215,6 +232,10 @@ func (x *ComponentsLicenseResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+// Response message for GetDetails method.
+//
+// Provides comprehensive license metadata including SPDX registry information,
+// OSADL compliance data, license type classification, and official references.
 type LicenseDetailsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Full license details with all metadata
@@ -268,6 +289,10 @@ func (x *LicenseDetailsResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+// Response message for GetObligations method.
+//
+// Contains structured compliance obligations and usage requirements from
+// OSADL database including use cases, compatibility, and patent information.
 type ObligationsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// OSADL compliance data with use cases and obligations
@@ -332,9 +357,11 @@ type SPDX struct {
 	DetailsUrl string `protobuf:"bytes,4,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`
 	// HTML page URL
 	ReferenceUrl string `protobuf:"bytes,5,opt,name=reference_url,json=referenceUrl,proto3" json:"reference_url,omitempty"`
-	IsDeprecated bool   `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
-	// FSF considers it libre/free
-	IsFsfLibre    bool `protobuf:"varint,7,opt,name=is_fsf_libre,json=isFsfLibre,proto3" json:"is_fsf_libre,omitempty"`
+	// Whether this license is deprecated by the SPDX License List
+	IsDeprecated bool `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
+	// Whether the Free Software Foundation considers this license libre/free
+	IsFsfLibre bool `protobuf:"varint,7,opt,name=is_fsf_libre,json=isFsfLibre,proto3" json:"is_fsf_libre,omitempty"`
+	// Whether this license is approved by the Open Source Initiative (OSI)
 	IsOsiApproved bool `protobuf:"varint,8,opt,name=is_osi_approved,json=isOsiApproved,proto3" json:"is_osi_approved,omitempty"`
 	// Related URLs
 	SeeAlso []string `protobuf:"bytes,9,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`
@@ -448,15 +475,21 @@ func (x *SPDX) GetExceptions() []*SPDX_SPDXException {
 
 // OSADL compliance metadata providing license analysis and compatibility information.
 type OSADL struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	CopyleftClause         bool                   `protobuf:"varint,1,opt,name=copyleft_clause,json=copyleftClause,proto3" json:"copyleft_clause,omitempty"`
-	PatentHints            bool                   `protobuf:"varint,2,opt,name=patent_hints,json=patentHints,proto3" json:"patent_hints,omitempty"`
-	Compatibility          []string               `protobuf:"bytes,3,rep,name=compatibility,proto3" json:"compatibility,omitempty"`
-	DependingCompatibility []string               `protobuf:"bytes,4,rep,name=depending_compatibility,json=dependingCompatibility,proto3" json:"depending_compatibility,omitempty"`
-	Incompatibility        []string               `protobuf:"bytes,5,rep,name=incompatibility,proto3" json:"incompatibility,omitempty"`
-	UseCases               []*OSADL_OSADLUseCase  `protobuf:"bytes,6,rep,name=use_cases,json=useCases,proto3" json:"use_cases,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Indicates whether the license contains copyleft obligations requiring derivative works to use the same license
+	CopyleftClause bool `protobuf:"varint,1,opt,name=copyleft_clause,json=copyleftClause,proto3" json:"copyleft_clause,omitempty"`
+	// Indicates whether the license contains patent-related clauses or considerations
+	PatentHints bool `protobuf:"varint,2,opt,name=patent_hints,json=patentHints,proto3" json:"patent_hints,omitempty"`
+	// List of licenses that are compatible for combination with this license
+	Compatibility []string `protobuf:"bytes,3,rep,name=compatibility,proto3" json:"compatibility,omitempty"`
+	// List of licenses that are compatible when depending on components with this license
+	DependingCompatibility []string `protobuf:"bytes,4,rep,name=depending_compatibility,json=dependingCompatibility,proto3" json:"depending_compatibility,omitempty"`
+	// List of licenses that are incompatible and cannot be combined with this license
+	Incompatibility []string `protobuf:"bytes,5,rep,name=incompatibility,proto3" json:"incompatibility,omitempty"`
+	// Structured use cases with specific obligations for different distribution scenarios
+	UseCases      []*OSADL_OSADLUseCase `protobuf:"bytes,6,rep,name=use_cases,json=useCases,proto3" json:"use_cases,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *OSADL) Reset() {
@@ -531,14 +564,16 @@ func (x *OSADL) GetUseCases() []*OSADL_OSADLUseCase {
 	return nil
 }
 
-// Individual license identification with SPDX ID and human-readable name
+// Individual license identification with SPDX ID and human-readable name.
 type LicenseInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// License identifier:
 	//   - For SPDX registry licenses: Standard SPDX ID
 	//   - For non-registry licenses: licenseRef-<custom_license_name>
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Human-readable license name.
+	// Best human-readable license name (normalized when possible)
+	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
+	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
 	FullName      string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -588,16 +623,22 @@ func (x *LicenseInfo) GetFullName() string {
 	return ""
 }
 
+// Comprehensive license metadata container.
+//
+// Provides detailed information about a specific license including SPDX registry data,
+// OSADL compliance metadata, license type classification, and official references.
 type LicenseDetails struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Best human-readable license name (normalized when possible)
 	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
 	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-	// Note: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)
-	FullName      string      `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	Type          LicenseType `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.LicenseType" json:"type,omitempty"`
-	Spdx          *SPDX       `protobuf:"bytes,3,opt,name=spdx,proto3" json:"spdx,omitempty"`   // Always present - SPDX.id always populated, other fields empty if not in SPDX License list
-	Osadl         *OSADL      `protobuf:"bytes,4,opt,name=osadl,proto3" json:"osadl,omitempty"` // Optional - OSADL compliance metadata
+	FullName string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	// License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)
+	Type LicenseType `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.LicenseType" json:"type,omitempty"`
+	// SPDX registry metadata - always present, SPDX.id always populated, other fields empty if not license not in SPDX License list
+	Spdx *SPDX `protobuf:"bytes,3,opt,name=spdx,proto3" json:"spdx,omitempty"`
+	// OSADL compliance metadata - optional, contains compatibility and obligation information
+	Osadl         *OSADL `protobuf:"bytes,4,opt,name=osadl,proto3" json:"osadl,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -662,8 +703,9 @@ func (x *LicenseDetails) GetOsadl() *OSADL {
 
 // GetDetails & GetObligations endpoint
 type LicenseRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// SPDX identifier or licenseRef (e.g., "MIT", "licenseRef-GitLab-Enterprise")
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -787,15 +829,31 @@ func (x *ComponentLicenseInfo) GetLicenses() []*LicenseInfo {
 	return nil
 }
 
+// Cross-reference information for SPDX license URLs.
+//
+// Contains metadata about license reference URLs and their compliance with SPDX
+// License Matching Guidelines.
+// See: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/
 type SPDX_SPDXCrossRef struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	IsValid       bool                   `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
-	IsLive        bool                   `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
-	Timestamp     string                 `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	IsWaybackLink bool                   `protobuf:"varint,5,opt,name=is_wayback_link,json=isWaybackLink,proto3" json:"is_wayback_link,omitempty"`
-	Order         int32                  `protobuf:"varint,6,opt,name=order,proto3" json:"order,omitempty"`
-	Match         string                 `protobuf:"bytes,7,opt,name=match,proto3" json:"match,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Reference URL to the license text
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	// Indicates if SPDX consider this URL an authoritative/trustworthy source for the license.
+	IsValid bool `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	// Whether the URL is currently accessible via HTTP request
+	IsLive bool `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
+	// ISO 8601 timestamp when the validation was last performed
+	Timestamp string `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	// Whether this URL points to an archived/Wayback Machine version
+	IsWaybackLink bool `protobuf:"varint,5,opt,name=is_wayback_link,json=isWaybackLink,proto3" json:"is_wayback_link,omitempty"`
+	// Display order/priority for multiple references (0-based)
+	Order int32 `protobuf:"varint,6,opt,name=order,proto3" json:"order,omitempty"`
+	// SPDX License Matching Guidelines compliance result:
+	// "true" - URL content matches SPDX template patterns (suitable for automated validation)
+	// "false" - URL content doesn't match patterns, often due to additional text beyond original license
+	// "N/A" - Matching validation not applicable
+	// See: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/
+	Match         string `protobuf:"bytes,7,opt,name=match,proto3" json:"match,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -880,8 +938,8 @@ func (x *SPDX_SPDXCrossRef) GetMatch() string {
 }
 
 // SPDX exception grant an exception to a license condition or additional
-// permissions beyond those granted in a license;
-// NOTE: this is not a stand-alone license
+// permissions beyond those granted in a license.
+// NOTE: this is not a stand-alone license.
 type SPDX_SPDXException struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// SPDX exception identifier, "Classpath-exception-2.0"
@@ -891,8 +949,9 @@ type SPDX_SPDXException struct {
 	// SPDX exception JSON URL
 	DetailsUrl string `protobuf:"bytes,3,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`
 	// Reference URLs
-	SeeAlso       []string `protobuf:"bytes,5,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`
-	IsDeprecated  bool     `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
+	SeeAlso []string `protobuf:"bytes,5,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`
+	// Whether this SPDX exception is deprecated by the SPDX License List
+	IsDeprecated  bool `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
