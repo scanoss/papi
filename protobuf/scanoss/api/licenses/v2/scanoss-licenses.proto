@@ -86,7 +86,7 @@ service License {
    *
    * See https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses
    */
-  rpc GetComponentsLicenses(scanoss.api.common.v2.ComponentBatchRequest) returns(ComponentsLicenseResponse) {
+  rpc GetComponentsLicenses(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsLicenseResponse) {
     option (google.api.http) = {
       post: "/api/v2/licenses/components"
       body: "*"

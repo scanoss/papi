@@ -31,12 +31,12 @@ SCANOSS API services apply the following logic when processing `ComponentRequest
 | `pkg:github/scanoss/engine`       | `^1.0.0`    | Find version matching constraint |
 | `pkg:github/scanoss/engine`       | `1.0.0`     | Analyze that exact version |
 
-### ComponentBatchRequest
+### ComponentsRequest
 Represents a list of software component to be analyzed by SCANOSS API services. 
 Allows analysis of multiple software components in a single API call, improving performance over individual requests.
 
 ```protobuf
-message ComponentBatchRequest {
+message ComponentsRequest {
   repeated ComponentRequest components = 1;
 }
 ```
@@ -51,7 +51,7 @@ message ComponentBatchRequest {
 
 ## Usage
 
-`ComponentRequest` and `ComponentBatchRequest` are used by SCANOSS API services for component analysis. See individual service documentation for specific endpoints and examples.
+`ComponentRequest` and `ComponentsRequest` are used by SCANOSS API services for component analysis. See individual service documentation for specific endpoints and examples.
 
 **Note**: Some legacy services still use the deprecated `PurlRequest` message type, which will be migrated to `ComponentRequest` in future versions.
 
