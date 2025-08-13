@@ -1122,9 +1122,9 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x15GetComponentsLicenses\x12(.scanoss.api.common.v2.ComponentsRequest\x1a2.scanoss.api.licenses.v2.ComponentsLicenseResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v2/licenses/components\x12\x8b\x01\n" +
 	"\n" +
 	"GetDetails\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a/.scanoss.api.licenses.v2.LicenseDetailsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/api/v2/licenses/details\x12\x90\x01\n" +
-	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\x95\x02\x92A\xde\x01\x12\xb4\x01\n" +
+	"\x0eGetObligations\x12'.scanoss.api.licenses.v2.LicenseRequest\x1a,.scanoss.api.licenses.v2.ObligationsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/licenses/obligationsB\xa7\x02\x92A\xf0\x01\x12\xb4\x01\n" +
 	"\x17SCANOSS License Service\x12FLicense service provides license intelligence for software components.\"L\n" +
-	"\x10scanoss-licenses\x12#https://github.com/scanoss/licenses\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonZ1github.com/scanoss/papi/api/licensesv2;licensesv2b\x06proto3"
+	"\x10scanoss-licenses\x12#https://github.com/scanoss/licenses\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x01\x022\x10application/json:\x10application/jsonZ1github.com/scanoss/papi/api/licensesv2;licensesv2b\x06proto3"
 
 var (
 	file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDescOnce sync.Once

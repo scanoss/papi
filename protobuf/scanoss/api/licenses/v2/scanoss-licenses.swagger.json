@@ -15,8 +15,10 @@
       "name": "License"
     }
   ],
+  "host": "api.scanoss.com",
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
