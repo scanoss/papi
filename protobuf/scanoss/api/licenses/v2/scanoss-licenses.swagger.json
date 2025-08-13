@@ -104,6 +104,8 @@
     },
     "/api/v2/licenses/details": {
       "post": {
+        "summary": "Get detailed metadata for a specific license by SPDX identifier.",
+        "description": "Provides comprehensive license information including SPDX registry data,\nOSADL compliance metadata, license type classification, and official references.",
         "operationId": "License_GetDetails",
         "responses": {
           "200": {
@@ -155,6 +157,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Echo Message Request.",
             "in": "body",
             "required": true,
             "schema": {
@@ -169,6 +172,8 @@
     },
     "/api/v2/licenses/obligations": {
       "post": {
+        "summary": "Get compliance obligations and usage requirements for a specific license.",
+        "description": "Returns structured OSADL compliance data including use cases, obligations,\ncompatibility information, and patent hints for the specified license.",
         "operationId": "License_GetObligations",
         "responses": {
           "200": {
@@ -223,28 +228,36 @@
       "type": "object",
       "properties": {
         "url": {
-          "type": "string"
+          "type": "string",
+          "title": "Reference URL to the license text"
         },
         "isValid": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Indicates if SPDX consider this URL an authoritative/trustworthy source for the license."
         },
         "isLive": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether the URL is currently accessible via HTTP request"
         },
         "timestamp": {
-          "type": "string"
+          "type": "string",
+          "title": "ISO 8601 timestamp when the validation was last performed"
         },
         "isWaybackLink": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether this URL points to an archived/Wayback Machine version"
         },
         "order": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "title": "Display order/priority for multiple references (0-based)"
         },
         "match": {
-          "type": "string"
+          "type": "string",
+          "title": "SPDX License Matching Guidelines compliance result:\n\"true\" - URL content matches SPDX template patterns (suitable for automated validation)\n\"false\" - URL content doesn't match patterns, often due to additional text beyond original license\n\"N/A\" - Matching validation not applicable\nSee: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/"
         }
-      }
+      },
+      "description": "Cross-reference information for SPDX license URLs.\n\nContains metadata about license reference URLs and their compliance with SPDX \nLicense Matching Guidelines.\nSee: https://spdx.github.io/spdx-spec/v2.3/license-matching-guidelines-and-templates/"
     },
     "SPDXSPDXException": {
       "type": "object",
@@ -269,10 +282,11 @@
           "title": "Reference URLs"
         },
         "isDeprecated": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether this SPDX exception is deprecated by the SPDX License List"
         }
       },
-      "title": "SPDX exception grant an exception to a license condition or additional\npermissions beyond those granted in a license;\nNOTE: this is not a stand-alone license"
+      "description": "SPDX exception grant an exception to a license condition or additional\npermissions beyond those granted in a license.\nNOTE: this is not a stand-alone license."
     },
     "protobufAny": {
       "type": "object",
@@ -360,7 +374,8 @@
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
-      }
+      },
+      "description": "Response message for GetComponentLicenses method.\n\nContains license information for a single software component including\ndiscovered licenses and SPDX expressions when determinable."
     },
     "v2ComponentRequest": {
       "type": "object",
@@ -428,7 +443,8 @@
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
-      }
+      },
+      "description": "Response message for GetComponentsLicenses method.\n\nContains license information for multiple software components processed\nin a single batch request. Each component is analyzed independently."
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -464,7 +480,7 @@
           "type": "string"
         }
       },
-      "title": "Echo Message Request"
+      "description": "Echo Message Request."
     },
     "v2EchoResponse": {
       "type": "object",
@@ -473,27 +489,30 @@
           "type": "string"
         }
       },
-      "title": "Echo Message Response"
+      "description": "Echo Message Response."
     },
     "v2LicenseDetails": {
       "type": "object",
       "properties": {
         "fullName": {
           "type": "string",
-          "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement\nNote: May match SPDX.full_name for registry licenses, but serves different purpose (best effort vs official registry)"
+          "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
         },
         "type": {
-          "$ref": "#/definitions/v2LicenseType"
+          "$ref": "#/definitions/v2LicenseType",
+          "title": "License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)"
         },
         "spdx": {
           "$ref": "#/definitions/v2SPDX",
-          "title": "Always present - SPDX.id always populated, other fields empty if not in SPDX License list"
+          "title": "SPDX registry metadata - always present, SPDX.id always populated, other fields empty if not license not in SPDX License list"
         },
         "osadl": {
           "$ref": "#/definitions/v2OSADL",
-          "title": "Optional - OSADL compliance metadata"
+          "description": "For future use, specific SCANOSS metadata\nSCANOSS scanoss = 5;",
+          "title": "OSADL compliance metadata - optional, contains compatibility and obligation information"
         }
-      }
+      },
+      "description": "Comprehensive license metadata container.\n\nProvides detailed information about a specific license including SPDX registry data,\nOSADL compliance metadata, license type classification, and official references."
     },
     "v2LicenseDetailsResponse": {
       "type": "object",
@@ -505,7 +524,8 @@
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
-      }
+      },
+      "description": "Response message for GetDetails method.\n\nProvides comprehensive license metadata including SPDX registry information,\nOSADL compliance data, license type classification, and official references."
     },
     "v2LicenseInfo": {
       "type": "object",
@@ -516,14 +536,14 @@
       "properties": {
         "id": {
           "type": "string",
-          "title": "License identifier:\n   - For SPDX registry licenses: Standard SPDX ID\n   - For non-registry licenses: licenseRef-\u003ccustom_license_name\u003e"
+          "title": "License identifier:\n - For SPDX registry licenses: Standard SPDX ID\n - For non-registry licenses: licenseRef-\u003ccustom_license_name\u003e"
         },
         "fullName": {
           "type": "string",
-          "description": "Human-readable license name."
+          "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
         }
       },
-      "title": "Individual license identification with SPDX ID and human-readable name"
+      "description": "Individual license identification with SPDX ID and human-readable name."
     },
     "v2LicenseRequest": {
       "type": "object",
@@ -545,41 +565,48 @@
         "PROPRIETARY",
         "PUBLIC_DOMAIN"
       ],
-      "default": "UNKNOWN"
+      "default": "UNKNOWN",
+      "description": "Classification of license types based on their usage restrictions and obligations.\n\nUsed to categorize licenses by their general characteristics and compliance requirements.\n\n - UNKNOWN: License type could not be determined or classified\n - PERMISSIVE: Allows liberal use with minimal restrictions (e.g., MIT, BSD, Apache)\n - COPYLEFT: Requires derivative works to be distributed under the same license (e.g., GPL, LGPL)\n - COMMERCIAL: Requires payment or commercial licensing agreement\n - PROPRIETARY: Proprietary license with restricted usage rights\n - PUBLIC_DOMAIN: No copyright restrictions, dedicated to public domain (e.g., CC0, Unlicense)"
     },
     "v2OSADL": {
       "type": "object",
       "properties": {
         "copyleftClause": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Indicates whether the license contains copyleft obligations requiring derivative works to use the same license"
         },
         "patentHints": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Indicates whether the license contains patent-related clauses or considerations"
         },
         "compatibility": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "List of licenses that are compatible for combination with this license"
         },
         "dependingCompatibility": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "List of licenses that are compatible when depending on components with this license"
         },
         "incompatibility": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "List of licenses that are incompatible and cannot be combined with this license"
         },
         "useCases": {
           "type": "array",
           "items": {
             "type": "object",
             "$ref": "#/definitions/OSADLOSADLUseCase"
-          }
+          },
+          "title": "Structured use cases with specific obligations for different distribution scenarios"
         }
       },
       "description": "OSADL compliance metadata providing license analysis and compatibility information."
@@ -594,7 +621,8 @@
         "status": {
           "$ref": "#/definitions/v2StatusResponse"
         }
-      }
+      },
+      "description": "Response message for GetObligations method.\n\nContains structured compliance obligations and usage requirements from\nOSADL database including use cases, compatibility, and patent information."
     },
     "v2SPDX": {
       "type": "object",
@@ -616,14 +644,16 @@
           "title": "HTML page URL"
         },
         "isDeprecated": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether this license is deprecated by the SPDX License List"
         },
         "isFsfLibre": {
           "type": "boolean",
-          "title": "FSF considers it libre/free"
+          "title": "Whether the Free Software Foundation considers this license libre/free"
         },
         "isOsiApproved": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether this license is approved by the Open Source Initiative (OSI)"
         },
         "seeAlso": {
           "type": "array",
@@ -661,7 +691,7 @@
         "FAILED"
       ],
       "default": "UNSPECIFIED",
-      "title": "Status code Enum"
+      "description": "Status code Enum."
     },
     "v2StatusResponse": {
       "type": "object",
@@ -675,7 +705,7 @@
           "title": "Status message"
         }
       },
-      "title": "Detailed response details"
+      "description": "Detailed response details."
     }
   }
 }
