@@ -90,6 +90,68 @@ func local_request_Vulnerabilities_GetCpes_0(ctx context.Context, marshaler runt
 	return msg, metadata, err
 }
 
+var filter_Vulnerabilities_GetComponentCpes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Vulnerabilities_GetComponentCpes_0(ctx context.Context, marshaler runtime.Marshaler, client VulnerabilitiesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Vulnerabilities_GetComponentCpes_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentCpes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Vulnerabilities_GetComponentCpes_0(ctx context.Context, marshaler runtime.Marshaler, server VulnerabilitiesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Vulnerabilities_GetComponentCpes_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentCpes(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Vulnerabilities_GetComponentsCpes_0(ctx context.Context, marshaler runtime.Marshaler, client VulnerabilitiesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsCpes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Vulnerabilities_GetComponentsCpes_0(ctx context.Context, marshaler runtime.Marshaler, server VulnerabilitiesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsCpes(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_Vulnerabilities_GetVulnerabilities_0(ctx context.Context, marshaler runtime.Marshaler, client VulnerabilitiesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq VulnerabilityRequest
@@ -114,6 +176,68 @@ func local_request_Vulnerabilities_GetVulnerabilities_0(ctx context.Context, mar
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetVulnerabilities(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_Vulnerabilities_GetComponentVulnerabilities_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Vulnerabilities_GetComponentVulnerabilities_0(ctx context.Context, marshaler runtime.Marshaler, client VulnerabilitiesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Vulnerabilities_GetComponentVulnerabilities_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentVulnerabilities(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Vulnerabilities_GetComponentVulnerabilities_0(ctx context.Context, marshaler runtime.Marshaler, server VulnerabilitiesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Vulnerabilities_GetComponentVulnerabilities_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentVulnerabilities(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Vulnerabilities_GetComponentsVulnerabilities_0(ctx context.Context, marshaler runtime.Marshaler, client VulnerabilitiesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsVulnerabilities(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Vulnerabilities_GetComponentsVulnerabilities_0(ctx context.Context, marshaler runtime.Marshaler, server VulnerabilitiesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsVulnerabilities(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -149,7 +273,7 @@ func RegisterVulnerabilitiesHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes", runtime.WithHTTPPathPattern("/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -163,13 +287,53 @@ func RegisterVulnerabilitiesHandlerServer(ctx context.Context, mux *runtime.Serv
 		}
 		forward_Vulnerabilities_GetCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Vulnerabilities_GetComponentCpes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Vulnerabilities_GetComponentCpes_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetComponentsCpes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Vulnerabilities_GetComponentsCpes_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentsCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/vulnerabilities"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities", runtime.WithHTTPPathPattern("/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -182,6 +346,46 @@ func RegisterVulnerabilitiesHandlerServer(ctx context.Context, mux *runtime.Serv
 			return
 		}
 		forward_Vulnerabilities_GetVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_Vulnerabilities_GetComponentVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Vulnerabilities_GetComponentVulnerabilities_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetComponentsVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Vulnerabilities_GetComponentsVulnerabilities_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentsVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -244,7 +448,7 @@ func RegisterVulnerabilitiesHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes", runtime.WithHTTPPathPattern("/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -257,11 +461,45 @@ func RegisterVulnerabilitiesHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_Vulnerabilities_GetCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Vulnerabilities_GetComponentCpes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Vulnerabilities_GetComponentCpes_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetComponentsCpes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsCpes", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/cpes/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Vulnerabilities_GetComponentsCpes_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentsCpes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/vulnerabilities"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities", runtime.WithHTTPPathPattern("/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -274,17 +512,59 @@ func RegisterVulnerabilitiesHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_Vulnerabilities_GetVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Vulnerabilities_GetComponentVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Vulnerabilities_GetComponentVulnerabilities_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Vulnerabilities_GetComponentsVulnerabilities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsVulnerabilities", runtime.WithHTTPPathPattern("/api/v2/vulnerabilities/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Vulnerabilities_GetComponentsVulnerabilities_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Vulnerabilities_GetComponentsVulnerabilities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	return nil
 }
 
 var (
-	pattern_Vulnerabilities_Echo_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "vulnerabilities", "echo"}, ""))
-	pattern_Vulnerabilities_GetCpes_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "vulnerabilities", "cpes"}, ""))
-	pattern_Vulnerabilities_GetVulnerabilities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 2}, []string{"api", "v2", "vulnerabilities"}, ""))
+	pattern_Vulnerabilities_Echo_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "vulnerabilities", "echo"}, ""))
+	pattern_Vulnerabilities_GetCpes_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.vulnerabilities.v2.Vulnerabilities", "GetCpes"}, ""))
+	pattern_Vulnerabilities_GetComponentCpes_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v2", "vulnerabilities", "cpes", "component"}, ""))
+	pattern_Vulnerabilities_GetComponentsCpes_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v2", "vulnerabilities", "cpes", "components"}, ""))
+	pattern_Vulnerabilities_GetVulnerabilities_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.vulnerabilities.v2.Vulnerabilities", "GetVulnerabilities"}, ""))
+	pattern_Vulnerabilities_GetComponentVulnerabilities_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "vulnerabilities", "component"}, ""))
+	pattern_Vulnerabilities_GetComponentsVulnerabilities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "vulnerabilities", "components"}, ""))
 )
 
 var (
-	forward_Vulnerabilities_Echo_0               = runtime.ForwardResponseMessage
-	forward_Vulnerabilities_GetCpes_0            = runtime.ForwardResponseMessage
-	forward_Vulnerabilities_GetVulnerabilities_0 = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_Echo_0                         = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetCpes_0                      = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetComponentCpes_0             = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetComponentsCpes_0            = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetVulnerabilities_0           = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetComponentVulnerabilities_0  = runtime.ForwardResponseMessage
+	forward_Vulnerabilities_GetComponentsVulnerabilities_0 = runtime.ForwardResponseMessage
 )

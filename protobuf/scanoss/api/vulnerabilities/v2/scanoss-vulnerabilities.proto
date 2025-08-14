@@ -37,6 +37,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
     title: "SCANOSS Vulnerability Service";
+    description: "Vulnerability service provides vulnerability intelligence for software components.";
     version: "2.0";
     contact: {
       name: "scanoss-vulnerabilities";
@@ -44,7 +45,8 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
       email: "support@scanoss.com";
     };
   };
-  schemes: HTTP;
+  host: "api.scanoss.com";
+  schemes: [HTTP, HTTPS];
   consumes: "application/json";
   produces: "application/json";
   responses: {
@@ -61,78 +63,296 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 };
 
 /*
- * Expose all of the SCANOSS Vulnerability RPCs here
+ * Vulnerability Service Definition
  */
 service Vulnerabilities {
-  // Standard echo
+  /*
+   * Returns the same message that was sent, used for health checks and connectivity testing
+   */
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
       post: "/api/v2/vulnerabilities/echo"
       body: "*"
     };
   };
-  // Get CPEs associated with a PURL
-  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse) {
+
+  /*
+   * Get CPEs (Common Platform Enumeration) associated with a PURL - legacy endpoint.
+   *
+   * Legacy method for retrieving Common Platform Enumeration identifiers
+   * associated with software components. Use GetComponentCpes instead.
+   */
+  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse);
+
+  /*
+   * Get CPEs (Common Platform Enumeration) associated with a single software component.
+   *
+   * Returns Common Platform Enumeration identifiers that match the specified component.
+   * CPEs are used to identify IT platforms in vulnerability databases and enable
+   * vulnerability scanning and assessment.
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentcpes
+   */
+  rpc GetComponentCpes(scanoss.api.common.v2.ComponentRequest) returns(ComponentCpesResponse) {
     option (google.api.http) = {
-      post: "/api/v2/vulnerabilities/cpes"
+      get: "/api/v2/vulnerabilities/cpes/component"
+    };
+  };
+
+  /*
+   * Get CPEs (Common Platform Enumeration) associated with multiple software components.
+   *
+   * Returns Common Platform Enumeration identifiers for multiple components in a single request.
+   * CPEs are used to identify IT platforms in vulnerability databases and enable
+   * vulnerability scanning and assessment.
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes
+   */
+  rpc GetComponentsCpes(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsCpesResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/vulnerabilities/cpes/components"
       body: "*"
     };
   };
-  // Get vulnerability details
-  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse) {
+
+  /*
+   * Get vulnerability details - legacy endpoint.
+   *
+   * Legacy method for retrieving vulnerability information for software components.
+   * Use GetComponentVulnerabilities or GetComponentsVulnerabilities instead.
+   */
+  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse);
+
+  /*
+   * Get vulnerability information for a single software component.
+   *
+   * Analyzes the component and returns known vulnerabilities including CVE details,
+   * severity scores, publication dates, and other security metadata.
+   * Vulnerability data is sourced from various security databases and feeds.
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentvulnerabilities
+   */
+  rpc GetComponentVulnerabilities(scanoss.api.common.v2.ComponentRequest) returns(ComponentVulnerabilityResponse) {
     option (google.api.http) = {
-      post: "/api/v2/vulnerabilities/vulnerabilities"
+      get: "/api/v2/vulnerabilities/component"
+    };
+  };
+
+  /*
+   * Get vulnerability information for multiple software components in a single request.
+   *
+   * Analyzes multiple components and returns known vulnerabilities for each including CVE details,
+   * severity scores, publication dates, and other security metadata.
+   * Vulnerability data is sourced from various security databases and feeds.
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentsvulnerabilities
+   */
+  rpc GetComponentsVulnerabilities(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsVulnerabilityResponse) {
+    option (google.api.http) = {
+      post: "/api/v2/vulnerabilities/components"
       body: "*"
     };
   };
 }
 
 /*
- * Vulnerability request data (JSON payload)
+ * Legacy request message for vulnerability information.
+ * 
+ * Contains PURL and version requirement data for vulnerability lookup.
+ * Use ComponentRequest or ComponentsRequest from common API types instead.
  */
 message VulnerabilityRequest {
+  /*
+   * Component identification for vulnerability lookup.
+   */
   message Purls {
+    // Package URL (PURL) uniquely identifying the component
     string purl = 1;
+    // Version constraint or requirement specification
     string requirement = 2;
   }
-  // JSON vulnerability request purls
+  // List of components to analyze for vulnerabilities
   repeated Purls purls = 1;
 }
 
 /*
- * Vulnerability CPE response data (JSON payload)
+ * Legacy response message for CPE information.
+ * 
+ * Contains Common Platform Enumeration identifiers associated with components.
+ * Use ComponentCpesResponse or ComponentsCpesResponse instead.
  */
 message CpeResponse {
+  /*
+   * CPE information for a specific component.
+   */
   message Purls {
+    // Package URL (PURL) uniquely identifying the component
     string purl = 1;
+    // List of Common Platform Enumeration identifiers associated with this component
     repeated string cpes = 2;
   }
-  // Purl/CPE details
+  // CPE details for each requested component
   repeated Purls purls = 1;
-  // Response status
+  // Response status indicating success or failure
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
 /*
- * Vulnerability response data (JSON payload)
+ * Common Platform Enumeration information for a specific component.
+ * 
+ * Contains CPE identifiers that can be used to match the component
+ * against vulnerability databases and security advisories.
+ */
+message ComponentCpesInfo {
+  // Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic.
+  string purl = 1;
+  // Specific version of the component that was analyzed
+  string version = 2;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 3;
+  // List of Common Platform Enumeration identifiers associated with this component
+  repeated string cpes = 4;
+}
+
+/*
+ * Response message for GetComponentCpes method.
+ * 
+ * Contains Common Platform Enumeration identifiers for a single software component.
+ * CPEs enable matching against vulnerability databases and security advisories.
+ */
+message ComponentCpesResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}";
+    }
+  };
+  // CPE information for the component
+  ComponentCpesInfo component = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Response message for GetComponentsCpes method.
+ * 
+ * Contains Common Platform Enumeration identifiers for multiple software components
+ * processed in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsCpesResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}";
+    }
+  };
+  // CPE information for each component in the batch
+  repeated ComponentCpesInfo components = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/*
+ * Individual vulnerability information with security metadata.
+ * 
+ * Contains comprehensive vulnerability details including identifiers, severity scores,
+ * publication dates, and descriptive information from various security databases.
+ */
+message Vulnerability {
+  // Internal vulnerability identifier
+  string id = 1;
+  // Common Vulnerabilities and Exposures (CVE) identifier
+  string cve = 2;
+  // Reference URL to vulnerability details or advisory
+  string url = 3;
+  // Brief description or summary of the vulnerability
+  string summary = 4;
+  // General severity level (e.g., "High", "Critical", "Medium", "Low")
+  string severity = 5;
+  // ISO 8601 timestamp when the vulnerability was first published
+  string published = 6;
+  // ISO 8601 timestamp when the vulnerability was last modified
+  string modified = 7;
+  // Source database or feed that provided this vulnerability information. NDV or OSV
+  string source = 8;
+  // CVSS (Common Vulnerability Scoring System) vector string
+  string cvss = 9;
+  // CVSS numerical score (0.0 to 10.0)
+  float cvss_score = 10;
+  // CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
+  string cvss_severity = 11;
+}
+
+/*
+ * Legacy response message for vulnerability information.
+ * 
+ * Contains vulnerability data for multiple components. Use ComponentVulnerabilityResponse
+ * or ComponentsVulnerabilityResponse instead for new implementations.
  */
 message VulnerabilityResponse {
-  message Vulnerabilities {
-    string id = 1;
-    string cve = 2;
-    string url = 3;
-    string summary = 4;
-    string severity = 5;
-    string published = 6;
-    string modified = 7;
-    string source = 8;
-  }
+  /*
+   * Vulnerability information for a specific component.
+   */
   message Purls {
+    // Package URL (PURL) uniquely identifying the component
     string purl = 1;
-    repeated Vulnerabilities vulnerabilities = 2;
+    // List of known vulnerabilities affecting this component
+    repeated Vulnerability vulnerabilities = 2;
   }
-  // Vulnerability response details
+  // Vulnerability details for each requested component
   repeated Purls purls = 1;
-  // Response status
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Vulnerability information for a specific component identified by PURL and version.
+ * 
+ * Contains comprehensive vulnerability details including CVE information, severity scores,
+ * and security metadata for software components.
+ */
+message ComponentVulnerabilityInfo {
+  // Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic.
+  string purl = 1;
+  // Specific version of the component that was analyzed
+  string version = 2;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 3;
+  // List of known vulnerabilities affecting this component
+  repeated Vulnerability vulnerabilities = 4;
+}
+
+/*
+ * Response message for GetComponentVulnerabilities method.
+ * 
+ * Contains vulnerability information for a single software component including
+ * CVE details, severity scores, and security metadata.
+ */
+message ComponentVulnerabilityResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
+    }
+  };
+  // Vulnerability information for the component
+  ComponentVulnerabilityInfo component = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Response message for GetComponentsVulnerabilities method.
+ * 
+ * Contains vulnerability information for multiple software components processed
+ * in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsVulnerabilityResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
+    }
+  };
+  // Vulnerability information for each component in the batch
+  repeated ComponentVulnerabilityInfo components = 1;
+  // Response status indicating success or failure
   scanoss.api.common.v2.StatusResponse status = 2;
 }
