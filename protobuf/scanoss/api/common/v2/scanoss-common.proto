@@ -75,7 +75,6 @@ message EchoResponse {
 message ComponentRequest {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     example: "{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"}";
-
   };
 
   // Package URL identifying the component to analyze.

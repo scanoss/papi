@@ -2,6 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "SCANOSS Vulnerability Service",
+    "description": "Vulnerability service provides vulnerability intelligence for software components.",
     "version": "2.0",
     "contact": {
       "name": "scanoss-vulnerabilities",
@@ -14,8 +15,10 @@
       "name": "Vulnerabilities"
     }
   ],
+  "host": "api.scanoss.com",
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -24,15 +27,63 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/vulnerabilities/cpes": {
-      "post": {
-        "summary": "Get CPEs associated with a PURL",
-        "operationId": "Vulnerabilities_GetCpes",
+    "/api/v2/vulnerabilities/component": {
+      "get": {
+        "summary": "Get vulnerability information for a single software component.",
+        "description": "Analyzes the component and returns known vulnerabilities including CVE details,\nseverity scores, publication dates, and other security metadata.\nVulnerability data is sourced from various security databases and feeds.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentvulnerabilities",
+        "operationId": "Vulnerabilities_GetComponentVulnerabilities",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2CpeResponse"
+              "$ref": "#/definitions/v2ComponentVulnerabilityResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Vulnerabilities"
+        ]
+      }
+    },
+    "/api/v2/vulnerabilities/components": {
+      "post": {
+        "summary": "Get vulnerability information for multiple software components in a single request.",
+        "description": "Analyzes multiple components and returns known vulnerabilities for each including CVE details,\nseverity scores, publication dates, and other security metadata.\nVulnerability data is sourced from various security databases and feeds.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentsvulnerabilities",
+        "operationId": "Vulnerabilities_GetComponentsVulnerabilities",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsVulnerabilityResponse"
             }
           },
           "404": {
@@ -52,10 +103,100 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2VulnerabilityRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Vulnerabilities"
+        ]
+      }
+    },
+    "/api/v2/vulnerabilities/cpes/component": {
+      "get": {
+        "summary": "Get CPEs (Common Platform Enumeration) associated with a single software component.",
+        "description": "Returns Common Platform Enumeration identifiers that match the specified component.\nCPEs are used to identify IT platforms in vulnerability databases and enable\nvulnerability scanning and assessment.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentcpes",
+        "operationId": "Vulnerabilities_GetComponentCpes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentCpesResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Vulnerabilities"
+        ]
+      }
+    },
+    "/api/v2/vulnerabilities/cpes/components": {
+      "post": {
+        "summary": "Get CPEs (Common Platform Enumeration) associated with multiple software components.",
+        "description": "Returns Common Platform Enumeration identifiers for multiple components in a single request.\nCPEs are used to identify IT platforms in vulnerability databases and enable\nvulnerability scanning and assessment.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes",
+        "operationId": "Vulnerabilities_GetComponentsCpes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsCpesResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -66,7 +207,7 @@
     },
     "/api/v2/vulnerabilities/echo": {
       "post": {
-        "summary": "Standard echo",
+        "summary": "Returns the same message that was sent, used for health checks and connectivity testing",
         "operationId": "Vulnerabilities_Echo",
         "responses": {
           "200": {
@@ -104,78 +245,9 @@
           "Vulnerabilities"
         ]
       }
-    },
-    "/api/v2/vulnerabilities/vulnerabilities": {
-      "post": {
-        "summary": "Get vulnerability details",
-        "operationId": "Vulnerabilities_GetVulnerabilities",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v2VulnerabilityResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2VulnerabilityRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Vulnerabilities"
-        ]
-      }
     }
   },
   "definitions": {
-    "VulnerabilityResponseVulnerabilities": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "cve": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "severity": {
-          "type": "string"
-        },
-        "published": {
-          "type": "string"
-        },
-        "modified": {
-          "type": "string"
-        },
-        "source": {
-          "type": "string"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -204,6 +276,280 @@
         }
       }
     },
+    "v2ComponentCpesInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic."
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "cpes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of Common Platform Enumeration identifiers associated with this component"
+        }
+      },
+      "description": "Common Platform Enumeration information for a specific component.\n\nContains CPE identifiers that can be used to match the component\nagainst vulnerability databases and security advisories."
+    },
+    "v2ComponentCpesResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine@1.0.0",
+          "requirement": "1.0.0",
+          "version": "1.0.0",
+          "cpes": [
+            "cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*"
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "CPEs Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentCpesInfo",
+          "title": "CPE information for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentCpes method.\n\nContains Common Platform Enumeration identifiers for a single software component.\nCPEs enable matching against vulnerability databases and security advisories."
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentVulnerabilityInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic."
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Vulnerability"
+          },
+          "title": "List of known vulnerabilities affecting this component"
+        }
+      },
+      "description": "Vulnerability information for a specific component identified by PURL and version.\n\nContains comprehensive vulnerability details including CVE information, severity scores,\nand security metadata for software components."
+    },
+    "v2ComponentVulnerabilityResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "requirement": "=\u003e1.0.0",
+          "version": "1.0.0",
+          "vulnerabilities": [
+            {
+              "id": "DLA-2640-1",
+              "cve": "DLA-2640-1",
+              "url": "https://osv.dev/vulnerability/DLA-2640-1",
+              "summary": "gst-plugins-good1.0 - security update",
+              "severity": "Critical",
+              "published": "2021-04-26",
+              "modified": "2025-05-26",
+              "source": "OSV",
+              "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "cvss_score": 9.8,
+              "cvss_severity": "Critical"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Vulnerabilities Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentVulnerabilityInfo",
+          "title": "Vulnerability information for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentVulnerabilities method.\n\nContains vulnerability information for a single software component including\nCVE details, severity scores, and security metadata."
+    },
+    "v2ComponentsCpesResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "requirement=": "1.0.0",
+            "version=": "1.0.0",
+            "cpes": [
+              "cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*"
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0",
+            "requirement": "",
+            "version": "v1.30.0",
+            "cpes": [
+              "cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*"
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "CPEs Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentCpesInfo"
+          },
+          "title": "CPE information for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentsCpes method.\n\nContains Common Platform Enumeration identifiers for multiple software components\nprocessed in a single batch request. Each component is analyzed independently."
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
+    "v2ComponentsVulnerabilityResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "requirement": "1.0.0",
+            "version": "1.0.0",
+            "vulnerabilities": [
+              {
+                "id": "DLA-2640-1",
+                "cve": "DLA-2640-1",
+                "url": "https://osv.dev/vulnerability/DLA-2640-1",
+                "summary": "gst-plugins-good1.0 - security update",
+                "severity": "Critical",
+                "published": "2021-04-26",
+                "modified": "2025-05-26",
+                "source": "OSV",
+                "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                "cvss_score": 9.8,
+                "cvss_severity": "Critical"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "requirement": "v1.30.0",
+            "version": "v1.30.0",
+            "vulnerabilities": [
+              {
+                "id": "CVE-2024-54321",
+                "cve": "CVE-2024-54321",
+                "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-54321",
+                "summary": "Denial of service vulnerability",
+                "severity": "Medium",
+                "published": "2024-01-15",
+                "modified": "2024-02-01",
+                "source": "NDV",
+                "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+                "cvss_score": 4.3,
+                "cvss_severity": "Medium"
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Vulnerabilities Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentVulnerabilityInfo"
+          },
+          "title": "Vulnerability information for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentsVulnerabilities method.\n\nContains vulnerability information for multiple software components processed\nin a single batch request. Each component is analyzed independently."
+    },
     "v2CpeResponse": {
       "type": "object",
       "properties": {
@@ -213,28 +559,31 @@
             "type": "object",
             "$ref": "#/definitions/v2CpeResponsePurls"
           },
-          "title": "Purl/CPE details"
+          "title": "CPE details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure"
         }
       },
-      "title": "Vulnerability CPE response data (JSON payload)"
+      "description": "Legacy response message for CPE information.\n\nContains Common Platform Enumeration identifiers associated with components.\nUse ComponentCpesResponse or ComponentsCpesResponse instead."
     },
     "v2CpeResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
         },
         "cpes": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "List of Common Platform Enumeration identifiers associated with this component"
         }
-      }
+      },
+      "description": "CPE information for a specific component."
     },
     "v2EchoRequest": {
       "type": "object",
@@ -280,30 +629,70 @@
       },
       "description": "Detailed response details."
     },
-    "v2VulnerabilityRequest": {
+    "v2Vulnerability": {
       "type": "object",
       "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2VulnerabilityRequestPurls"
-          },
-          "title": "JSON vulnerability request purls"
+        "id": {
+          "type": "string",
+          "title": "Internal vulnerability identifier"
+        },
+        "cve": {
+          "type": "string",
+          "title": "Common Vulnerabilities and Exposures (CVE) identifier"
+        },
+        "url": {
+          "type": "string",
+          "title": "Reference URL to vulnerability details or advisory"
+        },
+        "summary": {
+          "type": "string",
+          "title": "Brief description or summary of the vulnerability"
+        },
+        "severity": {
+          "type": "string",
+          "title": "General severity level (e.g., \"High\", \"Critical\", \"Medium\", \"Low\")"
+        },
+        "published": {
+          "type": "string",
+          "title": "ISO 8601 timestamp when the vulnerability was first published"
+        },
+        "modified": {
+          "type": "string",
+          "title": "ISO 8601 timestamp when the vulnerability was last modified"
+        },
+        "source": {
+          "type": "string",
+          "title": "Source database or feed that provided this vulnerability information. NDV or OSV"
+        },
+        "cvss": {
+          "type": "string",
+          "title": "CVSS (Common Vulnerability Scoring System) vector string"
+        },
+        "cvssScore": {
+          "type": "number",
+          "format": "float",
+          "title": "CVSS numerical score (0.0 to 10.0)"
+        },
+        "cvssSeverity": {
+          "type": "string",
+          "title": "CVSS severity rating based on score (\"None\", \"Low\", \"Medium\", \"High\", \"Critical\")"
         }
       },
-      "title": "Vulnerability request data (JSON payload)"
+      "description": "Individual vulnerability information with security metadata.\n\nContains comprehensive vulnerability details including identifiers, severity scores,\npublication dates, and descriptive information from various security databases."
     },
     "v2VulnerabilityRequestPurls": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
         },
         "requirement": {
-          "type": "string"
+          "type": "string",
+          "title": "Version constraint or requirement specification"
         }
-      }
+      },
+      "description": "Component identification for vulnerability lookup."
     },
     "v2VulnerabilityResponse": {
       "type": "object",
@@ -314,29 +703,32 @@
             "type": "object",
             "$ref": "#/definitions/v2VulnerabilityResponsePurls"
           },
-          "title": "Vulnerability response details"
+          "title": "Vulnerability details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure"
         }
       },
-      "title": "Vulnerability response data (JSON payload)"
+      "description": "Legacy response message for vulnerability information.\n\nContains vulnerability data for multiple components. Use ComponentVulnerabilityResponse\nor ComponentsVulnerabilityResponse instead for new implementations."
     },
     "v2VulnerabilityResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
         },
         "vulnerabilities": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/VulnerabilityResponseVulnerabilities"
-          }
+            "$ref": "#/definitions/v2Vulnerability"
+          },
+          "title": "List of known vulnerabilities affecting this component"
         }
-      }
+      },
+      "description": "Vulnerability information for a specific component."
     }
   }
 }
