@@ -47,23 +47,65 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Vulnerabilities_Echo_FullMethodName               = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/Echo"
-	Vulnerabilities_GetCpes_FullMethodName            = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes"
-	Vulnerabilities_GetVulnerabilities_FullMethodName = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities"
+	Vulnerabilities_Echo_FullMethodName                         = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/Echo"
+	Vulnerabilities_GetCpes_FullMethodName                      = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetCpes"
+	Vulnerabilities_GetComponentCpes_FullMethodName             = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentCpes"
+	Vulnerabilities_GetComponentsCpes_FullMethodName            = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsCpes"
+	Vulnerabilities_GetVulnerabilities_FullMethodName           = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetVulnerabilities"
+	Vulnerabilities_GetComponentVulnerabilities_FullMethodName  = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentVulnerabilities"
+	Vulnerabilities_GetComponentsVulnerabilities_FullMethodName = "/scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsVulnerabilities"
 )
 
 // VulnerabilitiesClient is the client API for Vulnerabilities service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Expose all of the SCANOSS Vulnerability RPCs here
+// Vulnerability Service Definition
 type VulnerabilitiesClient interface {
-	// Standard echo
+	// Returns the same message that was sent, used for health checks and connectivity testing
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get CPEs associated with a PURL
+	// Get CPEs (Common Platform Enumeration) associated with a PURL - legacy endpoint.
+	//
+	// Legacy method for retrieving Common Platform Enumeration identifiers
+	// associated with software components. Use GetComponentCpes instead.
 	GetCpes(ctx context.Context, in *VulnerabilityRequest, opts ...grpc.CallOption) (*CpeResponse, error)
-	// Get vulnerability details
+	// Get CPEs (Common Platform Enumeration) associated with a single software component.
+	//
+	// Returns Common Platform Enumeration identifiers that match the specified component.
+	// CPEs are used to identify IT platforms in vulnerability databases and enable
+	// vulnerability scanning and assessment.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentcpes
+	GetComponentCpes(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentCpesResponse, error)
+	// Get CPEs (Common Platform Enumeration) associated with multiple software components.
+	//
+	// Returns Common Platform Enumeration identifiers for multiple components in a single request.
+	// CPEs are used to identify IT platforms in vulnerability databases and enable
+	// vulnerability scanning and assessment.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes
+	GetComponentsCpes(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsCpesResponse, error)
+	// Get vulnerability details - legacy endpoint.
+	//
+	// Legacy method for retrieving vulnerability information for software components.
+	// Use GetComponentVulnerabilities or GetComponentsVulnerabilities instead.
 	GetVulnerabilities(ctx context.Context, in *VulnerabilityRequest, opts ...grpc.CallOption) (*VulnerabilityResponse, error)
+	// Get vulnerability information for a single software component.
+	//
+	// Analyzes the component and returns known vulnerabilities including CVE details,
+	// severity scores, publication dates, and other security metadata.
+	// Vulnerability data is sourced from various security databases and feeds.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentvulnerabilities
+	GetComponentVulnerabilities(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentVulnerabilityResponse, error)
+	// Get vulnerability information for multiple software components in a single request.
+	//
+	// Analyzes multiple components and returns known vulnerabilities for each including CVE details,
+	// severity scores, publication dates, and other security metadata.
+	// Vulnerability data is sourced from various security databases and feeds.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentsvulnerabilities
+	GetComponentsVulnerabilities(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsVulnerabilityResponse, error)
 }
 
 type vulnerabilitiesClient struct {
@@ -94,6 +136,26 @@ func (c *vulnerabilitiesClient) GetCpes(ctx context.Context, in *VulnerabilityRe
 	return out, nil
 }
 
+func (c *vulnerabilitiesClient) GetComponentCpes(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentCpesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentCpesResponse)
+	err := c.cc.Invoke(ctx, Vulnerabilities_GetComponentCpes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vulnerabilitiesClient) GetComponentsCpes(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsCpesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentsCpesResponse)
+	err := c.cc.Invoke(ctx, Vulnerabilities_GetComponentsCpes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *vulnerabilitiesClient) GetVulnerabilities(ctx context.Context, in *VulnerabilityRequest, opts ...grpc.CallOption) (*VulnerabilityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VulnerabilityResponse)
@@ -104,18 +166,76 @@ func (c *vulnerabilitiesClient) GetVulnerabilities(ctx context.Context, in *Vuln
 	return out, nil
 }
 
+func (c *vulnerabilitiesClient) GetComponentVulnerabilities(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentVulnerabilityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentVulnerabilityResponse)
+	err := c.cc.Invoke(ctx, Vulnerabilities_GetComponentVulnerabilities_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vulnerabilitiesClient) GetComponentsVulnerabilities(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsVulnerabilityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentsVulnerabilityResponse)
+	err := c.cc.Invoke(ctx, Vulnerabilities_GetComponentsVulnerabilities_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VulnerabilitiesServer is the server API for Vulnerabilities service.
 // All implementations must embed UnimplementedVulnerabilitiesServer
 // for forward compatibility.
 //
-// Expose all of the SCANOSS Vulnerability RPCs here
+// Vulnerability Service Definition
 type VulnerabilitiesServer interface {
-	// Standard echo
+	// Returns the same message that was sent, used for health checks and connectivity testing
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get CPEs associated with a PURL
+	// Get CPEs (Common Platform Enumeration) associated with a PURL - legacy endpoint.
+	//
+	// Legacy method for retrieving Common Platform Enumeration identifiers
+	// associated with software components. Use GetComponentCpes instead.
 	GetCpes(context.Context, *VulnerabilityRequest) (*CpeResponse, error)
-	// Get vulnerability details
+	// Get CPEs (Common Platform Enumeration) associated with a single software component.
+	//
+	// Returns Common Platform Enumeration identifiers that match the specified component.
+	// CPEs are used to identify IT platforms in vulnerability databases and enable
+	// vulnerability scanning and assessment.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentcpes
+	GetComponentCpes(context.Context, *commonv2.ComponentRequest) (*ComponentCpesResponse, error)
+	// Get CPEs (Common Platform Enumeration) associated with multiple software components.
+	//
+	// Returns Common Platform Enumeration identifiers for multiple components in a single request.
+	// CPEs are used to identify IT platforms in vulnerability databases and enable
+	// vulnerability scanning and assessment.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes
+	GetComponentsCpes(context.Context, *commonv2.ComponentsRequest) (*ComponentsCpesResponse, error)
+	// Get vulnerability details - legacy endpoint.
+	//
+	// Legacy method for retrieving vulnerability information for software components.
+	// Use GetComponentVulnerabilities or GetComponentsVulnerabilities instead.
 	GetVulnerabilities(context.Context, *VulnerabilityRequest) (*VulnerabilityResponse, error)
+	// Get vulnerability information for a single software component.
+	//
+	// Analyzes the component and returns known vulnerabilities including CVE details,
+	// severity scores, publication dates, and other security metadata.
+	// Vulnerability data is sourced from various security databases and feeds.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentvulnerabilities
+	GetComponentVulnerabilities(context.Context, *commonv2.ComponentRequest) (*ComponentVulnerabilityResponse, error)
+	// Get vulnerability information for multiple software components in a single request.
+	//
+	// Analyzes multiple components and returns known vulnerabilities for each including CVE details,
+	// severity scores, publication dates, and other security metadata.
+	// Vulnerability data is sourced from various security databases and feeds.
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentsvulnerabilities
+	GetComponentsVulnerabilities(context.Context, *commonv2.ComponentsRequest) (*ComponentsVulnerabilityResponse, error)
 	mustEmbedUnimplementedVulnerabilitiesServer()
 }
 
@@ -132,8 +252,20 @@ func (UnimplementedVulnerabilitiesServer) Echo(context.Context, *commonv2.EchoRe
 func (UnimplementedVulnerabilitiesServer) GetCpes(context.Context, *VulnerabilityRequest) (*CpeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCpes not implemented")
 }
+func (UnimplementedVulnerabilitiesServer) GetComponentCpes(context.Context, *commonv2.ComponentRequest) (*ComponentCpesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentCpes not implemented")
+}
+func (UnimplementedVulnerabilitiesServer) GetComponentsCpes(context.Context, *commonv2.ComponentsRequest) (*ComponentsCpesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentsCpes not implemented")
+}
 func (UnimplementedVulnerabilitiesServer) GetVulnerabilities(context.Context, *VulnerabilityRequest) (*VulnerabilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVulnerabilities not implemented")
+}
+func (UnimplementedVulnerabilitiesServer) GetComponentVulnerabilities(context.Context, *commonv2.ComponentRequest) (*ComponentVulnerabilityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentVulnerabilities not implemented")
+}
+func (UnimplementedVulnerabilitiesServer) GetComponentsVulnerabilities(context.Context, *commonv2.ComponentsRequest) (*ComponentsVulnerabilityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentsVulnerabilities not implemented")
 }
 func (UnimplementedVulnerabilitiesServer) mustEmbedUnimplementedVulnerabilitiesServer() {}
 func (UnimplementedVulnerabilitiesServer) testEmbeddedByValue()                         {}
@@ -192,6 +324,42 @@ func _Vulnerabilities_GetCpes_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Vulnerabilities_GetComponentCpes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VulnerabilitiesServer).GetComponentCpes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Vulnerabilities_GetComponentCpes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VulnerabilitiesServer).GetComponentCpes(ctx, req.(*commonv2.ComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Vulnerabilities_GetComponentsCpes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VulnerabilitiesServer).GetComponentsCpes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Vulnerabilities_GetComponentsCpes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VulnerabilitiesServer).GetComponentsCpes(ctx, req.(*commonv2.ComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Vulnerabilities_GetVulnerabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VulnerabilityRequest)
 	if err := dec(in); err != nil {
@@ -206,6 +374,42 @@ func _Vulnerabilities_GetVulnerabilities_Handler(srv interface{}, ctx context.Co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VulnerabilitiesServer).GetVulnerabilities(ctx, req.(*VulnerabilityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Vulnerabilities_GetComponentVulnerabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VulnerabilitiesServer).GetComponentVulnerabilities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Vulnerabilities_GetComponentVulnerabilities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VulnerabilitiesServer).GetComponentVulnerabilities(ctx, req.(*commonv2.ComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Vulnerabilities_GetComponentsVulnerabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VulnerabilitiesServer).GetComponentsVulnerabilities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Vulnerabilities_GetComponentsVulnerabilities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VulnerabilitiesServer).GetComponentsVulnerabilities(ctx, req.(*commonv2.ComponentsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,8 +430,24 @@ var Vulnerabilities_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Vulnerabilities_GetCpes_Handler,
 		},
 		{
+			MethodName: "GetComponentCpes",
+			Handler:    _Vulnerabilities_GetComponentCpes_Handler,
+		},
+		{
+			MethodName: "GetComponentsCpes",
+			Handler:    _Vulnerabilities_GetComponentsCpes_Handler,
+		},
+		{
 			MethodName: "GetVulnerabilities",
 			Handler:    _Vulnerabilities_GetVulnerabilities_Handler,
+		},
+		{
+			MethodName: "GetComponentVulnerabilities",
+			Handler:    _Vulnerabilities_GetComponentVulnerabilities_Handler,
+		},
+		{
+			MethodName: "GetComponentsVulnerabilities",
+			Handler:    _Vulnerabilities_GetComponentsVulnerabilities_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
