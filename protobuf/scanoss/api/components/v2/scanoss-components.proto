@@ -88,22 +88,19 @@ service Components {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/components/echo"
-      body: "*"
+      get: "/api/v2/components/echo"
     };
   };
   // Search for components
   rpc SearchComponents(CompSearchRequest) returns(CompSearchResponse) {
     option (google.api.http) = {
-      post: "/api/v2/components/search"
-      body: "*"
+      get: "/api/v2/components/search"
     };
   };
   // Get all version information for a specific component
   rpc GetComponentVersions(CompVersionRequest) returns(CompVersionResponse) {
     option (google.api.http) = {
-      post: "/api/v2/components/versions"
-      body: "*"
+      get: "/api/v2/components/versions"
     };
   };
   // Get the statistics for the specified components
@@ -200,6 +197,8 @@ message CompVersionResponse {
   message Version {
     string version = 1;
     repeated License licenses = 4;
+    // Release date of the version
+    string date = 5;
   }
   // Component details (including versions)
   message Component {

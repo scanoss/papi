@@ -28,7 +28,7 @@
   ],
   "paths": {
     "/api/v2/components/echo": {
-      "post": {
+      "get": {
         "summary": "Standard echo",
         "operationId": "Components_Echo",
         "responses": {
@@ -54,13 +54,10 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "description": "Echo Message Request.",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2EchoRequest"
-            }
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -69,7 +66,7 @@
       }
     },
     "/api/v2/components/search": {
-      "post": {
+      "get": {
         "summary": "Search for components",
         "operationId": "Components_SearchComponents",
         "responses": {
@@ -95,12 +92,48 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2CompSearchRequest"
-            }
+            "name": "search",
+            "description": "Component to search for (vendor/component/purl). Search is exclusive (will override vendor/component)",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "vendor",
+            "description": "Vendor to search for. Vendor can be combined with Component",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "component",
+            "description": "Component to search for. Component can be combined with Vendor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "package",
+            "description": "Type of package (purl type) to search for. i.e. github, maven, golang, npm, all - default github",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of matches to return - default 50",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "description": "Offset to submit to return the next (limit) of component matches",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -150,7 +183,7 @@
       }
     },
     "/api/v2/components/versions": {
-      "post": {
+      "get": {
         "summary": "Get all version information for a specific component",
         "operationId": "Components_GetComponentVersions",
         "responses": {
@@ -176,12 +209,19 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2CompVersionRequest"
-            }
+            "name": "purl",
+            "description": "Component to search for (purl)",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of versions to return - default 50",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -215,6 +255,10 @@
             "type": "object",
             "$ref": "#/definitions/v2CompVersionResponseLicense"
           }
+        },
+        "date": {
+          "type": "string",
+          "title": "Release date of the version"
         }
       },
       "title": "Version details (including license)"
@@ -246,38 +290,6 @@
           }
         }
       }
-    },
-    "v2CompSearchRequest": {
-      "type": "object",
-      "properties": {
-        "search": {
-          "type": "string",
-          "title": "Component to search for (vendor/component/purl). Search is exclusive (will override vendor/component)"
-        },
-        "vendor": {
-          "type": "string",
-          "title": "Vendor to search for. Vendor can be combined with Component"
-        },
-        "component": {
-          "type": "string",
-          "title": "Component to search for. Component can be combined with Vendor"
-        },
-        "package": {
-          "type": "string",
-          "title": "Type of package (purl type) to search for. i.e. github, maven, golang, npm, all - default github"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Number of matches to return - default 50"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Offset to submit to return the next (limit) of component matches"
-        }
-      },
-      "title": "Component Search request data (JSON payload)"
     },
     "v2CompSearchResponse": {
       "type": "object",
@@ -368,21 +380,6 @@
         }
       }
     },
-    "v2CompVersionRequest": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "Component to search for (purl)"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Number of versions to return - default 50"
-        }
-      },
-      "title": "Component Version request data (JSON payload)"
-    },
     "v2CompVersionResponse": {
       "type": "object",
       "properties": {
@@ -436,15 +433,6 @@
         }
       },
       "title": "License details"
-    },
-    "v2EchoRequest": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
-      },
-      "description": "Echo Message Request."
     },
     "v2EchoResponse": {
       "type": "object",
