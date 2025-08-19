@@ -674,9 +674,11 @@ func (x *CompVersionResponse_License) GetUrl() string {
 
 // Version details (including license)
 type CompVersionResponse_Version struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Version       string                         `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
-	Licenses      []*CompVersionResponse_License `protobuf:"bytes,4,rep,name=licenses,proto3" json:"licenses,omitempty"`
+	state    protoimpl.MessageState         `protogen:"open.v1"`
+	Version  string                         `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	Licenses []*CompVersionResponse_License `protobuf:"bytes,4,rep,name=licenses,proto3" json:"licenses,omitempty"`
+	// Release date of the version
+	Date          string `protobuf:"bytes,5,opt,name=date,proto3" json:"date,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -723,6 +725,13 @@ func (x *CompVersionResponse_Version) GetLicenses() []*CompVersionResponse_Licen
 		return x.Licenses
 	}
 	return nil
+}
+
+func (x *CompVersionResponse_Version) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
 }
 
 // Component details (including versions)
@@ -835,7 +844,7 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\x03url\x18\x03 \x01(\tR\x03url\">\n" +
 	"\x12CompVersionRequest\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xbf\x04\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xd4\x04\n" +
 	"\x13CompVersionResponse\x12V\n" +
 	"\tcomponent\x18\x01 \x01(\v28.scanoss.api.components.v2.CompVersionResponse.ComponentR\tcomponent\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1ar\n" +
@@ -843,20 +852,21 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
 	"\aspdx_id\x18\x02 \x01(\tR\x06spdxId\x12(\n" +
 	"\x10is_spdx_approved\x18\x03 \x01(\bR\x0eisSpdxApproved\x12\x10\n" +
-	"\x03url\x18\x04 \x01(\tR\x03url\x1aw\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url\x1a\x8b\x01\n" +
 	"\aVersion\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12R\n" +
-	"\blicenses\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.LicenseR\blicenses\x1a\xa3\x01\n" +
+	"\blicenses\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.LicenseR\blicenses\x12\x12\n" +
+	"\x04date\x18\x05 \x01(\tR\x04date\x1a\xa3\x01\n" +
 	"\tComponent\x12\x1c\n" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +
 	"\x04purl\x18\x02 \x01(\tR\x04purl\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12R\n" +
-	"\bversions\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.VersionR\bversions2\xd4\x04\n" +
+	"\bversions\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.VersionR\bversions2\xcb\x04\n" +
 	"\n" +
-	"Components\x12s\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/api/v2/components/echo\x12\x95\x01\n" +
-	"\x10SearchComponents\x12,.scanoss.api.components.v2.CompSearchRequest\x1a-.scanoss.api.components.v2.CompSearchResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v2/components/search\x12\x9d\x01\n" +
-	"\x14GetComponentVersions\x12-.scanoss.api.components.v2.CompVersionRequest\x1a..scanoss.api.components.v2.CompVersionResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v2/components/versions\x12\x98\x01\n" +
+	"Components\x12p\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/api/v2/components/echo\x12\x92\x01\n" +
+	"\x10SearchComponents\x12,.scanoss.api.components.v2.CompSearchRequest\x1a-.scanoss.api.components.v2.CompSearchResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/v2/components/search\x12\x9a\x01\n" +
+	"\x14GetComponentVersions\x12-.scanoss.api.components.v2.CompVersionRequest\x1a..scanoss.api.components.v2.CompVersionResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/api/v2/components/versions\x12\x98\x01\n" +
 	"\x16GetComponentStatistics\x12\".scanoss.api.common.v2.PurlRequest\x1a0.scanoss.api.components.v2.CompStatisticResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v2/components/statisticsB\x9a\x03\x92A\xdf\x02\x12\x9d\x01\n" +
 	"\x1aSCANOSS Components Service\x12(Provides component intelligence services\"P\n" +
 	"\x12scanoss-components\x12%https://github.com/scanoss/components\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x02\x012\x10application/json:\x10application/jsonR;\n" +
