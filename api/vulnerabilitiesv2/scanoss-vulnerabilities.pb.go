@@ -350,6 +350,69 @@ func (x *ComponentsCpesResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+type Cvss struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// CVSS (Common Vulnerability Scoring System) vector string
+	Cvss string `protobuf:"bytes,1,opt,name=cvss,proto3" json:"cvss,omitempty"`
+	// CVSS numerical score (0.0 to 10.0)
+	CvssScore float32 `protobuf:"fixed32,2,opt,name=cvss_score,json=cvssScore,proto3" json:"cvss_score,omitempty"`
+	// CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
+	CvssSeverity  string `protobuf:"bytes,3,opt,name=cvss_severity,json=cvssSeverity,proto3" json:"cvss_severity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Cvss) Reset() {
+	*x = Cvss{}
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Cvss) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Cvss) ProtoMessage() {}
+
+func (x *Cvss) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Cvss.ProtoReflect.Descriptor instead.
+func (*Cvss) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Cvss) GetCvss() string {
+	if x != nil {
+		return x.Cvss
+	}
+	return ""
+}
+
+func (x *Cvss) GetCvssScore() float32 {
+	if x != nil {
+		return x.CvssScore
+	}
+	return 0
+}
+
+func (x *Cvss) GetCvssSeverity() string {
+	if x != nil {
+		return x.CvssSeverity
+	}
+	return ""
+}
+
 // Individual vulnerability information with security metadata.
 //
 // Contains comprehensive vulnerability details including identifiers, severity scores,
@@ -372,19 +435,15 @@ type Vulnerability struct {
 	Modified string `protobuf:"bytes,7,opt,name=modified,proto3" json:"modified,omitempty"`
 	// Source database or feed that provided this vulnerability information. NDV or OSV
 	Source string `protobuf:"bytes,8,opt,name=source,proto3" json:"source,omitempty"`
-	// CVSS (Common Vulnerability Scoring System) vector string
-	Cvss string `protobuf:"bytes,9,opt,name=cvss,proto3" json:"cvss,omitempty"`
-	// CVSS numerical score (0.0 to 10.0)
-	CvssScore float32 `protobuf:"fixed32,10,opt,name=cvss_score,json=cvssScore,proto3" json:"cvss_score,omitempty"`
-	// CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
-	CvssSeverity  string `protobuf:"bytes,11,opt,name=cvss_severity,json=cvssSeverity,proto3" json:"cvss_severity,omitempty"`
+	// CVSS (Common Vulnerability Scoring System)
+	Cvss          []*Cvss `protobuf:"bytes,9,rep,name=cvss,proto3" json:"cvss,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Vulnerability) Reset() {
 	*x = Vulnerability{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -396,7 +455,7 @@ func (x *Vulnerability) String() string {
 func (*Vulnerability) ProtoMessage() {}
 
 func (x *Vulnerability) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -409,7 +468,7 @@ func (x *Vulnerability) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Vulnerability.ProtoReflect.Descriptor instead.
 func (*Vulnerability) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{5}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Vulnerability) GetId() string {
@@ -468,25 +527,11 @@ func (x *Vulnerability) GetSource() string {
 	return ""
 }
 
-func (x *Vulnerability) GetCvss() string {
+func (x *Vulnerability) GetCvss() []*Cvss {
 	if x != nil {
 		return x.Cvss
 	}
-	return ""
-}
-
-func (x *Vulnerability) GetCvssScore() float32 {
-	if x != nil {
-		return x.CvssScore
-	}
-	return 0
-}
-
-func (x *Vulnerability) GetCvssSeverity() string {
-	if x != nil {
-		return x.CvssSeverity
-	}
-	return ""
+	return nil
 }
 
 // Legacy response message for vulnerability information.
@@ -505,7 +550,7 @@ type VulnerabilityResponse struct {
 
 func (x *VulnerabilityResponse) Reset() {
 	*x = VulnerabilityResponse{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[6]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -517,7 +562,7 @@ func (x *VulnerabilityResponse) String() string {
 func (*VulnerabilityResponse) ProtoMessage() {}
 
 func (x *VulnerabilityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[6]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -530,7 +575,7 @@ func (x *VulnerabilityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VulnerabilityResponse.ProtoReflect.Descriptor instead.
 func (*VulnerabilityResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{6}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *VulnerabilityResponse) GetPurls() []*VulnerabilityResponse_Purls {
@@ -567,7 +612,7 @@ type ComponentVulnerabilityInfo struct {
 
 func (x *ComponentVulnerabilityInfo) Reset() {
 	*x = ComponentVulnerabilityInfo{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[7]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -579,7 +624,7 @@ func (x *ComponentVulnerabilityInfo) String() string {
 func (*ComponentVulnerabilityInfo) ProtoMessage() {}
 
 func (x *ComponentVulnerabilityInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[7]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +637,7 @@ func (x *ComponentVulnerabilityInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentVulnerabilityInfo.ProtoReflect.Descriptor instead.
 func (*ComponentVulnerabilityInfo) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{7}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ComponentVulnerabilityInfo) GetPurl() string {
@@ -639,7 +684,7 @@ type ComponentVulnerabilityResponse struct {
 
 func (x *ComponentVulnerabilityResponse) Reset() {
 	*x = ComponentVulnerabilityResponse{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[8]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -651,7 +696,7 @@ func (x *ComponentVulnerabilityResponse) String() string {
 func (*ComponentVulnerabilityResponse) ProtoMessage() {}
 
 func (x *ComponentVulnerabilityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[8]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -664,7 +709,7 @@ func (x *ComponentVulnerabilityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentVulnerabilityResponse.ProtoReflect.Descriptor instead.
 func (*ComponentVulnerabilityResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{8}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ComponentVulnerabilityResponse) GetComponent() *ComponentVulnerabilityInfo {
@@ -697,7 +742,7 @@ type ComponentsVulnerabilityResponse struct {
 
 func (x *ComponentsVulnerabilityResponse) Reset() {
 	*x = ComponentsVulnerabilityResponse{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[9]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -709,7 +754,7 @@ func (x *ComponentsVulnerabilityResponse) String() string {
 func (*ComponentsVulnerabilityResponse) ProtoMessage() {}
 
 func (x *ComponentsVulnerabilityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[9]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -722,7 +767,7 @@ func (x *ComponentsVulnerabilityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentsVulnerabilityResponse.ProtoReflect.Descriptor instead.
 func (*ComponentsVulnerabilityResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{9}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ComponentsVulnerabilityResponse) GetComponents() []*ComponentVulnerabilityInfo {
@@ -752,7 +797,7 @@ type VulnerabilityRequest_Purls struct {
 
 func (x *VulnerabilityRequest_Purls) Reset() {
 	*x = VulnerabilityRequest_Purls{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[10]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -764,7 +809,7 @@ func (x *VulnerabilityRequest_Purls) String() string {
 func (*VulnerabilityRequest_Purls) ProtoMessage() {}
 
 func (x *VulnerabilityRequest_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[10]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -807,7 +852,7 @@ type CpeResponse_Purls struct {
 
 func (x *CpeResponse_Purls) Reset() {
 	*x = CpeResponse_Purls{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[11]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -819,7 +864,7 @@ func (x *CpeResponse_Purls) String() string {
 func (*CpeResponse_Purls) ProtoMessage() {}
 
 func (x *CpeResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[11]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -862,7 +907,7 @@ type VulnerabilityResponse_Purls struct {
 
 func (x *VulnerabilityResponse_Purls) Reset() {
 	*x = VulnerabilityResponse_Purls{}
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[12]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -874,7 +919,7 @@ func (x *VulnerabilityResponse_Purls) String() string {
 func (*VulnerabilityResponse_Purls) ProtoMessage() {}
 
 func (x *VulnerabilityResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[12]
+	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -887,7 +932,7 @@ func (x *VulnerabilityResponse_Purls) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VulnerabilityResponse_Purls.ProtoReflect.Descriptor instead.
 func (*VulnerabilityResponse_Purls) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{6, 0}
+	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{7, 0}
 }
 
 func (x *VulnerabilityResponse_Purls) GetPurl() string {
@@ -934,7 +979,12 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"components\x18\x01 \x03(\v21.scanoss.api.vulnerabilities.v2.ComponentCpesInfoR\n" +
 	"components\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x8e\x03\x92A\x8a\x03\n" +
-	"\x87\x03J\x84\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"\xa3\x02\n" +
+	"\x87\x03J\x84\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"^\n" +
+	"\x04Cvss\x12\x12\n" +
+	"\x04cvss\x18\x01 \x01(\tR\x04cvss\x12\x1d\n" +
+	"\n" +
+	"cvss_score\x18\x02 \x01(\x02R\tcvssScore\x12#\n" +
+	"\rcvss_severity\x18\x03 \x01(\tR\fcvssSeverity\"\x85\x02\n" +
 	"\rVulnerability\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03cve\x18\x02 \x01(\tR\x03cve\x12\x10\n" +
@@ -943,12 +993,8 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\bseverity\x18\x05 \x01(\tR\bseverity\x12\x1c\n" +
 	"\tpublished\x18\x06 \x01(\tR\tpublished\x12\x1a\n" +
 	"\bmodified\x18\a \x01(\tR\bmodified\x12\x16\n" +
-	"\x06source\x18\b \x01(\tR\x06source\x12\x12\n" +
-	"\x04cvss\x18\t \x01(\tR\x04cvss\x12\x1d\n" +
-	"\n" +
-	"cvss_score\x18\n" +
-	" \x01(\x02R\tcvssScore\x12#\n" +
-	"\rcvss_severity\x18\v \x01(\tR\fcvssSeverity\"\x9f\x02\n" +
+	"\x06source\x18\b \x01(\tR\x06source\x128\n" +
+	"\x04cvss\x18\t \x03(\v2$.scanoss.api.vulnerabilities.v2.CvssR\x04cvss\"\x9f\x02\n" +
 	"\x15VulnerabilityResponse\x12Q\n" +
 	"\x05purls\x18\x01 \x03(\v2;.scanoss.api.vulnerabilities.v2.VulnerabilityResponse.PurlsR\x05purls\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1at\n" +
@@ -996,62 +1042,64 @@ func file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZ
 	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescData
 }
 
-var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_goTypes = []any{
 	(*VulnerabilityRequest)(nil),            // 0: scanoss.api.vulnerabilities.v2.VulnerabilityRequest
 	(*CpeResponse)(nil),                     // 1: scanoss.api.vulnerabilities.v2.CpeResponse
 	(*ComponentCpesInfo)(nil),               // 2: scanoss.api.vulnerabilities.v2.ComponentCpesInfo
 	(*ComponentCpesResponse)(nil),           // 3: scanoss.api.vulnerabilities.v2.ComponentCpesResponse
 	(*ComponentsCpesResponse)(nil),          // 4: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
-	(*Vulnerability)(nil),                   // 5: scanoss.api.vulnerabilities.v2.Vulnerability
-	(*VulnerabilityResponse)(nil),           // 6: scanoss.api.vulnerabilities.v2.VulnerabilityResponse
-	(*ComponentVulnerabilityInfo)(nil),      // 7: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
-	(*ComponentVulnerabilityResponse)(nil),  // 8: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
-	(*ComponentsVulnerabilityResponse)(nil), // 9: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
-	(*VulnerabilityRequest_Purls)(nil),      // 10: scanoss.api.vulnerabilities.v2.VulnerabilityRequest.Purls
-	(*CpeResponse_Purls)(nil),               // 11: scanoss.api.vulnerabilities.v2.CpeResponse.Purls
-	(*VulnerabilityResponse_Purls)(nil),     // 12: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
-	(*commonv2.StatusResponse)(nil),         // 13: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),            // 14: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentRequest)(nil),       // 15: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.ComponentsRequest)(nil),      // 16: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),           // 17: scanoss.api.common.v2.EchoResponse
+	(*Cvss)(nil),                            // 5: scanoss.api.vulnerabilities.v2.Cvss
+	(*Vulnerability)(nil),                   // 6: scanoss.api.vulnerabilities.v2.Vulnerability
+	(*VulnerabilityResponse)(nil),           // 7: scanoss.api.vulnerabilities.v2.VulnerabilityResponse
+	(*ComponentVulnerabilityInfo)(nil),      // 8: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
+	(*ComponentVulnerabilityResponse)(nil),  // 9: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
+	(*ComponentsVulnerabilityResponse)(nil), // 10: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
+	(*VulnerabilityRequest_Purls)(nil),      // 11: scanoss.api.vulnerabilities.v2.VulnerabilityRequest.Purls
+	(*CpeResponse_Purls)(nil),               // 12: scanoss.api.vulnerabilities.v2.CpeResponse.Purls
+	(*VulnerabilityResponse_Purls)(nil),     // 13: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
+	(*commonv2.StatusResponse)(nil),         // 14: scanoss.api.common.v2.StatusResponse
+	(*commonv2.EchoRequest)(nil),            // 15: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentRequest)(nil),       // 16: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.ComponentsRequest)(nil),      // 17: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.EchoResponse)(nil),           // 18: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_depIdxs = []int32{
-	10, // 0: scanoss.api.vulnerabilities.v2.VulnerabilityRequest.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest.Purls
-	11, // 1: scanoss.api.vulnerabilities.v2.CpeResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.CpeResponse.Purls
-	13, // 2: scanoss.api.vulnerabilities.v2.CpeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	11, // 0: scanoss.api.vulnerabilities.v2.VulnerabilityRequest.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest.Purls
+	12, // 1: scanoss.api.vulnerabilities.v2.CpeResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.CpeResponse.Purls
+	14, // 2: scanoss.api.vulnerabilities.v2.CpeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	2,  // 3: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
-	13, // 4: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	14, // 4: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	2,  // 5: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
-	13, // 6: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	12, // 7: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
-	13, // 8: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	5,  // 9: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
-	7,  // 10: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
-	13, // 11: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 12: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
-	13, // 13: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	5,  // 14: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
-	14, // 15: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0,  // 16: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
-	15, // 17: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:input_type -> scanoss.api.common.v2.ComponentRequest
-	16, // 18: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:input_type -> scanoss.api.common.v2.ComponentsRequest
-	0,  // 19: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
-	15, // 20: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:input_type -> scanoss.api.common.v2.ComponentRequest
-	16, // 21: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:input_type -> scanoss.api.common.v2.ComponentsRequest
-	17, // 22: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 23: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:output_type -> scanoss.api.vulnerabilities.v2.CpeResponse
-	3,  // 24: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentCpesResponse
-	4,  // 25: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
-	6,  // 26: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse
-	8,  // 27: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
-	9,  // 28: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
-	22, // [22:29] is the sub-list for method output_type
-	15, // [15:22] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	14, // 6: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	5,  // 7: scanoss.api.vulnerabilities.v2.Vulnerability.cvss:type_name -> scanoss.api.vulnerabilities.v2.Cvss
+	13, // 8: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
+	14, // 9: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	6,  // 10: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
+	8,  // 11: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
+	14, // 12: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	8,  // 13: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
+	14, // 14: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	6,  // 15: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
+	15, // 16: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 17: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
+	16, // 18: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:input_type -> scanoss.api.common.v2.ComponentRequest
+	17, // 19: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:input_type -> scanoss.api.common.v2.ComponentsRequest
+	0,  // 20: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
+	16, // 21: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:input_type -> scanoss.api.common.v2.ComponentRequest
+	17, // 22: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:input_type -> scanoss.api.common.v2.ComponentsRequest
+	18, // 23: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 24: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:output_type -> scanoss.api.vulnerabilities.v2.CpeResponse
+	3,  // 25: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentCpesResponse
+	4,  // 26: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
+	7,  // 27: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse
+	9,  // 28: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
+	10, // 29: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
+	23, // [23:30] is the sub-list for method output_type
+	16, // [16:23] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_init() }
@@ -1065,7 +1113,7 @@ func file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc), len(file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -250,6 +250,14 @@ message ComponentsCpesResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
+message Cvss {
+  // CVSS (Common Vulnerability Scoring System) vector string
+  string cvss = 1;
+  // CVSS numerical score (0.0 to 10.0)
+  float cvss_score = 2;
+  // CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
+  string cvss_severity = 3;
+}
 
 /*
  * Individual vulnerability information with security metadata.
@@ -274,12 +282,8 @@ message Vulnerability {
   string modified = 7;
   // Source database or feed that provided this vulnerability information. NDV or OSV
   string source = 8;
-  // CVSS (Common Vulnerability Scoring System) vector string
-  string cvss = 9;
-  // CVSS numerical score (0.0 to 10.0)
-  float cvss_score = 10;
-  // CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
-  string cvss_severity = 11;
+  // CVSS (Common Vulnerability Scoring System)
+   repeated Cvss cvss = 9;
 }
 
 /*

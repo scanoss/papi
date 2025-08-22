@@ -113,10 +113,19 @@ The method returns comprehensive vulnerability information including:
 
 Each vulnerability object contains:
 - CVE identifier and reference URL
-- Severity classification and CVSS score
+- Severity classification and CVSS information
 - Publication and modification dates
 - Summary description
 - Source database information
+- CVSS array with detailed scoring information (vector, score, and severity)
+
+### CVSS Information
+
+The `cvss` field is an array of CVSS (Common Vulnerability Scoring System) objects, allowing for multiple CVSS versions or sources. Each CVSS object contains:
+
+- `cvss`: The CVSS vector string (e.g., "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
+- `cvss_score`: The numerical CVSS score (0.0 to 10.0)
+- `cvss_severity`: The severity rating based on the score ("None", "Low", "Medium", "High", "Critical")
 
 ### Response Examples
 
@@ -137,9 +146,13 @@ Each vulnerability object contains:
         "published": "2024-01-15T10:30:00Z",
         "modified": "2024-01-16T14:20:00Z",
         "source": "NVD",
-        "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-        "cvss_score": 7.5,
-        "cvss_severity": "High"
+        "cvss": [
+          {
+            "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvss_score": 7.5,
+            "cvss_severity": "High"
+          }
+        ]
       }
     ]
   },
