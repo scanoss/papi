@@ -55,6 +55,8 @@ const (
 //
 // Contains PURL and version requirement data for vulnerability lookup.
 // Use ComponentRequest or ComponentsRequest from common API types instead.
+//
+// Deprecated: Marked as deprecated in scanoss/api/vulnerabilities/v2/scanoss-vulnerabilities.proto.
 type VulnerabilityRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of components to analyze for vulnerabilities
@@ -104,6 +106,8 @@ func (x *VulnerabilityRequest) GetPurls() []*VulnerabilityRequest_Purls {
 //
 // Contains Common Platform Enumeration identifiers associated with components.
 // Use ComponentCpesResponse or ComponentsCpesResponse instead.
+//
+// Deprecated: Marked as deprecated in scanoss/api/vulnerabilities/v2/scanoss-vulnerabilities.proto.
 type CpeResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// CPE details for each requested component
@@ -350,32 +354,37 @@ func (x *ComponentsCpesResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
-type Cvss struct {
+// Common Vulnerability Scoring System (CVSS) information.
+//
+// CVSS provides a standardized method for rating IT vulnerabilities and determining
+// response priorities. Contains the complete CVSS metrics including vector strings,
+// numerical scores, and qualitative severity ratings.
+type CVSS struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// CVSS (Common Vulnerability Scoring System) vector string
+	// CVSS vector string containing base metrics (e.g., "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
 	Cvss string `protobuf:"bytes,1,opt,name=cvss,proto3" json:"cvss,omitempty"`
-	// CVSS numerical score (0.0 to 10.0)
+	// CVSS numerical score ranging from 0.0 to 10.0, calculated from the base metrics
 	CvssScore float32 `protobuf:"fixed32,2,opt,name=cvss_score,json=cvssScore,proto3" json:"cvss_score,omitempty"`
-	// CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
+	// CVSS qualitative severity rating derived from the numerical score: "None" (0.0), "Low" (0.1-3.9), "Medium" (4.0-6.9), "High" (7.0-8.9), "Critical" (9.0-10.0)
 	CvssSeverity  string `protobuf:"bytes,3,opt,name=cvss_severity,json=cvssSeverity,proto3" json:"cvss_severity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Cvss) Reset() {
-	*x = Cvss{}
+func (x *CVSS) Reset() {
+	*x = CVSS{}
 	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Cvss) String() string {
+func (x *CVSS) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Cvss) ProtoMessage() {}
+func (*CVSS) ProtoMessage() {}
 
-func (x *Cvss) ProtoReflect() protoreflect.Message {
+func (x *CVSS) ProtoReflect() protoreflect.Message {
 	mi := &file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -387,26 +396,26 @@ func (x *Cvss) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Cvss.ProtoReflect.Descriptor instead.
-func (*Cvss) Descriptor() ([]byte, []int) {
+// Deprecated: Use CVSS.ProtoReflect.Descriptor instead.
+func (*CVSS) Descriptor() ([]byte, []int) {
 	return file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *Cvss) GetCvss() string {
+func (x *CVSS) GetCvss() string {
 	if x != nil {
 		return x.Cvss
 	}
 	return ""
 }
 
-func (x *Cvss) GetCvssScore() float32 {
+func (x *CVSS) GetCvssScore() float32 {
 	if x != nil {
 		return x.CvssScore
 	}
 	return 0
 }
 
-func (x *Cvss) GetCvssSeverity() string {
+func (x *CVSS) GetCvssSeverity() string {
 	if x != nil {
 		return x.CvssSeverity
 	}
@@ -436,7 +445,7 @@ type Vulnerability struct {
 	// Source database or feed that provided this vulnerability information. NDV or OSV
 	Source string `protobuf:"bytes,8,opt,name=source,proto3" json:"source,omitempty"`
 	// CVSS (Common Vulnerability Scoring System)
-	Cvss          []*Cvss `protobuf:"bytes,9,rep,name=cvss,proto3" json:"cvss,omitempty"`
+	Cvss          []*CVSS `protobuf:"bytes,9,rep,name=cvss,proto3" json:"cvss,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -527,7 +536,7 @@ func (x *Vulnerability) GetSource() string {
 	return ""
 }
 
-func (x *Vulnerability) GetCvss() []*Cvss {
+func (x *Vulnerability) GetCvss() []*CVSS {
 	if x != nil {
 		return x.Cvss
 	}
@@ -538,6 +547,8 @@ func (x *Vulnerability) GetCvss() []*Cvss {
 //
 // Contains vulnerability data for multiple components. Use ComponentVulnerabilityResponse
 // or ComponentsVulnerabilityResponse instead for new implementations.
+//
+// Deprecated: Marked as deprecated in scanoss/api/vulnerabilities/v2/scanoss-vulnerabilities.proto.
 type VulnerabilityResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Vulnerability details for each requested component
@@ -953,18 +964,18 @@ var File_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto protorefle
 
 const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc = "" +
 	"\n" +
-	"<scanoss/api/vulnerabilities/v2/scanoss-vulnerabilities.proto\x12\x1escanoss.api.vulnerabilities.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xa7\x01\n" +
+	"<scanoss/api/vulnerabilities/v2/scanoss-vulnerabilities.proto\x12\x1escanoss.api.vulnerabilities.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xab\x01\n" +
 	"\x14VulnerabilityRequest\x12P\n" +
 	"\x05purls\x18\x01 \x03(\v2:.scanoss.api.vulnerabilities.v2.VulnerabilityRequest.PurlsR\x05purls\x1a=\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
-	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"\xc6\x01\n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement:\x02\x18\x01\"\xca\x01\n" +
 	"\vCpeResponse\x12G\n" +
 	"\x05purls\x18\x01 \x03(\v21.scanoss.api.vulnerabilities.v2.CpeResponse.PurlsR\x05purls\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a/\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
-	"\x04cpes\x18\x02 \x03(\tR\x04cpes\"w\n" +
+	"\x04cpes\x18\x02 \x03(\tR\x04cpes:\x02\x18\x01\"w\n" +
 	"\x11ComponentCpesInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
@@ -980,7 +991,7 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"components\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x8e\x03\x92A\x8a\x03\n" +
 	"\x87\x03J\x84\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"^\n" +
-	"\x04Cvss\x12\x12\n" +
+	"\x04CVSS\x12\x12\n" +
 	"\x04cvss\x18\x01 \x01(\tR\x04cvss\x12\x1d\n" +
 	"\n" +
 	"cvss_score\x18\x02 \x01(\x02R\tcvssScore\x12#\n" +
@@ -994,34 +1005,34 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\tpublished\x18\x06 \x01(\tR\tpublished\x12\x1a\n" +
 	"\bmodified\x18\a \x01(\tR\bmodified\x12\x16\n" +
 	"\x06source\x18\b \x01(\tR\x06source\x128\n" +
-	"\x04cvss\x18\t \x03(\v2$.scanoss.api.vulnerabilities.v2.CvssR\x04cvss\"\x9f\x02\n" +
+	"\x04cvss\x18\t \x03(\v2$.scanoss.api.vulnerabilities.v2.CVSSR\x04cvss\"\xa3\x02\n" +
 	"\x15VulnerabilityResponse\x12Q\n" +
 	"\x05purls\x18\x01 \x03(\v2;.scanoss.api.vulnerabilities.v2.VulnerabilityResponse.PurlsR\x05purls\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1at\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12W\n" +
-	"\x0fvulnerabilities\x18\x02 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\"\xc5\x01\n" +
+	"\x0fvulnerabilities\x18\x02 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities:\x02\x18\x01\"\xc5\x01\n" +
 	"\x1aComponentVulnerabilityInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12W\n" +
-	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\"\xea\x05\n" +
+	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\"\xf6\x05\n" +
 	"\x1eComponentVulnerabilityResponse\x12X\n" +
 	"\tcomponent\x18\x01 \x01(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xae\x04\x92A\xaa\x04\n" +
-	"\xa7\x04J\xa4\x04{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xb9\t\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xba\x04\x92A\xb6\x04\n" +
+	"\xb3\x04J\xb0\x04{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xd1\t\n" +
 	"\x1fComponentsVulnerabilityResponse\x12Z\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xfa\a\x92A\xf6\a\n" +
-	"\xf3\aJ\xf0\a{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xbd\b\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x92\b\x92A\x8e\b\n" +
+	"\x8b\bJ\x88\b{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}]}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xc7\b\n" +
 	"\x0fVulnerabilities\x12x\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/vulnerabilities/echo\x12l\n" +
-	"\aGetCpes\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a+.scanoss.api.vulnerabilities.v2.CpeResponse\x12\xa2\x01\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/vulnerabilities/echo\x12q\n" +
+	"\aGetCpes\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a+.scanoss.api.vulnerabilities.v2.CpeResponse\"\x03\x88\x02\x01\x12\xa2\x01\n" +
 	"\x10GetComponentCpes\x12'.scanoss.api.common.v2.ComponentRequest\x1a5.scanoss.api.vulnerabilities.v2.ComponentCpesResponse\".\x82\xd3\xe4\x93\x02(\x12&/api/v2/vulnerabilities/cpes/component\x12\xa9\x01\n" +
-	"\x11GetComponentsCpes\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.vulnerabilities.v2.ComponentsCpesResponse\"2\x82\xd3\xe4\x93\x02,:\x01*\"'/api/v2/vulnerabilities/cpes/components\x12\x81\x01\n" +
-	"\x12GetVulnerabilities\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a5.scanoss.api.vulnerabilities.v2.VulnerabilityResponse\x12\xb1\x01\n" +
+	"\x11GetComponentsCpes\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.vulnerabilities.v2.ComponentsCpesResponse\"2\x82\xd3\xe4\x93\x02,:\x01*\"'/api/v2/vulnerabilities/cpes/components\x12\x86\x01\n" +
+	"\x12GetVulnerabilities\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a5.scanoss.api.vulnerabilities.v2.VulnerabilityResponse\"\x03\x88\x02\x01\x12\xb1\x01\n" +
 	"\x1bGetComponentVulnerabilities\x12'.scanoss.api.common.v2.ComponentRequest\x1a>.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse\")\x82\xd3\xe4\x93\x02#\x12!/api/v2/vulnerabilities/component\x12\xb8\x01\n" +
 	"\x1cGetComponentsVulnerabilities\x12(.scanoss.api.common.v2.ComponentsRequest\x1a?.scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/api/v2/vulnerabilities/componentsB\x92\x03\x92A\xcd\x02\x12\xd4\x01\n" +
 	"\x1dSCANOSS Vulnerability Service\x12RVulnerability service provides vulnerability intelligence for software components.\"Z\n" +
@@ -1049,7 +1060,7 @@ var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_goTypes = 
 	(*ComponentCpesInfo)(nil),               // 2: scanoss.api.vulnerabilities.v2.ComponentCpesInfo
 	(*ComponentCpesResponse)(nil),           // 3: scanoss.api.vulnerabilities.v2.ComponentCpesResponse
 	(*ComponentsCpesResponse)(nil),          // 4: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
-	(*Cvss)(nil),                            // 5: scanoss.api.vulnerabilities.v2.Cvss
+	(*CVSS)(nil),                            // 5: scanoss.api.vulnerabilities.v2.CVSS
 	(*Vulnerability)(nil),                   // 6: scanoss.api.vulnerabilities.v2.Vulnerability
 	(*VulnerabilityResponse)(nil),           // 7: scanoss.api.vulnerabilities.v2.VulnerabilityResponse
 	(*ComponentVulnerabilityInfo)(nil),      // 8: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
@@ -1072,7 +1083,7 @@ var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_depIdxs = 
 	14, // 4: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	2,  // 5: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
 	14, // 6: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	5,  // 7: scanoss.api.vulnerabilities.v2.Vulnerability.cvss:type_name -> scanoss.api.vulnerabilities.v2.Cvss
+	5,  // 7: scanoss.api.vulnerabilities.v2.Vulnerability.cvss:type_name -> scanoss.api.vulnerabilities.v2.CVSS
 	13, // 8: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
 	14, // 9: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	6,  // 10: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability

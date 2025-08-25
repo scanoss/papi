@@ -64,6 +64,8 @@ const (
 type VulnerabilitiesClient interface {
 	// Returns the same message that was sent, used for health checks and connectivity testing
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
+	// Deprecated: Do not use.
+	//
 	// Get CPEs (Common Platform Enumeration) associated with a PURL - legacy endpoint.
 	//
 	// Legacy method for retrieving Common Platform Enumeration identifiers
@@ -85,6 +87,8 @@ type VulnerabilitiesClient interface {
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes
 	GetComponentsCpes(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsCpesResponse, error)
+	// Deprecated: Do not use.
+	//
 	// Get vulnerability details - legacy endpoint.
 	//
 	// Legacy method for retrieving vulnerability information for software components.
@@ -126,6 +130,7 @@ func (c *vulnerabilitiesClient) Echo(ctx context.Context, in *commonv2.EchoReque
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *vulnerabilitiesClient) GetCpes(ctx context.Context, in *VulnerabilityRequest, opts ...grpc.CallOption) (*CpeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CpeResponse)
@@ -156,6 +161,7 @@ func (c *vulnerabilitiesClient) GetComponentsCpes(ctx context.Context, in *commo
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *vulnerabilitiesClient) GetVulnerabilities(ctx context.Context, in *VulnerabilityRequest, opts ...grpc.CallOption) (*VulnerabilityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VulnerabilityResponse)
@@ -194,6 +200,8 @@ func (c *vulnerabilitiesClient) GetComponentsVulnerabilities(ctx context.Context
 type VulnerabilitiesServer interface {
 	// Returns the same message that was sent, used for health checks and connectivity testing
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
+	// Deprecated: Do not use.
+	//
 	// Get CPEs (Common Platform Enumeration) associated with a PURL - legacy endpoint.
 	//
 	// Legacy method for retrieving Common Platform Enumeration identifiers
@@ -215,6 +223,8 @@ type VulnerabilitiesServer interface {
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes
 	GetComponentsCpes(context.Context, *commonv2.ComponentsRequest) (*ComponentsCpesResponse, error)
+	// Deprecated: Do not use.
+	//
 	// Get vulnerability details - legacy endpoint.
 	//
 	// Legacy method for retrieving vulnerability information for software components.

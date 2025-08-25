@@ -82,7 +82,9 @@ service Vulnerabilities {
    * Legacy method for retrieving Common Platform Enumeration identifiers
    * associated with software components. Use GetComponentCpes instead.
    */
-  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse);
+  rpc GetCpes(VulnerabilityRequest) returns(CpeResponse) {
+    option deprecated = true;
+  };
 
   /*
    * Get CPEs (Common Platform Enumeration) associated with a single software component.
@@ -121,7 +123,9 @@ service Vulnerabilities {
    * Legacy method for retrieving vulnerability information for software components.
    * Use GetComponentVulnerabilities or GetComponentsVulnerabilities instead.
    */
-  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse);
+  rpc GetVulnerabilities(VulnerabilityRequest) returns(VulnerabilityResponse) {
+    option deprecated = true;
+  };
 
   /*
    * Get vulnerability information for a single software component.
@@ -162,6 +166,7 @@ service Vulnerabilities {
  * Use ComponentRequest or ComponentsRequest from common API types instead.
  */
 message VulnerabilityRequest {
+  option deprecated = true;
   /*
    * Component identification for vulnerability lookup.
    */
@@ -182,6 +187,7 @@ message VulnerabilityRequest {
  * Use ComponentCpesResponse or ComponentsCpesResponse instead.
  */
 message CpeResponse {
+  option deprecated = true;
   /*
    * CPE information for a specific component.
    */
@@ -250,12 +256,20 @@ message ComponentsCpesResponse {
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
-message Cvss {
-  // CVSS (Common Vulnerability Scoring System) vector string
+/*
+ * Common Vulnerability Scoring System (CVSS) information.
+ * 
+ * CVSS provides a standardized method for rating IT vulnerabilities and determining
+ * response priorities. Contains the complete CVSS metrics including vector strings,
+ * numerical scores, and qualitative severity ratings.
+ *
+ */
+message CVSS {
+  // CVSS vector string containing base metrics (e.g., "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
   string cvss = 1;
-  // CVSS numerical score (0.0 to 10.0)
+  // CVSS numerical score ranging from 0.0 to 10.0, calculated from the base metrics
   float cvss_score = 2;
-  // CVSS severity rating based on score ("None", "Low", "Medium", "High", "Critical")
+  // CVSS qualitative severity rating derived from the numerical score: "None" (0.0), "Low" (0.1-3.9), "Medium" (4.0-6.9), "High" (7.0-8.9), "Critical" (9.0-10.0)
   string cvss_severity = 3;
 }
 
@@ -283,7 +297,7 @@ message Vulnerability {
   // Source database or feed that provided this vulnerability information. NDV or OSV
   string source = 8;
   // CVSS (Common Vulnerability Scoring System)
-   repeated Cvss cvss = 9;
+   repeated CVSS cvss = 9;
 }
 
 /*
@@ -293,6 +307,7 @@ message Vulnerability {
  * or ComponentsVulnerabilityResponse instead for new implementations.
  */
 message VulnerabilityResponse {
+  option deprecated = true;
   /*
    * Vulnerability information for a specific component.
    */
@@ -334,7 +349,7 @@ message ComponentVulnerabilityInfo {
 message ComponentVulnerabilityResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
     }
   };
   // Vulnerability information for the component
@@ -352,7 +367,7 @@ message ComponentVulnerabilityResponse {
 message ComponentsVulnerabilityResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"DLA-2640-1\", \"cve\": \"DLA-2640-1\", \"url\": \"https://osv.dev/vulnerability/DLA-2640-1\", \"summary\": \"gst-plugins-good1.0 - security update\", \"severity\": \"Critical\", \"published\": \"2021-04-26\", \"modified\": \"2025-05-26\", \"source\": \"OSV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\", \"cvss_score\": 9.8, \"cvss_severity\": \"Critical\"}]}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}]}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
     }
   };
   // Vulnerability information for each component in the batch

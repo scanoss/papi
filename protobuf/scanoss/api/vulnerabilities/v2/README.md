@@ -12,7 +12,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 
 ### HTTP Request Example
 ```bash
-curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/component?purl=pkg:github/scanoss/engine@5.0.0&requirement=>=5.0.0' \
+curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H 'x-api-key: $SC_API_KEY'
 ```
 
@@ -59,8 +59,8 @@ curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/components' \
   -H 'x-api-key: $SC_API_KEY' \
   -d '{
     "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py@v1.30.0", "requirement": "~1.30.0"}
+      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
+      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }'
 ```
@@ -70,8 +70,8 @@ curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/components' \
 grpcurl -H "x-api-key: $SC_API_KEY" \
   -d '{
     "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py@v1.30.0", "requirement": "~1.30.0"}
+      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
+      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }' \
   api.scanoss.com:443 \
@@ -87,7 +87,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 
 ### HTTP Request Example
 ```bash
-curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine@5.0.0&requirement=>=5.0.0' \
+curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H 'x-api-key: $SC_API_KEY'
 ```
 
@@ -193,8 +193,8 @@ curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/components' \
   -H 'x-api-key: $SC_API_KEY' \
   -d '{
     "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py@v1.30.0", "requirement": "~1.30.0"}
+      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
+      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }'
 ```
@@ -204,8 +204,8 @@ curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/components' \
 grpcurl -H "x-api-key: $SC_API_KEY" \
   -d '{
     "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py@v1.30.0", "requirement": "~1.30.0"}
+      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
+      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }' \
   api.scanoss.com:443 \
