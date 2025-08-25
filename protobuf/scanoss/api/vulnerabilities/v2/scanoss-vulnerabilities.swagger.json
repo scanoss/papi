@@ -276,6 +276,25 @@
         }
       }
     },
+    "v2CVSS": {
+      "type": "object",
+      "properties": {
+        "cvss": {
+          "type": "string",
+          "title": "CVSS vector string containing base metrics (e.g., \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\")"
+        },
+        "cvssScore": {
+          "type": "number",
+          "format": "float",
+          "title": "CVSS numerical score ranging from 0.0 to 10.0, calculated from the base metrics"
+        },
+        "cvssSeverity": {
+          "type": "string",
+          "title": "CVSS qualitative severity rating derived from the numerical score: \"None\" (0.0), \"Low\" (0.1-3.9), \"Medium\" (4.0-6.9), \"High\" (7.0-8.9), \"Critical\" (9.0-10.0)"
+        }
+      },
+      "description": "Common Vulnerability Scoring System (CVSS) information.\n\nCVSS provides a standardized method for rating IT vulnerabilities and determining\nresponse priorities. Contains the complete CVSS metrics including vector strings,\nnumerical scores, and qualitative severity ratings."
+    },
     "v2ComponentCpesInfo": {
       "type": "object",
       "properties": {
@@ -392,9 +411,13 @@
               "published": "2021-04-26",
               "modified": "2025-05-26",
               "source": "OSV",
-              "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-              "cvss_score": 9.8,
-              "cvss_severity": "Critical"
+              "cvss": [
+                {
+                  "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                  "cvss_score": 9.8,
+                  "cvss_severity": "Critical"
+                }
+              ]
             }
           ]
         },
@@ -502,9 +525,13 @@
                 "published": "2021-04-26",
                 "modified": "2025-05-26",
                 "source": "OSV",
-                "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-                "cvss_score": 9.8,
-                "cvss_severity": "Critical"
+                "cvss": [
+                  {
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                    "cvss_score": 9.8,
+                    "cvss_severity": "Critical"
+                  }
+                ]
               }
             ]
           },
@@ -522,9 +549,13 @@
                 "published": "2024-01-15",
                 "modified": "2024-02-01",
                 "source": "NDV",
-                "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
-                "cvss_score": 4.3,
-                "cvss_severity": "Medium"
+                "cvss": [
+                  {
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+                    "cvss_score": 4.3,
+                    "cvss_severity": "Medium"
+                  }
+                ]
               }
             ]
           }
@@ -584,24 +615,6 @@
         }
       },
       "description": "CPE information for a specific component."
-    },
-    "v2Cvss": {
-      "type": "object",
-      "properties": {
-        "cvss": {
-          "type": "string",
-          "title": "CVSS (Common Vulnerability Scoring System) vector string"
-        },
-        "cvssScore": {
-          "type": "number",
-          "format": "float",
-          "title": "CVSS numerical score (0.0 to 10.0)"
-        },
-        "cvssSeverity": {
-          "type": "string",
-          "title": "CVSS severity rating based on score (\"None\", \"Low\", \"Medium\", \"High\", \"Critical\")"
-        }
-      }
     },
     "v2EchoRequest": {
       "type": "object",
@@ -686,7 +699,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2Cvss"
+            "$ref": "#/definitions/v2CVSS"
           },
           "title": "CVSS (Common Vulnerability Scoring System)"
         }
