@@ -280,6 +280,11 @@
           "type": "integer",
           "format": "int32",
           "title": "Maximum number of results to query"
+        },
+        "minCutoffThreshold": {
+          "type": "number",
+          "format": "float",
+          "title": "Minimum score threshold to consider a match"
         }
       },
       "title": "High precision Folder Hashing scan request"
