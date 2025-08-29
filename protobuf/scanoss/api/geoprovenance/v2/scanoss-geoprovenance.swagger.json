@@ -231,7 +231,7 @@
           "type": "string",
           "title": "The purl string"
         },
-        "declaredLocations": {
+        "declared_locations": {
           "type": "array",
           "items": {
             "type": "object",
@@ -239,7 +239,7 @@
           },
           "title": "List of locations declared on user repository"
         },
-        "curatedLocations": {
+        "curated_locations": {
           "type": "array",
           "items": {
             "type": "object",

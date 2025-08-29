@@ -110,15 +110,15 @@
     "HFHRequestChildren": {
       "type": "object",
       "properties": {
-        "pathId": {
+        "path_id": {
           "type": "string",
           "title": "Folder path (can be actual or obfuscated)"
         },
-        "simHashNames": {
+        "sim_hash_names": {
           "type": "string",
           "description": "Proximity hash calculated from this nodes filenames (and their children)."
         },
-        "simHashContent": {
+        "sim_hash_content": {
           "type": "string",
           "description": "Proximity hash calculated from this nodes file contents (and their children)."
         },
@@ -130,11 +130,11 @@
           },
           "title": "Sub-folders inside this child"
         },
-        "simHashDirNames": {
+        "sim_hash_dir_names": {
           "type": "string",
           "description": "Proximity hash calculated from this nodes directory names (and their children)."
         },
-        "langExtensions": {
+        "lang_extensions": {
           "type": "object",
           "additionalProperties": {
             "type": "integer",
@@ -184,7 +184,7 @@
     "HFHResponseResult": {
       "type": "object",
       "properties": {
-        "pathId": {
+        "path_id": {
           "type": "string",
           "title": "Folder path (can be actual or obfuscated)"
         },
@@ -267,7 +267,7 @@
           "$ref": "#/definitions/HFHRequestChildren",
           "title": "Folder root node to be scanned"
         },
-        "rankThreshold": {
+        "rank_threshold": {
           "type": "integer",
           "format": "int32",
           "description": "Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality."
@@ -276,7 +276,7 @@
           "type": "string",
           "title": "Filter results by category (e.g i only want to see results from github projects, npm, etc)"
         },
-        "queryLimit": {
+        "query_limit": {
           "type": "integer",
           "format": "int32",
           "title": "Maximum number of results to query"

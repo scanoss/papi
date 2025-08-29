@@ -57,11 +57,11 @@ type HFHRequest struct {
 	// Folder root node to be scanned
 	Root *HFHRequest_Children `protobuf:"bytes,1,opt,name=root,proto3" json:"root,omitempty"`
 	// Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality.
-	RankThreshold int32 `protobuf:"varint,2,opt,name=rank_threshold,json=rankThreshold,proto3" json:"rank_threshold,omitempty"`
+	RankThreshold int32 `protobuf:"varint,2,opt,name=rank_threshold,proto3" json:"rank_threshold,omitempty"`
 	// Filter results by category (e.g i only want to see results from github projects, npm, etc)
 	Category string `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
 	// Maximum number of results to query
-	QueryLimit    int32 `protobuf:"varint,4,opt,name=query_limit,json=queryLimit,proto3" json:"query_limit,omitempty"`
+	QueryLimit    int32 `protobuf:"varint,4,opt,name=query_limit,proto3" json:"query_limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -182,17 +182,17 @@ func (x *HFHResponse) GetStatus() *commonv2.StatusResponse {
 type HFHRequest_Children struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Folder path (can be actual or obfuscated)
-	PathId string `protobuf:"bytes,1,opt,name=path_id,json=pathId,proto3" json:"path_id,omitempty"`
+	PathId string `protobuf:"bytes,1,opt,name=path_id,proto3" json:"path_id,omitempty"`
 	// Proximity hash calculated from this nodes filenames (and their children).
-	SimHashNames string `protobuf:"bytes,2,opt,name=sim_hash_names,json=simHashNames,proto3" json:"sim_hash_names,omitempty"`
+	SimHashNames string `protobuf:"bytes,2,opt,name=sim_hash_names,proto3" json:"sim_hash_names,omitempty"`
 	// Proximity hash calculated from this nodes file contents (and their children).
-	SimHashContent string `protobuf:"bytes,3,opt,name=sim_hash_content,json=simHashContent,proto3" json:"sim_hash_content,omitempty"`
+	SimHashContent string `protobuf:"bytes,3,opt,name=sim_hash_content,proto3" json:"sim_hash_content,omitempty"`
 	// Sub-folders inside this child
 	Children []*HFHRequest_Children `protobuf:"bytes,4,rep,name=children,proto3" json:"children,omitempty"`
 	// Proximity hash calculated from this nodes directory names (and their children).
-	SimHashDirNames string `protobuf:"bytes,5,opt,name=sim_hash_dir_names,json=simHashDirNames,proto3" json:"sim_hash_dir_names,omitempty"`
+	SimHashDirNames string `protobuf:"bytes,5,opt,name=sim_hash_dir_names,proto3" json:"sim_hash_dir_names,omitempty"`
 	// Language extensions count (dictionary) - language name -> count
-	LangExtensions map[string]int32 `protobuf:"bytes,6,rep,name=lang_extensions,json=langExtensions,proto3" json:"lang_extensions,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	LangExtensions map[string]int32 `protobuf:"bytes,6,rep,name=lang_extensions,proto3" json:"lang_extensions,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -419,7 +419,7 @@ func (x *HFHResponse_Component) GetOrder() int32 {
 type HFHResponse_Result struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Folder path (can be actual or obfuscated)
-	PathId string `protobuf:"bytes,1,opt,name=path_id,json=pathId,proto3" json:"path_id,omitempty"`
+	PathId string `protobuf:"bytes,1,opt,name=path_id,proto3" json:"path_id,omitempty"`
 	// List of matching components
 	Components    []*HFHResponse_Component `protobuf:"bytes,2,rep,name=components,proto3" json:"components,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -474,24 +474,23 @@ var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescrip
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xcd\x04\n" +
+	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xd8\x04\n" +
 	"\n" +
 	"HFHRequest\x12@\n" +
-	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +
-	"\x0erank_threshold\x18\x02 \x01(\x05R\rrankThreshold\x12\x1a\n" +
-	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x1f\n" +
-	"\vquery_limit\x18\x04 \x01(\x05R\n" +
-	"queryLimit\x1a\x98\x03\n" +
-	"\bChildren\x12\x17\n" +
-	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12$\n" +
-	"\x0esim_hash_names\x18\x02 \x01(\tR\fsimHashNames\x12(\n" +
-	"\x10sim_hash_content\x18\x03 \x01(\tR\x0esimHashContent\x12H\n" +
-	"\bchildren\x18\x04 \x03(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\bchildren\x12+\n" +
-	"\x12sim_hash_dir_names\x18\x05 \x01(\tR\x0fsimHashDirNames\x12i\n" +
-	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0elangExtensions\x1aA\n" +
+	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12&\n" +
+	"\x0erank_threshold\x18\x02 \x01(\x05R\x0erank_threshold\x12\x1a\n" +
+	"\bcategory\x18\x03 \x01(\tR\bcategory\x12 \n" +
+	"\vquery_limit\x18\x04 \x01(\x05R\vquery_limit\x1a\xa1\x03\n" +
+	"\bChildren\x12\x18\n" +
+	"\apath_id\x18\x01 \x01(\tR\apath_id\x12&\n" +
+	"\x0esim_hash_names\x18\x02 \x01(\tR\x0esim_hash_names\x12*\n" +
+	"\x10sim_hash_content\x18\x03 \x01(\tR\x10sim_hash_content\x12H\n" +
+	"\bchildren\x18\x04 \x03(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\bchildren\x12.\n" +
+	"\x12sim_hash_dir_names\x18\x05 \x01(\tR\x12sim_hash_dir_names\x12j\n" +
+	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0flang_extensions\x1aA\n" +
 	"\x13LangExtensionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x83\x04\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x84\x04\n" +
 	"\vHFHResponse\x12E\n" +
 	"\aresults\x18\x01 \x03(\v2+.scanoss.api.scanning.v2.HFHResponse.ResultR\aresults\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a9\n" +
@@ -504,9 +503,9 @@ const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\x06vendor\x18\x03 \x01(\tR\x06vendor\x12H\n" +
 	"\bversions\x18\x04 \x03(\v2,.scanoss.api.scanning.v2.HFHResponse.VersionR\bversions\x12\x12\n" +
 	"\x04rank\x18\x05 \x01(\x05R\x04rank\x12\x14\n" +
-	"\x05order\x18\x06 \x01(\x05R\x05order\x1aq\n" +
-	"\x06Result\x12\x17\n" +
-	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12N\n" +
+	"\x05order\x18\x06 \x01(\x05R\x05order\x1ar\n" +
+	"\x06Result\x12\x18\n" +
+	"\apath_id\x18\x01 \x01(\tR\apath_id\x12N\n" +
 	"\n" +
 	"components\x18\x02 \x03(\v2..scanoss.api.scanning.v2.HFHResponse.ComponentR\n" +
 	"components2\x81\x02\n" +

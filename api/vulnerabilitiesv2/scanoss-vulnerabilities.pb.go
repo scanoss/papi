@@ -364,9 +364,9 @@ type CVSS struct {
 	// CVSS vector string containing base metrics (e.g., "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
 	Cvss string `protobuf:"bytes,1,opt,name=cvss,proto3" json:"cvss,omitempty"`
 	// CVSS numerical score ranging from 0.0 to 10.0, calculated from the base metrics
-	CvssScore float32 `protobuf:"fixed32,2,opt,name=cvss_score,json=cvssScore,proto3" json:"cvss_score,omitempty"`
+	CvssScore float32 `protobuf:"fixed32,2,opt,name=cvss_score,proto3" json:"cvss_score,omitempty"`
 	// CVSS qualitative severity rating derived from the numerical score: "None" (0.0), "Low" (0.1-3.9), "Medium" (4.0-6.9), "High" (7.0-8.9), "Critical" (9.0-10.0)
-	CvssSeverity  string `protobuf:"bytes,3,opt,name=cvss_severity,json=cvssSeverity,proto3" json:"cvss_severity,omitempty"`
+	CvssSeverity  string `protobuf:"bytes,3,opt,name=cvss_severity,proto3" json:"cvss_severity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -990,12 +990,13 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"components\x18\x01 \x03(\v21.scanoss.api.vulnerabilities.v2.ComponentCpesInfoR\n" +
 	"components\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x8e\x03\x92A\x8a\x03\n" +
-	"\x87\x03J\x84\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"^\n" +
+	"\x87\x03J\x84\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"`\n" +
 	"\x04CVSS\x12\x12\n" +
-	"\x04cvss\x18\x01 \x01(\tR\x04cvss\x12\x1d\n" +
+	"\x04cvss\x18\x01 \x01(\tR\x04cvss\x12\x1e\n" +
 	"\n" +
-	"cvss_score\x18\x02 \x01(\x02R\tcvssScore\x12#\n" +
-	"\rcvss_severity\x18\x03 \x01(\tR\fcvssSeverity\"\x85\x02\n" +
+	"cvss_score\x18\x02 \x01(\x02R\n" +
+	"cvss_score\x12$\n" +
+	"\rcvss_severity\x18\x03 \x01(\tR\rcvss_severity\"\x85\x02\n" +
 	"\rVulnerability\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03cve\x18\x02 \x01(\tR\x03cve\x12\x10\n" +

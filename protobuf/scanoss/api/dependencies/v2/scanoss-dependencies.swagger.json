@@ -153,10 +153,10 @@
         "name": {
           "type": "string"
         },
-        "spdxId": {
+        "spdx_id": {
           "type": "string"
         },
-        "isSpdxApproved": {
+        "is_spdx_approved": {
           "type": "boolean"
         },
         "url": {

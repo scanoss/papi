@@ -402,8 +402,8 @@ func (x *DependencyRequest_Files) GetPurls() []*DependencyRequest_Purls {
 type DependencyResponse_Licenses struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	SpdxId         string                 `protobuf:"bytes,2,opt,name=spdx_id,json=spdxId,proto3" json:"spdx_id,omitempty"`
-	IsSpdxApproved bool                   `protobuf:"varint,3,opt,name=is_spdx_approved,json=isSpdxApproved,proto3" json:"is_spdx_approved,omitempty"`
+	SpdxId         string                 `protobuf:"bytes,2,opt,name=spdx_id,proto3" json:"spdx_id,omitempty"`
+	IsSpdxApproved bool                   `protobuf:"varint,3,opt,name=is_spdx_approved,proto3" json:"is_spdx_approved,omitempty"`
 	Url            string                 `protobuf:"bytes,4,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -685,14 +685,14 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12J\n" +
 	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls:g\x92Ad\n" +
-	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\"\xbf\b\n" +
+	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\"\xc2\b\n" +
 	"\x12DependencyResponse\x12K\n" +
 	"\x05files\x18\x01 \x03(\v25.scanoss.api.dependencies.v2.DependencyResponse.FilesR\x05files\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1as\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1av\n" +
 	"\bLicenses\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
-	"\aspdx_id\x18\x02 \x01(\tR\x06spdxId\x12(\n" +
-	"\x10is_spdx_approved\x18\x03 \x01(\bR\x0eisSpdxApproved\x12\x10\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
+	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
 	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xdc\x01\n" +
 	"\fDependencies\x12\x1c\n" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +

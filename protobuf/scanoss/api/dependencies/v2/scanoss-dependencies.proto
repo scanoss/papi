@@ -129,8 +129,8 @@ message DependencyResponse {
   };
   message Licenses {
     string name = 1;
-    string spdx_id = 2;
-    bool is_spdx_approved = 3;
+    string spdx_id = 2 [json_name = "spdx_id"];
+    bool is_spdx_approved = 3 [json_name = "is_spdx_approved"];
     string url = 4;
   }
   message Dependencies {

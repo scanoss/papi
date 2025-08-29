@@ -87,29 +87,29 @@ message HFHRequest {
     // Child node from the folder structure
     message Children {
         // Folder path (can be actual or obfuscated)
-        string path_id = 1;
+        string path_id = 1 [json_name = "path_id"];
         // Proximity hash calculated from this nodes filenames (and their children).
-        string sim_hash_names = 2;
+        string sim_hash_names = 2 [json_name = "sim_hash_names"];
         // Proximity hash calculated from this nodes file contents (and their children).
-        string sim_hash_content = 3;
+        string sim_hash_content = 3 [json_name = "sim_hash_content"];
         // Sub-folders inside this child
         repeated Children children = 4;
         // Proximity hash calculated from this nodes directory names (and their children).
-        string sim_hash_dir_names = 5;
+        string sim_hash_dir_names = 5 [json_name = "sim_hash_dir_names"];
         // Language extensions count (dictionary) - language name -> count
-        map<string, int32> lang_extensions = 6;
+        map<string, int32> lang_extensions = 6 [json_name = "lang_extensions"];
     }
     // Folder root node to be scanned
     Children root = 1;
 
     // Get results with rank below this threshold (e.g i only want to see results from rank 5 and below). Lower rank means better quality.
-    int32 rank_threshold = 2;
+    int32 rank_threshold = 2 [json_name = "rank_threshold"];
 
     // Filter results by category (e.g i only want to see results from github projects, npm, etc)
     string category = 3;
 
     // Maximum number of results to query
-    int32 query_limit = 4;
+    int32 query_limit = 4 [json_name = "query_limit"];
 }
 
 /*
@@ -141,7 +141,7 @@ message HFHResponse {
     // Result item, link a path with a list of components
     message Result {
         // Folder path (can be actual or obfuscated)
-        string path_id = 1;
+        string path_id = 1 [json_name = "path_id"];
         // List of matching components
         repeated Component components = 2;
     }
