@@ -28,7 +28,7 @@
   ],
   "paths": {
     "/api/v2/components/echo": {
-      "get": {
+      "post": {
         "summary": "Standard echo",
         "operationId": "Components_Echo",
         "responses": {
@@ -54,10 +54,13 @@
         },
         "parameters": [
           {
-            "name": "message",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "description": "Echo Message Request.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2EchoRequest"
+            }
           }
         ],
         "tags": [
@@ -433,6 +436,15 @@
         }
       },
       "title": "License details"
+    },
+    "v2EchoRequest": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "description": "Echo Message Request."
     },
     "v2EchoResponse": {
       "type": "object",

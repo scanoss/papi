@@ -88,7 +88,8 @@ service Components {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      get: "/api/v2/components/echo"
+      post: "/api/v2/components/echo"
+      body: "*"
     };
   };
   // Search for components

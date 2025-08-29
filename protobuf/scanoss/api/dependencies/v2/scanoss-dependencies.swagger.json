@@ -24,7 +24,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/dependencies/dependencies": {
+    "/v2/dependencies/dependencies": {
       "post": {
         "summary": "Get dependency details",
         "operationId": "Dependencies_GetDependencies",
@@ -64,7 +64,7 @@
         ]
       }
     },
-    "/api/v2/dependencies/echo": {
+    "/v2/dependencies/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "Dependencies_Echo",
@@ -105,7 +105,7 @@
         ]
       }
     },
-    "/api/v2/dependencies/transitive": {
+    "/v2/dependencies/transitive": {
       "post": {
         "summary": "Get transitive dependency details",
         "operationId": "Dependencies_GetTransitiveDependencies",
@@ -194,6 +194,19 @@
     },
     "v2DependencyRequest": {
       "type": "object",
+      "example": {
+        "files": [
+          {
+            "file": "package.json",
+            "purls": [
+              {
+                "purl": "pkg:npm/express",
+                "requirement": "^4.18.0"
+              }
+            ]
+          }
+        ]
+      },
       "properties": {
         "files": {
           "type": "array",
@@ -246,6 +259,36 @@
     },
     "v2DependencyResponse": {
       "type": "object",
+      "example": {
+        "files": [
+          {
+            "file": "package.json",
+            "id": "dependency",
+            "status": "pending",
+            "dependencies": [
+              {
+                "component": "express",
+                "purl": "pkg:npm/express",
+                "version": "4.18.2",
+                "licenses": [
+                  {
+                    "name": "MIT",
+                    "spdx_id": "MIT",
+                    "is_spdx_approved": true,
+                    "url": "https://opensource.org/licenses/MIT"
+                  }
+                ],
+                "url": "https://www.npmjs.com/package/express",
+                "comment": ""
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Dependencies successfully retrieved"
+        }
+      },
       "properties": {
         "files": {
           "type": "array",
@@ -370,6 +413,21 @@
     },
     "v2TransitiveDependencyRequest": {
       "type": "object",
+      "example": {
+        "ecosystem": "npm",
+        "depth": 3,
+        "limit": 50,
+        "purls": [
+          {
+            "purl": "pkg:npm/express",
+            "requirement": "4.18.0"
+          },
+          {
+            "purl": "pkg:npm/lodash",
+            "requirement": "4.17.0"
+          }
+        ]
+      },
       "properties": {
         "ecosystem": {
           "type": "string",
@@ -399,6 +457,26 @@
     },
     "v2TransitiveDependencyResponse": {
       "type": "object",
+      "example": {
+        "dependencies": [
+          {
+            "purl": "pkg:npm/express@4.18.2",
+            "version": "4.18.2"
+          },
+          {
+            "purl": "pkg:npm/body-parser@1.20.1",
+            "version": "1.20.1"
+          },
+          {
+            "purl": "pkg:npm/cookie@0.5.0",
+            "version": "0.5.0"
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Transitive dependencies successfully retrieved"
+        }
+      },
       "properties": {
         "dependencies": {
           "type": "array",

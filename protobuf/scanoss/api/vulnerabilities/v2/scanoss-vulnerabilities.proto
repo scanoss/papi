@@ -71,7 +71,7 @@ service Vulnerabilities {
    */
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/vulnerabilities/echo"
+      post: "/v2/vulnerabilities/echo"
       body: "*"
     };
   };
@@ -97,7 +97,7 @@ service Vulnerabilities {
    */
   rpc GetComponentCpes(scanoss.api.common.v2.ComponentRequest) returns(ComponentCpesResponse) {
     option (google.api.http) = {
-      get: "/api/v2/vulnerabilities/cpes/component"
+      get: "/v2/vulnerabilities/cpes/component"
     };
   };
 
@@ -112,7 +112,7 @@ service Vulnerabilities {
    */
   rpc GetComponentsCpes(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsCpesResponse) {
     option (google.api.http) = {
-      post: "/api/v2/vulnerabilities/cpes/components"
+      post: "/v2/vulnerabilities/cpes/components"
       body: "*"
     };
   };
@@ -138,7 +138,7 @@ service Vulnerabilities {
    */
   rpc GetComponentVulnerabilities(scanoss.api.common.v2.ComponentRequest) returns(ComponentVulnerabilityResponse) {
     option (google.api.http) = {
-      get: "/api/v2/vulnerabilities/component"
+      get: "/v2/vulnerabilities/component"
     };
   };
 
@@ -153,7 +153,7 @@ service Vulnerabilities {
    */
   rpc GetComponentsVulnerabilities(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsVulnerabilityResponse) {
     option (google.api.http) = {
-      post: "/api/v2/vulnerabilities/components"
+      post: "/v2/vulnerabilities/components"
       body: "*"
     };
   };

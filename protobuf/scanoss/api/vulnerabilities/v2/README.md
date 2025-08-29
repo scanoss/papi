@@ -12,7 +12,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 
 ### HTTP Request Example
 ```bash
-curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
+curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/cpes/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H 'x-api-key: $SC_API_KEY'
 ```
 
@@ -54,7 +54,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 
 ### HTTP Request Example
 ```bash
-curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/cpes/components' \
+curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/cpes/components' \
   -H 'Content-Type: application/json' \
   -H 'x-api-key: $SC_API_KEY' \
   -d '{
@@ -87,7 +87,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 
 ### HTTP Request Example
 ```bash
-curl -X GET 'https://api.scanoss.com/api/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
+curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H 'x-api-key: $SC_API_KEY'
 ```
 
@@ -188,7 +188,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 
 ### HTTP Request Example
 ```bash
-curl -X POST 'https://api.scanoss.com/api/v2/vulnerabilities/components' \
+curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/components' \
   -H 'Content-Type: application/json' \
   -H 'x-api-key: $SC_API_KEY' \
   -d '{
