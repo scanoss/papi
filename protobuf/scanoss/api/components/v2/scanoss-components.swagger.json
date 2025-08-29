@@ -330,15 +330,15 @@
     "v2CompStatistic": {
       "type": "object",
       "properties": {
-        "totalSourceFiles": {
+        "total_source_files": {
           "type": "integer",
           "format": "int32"
         },
-        "totalLines": {
+        "total_lines": {
           "type": "integer",
           "format": "int32"
         },
-        "totalBlankLines": {
+        "total_blank_lines": {
           "type": "integer",
           "format": "int32"
         },
@@ -425,10 +425,10 @@
         "name": {
           "type": "string"
         },
-        "spdxId": {
+        "spdx_id": {
           "type": "string"
         },
-        "isSpdxApproved": {
+        "is_spdx_approved": {
           "type": "boolean"
         },
         "url": {

@@ -268,9 +268,9 @@ message CVSS {
   // CVSS vector string containing base metrics (e.g., "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
   string cvss = 1;
   // CVSS numerical score ranging from 0.0 to 10.0, calculated from the base metrics
-  float cvss_score = 2;
+  float cvss_score = 2 [json_name = "cvss_score"];
   // CVSS qualitative severity rating derived from the numerical score: "None" (0.0), "Low" (0.1-3.9), "Medium" (4.0-6.9), "High" (7.0-8.9), "Critical" (9.0-10.0)
-  string cvss_severity = 3;
+  string cvss_severity = 3 [json_name = "cvss_severity"];
 }
 
 /*

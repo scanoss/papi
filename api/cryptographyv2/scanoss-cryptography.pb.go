@@ -607,9 +607,9 @@ type VersionsInRangeResponse_Purl struct {
 	// The requested purl
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	// List of versions that contains cryptography
-	VersionsWith []string `protobuf:"bytes,2,rep,name=versions_with,json=versionsWith,proto3" json:"versions_with,omitempty"`
+	VersionsWith []string `protobuf:"bytes,2,rep,name=versions_with,proto3" json:"versions_with,omitempty"`
 	// List of versions that do not contain cryptography
-	VersionsWithout []string `protobuf:"bytes,3,rep,name=versions_without,json=versionsWithout,proto3" json:"versions_without,omitempty"`
+	VersionsWithout []string `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -818,14 +818,14 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x12F\n" +
 	"\n" +
 	"algorithms\x18\x03 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
-	"algorithms\"\x95\x02\n" +
+	"algorithms\"\x97\x02\n" +
 	"\x17VersionsInRangeResponse\x12O\n" +
 	"\x05purls\x18\x01 \x03(\v29.scanoss.api.cryptography.v2.VersionsInRangeResponse.PurlR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1aj\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1al\n" +
 	"\x04Purl\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12#\n" +
-	"\rversions_with\x18\x02 \x03(\tR\fversionsWith\x12)\n" +
-	"\x10versions_without\x18\x03 \x03(\tR\x0fversionsWithout\"\x8e\x01\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12$\n" +
+	"\rversions_with\x18\x02 \x03(\tR\rversions_with\x12*\n" +
+	"\x10versions_without\x18\x03 \x03(\tR\x10versions_without\"\x8e\x01\n" +
 	"\x04Hint\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +

@@ -352,21 +352,21 @@ type SPDX struct {
 	// SPDX license identifier, "GPL-2.0-only", "MIT"
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Official SPDX registry name (empty if license not in SPDX registry)
-	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	FullName string `protobuf:"bytes,2,opt,name=full_name,proto3" json:"full_name,omitempty"`
 	// JSON API URL for full details
-	DetailsUrl string `protobuf:"bytes,4,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`
+	DetailsUrl string `protobuf:"bytes,4,opt,name=details_url,proto3" json:"details_url,omitempty"`
 	// HTML page URL
-	ReferenceUrl string `protobuf:"bytes,5,opt,name=reference_url,json=referenceUrl,proto3" json:"reference_url,omitempty"`
+	ReferenceUrl string `protobuf:"bytes,5,opt,name=reference_url,proto3" json:"reference_url,omitempty"`
 	// Whether this license is deprecated by the SPDX License List
-	IsDeprecated bool `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
+	IsDeprecated bool `protobuf:"varint,6,opt,name=is_deprecated,proto3" json:"is_deprecated,omitempty"`
 	// Whether the Free Software Foundation considers this license libre/free
-	IsFsfLibre bool `protobuf:"varint,7,opt,name=is_fsf_libre,json=isFsfLibre,proto3" json:"is_fsf_libre,omitempty"`
+	IsFsfLibre bool `protobuf:"varint,7,opt,name=is_fsf_libre,proto3" json:"is_fsf_libre,omitempty"`
 	// Whether this license is approved by the Open Source Initiative (OSI)
-	IsOsiApproved bool `protobuf:"varint,8,opt,name=is_osi_approved,json=isOsiApproved,proto3" json:"is_osi_approved,omitempty"`
+	IsOsiApproved bool `protobuf:"varint,8,opt,name=is_osi_approved,proto3" json:"is_osi_approved,omitempty"`
 	// Related URLs
-	SeeAlso []string `protobuf:"bytes,9,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`
+	SeeAlso []string `protobuf:"bytes,9,rep,name=see_also,proto3" json:"see_also,omitempty"`
 	// Structured cross-references with validation info
-	CrossRefs []*SPDX_SPDXCrossRef `protobuf:"bytes,10,rep,name=cross_refs,json=crossRefs,proto3" json:"cross_refs,omitempty"`
+	CrossRefs []*SPDX_SPDXCrossRef `protobuf:"bytes,10,rep,name=cross_refs,proto3" json:"cross_refs,omitempty"`
 	// SPDX exceptions applied to this license (empty if none)
 	Exceptions    []*SPDX_SPDXException `protobuf:"bytes,11,rep,name=exceptions,proto3" json:"exceptions,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -477,17 +477,17 @@ func (x *SPDX) GetExceptions() []*SPDX_SPDXException {
 type OSADL struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates whether the license contains copyleft obligations requiring derivative works to use the same license
-	CopyleftClause bool `protobuf:"varint,1,opt,name=copyleft_clause,json=copyleftClause,proto3" json:"copyleft_clause,omitempty"`
+	CopyleftClause bool `protobuf:"varint,1,opt,name=copyleft_clause,proto3" json:"copyleft_clause,omitempty"`
 	// Indicates whether the license contains patent-related clauses or considerations
-	PatentHints bool `protobuf:"varint,2,opt,name=patent_hints,json=patentHints,proto3" json:"patent_hints,omitempty"`
+	PatentHints bool `protobuf:"varint,2,opt,name=patent_hints,proto3" json:"patent_hints,omitempty"`
 	// List of licenses that are compatible for combination with this license
 	Compatibility []string `protobuf:"bytes,3,rep,name=compatibility,proto3" json:"compatibility,omitempty"`
 	// List of licenses that are compatible when depending on components with this license
-	DependingCompatibility []string `protobuf:"bytes,4,rep,name=depending_compatibility,json=dependingCompatibility,proto3" json:"depending_compatibility,omitempty"`
+	DependingCompatibility []string `protobuf:"bytes,4,rep,name=depending_compatibility,proto3" json:"depending_compatibility,omitempty"`
 	// List of licenses that are incompatible and cannot be combined with this license
 	Incompatibility []string `protobuf:"bytes,5,rep,name=incompatibility,proto3" json:"incompatibility,omitempty"`
 	// Structured use cases with specific obligations for different distribution scenarios
-	UseCases      []*OSADL_OSADLUseCase `protobuf:"bytes,6,rep,name=use_cases,json=useCases,proto3" json:"use_cases,omitempty"`
+	UseCases      []*OSADL_OSADLUseCase `protobuf:"bytes,6,rep,name=use_cases,proto3" json:"use_cases,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -577,7 +577,7 @@ type LicenseInfo struct {
 	// Best human-readable license name (normalized when possible)
 	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
 	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-	FullName      string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	FullName      string `protobuf:"bytes,2,opt,name=full_name,proto3" json:"full_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -635,7 +635,7 @@ type LicenseDetails struct {
 	// Best human-readable license name (normalized when possible)
 	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
 	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-	FullName string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	FullName string `protobuf:"bytes,1,opt,name=full_name,proto3" json:"full_name,omitempty"`
 	// License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)
 	Type LicenseType `protobuf:"varint,2,opt,name=type,proto3,enum=scanoss.api.licenses.v2.LicenseType" json:"type,omitempty"`
 	// SPDX registry metadata - always present, SPDX.id always populated, other fields empty if license not in SPDX License list
@@ -846,13 +846,13 @@ type SPDX_SPDXCrossRef struct {
 	// Reference URL to the license text
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Indicates if SPDX considers this URL an authoritative/trustworthy source for the license.
-	IsValid bool `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	IsValid bool `protobuf:"varint,2,opt,name=is_valid,proto3" json:"is_valid,omitempty"`
 	// Whether the URL is currently accessible via HTTP request
-	IsLive bool `protobuf:"varint,3,opt,name=is_live,json=isLive,proto3" json:"is_live,omitempty"`
+	IsLive bool `protobuf:"varint,3,opt,name=is_live,proto3" json:"is_live,omitempty"`
 	// ISO 8601 timestamp when the validation was last performed
 	Timestamp string `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	// Whether this URL points to an archived/Wayback Machine version
-	IsWaybackLink bool `protobuf:"varint,5,opt,name=is_wayback_link,json=isWaybackLink,proto3" json:"is_wayback_link,omitempty"`
+	IsWaybackLink bool `protobuf:"varint,5,opt,name=is_wayback_link,proto3" json:"is_wayback_link,omitempty"`
 	// Display order/priority for multiple references (0-based)
 	Order int32 `protobuf:"varint,6,opt,name=order,proto3" json:"order,omitempty"`
 	// SPDX License Matching Guidelines compliance result:
@@ -952,13 +952,13 @@ type SPDX_SPDXException struct {
 	// SPDX exception identifier, "Classpath-exception-2.0"
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// SPDX exception registry name, "Classpath exception 2.0"
-	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	FullName string `protobuf:"bytes,2,opt,name=full_name,proto3" json:"full_name,omitempty"`
 	// SPDX exception JSON URL
-	DetailsUrl string `protobuf:"bytes,3,opt,name=details_url,json=detailsUrl,proto3" json:"details_url,omitempty"`
+	DetailsUrl string `protobuf:"bytes,3,opt,name=details_url,proto3" json:"details_url,omitempty"`
 	// Reference URLs
-	SeeAlso []string `protobuf:"bytes,5,rep,name=see_also,json=seeAlso,proto3" json:"see_also,omitempty"`
+	SeeAlso []string `protobuf:"bytes,5,rep,name=see_also,proto3" json:"see_also,omitempty"`
 	// Whether this SPDX exception is deprecated by the SPDX License List
-	IsDeprecated  bool `protobuf:"varint,6,opt,name=is_deprecated,json=isDeprecated,proto3" json:"is_deprecated,omitempty"`
+	IsDeprecated  bool `protobuf:"varint,6,opt,name=is_deprecated,proto3" json:"is_deprecated,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1034,9 +1034,9 @@ type OSADL_OSADLUseCase struct {
 	// "Binary delivery", "Network service", "Source code delivery"
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Human-readable obligation text
-	ObligationText string `protobuf:"bytes,2,opt,name=obligation_text,json=obligationText,proto3" json:"obligation_text,omitempty"`
+	ObligationText string `protobuf:"bytes,2,opt,name=obligation_text,proto3" json:"obligation_text,omitempty"`
 	// Machine-readable structured obligations with Language/Action/Term breakdown
-	ObligationJson string `protobuf:"bytes,3,opt,name=obligation_json,json=obligationJson,proto3" json:"obligation_json,omitempty"`
+	ObligationJson string `protobuf:"bytes,3,opt,name=obligation_json,proto3" json:"obligation_json,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1112,56 +1112,54 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
 	"\x13ObligationsResponse\x12@\n" +
 	"\vobligations\x18\x01 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\vobligations\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x84\x06\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x06\n" +
 	"\x04SPDX\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
-	"\vdetails_url\x18\x04 \x01(\tR\n" +
-	"detailsUrl\x12#\n" +
-	"\rreference_url\x18\x05 \x01(\tR\freferenceUrl\x12#\n" +
-	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\x12 \n" +
-	"\fis_fsf_libre\x18\a \x01(\bR\n" +
-	"isFsfLibre\x12&\n" +
-	"\x0fis_osi_approved\x18\b \x01(\bR\risOsiApproved\x12\x19\n" +
-	"\bsee_also\x18\t \x03(\tR\aseeAlso\x12I\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
+	"\tfull_name\x18\x02 \x01(\tR\tfull_name\x12 \n" +
+	"\vdetails_url\x18\x04 \x01(\tR\vdetails_url\x12$\n" +
+	"\rreference_url\x18\x05 \x01(\tR\rreference_url\x12$\n" +
+	"\ris_deprecated\x18\x06 \x01(\bR\ris_deprecated\x12\"\n" +
+	"\fis_fsf_libre\x18\a \x01(\bR\fis_fsf_libre\x12(\n" +
+	"\x0fis_osi_approved\x18\b \x01(\bR\x0fis_osi_approved\x12\x1a\n" +
+	"\bsee_also\x18\t \x03(\tR\bsee_also\x12J\n" +
 	"\n" +
 	"cross_refs\x18\n" +
-	" \x03(\v2*.scanoss.api.licenses.v2.SPDX.SPDXCrossRefR\tcrossRefs\x12K\n" +
+	" \x03(\v2*.scanoss.api.licenses.v2.SPDX.SPDXCrossRefR\n" +
+	"cross_refs\x12K\n" +
 	"\n" +
 	"exceptions\x18\v \x03(\v2+.scanoss.api.licenses.v2.SPDX.SPDXExceptionR\n" +
-	"exceptions\x1a\xc6\x01\n" +
+	"exceptions\x1a\xca\x01\n" +
 	"\fSPDXCrossRef\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\x12\x19\n" +
-	"\bis_valid\x18\x02 \x01(\bR\aisValid\x12\x17\n" +
-	"\ais_live\x18\x03 \x01(\bR\x06isLive\x12\x1c\n" +
-	"\ttimestamp\x18\x04 \x01(\tR\ttimestamp\x12&\n" +
-	"\x0fis_wayback_link\x18\x05 \x01(\bR\risWaybackLink\x12\x14\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12\x1a\n" +
+	"\bis_valid\x18\x02 \x01(\bR\bis_valid\x12\x18\n" +
+	"\ais_live\x18\x03 \x01(\bR\ais_live\x12\x1c\n" +
+	"\ttimestamp\x18\x04 \x01(\tR\ttimestamp\x12(\n" +
+	"\x0fis_wayback_link\x18\x05 \x01(\bR\x0fis_wayback_link\x12\x14\n" +
 	"\x05order\x18\x06 \x01(\x05R\x05order\x12\x14\n" +
-	"\x05match\x18\a \x01(\tR\x05match\x1a\x9d\x01\n" +
+	"\x05match\x18\a \x01(\tR\x05match\x1a\xa1\x01\n" +
 	"\rSPDXException\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x1f\n" +
-	"\vdetails_url\x18\x03 \x01(\tR\n" +
-	"detailsUrl\x12\x19\n" +
-	"\bsee_also\x18\x05 \x03(\tR\aseeAlso\x12#\n" +
-	"\ris_deprecated\x18\x06 \x01(\bR\fisDeprecated\"\x9c\x03\n" +
-	"\x05OSADL\x12'\n" +
-	"\x0fcopyleft_clause\x18\x01 \x01(\bR\x0ecopyleftClause\x12!\n" +
-	"\fpatent_hints\x18\x02 \x01(\bR\vpatentHints\x12$\n" +
-	"\rcompatibility\x18\x03 \x03(\tR\rcompatibility\x127\n" +
-	"\x17depending_compatibility\x18\x04 \x03(\tR\x16dependingCompatibility\x12(\n" +
-	"\x0fincompatibility\x18\x05 \x03(\tR\x0fincompatibility\x12H\n" +
-	"\tuse_cases\x18\x06 \x03(\v2+.scanoss.api.licenses.v2.OSADL.OSADLUseCaseR\buseCases\x1at\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
+	"\tfull_name\x18\x02 \x01(\tR\tfull_name\x12 \n" +
+	"\vdetails_url\x18\x03 \x01(\tR\vdetails_url\x12\x1a\n" +
+	"\bsee_also\x18\x05 \x03(\tR\bsee_also\x12$\n" +
+	"\ris_deprecated\x18\x06 \x01(\bR\ris_deprecated\"\xa2\x03\n" +
+	"\x05OSADL\x12(\n" +
+	"\x0fcopyleft_clause\x18\x01 \x01(\bR\x0fcopyleft_clause\x12\"\n" +
+	"\fpatent_hints\x18\x02 \x01(\bR\fpatent_hints\x12$\n" +
+	"\rcompatibility\x18\x03 \x03(\tR\rcompatibility\x128\n" +
+	"\x17depending_compatibility\x18\x04 \x03(\tR\x17depending_compatibility\x12(\n" +
+	"\x0fincompatibility\x18\x05 \x03(\tR\x0fincompatibility\x12I\n" +
+	"\tuse_cases\x18\x06 \x03(\v2+.scanoss.api.licenses.v2.OSADL.OSADLUseCaseR\tuse_cases\x1av\n" +
 	"\fOSADLUseCase\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12'\n" +
-	"\x0fobligation_text\x18\x02 \x01(\tR\x0eobligationText\x12'\n" +
-	"\x0fobligation_json\x18\x03 \x01(\tR\x0eobligationJson\"\x89\x01\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12(\n" +
+	"\x0fobligation_text\x18\x02 \x01(\tR\x0fobligation_text\x12(\n" +
+	"\x0fobligation_json\x18\x03 \x01(\tR\x0fobligation_json\"\x8a\x01\n" +
 	"\vLicenseInfo\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tfull_name\x18\x02 \x01(\tR\bfullName:M\x92AJ\n" +
-	"HJF{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}\"\xd0\x01\n" +
-	"\x0eLicenseDetails\x12\x1b\n" +
-	"\tfull_name\x18\x01 \x01(\tR\bfullName\x128\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
+	"\tfull_name\x18\x02 \x01(\tR\tfull_name:M\x92AJ\n" +
+	"HJF{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}\"\xd1\x01\n" +
+	"\x0eLicenseDetails\x12\x1c\n" +
+	"\tfull_name\x18\x01 \x01(\tR\tfull_name\x128\n" +
 	"\x04type\x18\x02 \x01(\x0e2$.scanoss.api.licenses.v2.LicenseTypeR\x04type\x121\n" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +

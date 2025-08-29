@@ -211,11 +211,11 @@
           "type": "string",
           "title": "\"Binary delivery\", \"Network service\", \"Source code delivery\""
         },
-        "obligationText": {
+        "obligation_text": {
           "type": "string",
           "title": "Human-readable obligation text"
         },
-        "obligationJson": {
+        "obligation_json": {
           "type": "string",
           "title": "Machine-readable structured obligations with Language/Action/Term breakdown"
         }
@@ -229,11 +229,11 @@
           "type": "string",
           "title": "Reference URL to the license text"
         },
-        "isValid": {
+        "is_valid": {
           "type": "boolean",
           "description": "Indicates if SPDX considers this URL an authoritative/trustworthy source for the license."
         },
-        "isLive": {
+        "is_live": {
           "type": "boolean",
           "title": "Whether the URL is currently accessible via HTTP request"
         },
@@ -241,7 +241,7 @@
           "type": "string",
           "title": "ISO 8601 timestamp when the validation was last performed"
         },
-        "isWaybackLink": {
+        "is_wayback_link": {
           "type": "boolean",
           "title": "Whether this URL points to an archived/Wayback Machine version"
         },
@@ -264,22 +264,22 @@
           "type": "string",
           "title": "SPDX exception identifier, \"Classpath-exception-2.0\""
         },
-        "fullName": {
+        "full_name": {
           "type": "string",
           "title": "SPDX exception registry name, \"Classpath exception 2.0\""
         },
-        "detailsUrl": {
+        "details_url": {
           "type": "string",
           "title": "SPDX exception JSON URL"
         },
-        "seeAlso": {
+        "see_also": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "title": "Reference URLs"
         },
-        "isDeprecated": {
+        "is_deprecated": {
           "type": "boolean",
           "title": "Whether this SPDX exception is deprecated by the SPDX License List"
         }
@@ -492,7 +492,7 @@
     "v2LicenseDetails": {
       "type": "object",
       "properties": {
-        "fullName": {
+        "full_name": {
           "type": "string",
           "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
         },
@@ -536,7 +536,7 @@
           "type": "string",
           "title": "License identifier:\n - For SPDX registry licenses: Standard SPDX ID\n - For non-registry licenses: licenseRef-\u003ccustom_license_name\u003e"
         },
-        "fullName": {
+        "full_name": {
           "type": "string",
           "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
         }
@@ -559,11 +559,11 @@
     "v2OSADL": {
       "type": "object",
       "properties": {
-        "copyleftClause": {
+        "copyleft_clause": {
           "type": "boolean",
           "title": "Indicates whether the license contains copyleft obligations requiring derivative works to use the same license"
         },
-        "patentHints": {
+        "patent_hints": {
           "type": "boolean",
           "title": "Indicates whether the license contains patent-related clauses or considerations"
         },
@@ -574,7 +574,7 @@
           },
           "title": "List of licenses that are compatible for combination with this license"
         },
-        "dependingCompatibility": {
+        "depending_compatibility": {
           "type": "array",
           "items": {
             "type": "string"
@@ -588,7 +588,7 @@
           },
           "title": "List of licenses that are incompatible and cannot be combined with this license"
         },
-        "useCases": {
+        "use_cases": {
           "type": "array",
           "items": {
             "type": "object",
@@ -619,38 +619,38 @@
           "type": "string",
           "title": "SPDX license identifier, \"GPL-2.0-only\", \"MIT\""
         },
-        "fullName": {
+        "full_name": {
           "type": "string",
           "title": "Official SPDX registry name (empty if license not in SPDX registry)"
         },
-        "detailsUrl": {
+        "details_url": {
           "type": "string",
           "title": "JSON API URL for full details"
         },
-        "referenceUrl": {
+        "reference_url": {
           "type": "string",
           "title": "HTML page URL"
         },
-        "isDeprecated": {
+        "is_deprecated": {
           "type": "boolean",
           "title": "Whether this license is deprecated by the SPDX License List"
         },
-        "isFsfLibre": {
+        "is_fsf_libre": {
           "type": "boolean",
           "title": "Whether the Free Software Foundation considers this license libre/free"
         },
-        "isOsiApproved": {
+        "is_osi_approved": {
           "type": "boolean",
           "title": "Whether this license is approved by the Open Source Initiative (OSI)"
         },
-        "seeAlso": {
+        "see_also": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "title": "Related URLs"
         },
-        "crossRefs": {
+        "cross_refs": {
           "type": "array",
           "items": {
             "type": "object",

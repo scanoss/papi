@@ -213,13 +213,13 @@ message SPDX {
     // Reference URL to the license text
     string url = 1;
     // Indicates if SPDX considers this URL an authoritative/trustworthy source for the license.
-    bool is_valid = 2;
+    bool is_valid = 2 [json_name = "is_valid"];
     // Whether the URL is currently accessible via HTTP request
-    bool is_live = 3;
+    bool is_live = 3 [json_name = "is_live"];
     // ISO 8601 timestamp when the validation was last performed
     string timestamp = 4;
     // Whether this URL points to an archived/Wayback Machine version
-    bool is_wayback_link = 5;
+    bool is_wayback_link = 5 [json_name = "is_wayback_link"];
     // Display order/priority for multiple references (0-based)
     int32 order = 6;
     // SPDX License Matching Guidelines compliance result:
@@ -239,33 +239,33 @@ message SPDX {
     // SPDX exception identifier, "Classpath-exception-2.0"
     string id = 1;
     // SPDX exception registry name, "Classpath exception 2.0"
-    string full_name = 2;
+    string full_name = 2 [json_name = "full_name"];
     // SPDX exception JSON URL
-    string details_url = 3;
+    string details_url = 3 [json_name = "details_url"];
     // Reference URLs
-    repeated string see_also = 5;
+    repeated string see_also = 5 [json_name = "see_also"];
     // Whether this SPDX exception is deprecated by the SPDX License List
-    bool is_deprecated = 6;
+    bool is_deprecated = 6 [json_name = "is_deprecated"];
   }
 
   // SPDX license identifier, "GPL-2.0-only", "MIT"
   string id = 1;
   // Official SPDX registry name (empty if license not in SPDX registry)
-  string full_name = 2;
+  string full_name = 2 [json_name = "full_name"];
   // JSON API URL for full details
-  string details_url = 4;
+  string details_url = 4 [json_name = "details_url"];
   // HTML page URL
-  string reference_url = 5;
+  string reference_url = 5 [json_name = "reference_url"];
   // Whether this license is deprecated by the SPDX License List
-  bool is_deprecated = 6;
+  bool is_deprecated = 6 [json_name = "is_deprecated"];
   // Whether the Free Software Foundation considers this license libre/free
-  bool is_fsf_libre = 7;
+  bool is_fsf_libre = 7 [json_name = "is_fsf_libre"];
   // Whether this license is approved by the Open Source Initiative (OSI)
-  bool is_osi_approved = 8;
+  bool is_osi_approved = 8 [json_name = "is_osi_approved"];
   // Related URLs
-  repeated string see_also = 9;
+  repeated string see_also = 9 [json_name = "see_also"];
   // Structured cross-references with validation info
-  repeated SPDXCrossRef cross_refs = 10;
+  repeated SPDXCrossRef cross_refs = 10 [json_name = "cross_refs"];
   // SPDX exceptions applied to this license (empty if none)
   repeated SPDXException exceptions = 11;
 }
@@ -280,23 +280,23 @@ message OSADL {
     // "Binary delivery", "Network service", "Source code delivery"
     string name = 1;
     // Human-readable obligation text
-    string obligation_text = 2;
+    string obligation_text = 2 [json_name = "obligation_text"];
     // Machine-readable structured obligations with Language/Action/Term breakdown
-    string obligation_json = 3;
+    string obligation_json = 3 [json_name = "obligation_json"];
   }
 
   // Indicates whether the license contains copyleft obligations requiring derivative works to use the same license
-  bool copyleft_clause = 1;
+  bool copyleft_clause = 1 [json_name = "copyleft_clause"];
   // Indicates whether the license contains patent-related clauses or considerations
-  bool patent_hints = 2;
+  bool patent_hints = 2 [json_name = "patent_hints"];
   // List of licenses that are compatible for combination with this license
   repeated string compatibility = 3;
   // List of licenses that are compatible when depending on components with this license
-  repeated string depending_compatibility = 4;
+  repeated string depending_compatibility = 4 [json_name = "depending_compatibility"];
   // List of licenses that are incompatible and cannot be combined with this license
   repeated string incompatibility = 5;
   // Structured use cases with specific obligations for different distribution scenarios
-  repeated OSADLUseCase use_cases = 6;
+  repeated OSADLUseCase use_cases = 6 [json_name = "use_cases"];
 }
 
 
@@ -321,7 +321,7 @@ message LicenseInfo {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-  string full_name = 2;
+  string full_name = 2 [json_name = "full_name"];
 }
 
 /*
@@ -334,7 +334,7 @@ message LicenseDetails {
   // Best human-readable license name (normalized when possible)
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-  string full_name = 1;
+  string full_name = 1 [json_name = "full_name"];
 
   // License type classification (PERMISSIVE, COPYLEFT, COMMERCIAL, etc.)
   LicenseType type = 2;

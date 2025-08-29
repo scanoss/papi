@@ -165,9 +165,9 @@ message AlgorithmsInRangeResponse {
     // The requested purl
     string purl = 1;
     // List of versions that contains cryptography
-    repeated string versions_with = 2;
+    repeated string versions_with = 2 [json_name = "versions_with"];
     // List of versions that do not contain cryptography
-    repeated string versions_without = 3;
+    repeated string versions_without = 3 [json_name = "versions_without"];
   }
   // Cryptography details
   repeated Purl purls = 1;

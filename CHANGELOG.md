@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.17.0] - 2025-08-29
+### Added
+- Added `json_name` to protobuf to keep compatibility between REST and gRPC protocol
+
+
 ## [0.16.0] - 2025-08-29
 ### Added
 - Enhanced swagger documentation with examples for dependencies protobuf
@@ -106,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.17.0]: https://github.com/scanoss/papi/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/scanoss/papi/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/scanoss/papi/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/scanoss/papi/compare/v0.13.0...v0.14.0

@@ -144,9 +144,9 @@ func (x *CompSearchRequest) GetOffset() int32 {
 
 type CompStatistic struct {
 	state            protoimpl.MessageState    `protogen:"open.v1"`
-	TotalSourceFiles int32                     `protobuf:"varint,1,opt,name=total_source_files,json=totalSourceFiles,proto3" json:"total_source_files,omitempty"`
-	TotalLines       int32                     `protobuf:"varint,2,opt,name=total_lines,json=totalLines,proto3" json:"total_lines,omitempty"`
-	TotalBlankLines  int32                     `protobuf:"varint,3,opt,name=total_blank_lines,json=totalBlankLines,proto3" json:"total_blank_lines,omitempty"`
+	TotalSourceFiles int32                     `protobuf:"varint,1,opt,name=total_source_files,proto3" json:"total_source_files,omitempty"`
+	TotalLines       int32                     `protobuf:"varint,2,opt,name=total_lines,proto3" json:"total_lines,omitempty"`
+	TotalBlankLines  int32                     `protobuf:"varint,3,opt,name=total_blank_lines,proto3" json:"total_blank_lines,omitempty"`
 	Languages        []*CompStatistic_Language `protobuf:"bytes,4,rep,name=languages,proto3" json:"languages,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -607,8 +607,8 @@ func (x *CompSearchResponse_Component) GetUrl() string {
 type CompVersionResponse_License struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	SpdxId         string                 `protobuf:"bytes,2,opt,name=spdx_id,json=spdxId,proto3" json:"spdx_id,omitempty"`
-	IsSpdxApproved bool                   `protobuf:"varint,3,opt,name=is_spdx_approved,json=isSpdxApproved,proto3" json:"is_spdx_approved,omitempty"`
+	SpdxId         string                 `protobuf:"bytes,2,opt,name=spdx_id,proto3" json:"spdx_id,omitempty"`
+	IsSpdxApproved bool                   `protobuf:"varint,3,opt,name=is_spdx_approved,proto3" json:"is_spdx_approved,omitempty"`
 	Url            string                 `protobuf:"bytes,4,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -814,12 +814,11 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\tcomponent\x18\x03 \x01(\tR\tcomponent\x12\x18\n" +
 	"\apackage\x18\x04 \x01(\tR\apackage\x12\x14\n" +
 	"\x05limit\x18\x06 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\a \x01(\x05R\x06offset\"\x91\x02\n" +
-	"\rCompStatistic\x12,\n" +
-	"\x12total_source_files\x18\x01 \x01(\x05R\x10totalSourceFiles\x12\x1f\n" +
-	"\vtotal_lines\x18\x02 \x01(\x05R\n" +
-	"totalLines\x12*\n" +
-	"\x11total_blank_lines\x18\x03 \x01(\x05R\x0ftotalBlankLines\x12O\n" +
+	"\x06offset\x18\a \x01(\x05R\x06offset\"\x96\x02\n" +
+	"\rCompStatistic\x12.\n" +
+	"\x12total_source_files\x18\x01 \x01(\x05R\x12total_source_files\x12 \n" +
+	"\vtotal_lines\x18\x02 \x01(\x05R\vtotal_lines\x12,\n" +
+	"\x11total_blank_lines\x18\x03 \x01(\x05R\x11total_blank_lines\x12O\n" +
 	"\tlanguages\x18\x04 \x03(\v21.scanoss.api.components.v2.CompStatistic.LanguageR\tlanguages\x1a4\n" +
 	"\bLanguage\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
@@ -844,14 +843,14 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\x03url\x18\x03 \x01(\tR\x03url\">\n" +
 	"\x12CompVersionRequest\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xd4\x04\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xd7\x04\n" +
 	"\x13CompVersionResponse\x12V\n" +
 	"\tcomponent\x18\x01 \x01(\v28.scanoss.api.components.v2.CompVersionResponse.ComponentR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1ar\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1au\n" +
 	"\aLicense\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
-	"\aspdx_id\x18\x02 \x01(\tR\x06spdxId\x12(\n" +
-	"\x10is_spdx_approved\x18\x03 \x01(\bR\x0eisSpdxApproved\x12\x10\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
+	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
 	"\x03url\x18\x04 \x01(\tR\x03url\x1a\x8b\x01\n" +
 	"\aVersion\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12R\n" +

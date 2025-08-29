@@ -136,9 +136,9 @@ message CompStatistic {
     string name = 1;
     int32 files = 2;
   }
-  int32 total_source_files = 1;
-  int32 total_lines = 2;
-  int32 total_blank_lines = 3;
+  int32 total_source_files = 1 [json_name = "total_source_files"];
+  int32 total_lines = 2 [json_name = "total_lines"];
+  int32 total_blank_lines = 3 [json_name = "total_blank_lines"];
   repeated Language languages = 4;
 }
 
@@ -190,8 +190,8 @@ message CompVersionResponse {
   // License details
   message License {
     string name = 1;
-    string spdx_id = 2;
-    bool is_spdx_approved = 3;
+    string spdx_id = 2 [json_name = "spdx_id"];
+    bool is_spdx_approved = 3 [json_name = "is_spdx_approved"];
     string url = 4;
   }
   // Version details (including license)

@@ -606,14 +606,14 @@
           "type": "string",
           "title": "The requested purl"
         },
-        "versionsWith": {
+        "versions_with": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "title": "List of versions that contains cryptography"
         },
-        "versionsWithout": {
+        "versions_without": {
           "type": "array",
           "items": {
             "type": "string"
