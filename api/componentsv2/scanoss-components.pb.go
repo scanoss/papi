@@ -861,10 +861,10 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +
 	"\x04purl\x18\x02 \x01(\tR\x04purl\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12R\n" +
-	"\bversions\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.VersionR\bversions2\xcb\x04\n" +
+	"\bversions\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.VersionR\bversions2\xce\x04\n" +
 	"\n" +
-	"Components\x12p\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/api/v2/components/echo\x12\x92\x01\n" +
+	"Components\x12s\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/api/v2/components/echo\x12\x92\x01\n" +
 	"\x10SearchComponents\x12,.scanoss.api.components.v2.CompSearchRequest\x1a-.scanoss.api.components.v2.CompSearchResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/v2/components/search\x12\x9a\x01\n" +
 	"\x14GetComponentVersions\x12-.scanoss.api.components.v2.CompVersionRequest\x1a..scanoss.api.components.v2.CompVersionResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/api/v2/components/versions\x12\x98\x01\n" +
 	"\x16GetComponentStatistics\x12\".scanoss.api.common.v2.PurlRequest\x1a0.scanoss.api.components.v2.CompStatisticResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v2/components/statisticsB\x9a\x03\x92A\xdf\x02\x12\x9d\x01\n" +

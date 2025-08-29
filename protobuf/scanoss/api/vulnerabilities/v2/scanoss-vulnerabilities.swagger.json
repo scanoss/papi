@@ -27,7 +27,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/vulnerabilities/component": {
+    "/v2/vulnerabilities/component": {
       "get": {
         "summary": "Get vulnerability information for a single software component.",
         "description": "Analyzes the component and returns known vulnerabilities including CVE details,\nseverity scores, publication dates, and other security metadata.\nVulnerability data is sourced from various security databases and feeds.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentvulnerabilities",
@@ -74,7 +74,7 @@
         ]
       }
     },
-    "/api/v2/vulnerabilities/components": {
+    "/v2/vulnerabilities/components": {
       "post": {
         "summary": "Get vulnerability information for multiple software components in a single request.",
         "description": "Analyzes multiple components and returns known vulnerabilities for each including CVE details,\nseverity scores, publication dates, and other security metadata.\nVulnerability data is sourced from various security databases and feeds.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentsvulnerabilities",
@@ -116,7 +116,7 @@
         ]
       }
     },
-    "/api/v2/vulnerabilities/cpes/component": {
+    "/v2/vulnerabilities/cpes/component": {
       "get": {
         "summary": "Get CPEs (Common Platform Enumeration) associated with a single software component.",
         "description": "Returns Common Platform Enumeration identifiers that match the specified component.\nCPEs are used to identify IT platforms in vulnerability databases and enable\nvulnerability scanning and assessment.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentcpes",
@@ -163,7 +163,7 @@
         ]
       }
     },
-    "/api/v2/vulnerabilities/cpes/components": {
+    "/v2/vulnerabilities/cpes/components": {
       "post": {
         "summary": "Get CPEs (Common Platform Enumeration) associated with multiple software components.",
         "description": "Returns Common Platform Enumeration identifiers for multiple components in a single request.\nCPEs are used to identify IT platforms in vulnerability databases and enable\nvulnerability scanning and assessment.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/vulnerabilities/v2/README.md?tab=readme-ov-file#getcomponentscpes",
@@ -205,7 +205,7 @@
         ]
       }
     },
-    "/api/v2/vulnerabilities/echo": {
+    "/v2/vulnerabilities/echo": {
       "post": {
         "summary": "Returns the same message that was sent, used for health checks and connectivity testing",
         "operationId": "Vulnerabilities_Echo",

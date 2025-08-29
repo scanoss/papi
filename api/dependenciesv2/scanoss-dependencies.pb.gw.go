@@ -129,7 +129,7 @@ func RegisterDependenciesHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/Echo", runtime.WithHTTPPathPattern("/api/v2/dependencies/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/Echo", runtime.WithHTTPPathPattern("/v2/dependencies/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -149,7 +149,7 @@ func RegisterDependenciesHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetDependencies", runtime.WithHTTPPathPattern("/api/v2/dependencies/dependencies"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetDependencies", runtime.WithHTTPPathPattern("/v2/dependencies/dependencies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -169,7 +169,7 @@ func RegisterDependenciesHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies", runtime.WithHTTPPathPattern("/api/v2/dependencies/transitive"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies", runtime.WithHTTPPathPattern("/v2/dependencies/transitive"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,7 +227,7 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/Echo", runtime.WithHTTPPathPattern("/api/v2/dependencies/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/Echo", runtime.WithHTTPPathPattern("/v2/dependencies/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -244,7 +244,7 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetDependencies", runtime.WithHTTPPathPattern("/api/v2/dependencies/dependencies"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetDependencies", runtime.WithHTTPPathPattern("/v2/dependencies/dependencies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -261,7 +261,7 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies", runtime.WithHTTPPathPattern("/api/v2/dependencies/transitive"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies", runtime.WithHTTPPathPattern("/v2/dependencies/transitive"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -278,9 +278,9 @@ func RegisterDependenciesHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_Dependencies_Echo_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "dependencies", "echo"}, ""))
-	pattern_Dependencies_GetDependencies_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 2}, []string{"api", "v2", "dependencies"}, ""))
-	pattern_Dependencies_GetTransitiveDependencies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "dependencies", "transitive"}, ""))
+	pattern_Dependencies_Echo_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "dependencies", "echo"}, ""))
+	pattern_Dependencies_GetDependencies_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1}, []string{"v2", "dependencies"}, ""))
+	pattern_Dependencies_GetTransitiveDependencies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "dependencies", "transitive"}, ""))
 )
 
 var (

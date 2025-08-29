@@ -675,7 +675,7 @@ var File_scanoss_api_dependencies_v2_scanoss_dependencies_proto protoreflect.Fil
 
 const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\n" +
-	"6scanoss/api/dependencies/v2/scanoss-dependencies.proto\x12\x1bscanoss.api.dependencies.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\x9d\x02\n" +
+	"6scanoss/api/dependencies/v2/scanoss-dependencies.proto\x12\x1bscanoss.api.dependencies.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\x86\x03\n" +
 	"\x11DependencyRequest\x12J\n" +
 	"\x05files\x18\x01 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.FilesR\x05files\x12\x14\n" +
 	"\x05depth\x18\x02 \x01(\x05R\x05depth\x1a=\n" +
@@ -684,7 +684,8 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x1ag\n" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12J\n" +
-	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls\"\x9c\x05\n" +
+	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls:g\x92Ad\n" +
+	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\"\xbf\b\n" +
 	"\x12DependencyResponse\x12K\n" +
 	"\x05files\x18\x01 \x03(\v25.scanoss.api.dependencies.v2.DependencyResponse.FilesR\x05files\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1as\n" +
@@ -704,22 +705,25 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12`\n" +
-	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies\"\x9a\x01\n" +
+	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xa0\x03\x92A\x9c\x03\n" +
+	"\x99\x03J\x96\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\"\xbc\x02\n" +
 	"\x1bTransitiveDependencyRequest\x12\x1c\n" +
 	"\tecosystem\x18\x01 \x01(\tR\tecosystem\x12\x14\n" +
 	"\x05depth\x18\x02 \x01(\x05R\x05depth\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x121\n" +
-	"\x05purls\x18\x05 \x03(\v2\x1b.scanoss.api.common.v2.PurlR\x05purls\"\x87\x02\n" +
+	"\x05purls\x18\x05 \x03(\v2\x1b.scanoss.api.common.v2.PurlR\x05purls:\x9f\x01\x92A\x9b\x01\n" +
+	"\x98\x01J\x95\x01{\"ecosystem\":\"npm\",\"depth\":3,\"limit\":50,\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"4.18.0\"},{\"purl\":\"pkg:npm/lodash\",\"requirement\":\"4.17.0\"}]}\"\x9f\x04\n" +
 	"\x1cTransitiveDependencyResponse\x12j\n" +
 	"\fdependencies\x18\x01 \x03(\v2F.scanoss.api.dependencies.v2.TransitiveDependencyResponse.DependenciesR\fdependencies\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a<\n" +
 	"\fDependencies\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion2\xe7\x03\n" +
-	"\fDependencies\x12u\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v2/dependencies/echo\x12\xa0\x01\n" +
-	"\x0fGetDependencies\x12..scanoss.api.dependencies.v2.DependencyRequest\x1a/.scanoss.api.dependencies.v2.DependencyResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/api/v2/dependencies/dependencies\x12\xbc\x01\n" +
-	"\x19GetTransitiveDependencies\x128.scanoss.api.dependencies.v2.TransitiveDependencyRequest\x1a9.scanoss.api.dependencies.v2.TransitiveDependencyResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/v2/dependencies/transitiveB\x9c\x02\x92A\xdd\x01\x12w\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion:\x95\x02\x92A\x91\x02\n" +
+	"\x8e\x02J\x8b\x02{\"dependencies\":[{\"purl\":\"pkg:npm/express@4.18.2\",\"version\":\"4.18.2\"},{\"purl\":\"pkg:npm/body-parser@1.20.1\",\"version\":\"1.20.1\"},{\"purl\":\"pkg:npm/cookie@0.5.0\",\"version\":\"0.5.0\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Transitive dependencies successfully retrieved\"}}2\xdb\x03\n" +
+	"\fDependencies\x12q\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/dependencies/echo\x12\x9c\x01\n" +
+	"\x0fGetDependencies\x12..scanoss.api.dependencies.v2.DependencyRequest\x1a/.scanoss.api.dependencies.v2.DependencyResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/v2/dependencies/dependencies\x12\xb8\x01\n" +
+	"\x19GetTransitiveDependencies\x128.scanoss.api.dependencies.v2.TransitiveDependencyRequest\x1a9.scanoss.api.dependencies.v2.TransitiveDependencyResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/v2/dependencies/transitiveB\x9c\x02\x92A\xdd\x01\x12w\n" +
 	"\x1aSCANOSS Dependency Service\"T\n" +
 	"\x14scanoss-dependencies\x12'https://github.com/scanoss/dependencies\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
