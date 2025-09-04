@@ -67,14 +67,14 @@ service Scanning {
   // Standard echo
     rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
         option (google.api.http) = {
-            post: "/api/v2/scanning/echo"
+            post: "/v2/scanning/echo"
             body: "*"
         };
     };
     // Scan the given folder request looking for matches
     rpc FolderHashScan(HFHRequest) returns(HFHResponse) {
         option (google.api.http) = {
-            post: "/api/v2/scanning/hfh/scan"
+            post: "/v2/scanning/hfh/scan"
             body: "*"
         };
     };

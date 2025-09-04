@@ -88,26 +88,26 @@ service Components {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/components/echo"
+      post: "/v2/components/echo"
       body: "*"
     };
   };
   // Search for components
   rpc SearchComponents(CompSearchRequest) returns(CompSearchResponse) {
     option (google.api.http) = {
-      get: "/api/v2/components/search"
+      get: "/v2/components/search"
     };
   };
   // Get all version information for a specific component
   rpc GetComponentVersions(CompVersionRequest) returns(CompVersionResponse) {
     option (google.api.http) = {
-      get: "/api/v2/components/versions"
+      get: "/v2/components/versions"
     };
   };
   // Get the statistics for the specified components
   rpc GetComponentStatistics(scanoss.api.common.v2.PurlRequest) returns(CompStatisticResponse) {
     option (google.api.http) = {
-      post: "/api/v2/components/statistics"
+      post: "/v2/components/statistics"
       body: "*"
     };
   };

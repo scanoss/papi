@@ -129,7 +129,7 @@ func RegisterGeoProvenanceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo", runtime.WithHTTPPathPattern("/v2/geoprovenance/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -149,7 +149,7 @@ func RegisterGeoProvenanceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/countries"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors", runtime.WithHTTPPathPattern("/v2/geoprovenance/countries"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -169,7 +169,7 @@ func RegisterGeoProvenanceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/origin"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin", runtime.WithHTTPPathPattern("/v2/geoprovenance/origin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,7 +227,7 @@ func RegisterGeoProvenanceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo", runtime.WithHTTPPathPattern("/v2/geoprovenance/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -244,7 +244,7 @@ func RegisterGeoProvenanceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/countries"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors", runtime.WithHTTPPathPattern("/v2/geoprovenance/countries"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -261,7 +261,7 @@ func RegisterGeoProvenanceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin", runtime.WithHTTPPathPattern("/api/v2/geoprovenance/origin"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin", runtime.WithHTTPPathPattern("/v2/geoprovenance/origin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -278,9 +278,9 @@ func RegisterGeoProvenanceHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_GeoProvenance_Echo_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "geoprovenance", "echo"}, ""))
-	pattern_GeoProvenance_GetComponentContributors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "geoprovenance", "countries"}, ""))
-	pattern_GeoProvenance_GetComponentOrigin_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "geoprovenance", "origin"}, ""))
+	pattern_GeoProvenance_Echo_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "geoprovenance", "echo"}, ""))
+	pattern_GeoProvenance_GetComponentContributors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "geoprovenance", "countries"}, ""))
+	pattern_GeoProvenance_GetComponentOrigin_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "geoprovenance", "origin"}, ""))
 )
 
 var (

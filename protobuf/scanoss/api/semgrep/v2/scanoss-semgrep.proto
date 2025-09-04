@@ -67,14 +67,14 @@ service Semgrep {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/semgrep/echo"
+      post: "/v2/semgrep/echo"
       body: "*"
     };
   };
   // Get Potential issues  associated with a list of PURLs
   rpc GetIssues(scanoss.api.common.v2.PurlRequest) returns(SemgrepResponse) {
     option (google.api.http) = {
-      post: "/api/v2/semgrep/issues"
+      post: "/v2/semgrep/issues"
       body: "*"
     };
   };

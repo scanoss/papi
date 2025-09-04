@@ -846,14 +846,14 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x127\n" +
-	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints2\x88\a\n" +
-	"\fCryptography\x12u\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v2/cryptography/echo\x12\x8f\x01\n" +
-	"\rGetAlgorithms\x12\".scanoss.api.common.v2.PurlRequest\x1a..scanoss.api.cryptography.v2.AlgorithmResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/v2/cryptography/algorithms\x12\xa5\x01\n" +
-	"\x14GetAlgorithmsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a6.scanoss.api.cryptography.v2.AlgorithmsInRangeResponse\"1\x82\xd3\xe4\x93\x02+:\x01*\"&/api/v2/cryptography/algorithmsInRange\x12\x9f\x01\n" +
-	"\x12GetVersionsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a4.scanoss.api.cryptography.v2.VersionsInRangeResponse\"/\x82\xd3\xe4\x93\x02):\x01*\"$/api/v2/cryptography/versionsInRange\x12\x96\x01\n" +
-	"\x0fGetHintsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.cryptography.v2.HintsInRangeResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/api/v2/cryptography/hintsInRange\x12\x8b\x01\n" +
-	"\x12GetEncryptionHints\x12\".scanoss.api.common.v2.PurlRequest\x1a*.scanoss.api.cryptography.v2.HintsResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v2/cryptography/hintsB\x9e\x02\x92A\xdf\x01\x12y\n" +
+	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints2\xf0\x06\n" +
+	"\fCryptography\x12q\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/cryptography/echo\x12\x8b\x01\n" +
+	"\rGetAlgorithms\x12\".scanoss.api.common.v2.PurlRequest\x1a..scanoss.api.cryptography.v2.AlgorithmResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/v2/cryptography/algorithms\x12\xa1\x01\n" +
+	"\x14GetAlgorithmsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a6.scanoss.api.cryptography.v2.AlgorithmsInRangeResponse\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/v2/cryptography/algorithmsInRange\x12\x9b\x01\n" +
+	"\x12GetVersionsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a4.scanoss.api.cryptography.v2.VersionsInRangeResponse\"+\x82\xd3\xe4\x93\x02%:\x01*\" /v2/cryptography/versionsInRange\x12\x92\x01\n" +
+	"\x0fGetHintsInRange\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.cryptography.v2.HintsInRangeResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/v2/cryptography/hintsInRange\x12\x87\x01\n" +
+	"\x12GetEncryptionHints\x12\".scanoss.api.common.v2.PurlRequest\x1a*.scanoss.api.cryptography.v2.HintsResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v2/cryptography/hintsB\x9e\x02\x92A\xdf\x01\x12y\n" +
 	"\x1cSCANOSS Cryptography Service\"T\n" +
 	"\x14scanoss-cryptography\x12'https://github.com/scanoss/crpytography\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +

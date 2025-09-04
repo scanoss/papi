@@ -60,7 +60,7 @@ service License {
    */
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/licenses/echo"
+      post: "/v2/licenses/echo"
       body: "*"
     };
   };
@@ -75,7 +75,7 @@ service License {
   */
   rpc GetComponentLicenses(scanoss.api.common.v2.ComponentRequest) returns(ComponentLicenseResponse) {
     option (google.api.http) = {
-      get: "/api/v2/licenses/component";
+      get: "/v2/licenses/component";
     };
   };
 
@@ -89,7 +89,7 @@ service License {
    */
   rpc GetComponentsLicenses(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsLicenseResponse) {
     option (google.api.http) = {
-      post: "/api/v2/licenses/components"
+      post: "/v2/licenses/components"
       body: "*"
     };
   };
@@ -102,7 +102,7 @@ service License {
    */
   rpc GetDetails(LicenseRequest) returns(LicenseDetailsResponse) {
     option (google.api.http) = {
-      get: "/api/v2/licenses/details"
+      get: "/v2/licenses/details"
     };
   };
 
@@ -114,7 +114,7 @@ service License {
    */
   rpc GetObligations(LicenseRequest) returns(ObligationsResponse) {
     option (google.api.http) = {
-      get: "/api/v2/licenses/obligations"
+      get: "/v2/licenses/obligations"
     };
   };
 }

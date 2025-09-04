@@ -24,7 +24,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/scanning/echo": {
+    "/v2/scanning/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "Scanning_Echo",
@@ -65,7 +65,7 @@
         ]
       }
     },
-    "/api/v2/scanning/hfh/scan": {
+    "/v2/scanning/hfh/scan": {
       "post": {
         "summary": "Scan the given folder request looking for matches",
         "operationId": "Scanning_FolderHashScan",

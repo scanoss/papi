@@ -508,10 +508,10 @@ const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\apath_id\x18\x01 \x01(\tR\apath_id\x12N\n" +
 	"\n" +
 	"components\x18\x02 \x03(\v2..scanoss.api.scanning.v2.HFHResponse.ComponentR\n" +
-	"components2\x81\x02\n" +
-	"\bScanning\x12q\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v2/scanning/echo\x12\x81\x01\n" +
-	"\x0eFolderHashScan\x12#.scanoss.api.scanning.v2.HFHRequest\x1a$.scanoss.api.scanning.v2.HFHResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v2/scanning/hfh/scanB\x8a\x02\x92A\xd3\x01\x12m\n" +
+	"components2\xf8\x01\n" +
+	"\bScanning\x12m\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v2/scanning/echo\x12}\n" +
+	"\x0eFolderHashScan\x12#.scanoss.api.scanning.v2.HFHRequest\x1a$.scanoss.api.scanning.v2.HFHResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/scanning/hfh/scanB\x8a\x02\x92A\xd3\x01\x12m\n" +
 	"\x18SCANOSS Scanning Service\"L\n" +
 	"\x10scanoss-scanning\x12#https://github.com/scanoss/scanning\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
