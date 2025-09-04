@@ -24,7 +24,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/geoprovenance/countries": {
+    "/v2/geoprovenance/countries": {
       "post": {
         "summary": "Get component-level Geo Provenance based on contributor declared location",
         "operationId": "GeoProvenance_GetComponentContributors",
@@ -65,7 +65,7 @@
         ]
       }
     },
-    "/api/v2/geoprovenance/echo": {
+    "/v2/geoprovenance/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "GeoProvenance_Echo",
@@ -106,7 +106,7 @@
         ]
       }
     },
-    "/api/v2/geoprovenance/origin": {
+    "/v2/geoprovenance/origin": {
       "post": {
         "summary": "Get component-level Geo Provenance based on contributor origin commit times",
         "operationId": "GeoProvenance_GetComponentOrigin",

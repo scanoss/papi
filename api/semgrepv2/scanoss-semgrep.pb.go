@@ -314,10 +314,10 @@ const file_scanoss_api_semgrep_v2_scanoss_semgrep_proto_rawDesc = "" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12B\n" +
-	"\x05files\x18\x03 \x03(\v2,.scanoss.api.semgrep.v2.SemgrepResponse.FileR\x05files2\xf8\x01\n" +
-	"\aSemgrep\x12p\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/api/v2/semgrep/echo\x12{\n" +
-	"\tGetIssues\x12\".scanoss.api.common.v2.PurlRequest\x1a'.scanoss.api.semgrep.v2.SemgrepResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v2/semgrep/issuesB\x85\x02\x92A\xd0\x01\x12j\n" +
+	"\x05files\x18\x03 \x03(\v2,.scanoss.api.semgrep.v2.SemgrepResponse.FileR\x05files2\xf0\x01\n" +
+	"\aSemgrep\x12l\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v2/semgrep/echo\x12w\n" +
+	"\tGetIssues\x12\".scanoss.api.common.v2.PurlRequest\x1a'.scanoss.api.semgrep.v2.SemgrepResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v2/semgrep/issuesB\x85\x02\x92A\xd0\x01\x12j\n" +
 	"\x17SCANOSS Semgrep Service\"J\n" +
 	"\x0fscanoss-semgrep\x12\"https://github.com/scanoss/semgrep\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +

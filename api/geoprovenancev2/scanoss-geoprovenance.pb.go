@@ -474,11 +474,11 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"percentage\x1ap\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12S\n" +
-	"\tlocations\x18\x02 \x03(\v25.scanoss.api.geoprovenance.v2.OriginResponse.LocationR\tlocations2\xb9\x03\n" +
-	"\rGeoProvenance\x12v\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v2/geoprovenance/echo\x12\x9d\x01\n" +
-	"\x18GetComponentContributors\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.geoprovenance.v2.ContributorResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/v2/geoprovenance/countries\x12\x8f\x01\n" +
-	"\x12GetComponentOrigin\x12\".scanoss.api.common.v2.PurlRequest\x1a,.scanoss.api.geoprovenance.v2.OriginResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v2/geoprovenance/originB\xa4\x02\x92A\xe3\x01\x12}\n" +
+	"\tlocations\x18\x02 \x03(\v25.scanoss.api.geoprovenance.v2.OriginResponse.LocationR\tlocations2\xad\x03\n" +
+	"\rGeoProvenance\x12r\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v2/geoprovenance/echo\x12\x99\x01\n" +
+	"\x18GetComponentContributors\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.geoprovenance.v2.ContributorResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/v2/geoprovenance/countries\x12\x8b\x01\n" +
+	"\x12GetComponentOrigin\x12\".scanoss.api.common.v2.PurlRequest\x1a,.scanoss.api.geoprovenance.v2.OriginResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/v2/geoprovenance/originB\xa4\x02\x92A\xe3\x01\x12}\n" +
 	"\x1eSCANOSS GEO Provenance Service\"V\n" +
 	"\x15scanoss-geoprovenance\x12(https://github.com/scanoss/geoprovenance\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +

@@ -24,7 +24,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/semgrep/echo": {
+    "/v2/semgrep/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "Semgrep_Echo",
@@ -65,7 +65,7 @@
         ]
       }
     },
-    "/api/v2/semgrep/issues": {
+    "/v2/semgrep/issues": {
       "post": {
         "summary": "Get Potential issues  associated with a list of PURLs",
         "operationId": "Semgrep_GetIssues",

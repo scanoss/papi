@@ -207,7 +207,7 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/Echo", runtime.WithHTTPPathPattern("/api/v2/licenses/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/Echo", runtime.WithHTTPPathPattern("/v2/licenses/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,7 +227,7 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/v2/licenses/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -247,7 +247,7 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/v2/licenses/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -267,7 +267,7 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetDetails", runtime.WithHTTPPathPattern("/api/v2/licenses/details"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetDetails", runtime.WithHTTPPathPattern("/v2/licenses/details"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -287,7 +287,7 @@ func RegisterLicenseHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetObligations", runtime.WithHTTPPathPattern("/api/v2/licenses/obligations"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetObligations", runtime.WithHTTPPathPattern("/v2/licenses/obligations"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -345,7 +345,7 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/Echo", runtime.WithHTTPPathPattern("/api/v2/licenses/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/Echo", runtime.WithHTTPPathPattern("/v2/licenses/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -362,7 +362,7 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/component"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentLicenses", runtime.WithHTTPPathPattern("/v2/licenses/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -379,7 +379,7 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/api/v2/licenses/components"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetComponentsLicenses", runtime.WithHTTPPathPattern("/v2/licenses/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -396,7 +396,7 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetDetails", runtime.WithHTTPPathPattern("/api/v2/licenses/details"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetDetails", runtime.WithHTTPPathPattern("/v2/licenses/details"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -413,7 +413,7 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetObligations", runtime.WithHTTPPathPattern("/api/v2/licenses/obligations"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.licenses.v2.License/GetObligations", runtime.WithHTTPPathPattern("/v2/licenses/obligations"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -430,11 +430,11 @@ func RegisterLicenseHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 }
 
 var (
-	pattern_License_Echo_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "echo"}, ""))
-	pattern_License_GetComponentLicenses_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "component"}, ""))
-	pattern_License_GetComponentsLicenses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "components"}, ""))
-	pattern_License_GetDetails_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "details"}, ""))
-	pattern_License_GetObligations_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "licenses", "obligations"}, ""))
+	pattern_License_Echo_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "licenses", "echo"}, ""))
+	pattern_License_GetComponentLicenses_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "licenses", "component"}, ""))
+	pattern_License_GetComponentsLicenses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "licenses", "components"}, ""))
+	pattern_License_GetDetails_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "licenses", "details"}, ""))
+	pattern_License_GetObligations_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "licenses", "obligations"}, ""))
 )
 
 var (

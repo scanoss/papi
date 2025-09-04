@@ -67,21 +67,21 @@ service GeoProvenance {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/geoprovenance/echo"
+      post: "/v2/geoprovenance/echo"
       body: "*"
     };
   };
   // Get component-level Geo Provenance based on contributor declared location
   rpc GetComponentContributors(scanoss.api.common.v2.PurlRequest) returns(ContributorResponse) {
     option (google.api.http) = {
-      post: "/api/v2/geoprovenance/countries"
+      post: "/v2/geoprovenance/countries"
       body: "*"
     };
   };
   // Get component-level Geo Provenance based on contributor origin commit times
   rpc GetComponentOrigin(scanoss.api.common.v2.PurlRequest) returns(OriginResponse) {
     option (google.api.http) = {
-      post: "/api/v2/geoprovenance/origin"
+      post: "/v2/geoprovenance/origin"
       body: "*"
     };
   };

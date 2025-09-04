@@ -210,7 +210,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/Echo", runtime.WithHTTPPathPattern("/api/v2/cryptography/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/Echo", runtime.WithHTTPPathPattern("/v2/cryptography/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -230,7 +230,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/api/v2/cryptography/algorithms"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -250,7 +250,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/algorithmsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithmsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -270,7 +270,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/versionsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/versionsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -290,7 +290,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/hintsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hintsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -310,7 +310,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/api/v2/cryptography/hints"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -368,7 +368,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/Echo", runtime.WithHTTPPathPattern("/api/v2/cryptography/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/Echo", runtime.WithHTTPPathPattern("/v2/cryptography/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -385,7 +385,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/api/v2/cryptography/algorithms"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -402,7 +402,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/algorithmsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithmsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -419,7 +419,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/versionsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/versionsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -436,7 +436,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/api/v2/cryptography/hintsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hintsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -453,7 +453,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/api/v2/cryptography/hints"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -470,12 +470,12 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_Cryptography_Echo_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "echo"}, ""))
-	pattern_Cryptography_GetAlgorithms_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "algorithms"}, ""))
-	pattern_Cryptography_GetAlgorithmsInRange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "algorithmsInRange"}, ""))
-	pattern_Cryptography_GetVersionsInRange_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "versionsInRange"}, ""))
-	pattern_Cryptography_GetHintsInRange_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "hintsInRange"}, ""))
-	pattern_Cryptography_GetEncryptionHints_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "cryptography", "hints"}, ""))
+	pattern_Cryptography_Echo_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "echo"}, ""))
+	pattern_Cryptography_GetAlgorithms_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "algorithms"}, ""))
+	pattern_Cryptography_GetAlgorithmsInRange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "algorithmsInRange"}, ""))
+	pattern_Cryptography_GetVersionsInRange_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "versionsInRange"}, ""))
+	pattern_Cryptography_GetHintsInRange_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "hintsInRange"}, ""))
+	pattern_Cryptography_GetEncryptionHints_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "hints"}, ""))
 )
 
 var (

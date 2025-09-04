@@ -24,7 +24,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/cryptography/algorithms": {
+    "/v2/cryptography/algorithms": {
       "post": {
         "summary": "Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement",
         "operationId": "Cryptography_GetAlgorithms",
@@ -65,7 +65,7 @@
         ]
       }
     },
-    "/api/v2/cryptography/algorithmsInRange": {
+    "/v2/cryptography/algorithmsInRange": {
       "post": {
         "summary": "Given a list of PURLS and version ranges, get a list of cryptographic algorithms used",
         "operationId": "Cryptography_GetAlgorithmsInRange",
@@ -106,7 +106,7 @@
         ]
       }
     },
-    "/api/v2/cryptography/echo": {
+    "/v2/cryptography/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "Cryptography_Echo",
@@ -147,7 +147,7 @@
         ]
       }
     },
-    "/api/v2/cryptography/hints": {
+    "/v2/cryptography/hints": {
       "post": {
         "summary": "Given a list of PURLS, get hints related to protocol/library/sdk/framework",
         "operationId": "Cryptography_GetEncryptionHints",
@@ -188,7 +188,7 @@
         ]
       }
     },
-    "/api/v2/cryptography/hintsInRange": {
+    "/v2/cryptography/hintsInRange": {
       "post": {
         "summary": "Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework",
         "operationId": "Cryptography_GetHintsInRange",
@@ -229,7 +229,7 @@
         ]
       }
     },
-    "/api/v2/cryptography/versionsInRange": {
+    "/v2/cryptography/versionsInRange": {
       "post": {
         "summary": "Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms",
         "operationId": "Cryptography_GetVersionsInRange",

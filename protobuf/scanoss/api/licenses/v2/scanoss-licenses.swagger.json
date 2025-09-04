@@ -27,7 +27,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/licenses/component": {
+    "/v2/licenses/component": {
       "get": {
         "summary": "Get license information for a single software component.",
         "description": "Examines source code, license files, and package metadata to determine which licenses apply to the component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentlicenses",
@@ -67,7 +67,7 @@
         ]
       }
     },
-    "/api/v2/licenses/components": {
+    "/v2/licenses/components": {
       "post": {
         "summary": "Get license information for multiple software components in a single request.",
         "description": "Examines source code, license files, and package metadata to determine which licenses apply to each component.\nReturns license data in both individual SPDX license and SPDX expressions when determinable.\n\nSee https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentslicenses",
@@ -102,7 +102,7 @@
         ]
       }
     },
-    "/api/v2/licenses/details": {
+    "/v2/licenses/details": {
       "get": {
         "summary": "Get detailed metadata for a specific license by SPDX identifier.",
         "description": "Provides comprehensive license information including SPDX registry data,\nOSADL compliance metadata, license type classification, and official references.",
@@ -135,7 +135,7 @@
         ]
       }
     },
-    "/api/v2/licenses/echo": {
+    "/v2/licenses/echo": {
       "post": {
         "summary": "Returns the same message that was sent, used for health checks and connectivity testing",
         "operationId": "License_Echo",
@@ -169,7 +169,7 @@
         ]
       }
     },
-    "/api/v2/licenses/obligations": {
+    "/v2/licenses/obligations": {
       "get": {
         "summary": "Get compliance obligations and usage requirements for a specific license.",
         "description": "Returns structured OSADL compliance data including use cases, obligations,\ncompatibility information, and patent hints for the specified license.",

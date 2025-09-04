@@ -27,7 +27,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v2/components/echo": {
+    "/v2/components/echo": {
       "post": {
         "summary": "Standard echo",
         "operationId": "Components_Echo",
@@ -68,7 +68,7 @@
         ]
       }
     },
-    "/api/v2/components/search": {
+    "/v2/components/search": {
       "get": {
         "summary": "Search for components",
         "operationId": "Components_SearchComponents",
@@ -144,7 +144,7 @@
         ]
       }
     },
-    "/api/v2/components/statistics": {
+    "/v2/components/statistics": {
       "post": {
         "summary": "Get the statistics for the specified components",
         "operationId": "Components_GetComponentStatistics",
@@ -185,7 +185,7 @@
         ]
       }
     },
-    "/api/v2/components/versions": {
+    "/v2/components/versions": {
       "get": {
         "summary": "Get all version information for a specific component",
         "operationId": "Components_GetComponentVersions",

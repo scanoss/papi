@@ -102,7 +102,7 @@ func RegisterScanningHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/Echo", runtime.WithHTTPPathPattern("/api/v2/scanning/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/Echo", runtime.WithHTTPPathPattern("/v2/scanning/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -122,7 +122,7 @@ func RegisterScanningHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/FolderHashScan", runtime.WithHTTPPathPattern("/api/v2/scanning/hfh/scan"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/FolderHashScan", runtime.WithHTTPPathPattern("/v2/scanning/hfh/scan"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -180,7 +180,7 @@ func RegisterScanningHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/Echo", runtime.WithHTTPPathPattern("/api/v2/scanning/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/Echo", runtime.WithHTTPPathPattern("/v2/scanning/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -197,7 +197,7 @@ func RegisterScanningHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/FolderHashScan", runtime.WithHTTPPathPattern("/api/v2/scanning/hfh/scan"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.scanning.v2.Scanning/FolderHashScan", runtime.WithHTTPPathPattern("/v2/scanning/hfh/scan"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -214,8 +214,8 @@ func RegisterScanningHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 }
 
 var (
-	pattern_Scanning_Echo_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "scanning", "echo"}, ""))
-	pattern_Scanning_FolderHashScan_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v2", "scanning", "hfh", "scan"}, ""))
+	pattern_Scanning_Echo_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "scanning", "echo"}, ""))
+	pattern_Scanning_FolderHashScan_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "scanning", "hfh", "scan"}, ""))
 )
 
 var (

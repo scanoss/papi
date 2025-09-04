@@ -102,7 +102,7 @@ func RegisterSemgrepHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/Echo", runtime.WithHTTPPathPattern("/api/v2/semgrep/echo"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/Echo", runtime.WithHTTPPathPattern("/v2/semgrep/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -122,7 +122,7 @@ func RegisterSemgrepHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/GetIssues", runtime.WithHTTPPathPattern("/api/v2/semgrep/issues"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/GetIssues", runtime.WithHTTPPathPattern("/v2/semgrep/issues"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -180,7 +180,7 @@ func RegisterSemgrepHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/Echo", runtime.WithHTTPPathPattern("/api/v2/semgrep/echo"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/Echo", runtime.WithHTTPPathPattern("/v2/semgrep/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -197,7 +197,7 @@ func RegisterSemgrepHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/GetIssues", runtime.WithHTTPPathPattern("/api/v2/semgrep/issues"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.semgrep.v2.Semgrep/GetIssues", runtime.WithHTTPPathPattern("/v2/semgrep/issues"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -214,8 +214,8 @@ func RegisterSemgrepHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 }
 
 var (
-	pattern_Semgrep_Echo_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "semgrep", "echo"}, ""))
-	pattern_Semgrep_GetIssues_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v2", "semgrep", "issues"}, ""))
+	pattern_Semgrep_Echo_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "semgrep", "echo"}, ""))
+	pattern_Semgrep_GetIssues_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "semgrep", "issues"}, ""))
 )
 
 var (

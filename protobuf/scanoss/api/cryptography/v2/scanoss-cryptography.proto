@@ -67,42 +67,42 @@ service Cryptography {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/echo"
+      post: "/v2/cryptography/echo"
       body: "*"
     };
   };
   // Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
   rpc GetAlgorithms(scanoss.api.common.v2.PurlRequest) returns(AlgorithmResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/algorithms"
+      post: "/v2/cryptography/algorithms"
       body: "*"
     };
   };
   // Given a list of PURLS and version ranges, get a list of cryptographic algorithms used
   rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/algorithmsInRange"
+      post: "/v2/cryptography/algorithmsInRange"
       body: "*"
     };
   };
   // Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms
   rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/versionsInRange"
+      post: "/v2/cryptography/versionsInRange"
       body: "*"
     };
   };
  // Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework
   rpc GetHintsInRange(scanoss.api.common.v2.PurlRequest) returns(HintsInRangeResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/hintsInRange"
+      post: "/v2/cryptography/hintsInRange"
       body: "*"
     };
   };
   // Given a list of PURLS, get hints related to protocol/library/sdk/framework
   rpc GetEncryptionHints(scanoss.api.common.v2.PurlRequest) returns(HintsResponse) {
     option (google.api.http) = {
-      post: "/api/v2/cryptography/hints"
+      post: "/v2/cryptography/hints"
       body: "*"
     };
   };
