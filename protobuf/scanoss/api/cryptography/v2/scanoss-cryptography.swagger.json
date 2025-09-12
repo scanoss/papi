@@ -2,10 +2,11 @@
   "swagger": "2.0",
   "info": {
     "title": "SCANOSS Cryptography Service",
+    "description": "Cryptography service provides cryptographic intelligence for software components including algorithm detection and encryption analysis.",
     "version": "2.0",
     "contact": {
       "name": "scanoss-cryptography",
-      "url": "https://github.com/scanoss/crpytography",
+      "url": "https://github.com/scanoss/cryptography",
       "email": "support@scanoss.com"
     }
   },
@@ -14,8 +15,10 @@
       "name": "Cryptography"
     }
   ],
+  "host": "api.scanoss.com",
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -24,15 +27,63 @@
     "application/json"
   ],
   "paths": {
-    "/v2/cryptography/algorithms": {
-      "post": {
-        "summary": "Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement",
-        "operationId": "Cryptography_GetAlgorithms",
+    "/v2/cryptography/algorithms/component": {
+      "get": {
+        "summary": "Get cryptographic algorithms associated with a single software component.",
+        "description": "Analyzes the component and returns cryptographic algorithms detected in the codebase\nincluding algorithm names and strength classifications.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithms",
+        "operationId": "Cryptography_GetComponentAlgorithms",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2AlgorithmResponse"
+              "$ref": "#/definitions/v2ComponentAlgorithmsResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/v2/cryptography/algorithms/components": {
+      "post": {
+        "summary": "Get cryptographic algorithms associated with multiple software components in a single request.",
+        "description": "Analyzes multiple components and returns cryptographic algorithms detected in each codebase\nincluding algorithm names and strength classifications.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithms",
+        "operationId": "Cryptography_GetComponentsAlgorithms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsAlgorithmsResponse"
             }
           },
           "404": {
@@ -52,11 +103,11 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -65,15 +116,63 @@
         ]
       }
     },
-    "/v2/cryptography/algorithmsInRange": {
-      "post": {
-        "summary": "Given a list of PURLS and version ranges, get a list of cryptographic algorithms used",
-        "operationId": "Cryptography_GetAlgorithmsInRange",
+    "/v2/cryptography/algorithms/range/component": {
+      "get": {
+        "summary": "Get cryptographic algorithms used by a component across specified version ranges.",
+        "description": "Analyzes the component across version ranges and returns all cryptographic algorithms\ndetected along with the versions where they appear.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithmsinrange",
+        "operationId": "Cryptography_GetComponentAlgorithmsInRange",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2AlgorithmsInRangeResponse"
+              "$ref": "#/definitions/v2ComponentAlgorithmsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/v2/cryptography/algorithms/range/components": {
+      "post": {
+        "summary": "Get cryptographic algorithms used by multiple components across specified version ranges.",
+        "description": "Analyzes multiple components across version ranges and returns all cryptographic algorithms\ndetected along with the versions where they appear for each component.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithmsinrange",
+        "operationId": "Cryptography_GetComponentsAlgorithmsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsAlgorithmsInRangeResponse"
             }
           },
           "404": {
@@ -93,11 +192,100 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/v2/cryptography/algorithms/versions/range/component": {
+      "get": {
+        "summary": "Get component versions that contain or don't contain cryptographic algorithms within specified ranges.",
+        "description": "Returns lists of versions that either contain cryptographic algorithms or don't,\nhelping assess cryptographic presence across component evolution.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentversionsinrange",
+        "operationId": "Cryptography_GetComponentVersionsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentVersionsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/v2/cryptography/algorithms/versions/range/components": {
+      "post": {
+        "summary": "Get multiple component versions that contain or don't contain cryptographic algorithms within specified ranges.",
+        "description": "Returns lists of versions for multiple components that either contain cryptographic algorithms or don't,\nhelping assess cryptographic presence across component evolution in batch operations.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentsversionsinrange",
+        "operationId": "Cryptography_GetComponentsVersionsInRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsVersionsInRangeResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -108,7 +296,7 @@
     },
     "/v2/cryptography/echo": {
       "post": {
-        "summary": "Standard echo",
+        "summary": "Returns the same message that was sent, used for health checks and connectivity testing",
         "operationId": "Cryptography_Echo",
         "responses": {
           "200": {
@@ -147,15 +335,63 @@
         ]
       }
     },
-    "/v2/cryptography/hints": {
-      "post": {
-        "summary": "Given a list of PURLS, get hints related to protocol/library/sdk/framework",
-        "operationId": "Cryptography_GetEncryptionHints",
+    "/v2/cryptography/hints/component": {
+      "get": {
+        "summary": "Get cryptographic hints for a single component.",
+        "description": "Returns hints about cryptographic protocols, libraries, SDKs and frameworks\nused by the component, providing insights into cryptographic dependencies.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componenthintsinrange",
+        "operationId": "Cryptography_GetComponentEncryptionHints",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2HintsResponse"
+              "$ref": "#/definitions/v2ComponentEncryptionHintsResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Cryptography"
+        ]
+      }
+    },
+    "/v2/cryptography/hints/components": {
+      "post": {
+        "summary": "Get cryptographic hints for multiple components in a single request.",
+        "description": "Returns hints about cryptographic protocols, libraries, SDKs and frameworks\nused by multiple components, providing insights into cryptographic dependencies.\n\nSee: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentshintsinrange",
+        "operationId": "Cryptography_GetComponentsEncryptionHints",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsEncryptionHintsResponse"
             }
           },
           "404": {
@@ -175,11 +411,11 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -188,15 +424,16 @@
         ]
       }
     },
-    "/v2/cryptography/hintsInRange": {
-      "post": {
-        "summary": "Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework",
-        "operationId": "Cryptography_GetHintsInRange",
+    "/v2/cryptography/hints/range/component": {
+      "get": {
+        "summary": "Get cryptographic hints across version ranges - legacy endpoint.",
+        "description": "Legacy method for retrieving cryptographic hints related to protocols, libraries,\nSDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.",
+        "operationId": "Cryptography_GetComponentHintsInRange",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2HintsInRangeResponse"
+              "$ref": "#/definitions/v2ComponentHintsInRangeResponse"
             }
           },
           "404": {
@@ -215,13 +452,18 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
-            "in": "body",
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
-            }
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -229,15 +471,16 @@
         ]
       }
     },
-    "/v2/cryptography/versionsInRange": {
+    "/v2/cryptography/hints/range/components": {
       "post": {
-        "summary": "Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms",
-        "operationId": "Cryptography_GetVersionsInRange",
+        "summary": "Get cryptographic hints across version ranges - legacy endpoint.",
+        "description": "Legacy method for retrieving cryptographic hints related to protocols, libraries,\nSDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.",
+        "operationId": "Cryptography_GetComponentsHintsInRange",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2VersionsInRangeResponse"
+              "$ref": "#/definitions/v2ComponentsHintsInRangeResponse"
             }
           },
           "404": {
@@ -257,11 +500,11 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -305,14 +548,14 @@
       "properties": {
         "algorithm": {
           "type": "string",
-          "title": "Name of the detected algorithm"
+          "title": "Name of the detected cryptographic algorithm (e.g., \"AES\", \"RSA\", \"SHA-256\")"
         },
         "strength": {
           "type": "string",
-          "title": "Algorithm strength"
+          "title": "Algorithm strength classification (e.g., \"Strong\", \"Weak\", \"Broken\")"
         }
       },
-      "title": "Cryptographic algorithm details"
+      "description": "Cryptographic algorithm information.\n\nContains details about cryptographic algorithms detected in software components\nincluding algorithm identification and strength assessment."
     },
     "v2AlgorithmResponse": {
       "type": "object",
@@ -323,25 +566,25 @@
             "type": "object",
             "$ref": "#/definitions/v2AlgorithmResponsePurls"
           },
-          "title": "Cryptography details"
+          "title": "Algorithm details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure"
         }
       },
-      "title": "Cryptographic Algorithm response data"
+      "description": "Legacy response message for cryptographic algorithm information.\n\nContains algorithm data for multiple components. Use ComponentAlgorithmResponse\nor ComponentsAlgorithmsResponse instead for new implementations."
     },
     "v2AlgorithmResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
           "type": "string",
-          "description": "The requested purl."
+          "title": "Package URL (PURL) uniquely identifying the component"
         },
         "version": {
           "type": "string",
-          "title": "PURL version"
+          "title": "Specific version of the component that was analyzed"
         },
         "algorithms": {
           "type": "array",
@@ -349,10 +592,10 @@
             "type": "object",
             "$ref": "#/definitions/v2Algorithm"
           },
-          "title": "Algorithms list detected for that version"
+          "title": "List of cryptographic algorithms detected in this component version"
         }
       },
-      "title": "Information for a given purl"
+      "description": "Algorithm information for a specific component."
     },
     "v2AlgorithmsInRangeResponse": {
       "type": "object",
@@ -397,6 +640,628 @@
       },
       "title": "Information for a given PURL"
     },
+    "v2ComponentAlgorithms": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic."
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Algorithm"
+          },
+          "title": "List of cryptographic algorithms detected in this component version"
+        }
+      },
+      "description": "Cryptographic algorithm information for a specific component identified by PURL and version.\n\nContains comprehensive algorithm details including detected algorithms and their\nstrength classifications for software components."
+    },
+    "v2ComponentAlgorithmsInRangeResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "versions": [
+            "1.0.0",
+            "2.0.0",
+            "3.0.0"
+          ],
+          "algorithms": [
+            {
+              "algorithm": "AES",
+              "strength": "Strong"
+            },
+            {
+              "algorithm": "RSA",
+              "strength": "Strong"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Algorithms in range Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentAlgorithmsInRangeResponseComponent"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentAlgorithmsInRange method.\n\nContains cryptographic algorithm information for a single component across version ranges\nincluding all detected algorithms and the versions where they appear."
+    },
+    "v2ComponentAlgorithmsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that contain cryptographic algorithms"
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Algorithm"
+          },
+          "title": "List of cryptographic algorithms detected across the version range"
+        }
+      },
+      "description": "Algorithm information for a specific component across version ranges."
+    },
+    "v2ComponentAlgorithmsResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "requirement": "\u003e=5.0.0",
+          "version": "5.0.0",
+          "algorithms": [
+            {
+              "algorithm": "AES",
+              "strength": "Strong"
+            },
+            {
+              "algorithm": "RSA",
+              "strength": "Strong"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Algorithms Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentAlgorithms",
+          "title": "Algorithm information for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentAlgorithms method.\n\nContains cryptographic algorithm information for a single software component including\nalgorithm names, strength classifications, and analysis metadata."
+    },
+    "v2ComponentEncryptionHintsResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "requirement": "\u003e=5.0.0",
+          "version": "5.0.0",
+          "hints": [
+            {
+              "id": "openssl-hint-001",
+              "name": "OpenSSL",
+              "description": "Industry standard cryptographic library",
+              "category": "library",
+              "url": "https://www.openssl.org/",
+              "purl": "pkg:generic/openssl@3.0.0"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Cryptographic hints Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentHints",
+          "title": "Cryptographic hint information for the component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for ComponentHintsInRange method.\n\nContains cryptographic hint information for a single software component including\ndetails about protocols, libraries, SDKs and frameworks used."
+    },
+    "v2ComponentHints": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic."
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Hint"
+          },
+          "title": "List of cryptographic hints detected in this component version"
+        }
+      },
+      "description": "Cryptographic hint information for a specific component identified by PURL and version.\n\nContains comprehensive cryptographic hints about protocols, libraries, SDKs and frameworks\nused by the component, providing insights into cryptographic dependencies and usage patterns."
+    },
+    "v2ComponentHintsInRangeResponse": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentHintsInRangeResponseComponent",
+          "title": "Purl encryption hints"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "*\nHints of Encryption protocols, libraries, SDKs and frameworks for a purls in range"
+    },
+    "v2ComponentHintsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The requested purl"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in range"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Hint"
+          },
+          "title": "Encryption hints"
+        }
+      },
+      "title": "Information about the requested purl"
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentVersionsInRangeResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "versions_with": [
+            "2.0.0",
+            "3.0.0",
+            "4.0.0"
+          ],
+          "versions_without": [
+            "1.0.0",
+            "1.5.0"
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Version ranges Successfully retrieved"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentVersionsInRangeResponseComponent",
+          "title": "Version details for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for ComponentVersionsInRange method.\n\nContains version lists for a single component categorized by cryptographic algorithm presence,\nhelping assess cryptographic adoption across component evolution."
+    },
+    "v2ComponentVersionsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
+        },
+        "versions_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that contain cryptographic algorithms"
+        },
+        "versions_without": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that do not contain cryptographic algorithms"
+        }
+      },
+      "description": "Version information for a specific component categorized by cryptographic presence."
+    },
+    "v2ComponentsAlgorithmsInRangeResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "versions": [
+              "1.0.0",
+              "2.0.0"
+            ],
+            "algorithms": [
+              {
+                "algorithm": "AES",
+                "strength": "Strong"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "versions": [
+              "v1.30.0"
+            ],
+            "algorithms": [
+              {
+                "algorithm": "SHA-256",
+                "strength": "Strong"
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Algorithms in range Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentsAlgorithmsInRangeResponseComponent"
+          },
+          "title": "Algorithm details for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentsAlgorithmsInRange method.\n\nContains cryptographic algorithm information for multiple components across version ranges\nprocessed in a single batch request. Each component is analyzed independently."
+    },
+    "v2ComponentsAlgorithmsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that contain cryptographic algorithms"
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Algorithm"
+          },
+          "title": "List of cryptographic algorithms detected across the version range"
+        }
+      },
+      "description": "Algorithm information for a specific component across version ranges."
+    },
+    "v2ComponentsAlgorithmsResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "requirement": "\u003e=5.0.0",
+            "version": "5.0.0",
+            "algorithms": [
+              {
+                "algorithm": "AES",
+                "strength": "Strong"
+              },
+              {
+                "algorithm": "RSA",
+                "strength": "Strong"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "requirement": "~1.30.0",
+            "version": "v1.30.0",
+            "algorithms": [
+              {
+                "algorithm": "SHA-256",
+                "strength": "Strong"
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Algorithms Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentAlgorithms"
+          },
+          "title": "Algorithm information for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for GetComponentsAlgorithms method.\n\nContains cryptographic algorithm information for multiple software components\nprocessed in a single batch request. Each component is analyzed independently."
+    },
+    "v2ComponentsEncryptionHintsResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "requirement": "\u003e=5.0.0",
+            "version": "5.0.0",
+            "hints": [
+              {
+                "id": "openssl-hint-001",
+                "name": "OpenSSL",
+                "description": "Industry standard cryptographic library",
+                "category": "library",
+                "url": "https://www.openssl.org/",
+                "purl": "pkg:generic/openssl@3.0.0"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "requirement": "~1.30.0",
+            "version": "v1.30.0",
+            "hints": [
+              {
+                "id": "tls-protocol-001",
+                "name": "TLS 1.3",
+                "description": "Transport Layer Security protocol",
+                "category": "protocol",
+                "url": "https://tools.ietf.org/html/rfc8446",
+                "purl": ""
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Cryptographic hints Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentHints"
+          },
+          "title": "Cryptographic hint information for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for ComponentsHintsInRange method.\n\nContains cryptographic hint information for multiple software components\nprocessed in a single batch request. Each component is analyzed independently."
+    },
+    "v2ComponentsHintsInRangeResponse": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentsHintsInRangeResponseComponent"
+          },
+          "title": "Purl encryption hints"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "*\nHints of Encryption protocols, libraries, SDKs and frameworks for a purls in range"
+    },
+    "v2ComponentsHintsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The requested purl"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in range"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Hint"
+          },
+          "title": "Encryption hints"
+        }
+      },
+      "title": "Information about the requested purl"
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
+    "v2ComponentsVersionsInRangeResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "versions_with": [
+              "2.0.0",
+              "3.0.0"
+            ],
+            "versions_without": [
+              "1.0.0"
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "versions_with": [
+              "v1.30.0"
+            ],
+            "versions_without": [
+              "v1.29.0"
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Version ranges Successfully retrieved"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentsVersionsInRangeResponseComponent"
+          },
+          "title": "Version details for each component in the batch"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure"
+        }
+      },
+      "description": "Response message for ComponentsVersionsInRange method.\n\nContains version lists for multiple components categorized by cryptographic algorithm presence,\nprocessed in a single batch request. Each component is analyzed independently."
+    },
+    "v2ComponentsVersionsInRangeResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Package URL (PURL) uniquely identifying the component"
+        },
+        "versions_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that contain cryptographic algorithms"
+        },
+        "versions_without": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of versions in the specified range that do not contain cryptographic algorithms"
+        }
+      },
+      "description": "Version information for a specific component categorized by cryptographic presence."
+    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -420,30 +1285,30 @@
       "properties": {
         "id": {
           "type": "string",
-          "title": "unique id"
+          "title": "Unique identifier for the cryptographic hint"
         },
         "name": {
           "type": "string",
-          "title": "Name of protocol/library/sdk/framework"
+          "title": "Name of the cryptographic protocol, library, SDK or framework"
         },
         "description": {
           "type": "string",
-          "title": "A brief description about of the detected usage"
+          "title": "Brief description of the detected cryptographic usage or implementation"
         },
         "category": {
           "type": "string",
-          "title": "Describe detection category (protocol/library/sdk/framework)"
+          "title": "Category classification: \"protocol\", \"library\", \"sdk\", or \"framework\""
         },
         "url": {
           "type": "string",
-          "title": "Link to project main page, repository or documentation"
+          "title": "Reference URL to project homepage, repository, or documentation"
         },
         "purl": {
           "type": "string",
-          "title": "The purl of the original library/sdk/framework"
+          "title": "Package URL (PURL) of the original cryptographic library, SDK or framework"
         }
       },
-      "title": "Structure to record hints of Encryption protocols, libraries, SDKs and frameworks"
+      "description": "Cryptographic hint information.\n\nContains details about cryptographic protocols, libraries, SDKs and frameworks\ndetected in software components, providing insights into cryptographic usage patterns."
     },
     "v2HintsInRangeResponse": {
       "type": "object",
@@ -527,20 +1392,6 @@
         }
       },
       "title": "Information for a given purl"
-    },
-    "v2PurlRequest": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2PurlRequestPurls"
-          },
-          "title": "JSON request purls"
-        }
-      },
-      "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead."
     },
     "v2PurlRequestPurls": {
       "type": "object",

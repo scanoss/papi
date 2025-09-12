@@ -356,6 +356,8 @@ func (x *ComponentsRequest) GetComponents() []*ComponentRequest {
 
 // Purl request data (JSON payload)
 // WARNING: PurlRequest is deprecated, use ComponentsRequest instead.
+//
+// Deprecated: Marked as deprecated in scanoss/api/common/v2/scanoss-common.proto.
 type PurlRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// JSON request purls
@@ -530,12 +532,12 @@ const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\x11ComponentsRequest\x12L\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2'.scanoss.api.common.v2.ComponentRequestB\x03\xe0A\x02R\n" +
-	"components:q\x92An2l{\"components\":[{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"},{\"purl\":\"pkg:github/scanoss/scanoss.py@v1.30.0\"}]}\"\x8c\x01\n" +
+	"components:q\x92An2l{\"components\":[{\"purl\":\"pkg:github/scanoss/engine@1.0.0\"},{\"purl\":\"pkg:github/scanoss/scanoss.py@v1.30.0\"}]}\"\x90\x01\n" +
 	"\vPurlRequest\x12>\n" +
 	"\x05purls\x18\x01 \x03(\v2(.scanoss.api.common.v2.PurlRequest.PurlsR\x05purls\x1a=\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
-	"\vrequirement\x18\x02 \x01(\tR\vrequirement\"<\n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement:\x02\x18\x01\"<\n" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement*`\n" +

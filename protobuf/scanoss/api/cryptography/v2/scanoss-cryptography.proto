@@ -24,6 +24,9 @@
 
 /***
  * Cryptography definition details
+ * 
+ * Provides cryptographic intelligence for software components including algorithm detection,
+ * encryption hints, and cryptographic assessment across version ranges.
 ***/
 syntax = "proto3";
 package scanoss.api.cryptography.v2;
@@ -37,14 +40,16 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
     title: "SCANOSS Cryptography Service";
+    description: "Cryptography service provides cryptographic intelligence for software components including algorithm detection and encryption analysis.";
     version: "2.0";
     contact: {
       name: "scanoss-cryptography";
-      url: "https://github.com/scanoss/crpytography";
+      url: "https://github.com/scanoss/cryptography";
       email: "support@scanoss.com";
     };
   };
-  schemes: HTTP;
+  host: "api.scanoss.com";
+  schemes: [HTTP, HTTPS];
   consumes: "application/json";
   produces: "application/json";
   responses: {
@@ -61,86 +66,323 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 };
 
 /*
- * Expose all of the SCANOSS Cryptography RPCs here
+ * Cryptography Service Definition
+ * 
+ * Provides comprehensive cryptographic intelligence for software components
+ * including algorithm detection, encryption hints, and security assessments.
  */
 service Cryptography {
-  // Standard echo
+  /*
+   * Returns the same message that was sent, used for health checks and connectivity testing
+   */
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
       post: "/v2/cryptography/echo"
       body: "*"
     };
   };
-  // Get Cryptographic algorithms associated with a list of PURLs and, optionally, a requirement
+
+  // ****** Algorithms ****** //
+  /*
+   * Get cryptographic algorithms associated with a list of PURLs - legacy endpoint.
+   * 
+   * Legacy method for retrieving cryptographic algorithms used by software components.
+   * Use GetComponentAlgorithms or GetComponentsAlgorithms instead.
+   */
   rpc GetAlgorithms(scanoss.api.common.v2.PurlRequest) returns(AlgorithmResponse) {
+    option deprecated = true;
+  };
+
+  /*
+   * Get cryptographic algorithms associated with a single software component.
+   * 
+   * Analyzes the component and returns cryptographic algorithms detected in the codebase
+   * including algorithm names and strength classifications.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithms
+   */
+  rpc GetComponentAlgorithms(scanoss.api.common.v2.ComponentRequest) returns(ComponentAlgorithmsResponse) {
     option (google.api.http) = {
-      post: "/v2/cryptography/algorithms"
+      get: "/v2/cryptography/algorithms/component"
+    };
+  };
+
+  /*
+   * Get cryptographic algorithms associated with multiple software components in a single request.
+   * 
+   * Analyzes multiple components and returns cryptographic algorithms detected in each codebase
+   * including algorithm names and strength classifications.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithms
+   */
+  rpc GetComponentsAlgorithms(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsAlgorithmsResponse) {
+    option (google.api.http) = {
+      post: "/v2/cryptography/algorithms/components"
       body: "*"
     };
   };
-  // Given a list of PURLS and version ranges, get a list of cryptographic algorithms used
+
+
+  // ****** Algorithms in range ****** //
+  /*
+   * Get cryptographic algorithms used across version ranges - legacy endpoint.
+   * 
+   * Legacy method for retrieving cryptographic algorithms across component version ranges.
+   * Use GetComponentAlgorithmsInRange or GetComponentsAlgorithmsInRange instead.
+   */
   rpc GetAlgorithmsInRange(scanoss.api.common.v2.PurlRequest) returns(AlgorithmsInRangeResponse) {
+    option deprecated = true;
+  };
+
+  /*
+   * Get cryptographic algorithms used by a component across specified version ranges.
+   * 
+   * Analyzes the component across version ranges and returns all cryptographic algorithms
+   * detected along with the versions where they appear.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithmsinrange
+   */
+  rpc GetComponentAlgorithmsInRange(scanoss.api.common.v2.ComponentRequest) returns(ComponentAlgorithmsInRangeResponse) {
     option (google.api.http) = {
-      post: "/v2/cryptography/algorithmsInRange"
+      get: "/v2/cryptography/algorithms/range/component"
+    };
+  };
+
+  /*
+   * Get cryptographic algorithms used by multiple components across specified version ranges.
+   * 
+   * Analyzes multiple components across version ranges and returns all cryptographic algorithms
+   * detected along with the versions where they appear for each component.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithmsinrange
+   */
+  rpc GetComponentsAlgorithmsInRange(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsAlgorithmsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/v2/cryptography/algorithms/range/components"
       body: "*"
     };
   };
-  // Given a list of PURLS and version ranges, get a list of versions that do/do not contain cryptographic algorithms
+
+
+  // ****** Versions in range ****** //
+  /*
+   * Get component versions that contain or don't contain cryptographic algorithms - legacy endpoint.
+   * 
+   * Legacy method for retrieving version lists based on cryptographic algorithm presence.
+   * Use ComponentVersionsInRange or ComponentsVersionsInRange instead.
+   */
   rpc GetVersionsInRange(scanoss.api.common.v2.PurlRequest) returns(VersionsInRangeResponse) {
+    option deprecated = true;
+  };
+
+  /*
+   * Get component versions that contain or don't contain cryptographic algorithms within specified ranges.
+   * 
+   * Returns lists of versions that either contain cryptographic algorithms or don't,
+   * helping assess cryptographic presence across component evolution.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentversionsinrange
+   */
+  rpc GetComponentVersionsInRange(scanoss.api.common.v2.ComponentRequest) returns(ComponentVersionsInRangeResponse) {
     option (google.api.http) = {
-      post: "/v2/cryptography/versionsInRange"
+      get: "/v2/cryptography/algorithms/versions/range/component"
+    };
+  };
+
+  /*
+   * Get multiple component versions that contain or don't contain cryptographic algorithms within specified ranges.
+   * 
+   * Returns lists of versions for multiple components that either contain cryptographic algorithms or don't,
+   * helping assess cryptographic presence across component evolution in batch operations.
+   * 
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentsversionsinrange
+   */
+  rpc GetComponentsVersionsInRange(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsVersionsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/v2/cryptography/algorithms/versions/range/components"
       body: "*"
     };
   };
- // Given a list of PURLS and version ranges, get hints related to protocol/library/sdk/framework
+
+
+  // ****** Hints in range ****** //
+  /*
+   * Get cryptographic hints across version ranges - legacy endpoint.
+   * 
+   * Legacy method for retrieving cryptographic hints related to protocols, libraries,
+   * SDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.
+   */
   rpc GetHintsInRange(scanoss.api.common.v2.PurlRequest) returns(HintsInRangeResponse) {
+    option deprecated = true;
+  };
+
+  /*
+   * Get cryptographic hints across version ranges - legacy endpoint.
+   *
+   * Legacy method for retrieving cryptographic hints related to protocols, libraries,
+   * SDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.
+   */
+  rpc GetComponentHintsInRange(scanoss.api.common.v2.ComponentRequest) returns(ComponentHintsInRangeResponse) {
     option (google.api.http) = {
-      post: "/v2/cryptography/hintsInRange"
+      get: "/v2/cryptography/hints/range/component"
+    };
+  };
+
+  /*
+   * Get cryptographic hints across version ranges - legacy endpoint.
+   *
+   * Legacy method for retrieving cryptographic hints related to protocols, libraries,
+   * SDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.
+   */
+  rpc GetComponentsHintsInRange(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsHintsInRangeResponse) {
+    option (google.api.http) = {
+      post: "/v2/cryptography/hints/range/components"
       body: "*"
     };
   };
-  // Given a list of PURLS, get hints related to protocol/library/sdk/framework
+
+
+  // ****** Encryption hints ****** //
+  /*
+   * Get encryption hints for components - legacy endpoint.
+   * 
+   * Legacy method for retrieving hints about cryptographic protocols, libraries,
+   * SDKs and frameworks used by components. Use ComponentHintsInRange or ComponentsHintsInRange instead.
+   */
   rpc GetEncryptionHints(scanoss.api.common.v2.PurlRequest) returns(HintsResponse) {
+    option deprecated = true;
+  };
+
+  /*
+* Get cryptographic hints for a single component.
+*
+* Returns hints about cryptographic protocols, libraries, SDKs and frameworks
+* used by the component, providing insights into cryptographic dependencies.
+*
+* See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componenthintsinrange
+*/
+  rpc GetComponentEncryptionHints(scanoss.api.common.v2.ComponentRequest) returns(ComponentEncryptionHintsResponse) {
     option (google.api.http) = {
-      post: "/v2/cryptography/hints"
+      get: "/v2/cryptography/hints/component"
+    };
+  };
+
+  /*
+   * Get cryptographic hints for multiple components in a single request.
+   *
+   * Returns hints about cryptographic protocols, libraries, SDKs and frameworks
+   * used by multiple components, providing insights into cryptographic dependencies.
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentshintsinrange
+   */
+  rpc GetComponentsEncryptionHints(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsEncryptionHintsResponse) {
+    option (google.api.http) = {
+      post: "/v2/cryptography/hints/components"
       body: "*"
     };
   };
+
 }
 
 /*
- * Cryptographic algorithm details
+ * Cryptographic algorithm information.
+ * 
+ * Contains details about cryptographic algorithms detected in software components
+ * including algorithm identification and strength assessment.
  */
 message Algorithm {
-  // Name of the detected algorithm
+  // Name of the detected cryptographic algorithm (e.g., "AES", "RSA", "SHA-256")
   string algorithm = 1;
-  // Algorithm strength
+  // Algorithm strength classification (e.g., "Strong", "Weak", "Broken")
   string strength = 2;
 }
 
 /*
- * Cryptographic Algorithm response data
+ * Legacy response message for cryptographic algorithm information.
+ * 
+ * Contains algorithm data for multiple components. Use ComponentAlgorithmResponse
+ * or ComponentsAlgorithmsResponse instead for new implementations.
  */
 message AlgorithmResponse {
-  // Information for a given purl
+  option deprecated = true;
+  /*
+   * Algorithm information for a specific component.
+   */
   message Purls {
-    // The requested purl.
+    // Package URL (PURL) uniquely identifying the component
     string purl = 1;
-    // PURL version
+    // Specific version of the component that was analyzed
     string version = 2;
-    // Algorithms list detected for that version
+    // List of cryptographic algorithms detected in this component version
     repeated Algorithm algorithms = 3;
   }
-  // Cryptography details
+  // Algorithm details for each requested component
   repeated Purls purls = 1;
-  // Response status
+  // Response status indicating success or failure
   scanoss.api.common.v2.StatusResponse status = 2;
 }
+
+/*
+ * Cryptographic algorithm information for a specific component identified by PURL and version.
+ * 
+ * Contains comprehensive algorithm details including detected algorithms and their
+ * strength classifications for software components.
+ */
+message ComponentAlgorithms {
+  // Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic.
+  string purl = 1;
+  // Specific version of the component that was analyzed
+  string version = 2;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 3;
+  // List of cryptographic algorithms detected in this component version
+  repeated Algorithm algorithms = 4;
+}
+
+/*
+ * Response message for GetComponentsAlgorithms method.
+ * 
+ * Contains cryptographic algorithm information for multiple software components
+ * processed in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsAlgorithmsResponse{
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"requirement\": \"~1.30.0\", \"version\": \"v1.30.0\", \"algorithms\": [{\"algorithm\": \"SHA-256\", \"strength\": \"Strong\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms Successfully retrieved\"}}";
+    }
+  };
+  // Algorithm information for each component in the batch
+  repeated ComponentAlgorithms components = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/*
+ * Response message for GetComponentAlgorithms method.
+ * 
+ * Contains cryptographic algorithm information for a single software component including
+ * algorithm names, strength classifications, and analysis metadata.
+ */
+message ComponentAlgorithmsResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms Successfully retrieved\"}}";
+    }
+  };
+  // Algorithm information for the component
+  ComponentAlgorithms component = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
 
 /*
  * Cryptographic Algorithm response data for a given range or criteria
  */
 message AlgorithmsInRangeResponse {
+  option deprecated = true;
   // Information for a given PURL
   message Purl {
     // The requested purl
@@ -157,9 +399,68 @@ message AlgorithmsInRangeResponse {
 }
 
 /*
+ * Response message for GetComponentsAlgorithmsInRange method.
+ * 
+ * Contains cryptographic algorithm information for multiple components across version ranges
+ * processed in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsAlgorithmsInRangeResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [\"v1.30.0\"], \"algorithms\": [{\"algorithm\": \"SHA-256\", \"strength\": \"Strong\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}";
+    }
+  };
+  /*
+   * Algorithm information for a specific component across version ranges.
+   */
+  message Component {
+    // Package URL (PURL) uniquely identifying the component
+    string purl = 1;
+    // List of versions in the specified range that contain cryptographic algorithms
+    repeated string versions = 2;
+    // List of cryptographic algorithms detected across the version range
+    repeated Algorithm algorithms = 3;
+  }
+  // Algorithm details for each component in the batch
+  repeated Component components = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Response message for GetComponentAlgorithmsInRange method.
+ * 
+ * Contains cryptographic algorithm information for a single component across version ranges
+ * including all detected algorithms and the versions where they appear.
+ */
+message ComponentAlgorithmsInRangeResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\": {\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\", \"3.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}";
+    }
+  };
+  /*
+ * Algorithm information for a specific component across version ranges.
+ */
+  message Component {
+    // Package URL (PURL) uniquely identifying the component
+    string purl = 1;
+    // List of versions in the specified range that contain cryptographic algorithms
+    repeated string versions = 2;
+    // List of cryptographic algorithms detected across the version range
+    repeated Algorithm algorithms = 3;
+  }
+  Component component = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/*
  *  Versions with/without cryptographic algorithms detected for the given range or criteria
  */
  message VersionsInRangeResponse {
+   option deprecated = true;
   // Information for a given PURL
   message Purl {
     // The requested purl
@@ -176,22 +477,101 @@ message AlgorithmsInRangeResponse {
 }
 
 /*
- * Structure to record hints of Encryption protocols, libraries, SDKs and frameworks
+ * Response message for ComponentsVersionsInRange method.
+ * 
+ * Contains version lists for multiple components categorized by cryptographic algorithm presence,
+ * processed in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsVersionsInRangeResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions_with\": [\"2.0.0\", \"3.0.0\"], \"versions_without\": [\"1.0.0\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions_with\": [\"v1.30.0\"], \"versions_without\": [\"v1.29.0\"]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Version ranges Successfully retrieved\"}}";
+    }
+  };
+  /*
+   * Version information for a specific component categorized by cryptographic presence.
+   */
+  message Component {
+    // Package URL (PURL) uniquely identifying the component
+    string purl = 1;
+    // List of versions in the specified range that contain cryptographic algorithms
+    repeated string versions_with = 2 [json_name = "versions_with"];
+    // List of versions in the specified range that do not contain cryptographic algorithms
+    repeated string versions_without = 3 [json_name = "versions_without"];
+  }
+  // Version details for each component in the batch
+  repeated Component components = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Response message for ComponentVersionsInRange method.
+ * 
+ * Contains version lists for a single component categorized by cryptographic algorithm presence,
+ * helping assess cryptographic adoption across component evolution.
+ */
+message ComponentVersionsInRangeResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\": {\"purl\": \"pkg:github/scanoss/engine\", \"versions_with\": [\"2.0.0\", \"3.0.0\", \"4.0.0\"], \"versions_without\": [\"1.0.0\", \"1.5.0\"]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Version ranges Successfully retrieved\"}}";
+    }
+  };
+  /*
+ * Version information for a specific component categorized by cryptographic presence.
+ */
+  message Component {
+    // Package URL (PURL) uniquely identifying the component
+    string purl = 1;
+    // List of versions in the specified range that contain cryptographic algorithms
+    repeated string versions_with = 2 [json_name = "versions_with"];
+    // List of versions in the specified range that do not contain cryptographic algorithms
+    repeated string versions_without = 3 [json_name = "versions_without"];
+  }
+
+  // Version details for each component in the batch
+  Component component = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/*
+ * Cryptographic hint information.
+ * 
+ * Contains details about cryptographic protocols, libraries, SDKs and frameworks
+ * detected in software components, providing insights into cryptographic usage patterns.
  */
 message Hint {
-  // unique id
+  // Unique identifier for the cryptographic hint
   string id = 1;
-  // Name of protocol/library/sdk/framework
+  // Name of the cryptographic protocol, library, SDK or framework
   string name = 2;
-  // A brief description about of the detected usage
+  // Brief description of the detected cryptographic usage or implementation
   string description = 3;
-  // Describe detection category (protocol/library/sdk/framework)
+  // Category classification: "protocol", "library", "sdk", or "framework"
   string category = 4;
-  // Link to project main page, repository or documentation
+  // Reference URL to project homepage, repository, or documentation
   string url = 5;
-  // The purl of the original library/sdk/framework
+  // Package URL (PURL) of the original cryptographic library, SDK or framework
   string purl = 6;
- 
+}
+
+/*
+ * Cryptographic hint information for a specific component identified by PURL and version.
+ * 
+ * Contains comprehensive cryptographic hints about protocols, libraries, SDKs and frameworks
+ * used by the component, providing insights into cryptographic dependencies and usage patterns.
+ */
+message ComponentHints {
+  // Package URL (PURL) uniquely identifying the component. See Common API Types documentation for format and resolution logic.
+  string purl = 1;
+  // Specific version of the component that was analyzed
+  string version = 2;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 3;
+  // List of cryptographic hints detected in this component version
+  repeated Hint hints = 4;
 }
 
 /*
@@ -216,7 +596,7 @@ message HintsResponse {
 /**
  * Hints of Encryption protocols, libraries, SDKs and frameworks for a purls in range
  */
- message HintsInRangeResponse {
+message HintsInRangeResponse {
   // Information about the requested purl
   message Purl {
     // The requested purl
@@ -229,5 +609,81 @@ message HintsResponse {
   // Purl encryption hints
   repeated Purl purls = 1;
   // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/**
+ * Hints of Encryption protocols, libraries, SDKs and frameworks for a purls in range
+ */
+message ComponentsHintsInRangeResponse {
+  // Information about the requested purl
+  message Component {
+    // The requested purl
+    string purl = 1;
+    // List of versions in range
+    repeated string versions = 2;
+    // Encryption hints
+    repeated Hint hints = 3;
+  }
+  // Purl encryption hints
+  repeated Component components = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/**
+ * Hints of Encryption protocols, libraries, SDKs and frameworks for a purls in range
+ */
+message ComponentHintsInRangeResponse {
+  // Information about the requested purl
+  message Component {
+    // The requested purl
+    string purl = 1;
+    // List of versions in range
+    repeated string versions = 2;
+    // Encryption hints
+    repeated Hint hints = 3;
+  }
+  // Purl encryption hints
+  Component component = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+
+/*
+ * Response message for ComponentsHintsInRange method.
+ * 
+ * Contains cryptographic hint information for multiple software components
+ * processed in a single batch request. Each component is analyzed independently.
+ */
+message ComponentsEncryptionHintsResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"requirement\": \"~1.30.0\", \"version\": \"v1.30.0\", \"hints\": [{\"id\": \"tls-protocol-001\", \"name\": \"TLS 1.3\", \"description\": \"Transport Layer Security protocol\", \"category\": \"protocol\", \"url\": \"https://tools.ietf.org/html/rfc8446\", \"purl\": \"\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}";
+    }
+  };
+  // Cryptographic hint information for each component in the batch
+  repeated ComponentHints components = 1;
+  // Response status indicating success or failure
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Response message for ComponentHintsInRange method.
+ * 
+ * Contains cryptographic hint information for a single software component including
+ * details about protocols, libraries, SDKs and frameworks used.
+ */
+message ComponentEncryptionHintsResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}";
+    }
+  };
+  // Cryptographic hint information for the component
+  ComponentHints component = 1;
+  // Response status indicating success or failure
   scanoss.api.common.v2.StatusResponse status = 2;
 }

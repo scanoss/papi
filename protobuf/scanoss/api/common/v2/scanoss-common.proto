@@ -103,6 +103,7 @@ message ComponentsRequest {
  * WARNING: PurlRequest is deprecated, use ComponentsRequest instead.
  */
 message PurlRequest {
+  option deprecated = true;
   /*
     TODO: Refactor this API
       - Remove nested Purls message and replace with top-level Purl message type.

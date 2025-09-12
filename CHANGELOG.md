@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.19.0] - 2025-09-08
+### Added
+- Added gRPC `GetComponentAlgorithms` and REST endpoint GET `/v2/cryptography/algorithms/component`
+- Added gRPC `GetComponentsAlgorithms` and REST endpoint POST `/v2/cryptography/algorithms/components`
+- Added gRPC `GetComponentAlgorithmsInRange` and REST endpoint GET `/v2/cryptography/algorithms/range/component`
+- Added gRPC `GetComponentsAlgorithmsInRange` and REST endpoint POST `/v2/cryptography/algorithms/range/components`
+- Added gRPC `ComponentVersionsInRange` and REST endpoint GET `/v2/cryptography/algorithms/versions/range/component`
+- Added gRPC `ComponentsVersionsInRange` and REST endpoint POST `/v2/cryptography/algorithms/versions/range/components`
+- Added gRPC `ComponentHintsInRange` and REST endpoint GET `/v2/cryptography/hints/component`
+- Added gRPC `ComponentsHintsInRange` and REST endpoint POST `/v2/cryptography/hints/components`
+- Added comprehensive documentation to cryptography protobuf service
+- Added cryptography API documentation (README.md)
+- Added JSON schema examples to all cryptography response messages
+- Added `requirement` field to `ComponentAlgorithms` and `ComponentHints` messages for consistency with vulnerability service
+- Enhanced cryptography service endpoints with detailed method documentation
+### Changed  
+- Improved cryptography protobuf definitions with comprehensive service and message documentation
+- Updated OpenAPI schema with realistic JSON response examples
+- Enhanced field documentation across all cryptography message types
+### Fixed
+- Fixed GitHub URL typo in cryptography service contact information
+
 ## [0.18.0] - 2025-09-04
 ### Changed
 - Removed `/api` prefix from REST endpoints

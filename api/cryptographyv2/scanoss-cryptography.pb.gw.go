@@ -90,6 +90,68 @@ func local_request_Cryptography_GetAlgorithms_0(ctx context.Context, marshaler r
 	return msg, metadata, err
 }
 
+var filter_Cryptography_GetComponentAlgorithms_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Cryptography_GetComponentAlgorithms_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentAlgorithms_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentAlgorithms(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentAlgorithms_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentAlgorithms_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentAlgorithms(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Cryptography_GetComponentsAlgorithms_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsAlgorithms(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentsAlgorithms_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsAlgorithms(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_Cryptography_GetAlgorithmsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.PurlRequest
@@ -114,6 +176,68 @@ func local_request_Cryptography_GetAlgorithmsInRange_0(ctx context.Context, mars
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetAlgorithmsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_Cryptography_GetComponentAlgorithmsInRange_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Cryptography_GetComponentAlgorithmsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentAlgorithmsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentAlgorithmsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentAlgorithmsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentAlgorithmsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentAlgorithmsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Cryptography_GetComponentsAlgorithmsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsAlgorithmsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentsAlgorithmsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsAlgorithmsInRange(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -144,6 +268,68 @@ func local_request_Cryptography_GetVersionsInRange_0(ctx context.Context, marsha
 	return msg, metadata, err
 }
 
+var filter_Cryptography_GetComponentVersionsInRange_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Cryptography_GetComponentVersionsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentVersionsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentVersionsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentVersionsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentVersionsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentVersionsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Cryptography_GetComponentsVersionsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsVersionsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentsVersionsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsVersionsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_Cryptography_GetHintsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.PurlRequest
@@ -171,6 +357,68 @@ func local_request_Cryptography_GetHintsInRange_0(ctx context.Context, marshaler
 	return msg, metadata, err
 }
 
+var filter_Cryptography_GetComponentHintsInRange_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Cryptography_GetComponentHintsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentHintsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentHintsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentHintsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentHintsInRange_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentHintsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Cryptography_GetComponentsHintsInRange_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsHintsInRange(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentsHintsInRange_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsHintsInRange(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_Cryptography_GetEncryptionHints_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq commonv2.PurlRequest
@@ -195,6 +443,68 @@ func local_request_Cryptography_GetEncryptionHints_0(ctx context.Context, marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetEncryptionHints(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_Cryptography_GetComponentEncryptionHints_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_Cryptography_GetComponentEncryptionHints_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentEncryptionHints_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.GetComponentEncryptionHints(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentEncryptionHints_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cryptography_GetComponentEncryptionHints_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentEncryptionHints(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Cryptography_GetComponentsEncryptionHints_0(ctx context.Context, marshaler runtime.Marshaler, client CryptographyClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetComponentsEncryptionHints(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Cryptography_GetComponentsEncryptionHints_0(ctx context.Context, marshaler runtime.Marshaler, server CryptographyServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq commonv2.ComponentsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetComponentsEncryptionHints(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -230,7 +540,7 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -244,13 +554,53 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentAlgorithms_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentAlgorithms_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsAlgorithms_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentsAlgorithms_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithmsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -264,13 +614,53 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentAlgorithmsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentsAlgorithmsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/versionsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -284,13 +674,53 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/versions/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentVersionsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/versions/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentsVersionsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hintsInRange"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -304,13 +734,53 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hints/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentHintsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hints/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentsHintsInRange_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -323,6 +793,46 @@ func RegisterCryptographyHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 		forward_Cryptography_GetEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentEncryptionHints_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Cryptography_GetComponentsEncryptionHints_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -385,7 +895,7 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetAlgorithms"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -398,11 +908,45 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentAlgorithms_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentAlgorithms_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsAlgorithms_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithms", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentsAlgorithms_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsAlgorithms_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithmsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetAlgorithmsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -415,11 +959,45 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentAlgorithmsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsAlgorithmsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithmsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentsAlgorithmsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsAlgorithmsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/versionsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetVersionsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -432,11 +1010,45 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/versions/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentVersionsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsVersionsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsVersionsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/algorithms/versions/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentsVersionsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsVersionsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hintsInRange"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetHintsInRange"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -449,11 +1061,45 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hints/range/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentHintsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsHintsInRange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsHintsInRange", runtime.WithHTTPPathPattern("/v2/cryptography/hints/range/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentsHintsInRange_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsHintsInRange_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Cryptography_GetEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints", runtime.WithHTTPPathPattern("/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -466,23 +1112,77 @@ func RegisterCryptographyHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_Cryptography_GetEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_Cryptography_GetComponentEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints/component"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentEncryptionHints_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_Cryptography_GetComponentsEncryptionHints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.cryptography.v2.Cryptography/GetComponentsEncryptionHints", runtime.WithHTTPPathPattern("/v2/cryptography/hints/components"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Cryptography_GetComponentsEncryptionHints_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Cryptography_GetComponentsEncryptionHints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	return nil
 }
 
 var (
-	pattern_Cryptography_Echo_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "echo"}, ""))
-	pattern_Cryptography_GetAlgorithms_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "algorithms"}, ""))
-	pattern_Cryptography_GetAlgorithmsInRange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "algorithmsInRange"}, ""))
-	pattern_Cryptography_GetVersionsInRange_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "versionsInRange"}, ""))
-	pattern_Cryptography_GetHintsInRange_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "hintsInRange"}, ""))
-	pattern_Cryptography_GetEncryptionHints_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "hints"}, ""))
+	pattern_Cryptography_Echo_0                           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "cryptography", "echo"}, ""))
+	pattern_Cryptography_GetAlgorithms_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.cryptography.v2.Cryptography", "GetAlgorithms"}, ""))
+	pattern_Cryptography_GetComponentAlgorithms_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "cryptography", "algorithms", "component"}, ""))
+	pattern_Cryptography_GetComponentsAlgorithms_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "cryptography", "algorithms", "components"}, ""))
+	pattern_Cryptography_GetAlgorithmsInRange_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.cryptography.v2.Cryptography", "GetAlgorithmsInRange"}, ""))
+	pattern_Cryptography_GetComponentAlgorithmsInRange_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v2", "cryptography", "algorithms", "range", "component"}, ""))
+	pattern_Cryptography_GetComponentsAlgorithmsInRange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v2", "cryptography", "algorithms", "range", "components"}, ""))
+	pattern_Cryptography_GetVersionsInRange_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.cryptography.v2.Cryptography", "GetVersionsInRange"}, ""))
+	pattern_Cryptography_GetComponentVersionsInRange_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 2, 5}, []string{"v2", "cryptography", "algorithms", "versions", "range", "component"}, ""))
+	pattern_Cryptography_GetComponentsVersionsInRange_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 2, 5}, []string{"v2", "cryptography", "algorithms", "versions", "range", "components"}, ""))
+	pattern_Cryptography_GetHintsInRange_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.cryptography.v2.Cryptography", "GetHintsInRange"}, ""))
+	pattern_Cryptography_GetComponentHintsInRange_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v2", "cryptography", "hints", "range", "component"}, ""))
+	pattern_Cryptography_GetComponentsHintsInRange_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v2", "cryptography", "hints", "range", "components"}, ""))
+	pattern_Cryptography_GetEncryptionHints_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"scanoss.api.cryptography.v2.Cryptography", "GetEncryptionHints"}, ""))
+	pattern_Cryptography_GetComponentEncryptionHints_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "cryptography", "hints", "component"}, ""))
+	pattern_Cryptography_GetComponentsEncryptionHints_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "cryptography", "hints", "components"}, ""))
 )
 
 var (
-	forward_Cryptography_Echo_0                 = runtime.ForwardResponseMessage
-	forward_Cryptography_GetAlgorithms_0        = runtime.ForwardResponseMessage
-	forward_Cryptography_GetAlgorithmsInRange_0 = runtime.ForwardResponseMessage
-	forward_Cryptography_GetVersionsInRange_0   = runtime.ForwardResponseMessage
-	forward_Cryptography_GetHintsInRange_0      = runtime.ForwardResponseMessage
-	forward_Cryptography_GetEncryptionHints_0   = runtime.ForwardResponseMessage
+	forward_Cryptography_Echo_0                           = runtime.ForwardResponseMessage
+	forward_Cryptography_GetAlgorithms_0                  = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentAlgorithms_0         = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentsAlgorithms_0        = runtime.ForwardResponseMessage
+	forward_Cryptography_GetAlgorithmsInRange_0           = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentAlgorithmsInRange_0  = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentsAlgorithmsInRange_0 = runtime.ForwardResponseMessage
+	forward_Cryptography_GetVersionsInRange_0             = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentVersionsInRange_0    = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentsVersionsInRange_0   = runtime.ForwardResponseMessage
+	forward_Cryptography_GetHintsInRange_0                = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentHintsInRange_0       = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentsHintsInRange_0      = runtime.ForwardResponseMessage
+	forward_Cryptography_GetEncryptionHints_0             = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentEncryptionHints_0    = runtime.ForwardResponseMessage
+	forward_Cryptography_GetComponentsEncryptionHints_0   = runtime.ForwardResponseMessage
 )
