@@ -26,7 +26,7 @@
   "paths": {
     "/v2/dependencies/dependencies": {
       "post": {
-        "summary": "Get dependency details",
+        "summary": "Get dependency details\nDeprecated: Use /v2/licenses/components instead",
         "operationId": "Dependencies_GetDependencies",
         "responses": {
           "200": {
@@ -105,7 +105,7 @@
         ]
       }
     },
-    "/v2/dependencies/transitive": {
+    "/v2/dependencies/transitive/components": {
       "post": {
         "summary": "Get transitive dependency details",
         "operationId": "Dependencies_GetTransitiveDependencies",
@@ -147,6 +147,34 @@
     }
   },
   "definitions": {
+    "DependencyResponseDependencies": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "type": "string"
+        },
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/DependencyResponseLicenses"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "title": "string scope = 7;"
+        }
+      }
+    },
     "DependencyResponseLicenses": {
       "type": "object",
       "properties": {
@@ -161,6 +189,21 @@
         },
         "url": {
           "type": "string"
+        }
+      }
+    },
+    "TransitiveDependencyResponseComponent": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "optional string scope = 3; // TODO: Add scope field"
         }
       }
     },
@@ -191,6 +234,53 @@
           }
         }
       }
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
     },
     "v2DependencyRequest": {
       "type": "object",
@@ -305,34 +395,6 @@
       },
       "title": "Dependency response data (JSON payload)"
     },
-    "v2DependencyResponseDependencies": {
-      "type": "object",
-      "properties": {
-        "component": {
-          "type": "string"
-        },
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "licenses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/DependencyResponseLicenses"
-          }
-        },
-        "url": {
-          "type": "string"
-        },
-        "comment": {
-          "type": "string",
-          "title": "string scope = 7;"
-        }
-      }
-    },
     "v2DependencyResponseFiles": {
       "type": "object",
       "properties": {
@@ -349,7 +411,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2DependencyResponseDependencies"
+            "$ref": "#/definitions/DependencyResponseDependencies"
           }
         }
       }
@@ -371,19 +433,6 @@
         }
       },
       "description": "Echo Message Response."
-    },
-    "v2Purl": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "@description: purl to be requested"
-        },
-        "requirement": {
-          "type": "string"
-        }
-      },
-      "title": "Purl request data (JSON payload)\nUsed by transitive dependencies request"
     },
     "v2StatusCode": {
       "type": "string",
@@ -414,10 +463,9 @@
     "v2TransitiveDependencyRequest": {
       "type": "object",
       "example": {
-        "ecosystem": "npm",
         "depth": 3,
         "limit": 50,
-        "purls": [
+        "components": [
           {
             "purl": "pkg:npm/express",
             "requirement": "4.18.0"
@@ -429,10 +477,6 @@
         ]
       },
       "properties": {
-        "ecosystem": {
-          "type": "string",
-          "title": "Ecosystem to restrict reporting on (i.e. npm, maven, github, etc.) - optional"
-        },
         "depth": {
           "type": "integer",
           "format": "int32",
@@ -441,16 +485,16 @@
         "limit": {
           "type": "integer",
           "format": "int32",
-          "description": "TODO: Add scope filters:\nrepeated string scopes = 4;\nUsing a list of strings allows filtering by multiple scopes simultaneously\n(e.g., include both \"dev\" and \"test\" dependencies in a single request)",
+          "description": "TODO: Add scope filters:\nrepeated string scope_include\nrepeated string scope_exclude\nUsing a list of strings allows filtering by multiple scopes simultaneously\n(e.g., include both \"dev\" and \"test\" dependencies in a single request)",
           "title": "Limit the number of components reported back - optional"
         },
-        "purls": {
+        "components": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2Purl"
+            "$ref": "#/definitions/v2ComponentsRequest"
           },
-          "title": "List of Purls from the same ecosystem"
+          "title": "List of Purls from the same ecosystem\nSupported ecosystems: \"composer\", \"crates\", \"maven\", \"npm\", \"gem\""
         }
       },
       "title": "Transitive dependency request data (JSON payload)"
@@ -482,7 +526,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2TransitiveDependencyResponseDependencies"
+            "$ref": "#/definitions/TransitiveDependencyResponseComponent"
           },
           "title": "Dependency response details"
         },
@@ -492,18 +536,6 @@
         }
       },
       "title": "Transitive dependency response data (JSON payload)"
-    },
-    "v2TransitiveDependencyResponseDependencies": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string",
-          "title": "optional string scope = 3; // TODO: Add scope field"
-        }
-      }
     }
   }
 }
