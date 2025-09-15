@@ -71,17 +71,21 @@ service Dependencies {
       body: "*"
     };
   };
+
   // Get dependency details
+  // Deprecated: Use /v2/licenses/components instead
   rpc GetDependencies(DependencyRequest) returns(DependencyResponse) {
     option (google.api.http) = {
       post: "/v2/dependencies/dependencies"
       body: "*"
     };
+    option deprecated = true;
   };
+
 // Get transitive dependency details
   rpc GetTransitiveDependencies(TransitiveDependencyRequest) returns(TransitiveDependencyResponse) {
     option (google.api.http) = {
-      post: "/v2/dependencies/transitive"
+      post: "/v2/dependencies/transitive/components"
       body: "*"
     };
   };
@@ -92,6 +96,7 @@ service Dependencies {
  * Dependency request data (JSON payload)
  */
 message DependencyRequest {
+  option deprecated = true;
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}";
@@ -122,11 +127,13 @@ message DependencyRequest {
  * Dependency response data (JSON payload)
  */
 message DependencyResponse {
+  option deprecated = true;
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}";
     }
   };
+
   message Licenses {
     string name = 1;
     string spdx_id = 2 [json_name = "spdx_id"];
@@ -160,22 +167,23 @@ message DependencyResponse {
 message TransitiveDependencyRequest {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"ecosystem\":\"npm\",\"depth\":3,\"limit\":50,\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"4.18.0\"},{\"purl\":\"pkg:npm/lodash\",\"requirement\":\"4.17.0\"}]}";
+      example: "{\"depth\":3,\"limit\":50,\"components\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"4.18.0\"},{\"purl\":\"pkg:npm/lodash\",\"requirement\":\"4.17.0\"}]}";
     }
   };
-  // Ecosystem to restrict reporting on (i.e. npm, maven, github, etc.) - optional
-  string ecosystem = 1;
   // Depth (number of layers) to go when searching for dependencies - optional
-  int32 depth = 2;
+  int32 depth = 1;
   // Limit the number of components reported back - optional
-  int32 limit = 3;
+  int32 limit = 2;
   /* TODO: Add scope filters:
-      repeated string scopes = 4;
+      repeated string scope_include
+      repeated string scope_exclude
       Using a list of strings allows filtering by multiple scopes simultaneously
       (e.g., include both "dev" and "test" dependencies in a single request)
+
   */
   // List of Purls from the same ecosystem
-  repeated scanoss.api.common.v2.Purl purls = 5;
+  // Supported ecosystems: "composer", "crates", "maven", "npm", "gem"
+  repeated scanoss.api.common.v2.ComponentsRequest components = 3;
 }
 
 /*
@@ -187,13 +195,13 @@ message TransitiveDependencyResponse {
       example: "{\"dependencies\":[{\"purl\":\"pkg:npm/express@4.18.2\",\"version\":\"4.18.2\"},{\"purl\":\"pkg:npm/body-parser@1.20.1\",\"version\":\"1.20.1\"},{\"purl\":\"pkg:npm/cookie@0.5.0\",\"version\":\"0.5.0\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Transitive dependencies successfully retrieved\"}}";
     }
   };
-  message Dependencies {
+  message Component {
     string purl = 1;
     string version = 2;
-    // optional string scope = 3; // TODO: Add scope field
+    string requirement = 3;    // optional string scope = 3; // TODO: Add scope field
   }
   // Dependency response details
-  repeated Dependencies dependencies = 1;
+  repeated Component dependencies = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }

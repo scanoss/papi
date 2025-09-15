@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+
+## [0.20.0] - 2025-09-15
+### Added
+- Added dependency service documentation
+### Changed
+- **BREAKING CHANGE**: Changed `/v2/dependencies/transitive` to `/v2/dependencies/transitive/components`
+- Deprecated `/v2/dependencies/dependencies` endpoint (use `/v2/licenses/components` instead)
+
 ## [0.19.0] - 2025-09-08
 ### Added
 - Added gRPC `GetComponentAlgorithms` and REST endpoint GET `/v2/cryptography/algorithms/component`

@@ -60,7 +60,9 @@ const (
 type DependenciesClient interface {
 	// Standard echo
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
+	// Deprecated: Do not use.
 	// Get dependency details
+	// Deprecated: Use /v2/licenses/components instead
 	GetDependencies(ctx context.Context, in *DependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error)
 	// Get transitive dependency details
 	GetTransitiveDependencies(ctx context.Context, in *TransitiveDependencyRequest, opts ...grpc.CallOption) (*TransitiveDependencyResponse, error)
@@ -84,6 +86,7 @@ func (c *dependenciesClient) Echo(ctx context.Context, in *commonv2.EchoRequest,
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *dependenciesClient) GetDependencies(ctx context.Context, in *DependencyRequest, opts ...grpc.CallOption) (*DependencyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DependencyResponse)
@@ -112,7 +115,9 @@ func (c *dependenciesClient) GetTransitiveDependencies(ctx context.Context, in *
 type DependenciesServer interface {
 	// Standard echo
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
+	// Deprecated: Do not use.
 	// Get dependency details
+	// Deprecated: Use /v2/licenses/components instead
 	GetDependencies(context.Context, *DependencyRequest) (*DependencyResponse, error)
 	// Get transitive dependency details
 	GetTransitiveDependencies(context.Context, *TransitiveDependencyRequest) (*TransitiveDependencyResponse, error)
