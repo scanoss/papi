@@ -135,7 +135,7 @@ func local_request_Components_GetComponentVersions_0(ctx context.Context, marsha
 
 func request_Components_GetComponentStatistics_0(ctx context.Context, marshaler runtime.Marshaler, client ComponentsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq commonv2.PurlRequest
+		protoReq commonv2.ComponentsRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -150,7 +150,7 @@ func request_Components_GetComponentStatistics_0(ctx context.Context, marshaler 
 
 func local_request_Components_GetComponentStatistics_0(ctx context.Context, marshaler runtime.Marshaler, server ComponentsServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq commonv2.PurlRequest
+		protoReq commonv2.ComponentsRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {

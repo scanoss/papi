@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.21.0] - 2025-09-18
+### Added
+- Added README.md documentation for Components Service API v2
+- Added JSON schema examples to components protobuf definitions for improved API documentation
+### Changed
+- Updated components protobuf message structure with proper field naming consistency
+- Enhanced components response messages with JSON schema examples for OpenAPI generation
+
+## [0.20.1] - 2025-09-15
+### Fixed
+- Fixed `TransitiveDependencyRequest` protobuf definition
 
 ## [0.20.0] - 2025-09-15
 ### Added
@@ -145,6 +156,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.21.0]: https://github.com/scanoss/papi/compare/v0.20.1...v0.21.0
+[0.21.1]: https://github.com/scanoss/papi/compare/v0.20.0...v0.20.1
+[0.20.0]: https://github.com/scanoss/papi/compare/v0.19.0...v0.20.0
+[0.19.0]: https://github.com/scanoss/papi/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/scanoss/papi/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/scanoss/papi/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/scanoss/papi/compare/v0.15.0...v0.16.0

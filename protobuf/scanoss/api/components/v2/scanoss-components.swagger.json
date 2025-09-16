@@ -152,7 +152,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2CompStatisticResponse"
+              "$ref": "#/definitions/v2ComponentsStatisticResponse"
             }
           },
           "404": {
@@ -172,11 +172,11 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -266,6 +266,20 @@
       },
       "title": "Version details (including license)"
     },
+    "ComponentsStatisticResponseComponentStatistics": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "statistics": {
+          "$ref": "#/definitions/v2CompStatistic"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -296,6 +310,26 @@
     },
     "v2CompSearchResponse": {
       "type": "object",
+      "example": {
+        "components": [
+          {
+            "name": "scanoss-py",
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "url": "https://github.com/scanoss/scanoss.py",
+            "component": "scanoss-py"
+          },
+          {
+            "name": "engine",
+            "purl": "pkg:github/scanoss/engine",
+            "url": "https://github.com/scanoss/engine",
+            "component": "engine"
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Components successfully retrieved"
+        }
+      },
       "properties": {
         "components": {
           "type": "array",
@@ -316,12 +350,16 @@
       "type": "object",
       "properties": {
         "component": {
-          "type": "string"
+          "type": "string",
+          "title": "TODO: Remove this message field. Replaced by name in future versions"
         },
         "purl": {
           "type": "string"
         },
         "url": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         }
       },
@@ -351,40 +389,34 @@
         }
       }
     },
-    "v2CompStatisticResponse": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2CompStatisticResponsePurls"
-          },
-          "title": "Component statistic details"
-        },
-        "status": {
-          "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
-        }
-      },
-      "title": "Component Statistics response data (JSON payload)"
-    },
-    "v2CompStatisticResponsePurls": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "statistics": {
-          "$ref": "#/definitions/v2CompStatistic"
-        }
-      }
-    },
     "v2CompVersionResponse": {
       "type": "object",
+      "example": {
+        "component": {
+          "name": "engine",
+          "purl": "pkg:github/scanoss/engine",
+          "url": "https://github.com/scanoss/engine",
+          "versions": [
+            {
+              "version": "5.0.0",
+              "licenses": [
+                {
+                  "name": "GNU General Public License v2.0",
+                  "spdx_id": "GPL-2.0",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/GPL-2.0.html"
+                }
+              ],
+              "date": "2024-01-15T10:30:00Z"
+            }
+          ],
+          "component": "engine"
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Component versions successfully retrieved"
+        }
+      },
       "properties": {
         "component": {
           "$ref": "#/definitions/v2CompVersionResponseComponent",
@@ -395,13 +427,14 @@
           "title": "Response status"
         }
       },
-      "title": "Component Search response data (JSON payload)"
+      "title": "Component Version response data (JSON payload)"
     },
     "v2CompVersionResponseComponent": {
       "type": "object",
       "properties": {
         "component": {
-          "type": "string"
+          "type": "string",
+          "title": "TODO: Remove this message field. Replaced by name in future versions"
         },
         "purl": {
           "type": "string"
@@ -415,6 +448,9 @@
             "type": "object",
             "$ref": "#/definitions/CompVersionResponseVersion"
           }
+        },
+        "name": {
+          "type": "string"
         }
       },
       "title": "Component details (including versions)"
@@ -437,6 +473,98 @@
       },
       "title": "License details"
     },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
+    "v2ComponentsStatisticResponse": {
+      "type": "object",
+      "example": {
+        "component_statistics": [
+          {
+            "purl": "pkg:github/scanoss/engine@5.0.0",
+            "version": "5.0.0",
+            "statistics": {
+              "total_source_files": 156,
+              "total_lines": 25430,
+              "total_blank_lines": 3420,
+              "languages": [
+                {
+                  "name": "C",
+                  "files": 89
+                },
+                {
+                  "name": "C Header",
+                  "files": 45
+                }
+              ]
+            }
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Component statistics successfully retrieved"
+        }
+      },
+      "properties": {
+        "component_statistics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ComponentsStatisticResponseComponentStatistics"
+          },
+          "title": "Component statistic details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Component Statistics response data (JSON payload)"
+    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -454,33 +582,6 @@
         }
       },
       "description": "Echo Message Response."
-    },
-    "v2PurlRequest": {
-      "type": "object",
-      "properties": {
-        "purls": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2PurlRequestPurls"
-          },
-          "title": "JSON request purls"
-        }
-      },
-      "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead."
-    },
-    "v2PurlRequestPurls": {
-      "type": "object",
-      "properties": {
-        "purl": {
-          "type": "string",
-          "title": "@description: purl to be requested"
-        },
-        "requirement": {
-          "type": "string"
-        }
-      },
-      "title": "TODO: Refactor this API\n- Remove nested Purls message and replace with top-level Purl message type.\n- Update field definition below to: repeated Purl purls = 1;"
     },
     "v2StatusCode": {
       "type": "string",

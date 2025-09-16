@@ -105,7 +105,7 @@ service Components {
     };
   };
   // Get the statistics for the specified components
-  rpc GetComponentStatistics(scanoss.api.common.v2.PurlRequest) returns(CompStatisticResponse) {
+  rpc GetComponentStatistics(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsStatisticResponse) {
     option (google.api.http) = {
       post: "/v2/components/statistics"
       body: "*"
@@ -117,6 +117,11 @@ service Components {
  * Component Search request data (JSON payload)
  */
 message CompSearchRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"search\": \"scanoss\", \"limit\": 10, \"offset\": 0}";
+    }
+  };
   // Component to search for (vendor/component/purl). Search is exclusive (will override vendor/component)
   string search = 1;
   // Vendor to search for. Vendor can be combined with Component
@@ -145,14 +150,19 @@ message CompStatistic {
 /*
  * Component Statistics response data (JSON payload)
  */
-message CompStatisticResponse {
-  message Purls {
+message ComponentsStatisticResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}";
+    }
+  };
+  message ComponentStatistics {
     string purl = 1;
     string version = 2;
     CompStatistic statistics = 3;
   }
   // Component statistic details
-  repeated Purls purls = 1;
+  repeated ComponentStatistics component_statistics = 1 [json_name = "component_statistics"];
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
@@ -161,11 +171,17 @@ message CompStatisticResponse {
  * Component Search response data (JSON payload)
  */
 message CompSearchResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\": [{\"name\": \"scanoss-py\", \"purl\": \"pkg:github/scanoss/scanoss.py\", \"url\": \"https://github.com/scanoss/scanoss.py\", \"component\": \"scanoss-py\"}, {\"name\": \"engine\", \"purl\": \"pkg:github/scanoss/engine\", \"url\": \"https://github.com/scanoss/engine\", \"component\": \"engine\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Components successfully retrieved\"}}";
+    }
+  };
   // Component details
   message Component {
-    string component = 1;
+    string component = 1 [deprecated = true];  // TODO: Remove this message field. Replaced by name in future versions
     string purl = 2;
     string url = 3;
+    string name = 4;
   }
   // Component response details
   repeated Component components = 1;
@@ -177,6 +193,11 @@ message CompSearchResponse {
  * Component Version request data (JSON payload)
  */
 message CompVersionRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"purl\": \"pkg:github/scanoss/engine\", \"limit\": 20}";
+    }
+  };
   // Component to search for (purl)
   string purl = 1;
   // Number of versions to return - default 50
@@ -184,9 +205,14 @@ message CompVersionRequest {
 }
 
 /*
- * Component Search response data (JSON payload)
+ * Component Version response data (JSON payload)
  */
 message CompVersionResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component\": {\"name\": \"engine\", \"purl\": \"pkg:github/scanoss/engine\", \"url\": \"https://github.com/scanoss/engine\", \"versions\": [{\"version\": \"5.0.0\", \"licenses\": [{\"name\": \"GNU General Public License v2.0\", \"spdx_id\": \"GPL-2.0\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0.html\"}], \"date\": \"2024-01-15T10:30:00Z\"}], \"component\": \"engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component versions successfully retrieved\"}}";
+    }
+  };
   // License details
   message License {
     string name = 1;
@@ -203,11 +229,12 @@ message CompVersionResponse {
   }
   // Component details (including versions)
   message Component {
-    string component = 1;
+    string component = 1 [deprecated = true]; // TODO: Remove this message field. Replaced by name in future versions
     string purl = 2;
     string url = 3;
     repeated Version versions = 4;
-  }
+    string name = 5;
+   }
   // Component response details
   Component component = 1;
   // Response status
