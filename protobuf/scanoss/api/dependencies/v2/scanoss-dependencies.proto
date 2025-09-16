@@ -183,7 +183,7 @@ message TransitiveDependencyRequest {
   */
   // List of Purls from the same ecosystem
   // Supported ecosystems: "composer", "crates", "maven", "npm", "gem"
-  repeated scanoss.api.common.v2.ComponentsRequest components = 3;
+  repeated scanoss.api.common.v2.ComponentRequest components = 3;
 }
 
 /*

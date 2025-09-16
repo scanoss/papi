@@ -255,33 +255,6 @@
         "purl"
       ]
     },
-    "v2ComponentsRequest": {
-      "type": "object",
-      "example": {
-        "components": [
-          {
-            "purl": "pkg:github/scanoss/engine@1.0.0"
-          },
-          {
-            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
-          }
-        ]
-      },
-      "properties": {
-        "components": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v2ComponentRequest"
-          },
-          "title": "Array of component requests to analyze"
-        }
-      },
-      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
-      "required": [
-        "components"
-      ]
-    },
     "v2DependencyRequest": {
       "type": "object",
       "example": {
@@ -492,7 +465,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2ComponentsRequest"
+            "$ref": "#/definitions/v2ComponentRequest"
           },
           "title": "List of Purls from the same ecosystem\nSupported ecosystems: \"composer\", \"crates\", \"maven\", \"npm\", \"gem\""
         }
