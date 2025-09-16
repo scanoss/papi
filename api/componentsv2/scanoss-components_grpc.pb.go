@@ -66,7 +66,7 @@ type ComponentsClient interface {
 	// Get all version information for a specific component
 	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
-	GetComponentStatistics(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*CompStatisticResponse, error)
+	GetComponentStatistics(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatisticResponse, error)
 }
 
 type componentsClient struct {
@@ -107,9 +107,9 @@ func (c *componentsClient) GetComponentVersions(ctx context.Context, in *CompVer
 	return out, nil
 }
 
-func (c *componentsClient) GetComponentStatistics(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*CompStatisticResponse, error) {
+func (c *componentsClient) GetComponentStatistics(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatisticResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CompStatisticResponse)
+	out := new(ComponentsStatisticResponse)
 	err := c.cc.Invoke(ctx, Components_GetComponentStatistics_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ type ComponentsServer interface {
 	// Get all version information for a specific component
 	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
-	GetComponentStatistics(context.Context, *commonv2.PurlRequest) (*CompStatisticResponse, error)
+	GetComponentStatistics(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatisticResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
 
@@ -150,7 +150,7 @@ func (UnimplementedComponentsServer) SearchComponents(context.Context, *CompSear
 func (UnimplementedComponentsServer) GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentVersions not implemented")
 }
-func (UnimplementedComponentsServer) GetComponentStatistics(context.Context, *commonv2.PurlRequest) (*CompStatisticResponse, error) {
+func (UnimplementedComponentsServer) GetComponentStatistics(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatisticResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentStatistics not implemented")
 }
 func (UnimplementedComponentsServer) mustEmbedUnimplementedComponentsServer() {}
@@ -229,7 +229,7 @@ func _Components_GetComponentVersions_Handler(srv interface{}, ctx context.Conte
 }
 
 func _Components_GetComponentStatistics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(commonv2.PurlRequest)
+	in := new(commonv2.ComponentsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -241,7 +241,7 @@ func _Components_GetComponentStatistics_Handler(srv interface{}, ctx context.Con
 		FullMethod: Components_GetComponentStatistics_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ComponentsServer).GetComponentStatistics(ctx, req.(*commonv2.PurlRequest))
+		return srv.(ComponentsServer).GetComponentStatistics(ctx, req.(*commonv2.ComponentsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
