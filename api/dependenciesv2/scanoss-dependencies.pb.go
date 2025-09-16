@@ -174,7 +174,7 @@ type TransitiveDependencyRequest struct {
 	Limit int32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	// List of Purls from the same ecosystem
 	// Supported ecosystems: "composer", "crates", "maven", "npm", "gem"
-	Components    []*commonv2.ComponentsRequest `protobuf:"bytes,3,rep,name=components,proto3" json:"components,omitempty"`
+	Components    []*commonv2.ComponentRequest `protobuf:"bytes,3,rep,name=components,proto3" json:"components,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -223,7 +223,7 @@ func (x *TransitiveDependencyRequest) GetLimit() int32 {
 	return 0
 }
 
-func (x *TransitiveDependencyRequest) GetComponents() []*commonv2.ComponentsRequest {
+func (x *TransitiveDependencyRequest) GetComponents() []*commonv2.ComponentRequest {
 	if x != nil {
 		return x.Components
 	}
@@ -710,12 +710,12 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12`\n" +
 	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xa2\x03\x92A\x9c\x03\n" +
-	"\x99\x03J\x96\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa8\x02\n" +
+	"\x99\x03J\x96\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa7\x02\n" +
 	"\x1bTransitiveDependencyRequest\x12\x14\n" +
 	"\x05depth\x18\x01 \x01(\x05R\x05depth\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12H\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12G\n" +
 	"\n" +
-	"components\x18\x03 \x03(\v2(.scanoss.api.common.v2.ComponentsRequestR\n" +
+	"components\x18\x03 \x03(\v2'.scanoss.api.common.v2.ComponentRequestR\n" +
 	"components:\x92\x01\x92A\x8e\x01\n" +
 	"\x8b\x01J\x88\x01{\"depth\":3,\"limit\":50,\"components\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"4.18.0\"},{\"purl\":\"pkg:npm/lodash\",\"requirement\":\"4.17.0\"}]}\"\xbb\x04\n" +
 	"\x1cTransitiveDependencyResponse\x12g\n" +
@@ -761,7 +761,7 @@ var file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_goTypes = []any{
 	(*DependencyResponse_Files)(nil),               // 8: scanoss.api.dependencies.v2.DependencyResponse.Files
 	(*TransitiveDependencyResponse_Component)(nil), // 9: scanoss.api.dependencies.v2.TransitiveDependencyResponse.Component
 	(*commonv2.StatusResponse)(nil),                // 10: scanoss.api.common.v2.StatusResponse
-	(*commonv2.ComponentsRequest)(nil),             // 11: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.ComponentRequest)(nil),              // 11: scanoss.api.common.v2.ComponentRequest
 	(*commonv2.EchoRequest)(nil),                   // 12: scanoss.api.common.v2.EchoRequest
 	(*commonv2.EchoResponse)(nil),                  // 13: scanoss.api.common.v2.EchoResponse
 }
@@ -769,7 +769,7 @@ var file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_depIdxs = []int3
 	5,  // 0: scanoss.api.dependencies.v2.DependencyRequest.files:type_name -> scanoss.api.dependencies.v2.DependencyRequest.Files
 	8,  // 1: scanoss.api.dependencies.v2.DependencyResponse.files:type_name -> scanoss.api.dependencies.v2.DependencyResponse.Files
 	10, // 2: scanoss.api.dependencies.v2.DependencyResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	11, // 3: scanoss.api.dependencies.v2.TransitiveDependencyRequest.components:type_name -> scanoss.api.common.v2.ComponentsRequest
+	11, // 3: scanoss.api.dependencies.v2.TransitiveDependencyRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
 	9,  // 4: scanoss.api.dependencies.v2.TransitiveDependencyResponse.dependencies:type_name -> scanoss.api.dependencies.v2.TransitiveDependencyResponse.Component
 	10, // 5: scanoss.api.dependencies.v2.TransitiveDependencyResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	4,  // 6: scanoss.api.dependencies.v2.DependencyRequest.Files.purls:type_name -> scanoss.api.dependencies.v2.DependencyRequest.Purls
