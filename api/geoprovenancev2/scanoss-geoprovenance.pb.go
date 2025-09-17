@@ -50,13 +50,127 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Declared location information for the project
+type DeclaredLocation struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Source type of the declared location (e.g., "owner" or "contributor")
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	// Geographic location declared in the repository (Country/State/City/Province/Place)
+	Location      string `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeclaredLocation) Reset() {
+	*x = DeclaredLocation{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeclaredLocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeclaredLocation) ProtoMessage() {}
+
+func (x *DeclaredLocation) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeclaredLocation.ProtoReflect.Descriptor instead.
+func (*DeclaredLocation) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DeclaredLocation) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *DeclaredLocation) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+// SCANOSS curated provenance information about the project
+type CuratedLocation struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Country name for the owner or contributor
+	Country string `protobuf:"bytes,1,opt,name=country,proto3" json:"country,omitempty"`
+	// Number of users or contributors from this specific country
+	Count         int32 `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CuratedLocation) Reset() {
+	*x = CuratedLocation{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CuratedLocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CuratedLocation) ProtoMessage() {}
+
+func (x *CuratedLocation) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CuratedLocation.ProtoReflect.Descriptor instead.
+func (*CuratedLocation) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CuratedLocation) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *CuratedLocation) GetCount() int32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
 // *
-// Component level Provenance Response data (JSON payload)
+// [DEPRECATED] Component level Provenance Response data (JSON payload)
+// This message is deprecated. Use ComponentContributorResponse instead for better component handling.
+// Contains geo-provenance information for components based on contributor declared locations.
+//
+// Deprecated: Marked as deprecated in scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto.
 type ContributorResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Provenance details
+	// Geo-provenance details for each requested component
 	Purls []*ContributorResponse_Purls `protobuf:"bytes,1,rep,name=purls,proto3" json:"purls,omitempty"`
-	// Response status
+	// Response status indicating success or failure of the request
 	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -64,7 +178,7 @@ type ContributorResponse struct {
 
 func (x *ContributorResponse) Reset() {
 	*x = ContributorResponse{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[0]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -76,7 +190,7 @@ func (x *ContributorResponse) String() string {
 func (*ContributorResponse) ProtoMessage() {}
 
 func (x *ContributorResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[0]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -89,7 +203,7 @@ func (x *ContributorResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContributorResponse.ProtoReflect.Descriptor instead.
 func (*ContributorResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{0}
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ContributorResponse) GetPurls() []*ContributorResponse_Purls {
@@ -106,13 +220,307 @@ func (x *ContributorResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+// Information about a given component
+type ComponentLocationInfo struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The Package URL string identifying the component
+	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	// List of locations declared in the component's repository
+	DeclaredLocations []*DeclaredLocation `protobuf:"bytes,2,rep,name=declared_locations,proto3" json:"declared_locations,omitempty"`
+	// List of SCANOSS curated locations based on analysis
+	CuratedLocations []*CuratedLocation `protobuf:"bytes,3,rep,name=curated_locations,proto3" json:"curated_locations,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ComponentLocationInfo) Reset() {
+	*x = ComponentLocationInfo{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentLocationInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentLocationInfo) ProtoMessage() {}
+
+func (x *ComponentLocationInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentLocationInfo.ProtoReflect.Descriptor instead.
+func (*ComponentLocationInfo) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ComponentLocationInfo) GetPurl() string {
+	if x != nil {
+		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentLocationInfo) GetDeclaredLocations() []*DeclaredLocation {
+	if x != nil {
+		return x.DeclaredLocations
+	}
+	return nil
+}
+
+func (x *ComponentLocationInfo) GetCuratedLocations() []*CuratedLocation {
+	if x != nil {
+		return x.CuratedLocations
+	}
+	return nil
+}
+
 // *
-// Component level Origin Response data (JSON payload)
+// Component level Provenance Response data (JSON payload)
+// Contains geo-provenance information for components based on contributor declared locations.
+// This is the current response format that replaces the deprecated ContributorResponse.
+type ComponentsContributorResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Geo-provenance details for each requested component
+	ComponentsLocations []*ComponentLocationInfo `protobuf:"bytes,1,rep,name=components_locations,proto3" json:"components_locations,omitempty"`
+	// Response status indicating success or failure of the request
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentsContributorResponse) Reset() {
+	*x = ComponentsContributorResponse{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentsContributorResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentsContributorResponse) ProtoMessage() {}
+
+func (x *ComponentsContributorResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentsContributorResponse.ProtoReflect.Descriptor instead.
+func (*ComponentsContributorResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ComponentsContributorResponse) GetComponentsLocations() []*ComponentLocationInfo {
+	if x != nil {
+		return x.ComponentsLocations
+	}
+	return nil
+}
+
+func (x *ComponentsContributorResponse) GetStatus() *commonv2.StatusResponse {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+// *
+// Component level Provenance Response data (JSON payload)
+// Contains geo-provenance information for components based on contributor declared locations.
+// This is the current response format that replaces the deprecated ContributorResponse.
+type ComponentContributorResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Geo-provenance details for each requested component
+	ComponentLocations *ComponentLocationInfo `protobuf:"bytes,1,opt,name=component_locations,proto3" json:"component_locations,omitempty"`
+	// Response status indicating success or failure of the request
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentContributorResponse) Reset() {
+	*x = ComponentContributorResponse{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentContributorResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentContributorResponse) ProtoMessage() {}
+
+func (x *ComponentContributorResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentContributorResponse.ProtoReflect.Descriptor instead.
+func (*ComponentContributorResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ComponentContributorResponse) GetComponentLocations() *ComponentLocationInfo {
+	if x != nil {
+		return x.ComponentLocations
+	}
+	return nil
+}
+
+func (x *ComponentContributorResponse) GetStatus() *commonv2.StatusResponse {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+// Origin country details for geo-provenance analysis
+type Location struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// ISO country code (e.g., "US", "GB", "FR")
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Percentage of developers from this country
+	Percentage    float32 `protobuf:"fixed32,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Location) Reset() {
+	*x = Location{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Location) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Location) ProtoMessage() {}
+
+func (x *Location) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Location.ProtoReflect.Descriptor instead.
+func (*Location) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Location) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Location) GetPercentage() float32 {
+	if x != nil {
+		return x.Percentage
+	}
+	return 0
+}
+
+// Information about a component and its geographic origins
+type ComponentLocation struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The Package URL string identifying the component
+	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	// The list of countries with contributors and their percentages
+	Locations     []*Location `protobuf:"bytes,2,rep,name=locations,proto3" json:"locations,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentLocation) Reset() {
+	*x = ComponentLocation{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentLocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentLocation) ProtoMessage() {}
+
+func (x *ComponentLocation) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentLocation.ProtoReflect.Descriptor instead.
+func (*ComponentLocation) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ComponentLocation) GetPurl() string {
+	if x != nil {
+		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentLocation) GetLocations() []*Location {
+	if x != nil {
+		return x.Locations
+	}
+	return nil
+}
+
+// *
+// [DEPRECATED] Component level Origin Response data (JSON payload)
+// This message is deprecated. Use ComponentOriginResponse instead for better component handling.
+// Contains geo-provenance information based on contributor origin commit times.
+//
+// Deprecated: Marked as deprecated in scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto.
 type OriginResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Geo Provenance details
+	// Geo-provenance details for each requested component
 	Purls []*OriginResponse_Purls `protobuf:"bytes,1,rep,name=purls,proto3" json:"purls,omitempty"`
-	// Response status
+	// Response status indicating success or failure of the request
 	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -120,7 +528,7 @@ type OriginResponse struct {
 
 func (x *OriginResponse) Reset() {
 	*x = OriginResponse{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[1]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -132,7 +540,7 @@ func (x *OriginResponse) String() string {
 func (*OriginResponse) ProtoMessage() {}
 
 func (x *OriginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[1]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -145,7 +553,7 @@ func (x *OriginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OriginResponse.ProtoReflect.Descriptor instead.
 func (*OriginResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{1}
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *OriginResponse) GetPurls() []*OriginResponse_Purls {
@@ -162,32 +570,36 @@ func (x *OriginResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
-// Declared location for the project
-type ContributorResponse_DeclaredLocation struct {
+// *
+// Component level Origin Response data (JSON payload)
+// Contains geo-provenance information based on contributor origin commit times.
+// This is the current response format that replaces the deprecated OriginResponse.
+// Provides enhanced component identification and location data.
+type ComponentsOriginResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Declared location could be either from the owner or a contributor
-	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	// Country/State/City/Province/Place declared on the repo
-	Location      string `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
+	// Geo-provenance details for each requested component
+	ComponentsLocations []*ComponentLocation `protobuf:"bytes,1,rep,name=components_locations,proto3" json:"components_locations,omitempty"`
+	// Response status indicating success or failure of the request
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ContributorResponse_DeclaredLocation) Reset() {
-	*x = ContributorResponse_DeclaredLocation{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[2]
+func (x *ComponentsOriginResponse) Reset() {
+	*x = ComponentsOriginResponse{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ContributorResponse_DeclaredLocation) String() string {
+func (x *ComponentsOriginResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ContributorResponse_DeclaredLocation) ProtoMessage() {}
+func (*ComponentsOriginResponse) ProtoMessage() {}
 
-func (x *ContributorResponse_DeclaredLocation) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[2]
+func (x *ComponentsOriginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,51 +610,55 @@ func (x *ContributorResponse_DeclaredLocation) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ContributorResponse_DeclaredLocation.ProtoReflect.Descriptor instead.
-func (*ContributorResponse_DeclaredLocation) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use ComponentsOriginResponse.ProtoReflect.Descriptor instead.
+func (*ComponentsOriginResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ContributorResponse_DeclaredLocation) GetType() string {
+func (x *ComponentsOriginResponse) GetComponentsLocations() []*ComponentLocation {
 	if x != nil {
-		return x.Type
+		return x.ComponentsLocations
 	}
-	return ""
+	return nil
 }
 
-func (x *ContributorResponse_DeclaredLocation) GetLocation() string {
+func (x *ComponentsOriginResponse) GetStatus() *commonv2.StatusResponse {
 	if x != nil {
-		return x.Location
+		return x.Status
 	}
-	return ""
+	return nil
 }
 
-// Curated provenance information about the project
-type ContributorResponse_CuratedLocation struct {
+// *
+// Component level Origin Response data (JSON payload)
+// Contains geo-provenance information based on contributor origin commit times.
+// This is the current response format that replaces the deprecated OriginResponse.
+// Provides enhanced component identification and location data.
+type ComponentOriginResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Country for the owner or contributor
-	Country string `protobuf:"bytes,1,opt,name=country,proto3" json:"country,omitempty"`
-	// Occurrences for users or contributors of this specific country
-	Count         int32 `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	// Geo-provenance details for each requested component
+	ComponentLocations *ComponentLocation `protobuf:"bytes,1,opt,name=component_locations,proto3" json:"component_locations,omitempty"`
+	// Response status indicating success or failure of the request
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ContributorResponse_CuratedLocation) Reset() {
-	*x = ContributorResponse_CuratedLocation{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[3]
+func (x *ComponentOriginResponse) Reset() {
+	*x = ComponentOriginResponse{}
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ContributorResponse_CuratedLocation) String() string {
+func (x *ComponentOriginResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ContributorResponse_CuratedLocation) ProtoMessage() {}
+func (*ComponentOriginResponse) ProtoMessage() {}
 
-func (x *ContributorResponse_CuratedLocation) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[3]
+func (x *ComponentOriginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -253,41 +669,41 @@ func (x *ContributorResponse_CuratedLocation) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ContributorResponse_CuratedLocation.ProtoReflect.Descriptor instead.
-func (*ContributorResponse_CuratedLocation) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use ComponentOriginResponse.ProtoReflect.Descriptor instead.
+func (*ComponentOriginResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *ContributorResponse_CuratedLocation) GetCountry() string {
+func (x *ComponentOriginResponse) GetComponentLocations() *ComponentLocation {
 	if x != nil {
-		return x.Country
+		return x.ComponentLocations
 	}
-	return ""
+	return nil
 }
 
-func (x *ContributorResponse_CuratedLocation) GetCount() int32 {
+func (x *ComponentOriginResponse) GetStatus() *commonv2.StatusResponse {
 	if x != nil {
-		return x.Count
+		return x.Status
 	}
-	return 0
+	return nil
 }
 
-// Information about a given purl
+// Information about a given Package URL (PURL)
 type ContributorResponse_Purls struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The purl string
+	// The Package URL string identifying the component
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	// List of locations declared on user repository
-	DeclaredLocations []*ContributorResponse_DeclaredLocation `protobuf:"bytes,2,rep,name=declared_locations,json=declaredLocations,proto3" json:"declared_locations,omitempty"`
-	// List of craft curated location
-	CuratedLocations []*ContributorResponse_CuratedLocation `protobuf:"bytes,3,rep,name=curated_locations,json=curatedLocations,proto3" json:"curated_locations,omitempty"`
+	// List of locations declared in the component's repository
+	DeclaredLocations []*DeclaredLocation `protobuf:"bytes,2,rep,name=declared_locations,proto3" json:"declared_locations,omitempty"`
+	// List of SCANOSS curated locations based on analysis
+	CuratedLocations []*CuratedLocation `protobuf:"bytes,3,rep,name=curated_locations,proto3" json:"curated_locations,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ContributorResponse_Purls) Reset() {
 	*x = ContributorResponse_Purls{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[4]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +715,7 @@ func (x *ContributorResponse_Purls) String() string {
 func (*ContributorResponse_Purls) ProtoMessage() {}
 
 func (x *ContributorResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[4]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +728,7 @@ func (x *ContributorResponse_Purls) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContributorResponse_Purls.ProtoReflect.Descriptor instead.
 func (*ContributorResponse_Purls) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{0, 2}
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *ContributorResponse_Purls) GetPurl() string {
@@ -322,89 +738,35 @@ func (x *ContributorResponse_Purls) GetPurl() string {
 	return ""
 }
 
-func (x *ContributorResponse_Purls) GetDeclaredLocations() []*ContributorResponse_DeclaredLocation {
+func (x *ContributorResponse_Purls) GetDeclaredLocations() []*DeclaredLocation {
 	if x != nil {
 		return x.DeclaredLocations
 	}
 	return nil
 }
 
-func (x *ContributorResponse_Purls) GetCuratedLocations() []*ContributorResponse_CuratedLocation {
+func (x *ContributorResponse_Purls) GetCuratedLocations() []*CuratedLocation {
 	if x != nil {
 		return x.CuratedLocations
 	}
 	return nil
 }
 
-// Origin country details
-type OriginResponse_Location struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// ISO Country code
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Percentage of developers
-	Percentage    float32 `protobuf:"fixed32,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *OriginResponse_Location) Reset() {
-	*x = OriginResponse_Location{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *OriginResponse_Location) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*OriginResponse_Location) ProtoMessage() {}
-
-func (x *OriginResponse_Location) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use OriginResponse_Location.ProtoReflect.Descriptor instead.
-func (*OriginResponse_Location) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{1, 0}
-}
-
-func (x *OriginResponse_Location) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *OriginResponse_Location) GetPercentage() float32 {
-	if x != nil {
-		return x.Percentage
-	}
-	return 0
-}
-
-// Information about the given PURL
+// Origin country details for geo-provenance analysis
+// Information about the given Package URL (PURL)
 type OriginResponse_Purls struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The purl string
+	// The Package URL string identifying the component
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
-	// The list of countries with contributors
-	Locations     []*OriginResponse_Location `protobuf:"bytes,2,rep,name=locations,proto3" json:"locations,omitempty"`
+	// The list of countries with contributors and their percentages
+	Locations     []*Location `protobuf:"bytes,2,rep,name=locations,proto3" json:"locations,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *OriginResponse_Purls) Reset() {
 	*x = OriginResponse_Purls{}
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[6]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -416,7 +778,7 @@ func (x *OriginResponse_Purls) String() string {
 func (*OriginResponse_Purls) ProtoMessage() {}
 
 func (x *OriginResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[6]
+	mi := &file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -429,7 +791,7 @@ func (x *OriginResponse_Purls) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OriginResponse_Purls.ProtoReflect.Descriptor instead.
 func (*OriginResponse_Purls) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{1, 1}
+	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP(), []int{8, 0}
 }
 
 func (x *OriginResponse_Purls) GetPurl() string {
@@ -439,7 +801,7 @@ func (x *OriginResponse_Purls) GetPurl() string {
 	return ""
 }
 
-func (x *OriginResponse_Purls) GetLocations() []*OriginResponse_Location {
+func (x *OriginResponse_Purls) GetLocations() []*Location {
 	if x != nil {
 		return x.Locations
 	}
@@ -450,35 +812,62 @@ var File_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto protoreflect.F
 
 const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = "" +
 	"\n" +
-	"8scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto\x12\x1cscanoss.api.geoprovenance.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xab\x04\n" +
-	"\x13ContributorResponse\x12M\n" +
-	"\x05purls\x18\x01 \x03(\v27.scanoss.api.geoprovenance.v2.ContributorResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1aB\n" +
+	"8scanoss/api/geoprovenance/v2/scanoss-geoprovenance.proto\x12\x1cscanoss.api.geoprovenance.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"B\n" +
 	"\x10DeclaredLocation\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\x1a\n" +
-	"\blocation\x18\x02 \x01(\tR\blocation\x1aA\n" +
+	"\blocation\x18\x02 \x01(\tR\blocation\"A\n" +
 	"\x0fCuratedLocation\x12\x18\n" +
 	"\acountry\x18\x01 \x01(\tR\acountry\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x05R\x05count\x1a\xfe\x01\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\"\x82\x03\n" +
+	"\x13ContributorResponse\x12M\n" +
+	"\x05purls\x18\x01 \x03(\v27.scanoss.api.geoprovenance.v2.ContributorResponse.PurlsR\x05purls\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xd8\x01\n" +
 	"\x05Purls\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12q\n" +
-	"\x12declared_locations\x18\x02 \x03(\v2B.scanoss.api.geoprovenance.v2.ContributorResponse.DeclaredLocationR\x11declaredLocations\x12n\n" +
-	"\x11curated_locations\x18\x03 \x03(\v2A.scanoss.api.geoprovenance.v2.ContributorResponse.CuratedLocationR\x10curatedLocations\"\xcb\x02\n" +
-	"\x0eOriginResponse\x12H\n" +
-	"\x05purls\x18\x01 \x03(\v22.scanoss.api.geoprovenance.v2.OriginResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a>\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
+	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
+	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations:\x02\x18\x01\"\xe8\x01\n" +
+	"\x15ComponentLocationInfo\x12\x12\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
+	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
+	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations\"\xdd\x04\n" +
+	"\x1dComponentsContributorResponse\x12g\n" +
+	"\x14components_locations\x18\x01 \x03(\v23.scanoss.api.geoprovenance.v2.ComponentLocationInfoR\x14components_locations\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x93\x03\x92A\x8f\x03\n" +
+	"\x8c\x03J\x89\x03{\"components_locations\":[{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"declared_locations\":[{\"type\":\"owner\",\"location\":\"Barcelona, Spain\"},{\"type\":\"contributor\",\"location\":\"Berlin, Germany\"}],\"curated_locations\":[{\"country\":\"Spain\",\"count\":8},{\"country\":\"Germany\",\"count\":3},{\"country\":\"United States\",\"count\":2}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance successfully retrieved\"}}\"\xd6\x04\n" +
+	"\x1cComponentContributorResponse\x12e\n" +
+	"\x13component_locations\x18\x01 \x01(\v23.scanoss.api.geoprovenance.v2.ComponentLocationInfoR\x13component_locations\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x8f\x03\x92A\x8b\x03\n" +
+	"\x88\x03J\x85\x03{\"component_location\":{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"declared_locations\":[{\"type\":\"owner\",\"location\":\"Barcelona, Spain\"},{\"type\":\"contributor\",\"location\":\"Berlin, Germany\"}],\"curated_locations\":[{\"country\":\"Spain\",\"count\":8},{\"country\":\"Germany\",\"count\":3},{\"country\":\"United States\",\"count\":2}]},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance successfully retrieved\"}}\">\n" +
 	"\bLocation\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1e\n" +
 	"\n" +
 	"percentage\x18\x02 \x01(\x02R\n" +
-	"percentage\x1ap\n" +
+	"percentage\"m\n" +
+	"\x11ComponentLocation\x12\x12\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
+	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\"\x80\x02\n" +
+	"\x0eOriginResponse\x12H\n" +
+	"\x05purls\x18\x01 \x03(\v22.scanoss.api.geoprovenance.v2.OriginResponse.PurlsR\x05purls\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1aa\n" +
 	"\x05Purls\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12S\n" +
-	"\tlocations\x18\x02 \x03(\v25.scanoss.api.geoprovenance.v2.OriginResponse.LocationR\tlocations2\xad\x03\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
+	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations:\x02\x18\x01\"\xd5\x03\n" +
+	"\x18ComponentsOriginResponse\x12c\n" +
+	"\x14components_locations\x18\x01 \x03(\v2/.scanoss.api.geoprovenance.v2.ComponentLocationR\x14components_locations\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x94\x02\x92A\x90\x02\n" +
+	"\x8d\x02J\x8a\x02{\"components_locations\":[{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"locations\":[{\"name\":\"ES\",\"percentage\":65.5},{\"name\":\"DE\",\"percentage\":20.3},{\"name\":\"US\",\"percentage\":14.2}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance origin successfully retrieved\"}}\"\xd0\x03\n" +
+	"\x17ComponentOriginResponse\x12a\n" +
+	"\x13component_locations\x18\x01 \x01(\v2/.scanoss.api.geoprovenance.v2.ComponentLocationR\x13component_locations\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x92\x02\x92A\x8e\x02\n" +
+	"\x8b\x02J\x88\x02{\"component_locations\": {\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"locations\":[{\"name\":\"ES\",\"percentage\":65.5},{\"name\":\"DE\",\"percentage\":20.3},{\"name\":\"US\",\"percentage\":14.2}]},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance origin successfully retrieved\"}}2\xff\b\n" +
 	"\rGeoProvenance\x12r\n" +
-	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v2/geoprovenance/echo\x12\x99\x01\n" +
-	"\x18GetComponentContributors\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.geoprovenance.v2.ContributorResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/v2/geoprovenance/countries\x12\x8b\x01\n" +
-	"\x12GetComponentOrigin\x12\".scanoss.api.common.v2.PurlRequest\x1a,.scanoss.api.geoprovenance.v2.OriginResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/v2/geoprovenance/originB\xa4\x02\x92A\xe3\x01\x12}\n" +
+	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v2/geoprovenance/echo\x12\x9c\x01\n" +
+	"\x18GetComponentContributors\x12\".scanoss.api.common.v2.PurlRequest\x1a1.scanoss.api.geoprovenance.v2.ContributorResponse\")\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/v2/geoprovenance/countries\x88\x02\x01\x12\xbe\x01\n" +
+	"\"GetCountryContributorsByComponents\x12(.scanoss.api.common.v2.ComponentsRequest\x1a;.scanoss.api.geoprovenance.v2.ComponentsContributorResponse\"1\x82\xd3\xe4\x93\x02+:\x01*\"&/v2/geoprovenance/countries/components\x12\xb7\x01\n" +
+	"!GetCountryContributorsByComponent\x12'.scanoss.api.common.v2.ComponentRequest\x1a:.scanoss.api.geoprovenance.v2.ComponentContributorResponse\"-\x82\xd3\xe4\x93\x02'\x12%/v2/geoprovenance/countries/component\x12\x8e\x01\n" +
+	"\x12GetComponentOrigin\x12\".scanoss.api.common.v2.PurlRequest\x1a,.scanoss.api.geoprovenance.v2.OriginResponse\"&\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/v2/geoprovenance/origin\x88\x02\x01\x12\xa9\x01\n" +
+	"\x15GetOriginByComponents\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.geoprovenance.v2.ComponentsOriginResponse\".\x82\xd3\xe4\x93\x02(:\x01*\"#/v2/geoprovenance/origin/components\x12\xa2\x01\n" +
+	"\x14GetOriginByComponent\x12'.scanoss.api.common.v2.ComponentRequest\x1a5.scanoss.api.geoprovenance.v2.ComponentOriginResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/v2/geoprovenance/origin/componentB\xa4\x02\x92A\xe3\x01\x12}\n" +
 	"\x1eSCANOSS GEO Provenance Service\"V\n" +
 	"\x15scanoss-geoprovenance\x12(https://github.com/scanoss/geoprovenance\x1a\x13support@scanoss.com2\x032.0*\x01\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
@@ -497,39 +886,66 @@ func file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescGZIP()
 	return file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDescData
 }
 
-var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_goTypes = []any{
-	(*ContributorResponse)(nil),                  // 0: scanoss.api.geoprovenance.v2.ContributorResponse
-	(*OriginResponse)(nil),                       // 1: scanoss.api.geoprovenance.v2.OriginResponse
-	(*ContributorResponse_DeclaredLocation)(nil), // 2: scanoss.api.geoprovenance.v2.ContributorResponse.DeclaredLocation
-	(*ContributorResponse_CuratedLocation)(nil),  // 3: scanoss.api.geoprovenance.v2.ContributorResponse.CuratedLocation
-	(*ContributorResponse_Purls)(nil),            // 4: scanoss.api.geoprovenance.v2.ContributorResponse.Purls
-	(*OriginResponse_Location)(nil),              // 5: scanoss.api.geoprovenance.v2.OriginResponse.Location
-	(*OriginResponse_Purls)(nil),                 // 6: scanoss.api.geoprovenance.v2.OriginResponse.Purls
-	(*commonv2.StatusResponse)(nil),              // 7: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),                 // 8: scanoss.api.common.v2.EchoRequest
-	(*commonv2.PurlRequest)(nil),                 // 9: scanoss.api.common.v2.PurlRequest
-	(*commonv2.EchoResponse)(nil),                // 10: scanoss.api.common.v2.EchoResponse
+	(*DeclaredLocation)(nil),              // 0: scanoss.api.geoprovenance.v2.DeclaredLocation
+	(*CuratedLocation)(nil),               // 1: scanoss.api.geoprovenance.v2.CuratedLocation
+	(*ContributorResponse)(nil),           // 2: scanoss.api.geoprovenance.v2.ContributorResponse
+	(*ComponentLocationInfo)(nil),         // 3: scanoss.api.geoprovenance.v2.ComponentLocationInfo
+	(*ComponentsContributorResponse)(nil), // 4: scanoss.api.geoprovenance.v2.ComponentsContributorResponse
+	(*ComponentContributorResponse)(nil),  // 5: scanoss.api.geoprovenance.v2.ComponentContributorResponse
+	(*Location)(nil),                      // 6: scanoss.api.geoprovenance.v2.Location
+	(*ComponentLocation)(nil),             // 7: scanoss.api.geoprovenance.v2.ComponentLocation
+	(*OriginResponse)(nil),                // 8: scanoss.api.geoprovenance.v2.OriginResponse
+	(*ComponentsOriginResponse)(nil),      // 9: scanoss.api.geoprovenance.v2.ComponentsOriginResponse
+	(*ComponentOriginResponse)(nil),       // 10: scanoss.api.geoprovenance.v2.ComponentOriginResponse
+	(*ContributorResponse_Purls)(nil),     // 11: scanoss.api.geoprovenance.v2.ContributorResponse.Purls
+	(*OriginResponse_Purls)(nil),          // 12: scanoss.api.geoprovenance.v2.OriginResponse.Purls
+	(*commonv2.StatusResponse)(nil),       // 13: scanoss.api.common.v2.StatusResponse
+	(*commonv2.EchoRequest)(nil),          // 14: scanoss.api.common.v2.EchoRequest
+	(*commonv2.PurlRequest)(nil),          // 15: scanoss.api.common.v2.PurlRequest
+	(*commonv2.ComponentsRequest)(nil),    // 16: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.ComponentRequest)(nil),     // 17: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.EchoResponse)(nil),         // 18: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_depIdxs = []int32{
-	4,  // 0: scanoss.api.geoprovenance.v2.ContributorResponse.purls:type_name -> scanoss.api.geoprovenance.v2.ContributorResponse.Purls
-	7,  // 1: scanoss.api.geoprovenance.v2.ContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	6,  // 2: scanoss.api.geoprovenance.v2.OriginResponse.purls:type_name -> scanoss.api.geoprovenance.v2.OriginResponse.Purls
-	7,  // 3: scanoss.api.geoprovenance.v2.OriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	2,  // 4: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.declared_locations:type_name -> scanoss.api.geoprovenance.v2.ContributorResponse.DeclaredLocation
-	3,  // 5: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.curated_locations:type_name -> scanoss.api.geoprovenance.v2.ContributorResponse.CuratedLocation
-	5,  // 6: scanoss.api.geoprovenance.v2.OriginResponse.Purls.locations:type_name -> scanoss.api.geoprovenance.v2.OriginResponse.Location
-	8,  // 7: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	9,  // 8: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:input_type -> scanoss.api.common.v2.PurlRequest
-	9,  // 9: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:input_type -> scanoss.api.common.v2.PurlRequest
-	10, // 10: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	0,  // 11: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:output_type -> scanoss.api.geoprovenance.v2.ContributorResponse
-	1,  // 12: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:output_type -> scanoss.api.geoprovenance.v2.OriginResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	11, // 0: scanoss.api.geoprovenance.v2.ContributorResponse.purls:type_name -> scanoss.api.geoprovenance.v2.ContributorResponse.Purls
+	13, // 1: scanoss.api.geoprovenance.v2.ContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	0,  // 2: scanoss.api.geoprovenance.v2.ComponentLocationInfo.declared_locations:type_name -> scanoss.api.geoprovenance.v2.DeclaredLocation
+	1,  // 3: scanoss.api.geoprovenance.v2.ComponentLocationInfo.curated_locations:type_name -> scanoss.api.geoprovenance.v2.CuratedLocation
+	3,  // 4: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
+	13, // 5: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	3,  // 6: scanoss.api.geoprovenance.v2.ComponentContributorResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
+	13, // 7: scanoss.api.geoprovenance.v2.ComponentContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	6,  // 8: scanoss.api.geoprovenance.v2.ComponentLocation.locations:type_name -> scanoss.api.geoprovenance.v2.Location
+	12, // 9: scanoss.api.geoprovenance.v2.OriginResponse.purls:type_name -> scanoss.api.geoprovenance.v2.OriginResponse.Purls
+	13, // 10: scanoss.api.geoprovenance.v2.OriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 11: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
+	13, // 12: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 13: scanoss.api.geoprovenance.v2.ComponentOriginResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
+	13, // 14: scanoss.api.geoprovenance.v2.ComponentOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	0,  // 15: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.declared_locations:type_name -> scanoss.api.geoprovenance.v2.DeclaredLocation
+	1,  // 16: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.curated_locations:type_name -> scanoss.api.geoprovenance.v2.CuratedLocation
+	6,  // 17: scanoss.api.geoprovenance.v2.OriginResponse.Purls.locations:type_name -> scanoss.api.geoprovenance.v2.Location
+	14, // 18: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	15, // 19: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:input_type -> scanoss.api.common.v2.PurlRequest
+	16, // 20: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
+	17, // 21: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
+	15, // 22: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:input_type -> scanoss.api.common.v2.PurlRequest
+	16, // 23: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
+	17, // 24: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 25: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	2,  // 26: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:output_type -> scanoss.api.geoprovenance.v2.ContributorResponse
+	4,  // 27: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsContributorResponse
+	5,  // 28: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentContributorResponse
+	8,  // 29: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:output_type -> scanoss.api.geoprovenance.v2.OriginResponse
+	9,  // 30: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsOriginResponse
+	10, // 31: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentOriginResponse
+	25, // [25:32] is the sub-list for method output_type
+	18, // [18:25] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_init() }
@@ -543,7 +959,7 @@ func file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc), len(file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

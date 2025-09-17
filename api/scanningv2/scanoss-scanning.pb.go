@@ -492,23 +492,23 @@ var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescrip
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xac\x05\n" +
+	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xb6\x05\n" +
 	"\n" +
 	"HFHRequest\x12@\n" +
-	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +
-	"\x0erank_threshold\x18\x02 \x01(\x05R\rrankThreshold\x12\x1a\n" +
+	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12&\n" +
+	"\x0erank_threshold\x18\x02 \x01(\x05R\x0erank_threshold\x12\x1a\n" +
 	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x1f\n" +
 	"\vquery_limit\x18\x04 \x01(\x05R\n" +
 	"queryLimit\x12/\n" +
 	"\x13recursive_threshold\x18\x05 \x01(\x02R\x12recursiveThreshold\x12,\n" +
-	"\x12min_accepted_score\x18\x06 \x01(\x02R\x10minAcceptedScore\x1a\x98\x03\n" +
-	"\bChildren\x12\x17\n" +
-	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12$\n" +
-	"\x0esim_hash_names\x18\x02 \x01(\tR\fsimHashNames\x12(\n" +
-	"\x10sim_hash_content\x18\x03 \x01(\tR\x0esimHashContent\x12H\n" +
-	"\bchildren\x18\x04 \x03(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\bchildren\x12+\n" +
-	"\x12sim_hash_dir_names\x18\x05 \x01(\tR\x0fsimHashDirNames\x12i\n" +
-	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0elangExtensions\x1aA\n" +
+	"\x12min_accepted_score\x18\x06 \x01(\x02R\x10minAcceptedScore\x1a\xa1\x03\n" +
+	"\bChildren\x12\x18\n" +
+	"\apath_id\x18\x01 \x01(\tR\apath_id\x12&\n" +
+	"\x0esim_hash_names\x18\x02 \x01(\tR\x0esim_hash_names\x12*\n" +
+	"\x10sim_hash_content\x18\x03 \x01(\tR\x10sim_hash_content\x12H\n" +
+	"\bchildren\x18\x04 \x03(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\bchildren\x12.\n" +
+	"\x12sim_hash_dir_names\x18\x05 \x01(\tR\x12sim_hash_dir_names\x12j\n" +
+	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0flang_extensions\x1aA\n" +
 	"\x13LangExtensionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x84\x04\n" +

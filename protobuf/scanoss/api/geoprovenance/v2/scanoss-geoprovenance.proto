@@ -64,83 +64,230 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
  * Expose all of the SCANOSS Geo Provenance RPCs here
  */
 service GeoProvenance {
-  // Standard echo
+  // Standard health check endpoint to verify service availability and connectivity
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
     option (google.api.http) = {
       post: "/v2/geoprovenance/echo"
       body: "*"
     };
   };
-  // Get component-level Geo Provenance based on contributor declared location
+
+  // [DEPRECATED] Get component-level Geo Provenance based on contributor declared location
+  // This method accepts PURL-based requests and is deprecated in favor of GetCountryContributorsByComponent
+  // which accepts ComponentRequest for better component identification
   rpc GetComponentContributors(scanoss.api.common.v2.PurlRequest) returns(ContributorResponse) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/v2/geoprovenance/countries"
       body: "*"
     };
   };
-  // Get component-level Geo Provenance based on contributor origin commit times
+
+  // Get component-level Geo Provenance based on contributor declared location
+  // This is the current method that accepts ComponentsRequest for enhanced component identification
+  // Replaces the deprecated GetComponentContributors method
+  rpc GetCountryContributorsByComponents(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsContributorResponse) {
+    option (google.api.http) = {
+      post: "/v2/geoprovenance/countries/components"
+      body: "*"
+    };
+  };
+
+  // Get component-level Geo Provenance based on contributor declared location
+  // This is the current method that accepts ComponentRequest for enhanced component identification
+  // Replaces the deprecated GetComponentContributors method
+  rpc GetCountryContributorsByComponent(scanoss.api.common.v2.ComponentRequest) returns(ComponentContributorResponse) {
+    option (google.api.http) = {
+      get: "/v2/geoprovenance/countries/component"
+    };
+  };
+
+  // [DEPRECATED] Get component-level Geo Provenance based on contributor origin commit times
+  // This method accepts PURL-based requests and is deprecated in favor of GetOriginByComponent
+  // which accepts ComponentRequest for better component identification
   rpc GetComponentOrigin(scanoss.api.common.v2.PurlRequest) returns(OriginResponse) {
+    option deprecated = true;
     option (google.api.http) = {
       post: "/v2/geoprovenance/origin"
       body: "*"
     };
   };
+
+  // Get component-level Geo Provenance based on contributor origin commit times
+  // This is the current method that accepts ComponentsRequest for enhanced component identification
+  // Replaces the deprecated GetComponentOrigin method
+  rpc GetOriginByComponents(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsOriginResponse) {
+    option (google.api.http) = {
+      post: "/v2/geoprovenance/origin/components"
+      body: "*"
+    };
+  };
+
+  // Get component-level Geo Provenance based on contributor origin commit times
+  // This is the current method that accepts ComponentRequest for enhanced component identification
+  // Replaces the deprecated GetComponentOrigin method
+  rpc GetOriginByComponent(scanoss.api.common.v2.ComponentRequest) returns(ComponentOriginResponse) {
+    option (google.api.http) = {
+      get: "/v2/geoprovenance/origin/component"
+    };
+  };
+}
+
+
+
+// Declared location information for the project
+message DeclaredLocation {
+  // Source type of the declared location (e.g., "owner" or "contributor")
+  string type = 1;
+  // Geographic location declared in the repository (Country/State/City/Province/Place)
+  string location = 2;
+}
+
+// SCANOSS curated provenance information about the project
+message CuratedLocation {
+  // Country name for the owner or contributor
+  string country = 1;
+  // Number of users or contributors from this specific country
+  int32 count = 2;
+}
+
+/**
+ * [DEPRECATED] Component level Provenance Response data (JSON payload)
+ * This message is deprecated. Use ComponentContributorResponse instead for better component handling.
+ * Contains geo-provenance information for components based on contributor declared locations.
+ */
+message ContributorResponse {
+  option deprecated = true;
+  // Information about a given Package URL (PURL)
+  message Purls {
+    // The Package URL string identifying the component
+    string purl = 1;
+    // List of locations declared in the component's repository
+    repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
+    // List of SCANOSS curated locations based on analysis
+    repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
+  }
+  // Geo-provenance details for each requested component
+  repeated Purls purls = 1;
+  // Response status indicating success or failure of the request
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+// Information about a given component
+message ComponentLocationInfo {
+  // The Package URL string identifying the component
+  string purl = 1;
+  // List of locations declared in the component's repository
+  repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
+  // List of SCANOSS curated locations based on analysis
+  repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
 }
 
 /**
  * Component level Provenance Response data (JSON payload)
+ * Contains geo-provenance information for components based on contributor declared locations.
+ * This is the current response format that replaces the deprecated ContributorResponse.
  */
-message ContributorResponse {
-  // Declared location for the project
-  message DeclaredLocation {
-    // Declared location could be either from the owner or a contributor
-    string type = 1;
-    // Country/State/City/Province/Place declared on the repo
-    string location = 2;
-  }
-  // Curated provenance information about the project
-  message CuratedLocation {
-    // Country for the owner or contributor
-    string country = 1;
-    // Occurrences for users or contributors of this specific country
-    int32 count = 2;
-  }
-  // Information about a given purl
+message ComponentsContributorResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components_locations\":[{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"declared_locations\":[{\"type\":\"owner\",\"location\":\"Barcelona, Spain\"},{\"type\":\"contributor\",\"location\":\"Berlin, Germany\"}],\"curated_locations\":[{\"country\":\"Spain\",\"count\":8},{\"country\":\"Germany\",\"count\":3},{\"country\":\"United States\",\"count\":2}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance successfully retrieved\"}}";
+    }
+  };
+  // Geo-provenance details for each requested component
+  repeated ComponentLocationInfo components_locations = 1  [json_name = "components_locations"];
+  // Response status indicating success or failure of the request
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/**
+ * Component level Provenance Response data (JSON payload)
+ * Contains geo-provenance information for components based on contributor declared locations.
+ * This is the current response format that replaces the deprecated ContributorResponse.
+ */
+message ComponentContributorResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component_location\":{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"declared_locations\":[{\"type\":\"owner\",\"location\":\"Barcelona, Spain\"},{\"type\":\"contributor\",\"location\":\"Berlin, Germany\"}],\"curated_locations\":[{\"country\":\"Spain\",\"count\":8},{\"country\":\"Germany\",\"count\":3},{\"country\":\"United States\",\"count\":2}]},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance successfully retrieved\"}}";
+    }
+  };
+  // Geo-provenance details for each requested component
+  ComponentLocationInfo component_locations = 1  [json_name = "component_locations"];
+  // Response status indicating success or failure of the request
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+// Origin country details for geo-provenance analysis
+message Location {
+  // ISO country code (e.g., "US", "GB", "FR")
+  string name = 1;
+  // Percentage of developers from this country
+  float percentage = 2;
+}
+
+// Information about a component and its geographic origins
+message ComponentLocation {
+  // The Package URL string identifying the component
+  string purl = 1;
+  // The list of countries with contributors and their percentages
+  repeated Location locations = 2;
+}
+
+/**
+ * [DEPRECATED] Component level Origin Response data (JSON payload)
+ * This message is deprecated. Use ComponentOriginResponse instead for better component handling.
+ * Contains geo-provenance information based on contributor origin commit times.
+ */
+message OriginResponse {
+  option deprecated = true;
+  // Origin country details for geo-provenance analysis
+  // Information about the given Package URL (PURL)
   message Purls {
-    // The purl string
+    // The Package URL string identifying the component
     string purl = 1;
-    // List of locations declared on user repository
-    repeated DeclaredLocation declared_locations = 2;
-    // List of craft curated location
-    repeated CuratedLocation curated_locations = 3;
+    // The list of countries with contributors and their percentages
+    repeated Location locations = 2;
   }
-  // Provenance details
+  // Geo-provenance details for each requested component
   repeated Purls purls = 1;
-  // Response status
+  // Response status indicating success or failure of the request
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/**
+ * Component level Origin Response data (JSON payload)
+ * Contains geo-provenance information based on contributor origin commit times.
+ * This is the current response format that replaces the deprecated OriginResponse.
+ * Provides enhanced component identification and location data.
+ */
+message ComponentsOriginResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components_locations\":[{\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"locations\":[{\"name\":\"ES\",\"percentage\":65.5},{\"name\":\"DE\",\"percentage\":20.3},{\"name\":\"US\",\"percentage\":14.2}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance origin successfully retrieved\"}}";
+    }
+  };
+  // Geo-provenance details for each requested component
+  repeated ComponentLocation components_locations = 1 [json_name = "components_locations"];
+  // Response status indicating success or failure of the request
   scanoss.api.common.v2.StatusResponse status = 2;
 }
 
 /**
  * Component level Origin Response data (JSON payload)
+ * Contains geo-provenance information based on contributor origin commit times.
+ * This is the current response format that replaces the deprecated OriginResponse.
+ * Provides enhanced component identification and location data.
  */
-message OriginResponse {
-    // Origin country details
-    message Location {  
-        // ISO Country code 
-        string name = 1;
-        // Percentage of developers
-        float percentage = 2; 
-
+message ComponentOriginResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"component_locations\": {\"purl\":\"pkg:github/scanoss/engine@5.0.0\",\"locations\":[{\"name\":\"ES\",\"percentage\":65.5},{\"name\":\"DE\",\"percentage\":20.3},{\"name\":\"US\",\"percentage\":14.2}]},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Geo-provenance origin successfully retrieved\"}}";
     }
-    // Information about the given PURL
-    message Purls {
-        // The purl string
-        string purl = 1;
-        // The list of countries with contributors
-        repeated Location locations = 2;  
-    }
-  // Geo Provenance details
-  repeated Purls purls = 1;
-  // Response status
+  };
+  // Geo-provenance details for each requested component
+  ComponentLocation component_locations = 1 [json_name = "component_locations"];
+  // Response status indicating success or failure of the request
   scanoss.api.common.v2.StatusResponse status = 2;
 }

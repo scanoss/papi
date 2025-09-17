@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.23.0] - 2025-09-22
+### Added
+- Added gRPC `GetCountryContributorsByComponents` and REST endpoint POST `/v2/geoprovenance/countries/components`
+- Added gRPC `GetCountryContributorsByComponent` and REST endpoint GET `/v2/geoprovenance/countries/component`
+- Added gRPC `GetOriginByComponents` and REST endpoint POST `/v2/geoprovenance/origin/components`
+- Added gRPC `GetOriginByComponent` and REST endpoint GET `/v2/geoprovenance/origin/component`
+- Added comprehensive documentation to geo-provenance protobuf service
+- Added geo-provenance API documentation (README.md)
+- Added JSON schema examples to geo-provenance response messages
+- Added new response message types `ComponentsContributorResponse` and `ComponentsOriginResponse` for enhanced component handling
+### Changed
+- Enhanced geo-provenance protobuf definitions with comprehensive service and message documentation
+- Updated OpenAPI schema with realistic JSON response examples for geo-provenance endpoints
+- Enhanced field documentation across all geo-provenance message types
+### Deprecated
+- Deprecated gRPC `GetComponentContributors` method (use `GetCountryContributorsByComponents` instead)
+- Deprecated gRPC `GetComponentOrigin` method (use `GetOriginByComponents` instead)
+- Deprecated `ContributorResponse` and `OriginResponse` message types (use new component-based response types instead)
+
+## [0.22.0] - 2025-09-22
+
 ## [0.21.0] - 2025-09-18
 ### Added
 - Added README.md documentation for Components Service API v2
@@ -156,8 +177,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.23.0]: https://github.com/scanoss/papi/compare/v0.22.0...v0.23.0
+[0.22.0]: https://github.com/scanoss/papi/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/scanoss/papi/compare/v0.20.1...v0.21.0
-[0.21.1]: https://github.com/scanoss/papi/compare/v0.20.0...v0.20.1
+[0.20.1]: https://github.com/scanoss/papi/compare/v0.20.0...v0.20.1
 [0.20.0]: https://github.com/scanoss/papi/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/scanoss/papi/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/scanoss/papi/compare/v0.17.0...v0.18.0

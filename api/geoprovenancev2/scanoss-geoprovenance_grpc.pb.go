@@ -46,9 +46,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GeoProvenance_Echo_FullMethodName                     = "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo"
-	GeoProvenance_GetComponentContributors_FullMethodName = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors"
-	GeoProvenance_GetComponentOrigin_FullMethodName       = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin"
+	GeoProvenance_Echo_FullMethodName                               = "/scanoss.api.geoprovenance.v2.GeoProvenance/Echo"
+	GeoProvenance_GetComponentContributors_FullMethodName           = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentContributors"
+	GeoProvenance_GetCountryContributorsByComponents_FullMethodName = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetCountryContributorsByComponents"
+	GeoProvenance_GetCountryContributorsByComponent_FullMethodName  = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetCountryContributorsByComponent"
+	GeoProvenance_GetComponentOrigin_FullMethodName                 = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetComponentOrigin"
+	GeoProvenance_GetOriginByComponents_FullMethodName              = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetOriginByComponents"
+	GeoProvenance_GetOriginByComponent_FullMethodName               = "/scanoss.api.geoprovenance.v2.GeoProvenance/GetOriginByComponent"
 )
 
 // GeoProvenanceClient is the client API for GeoProvenance service.
@@ -58,12 +62,34 @@ const (
 // *
 // Expose all of the SCANOSS Geo Provenance RPCs here
 type GeoProvenanceClient interface {
-	// Standard echo
+	// Standard health check endpoint to verify service availability and connectivity
 	Echo(ctx context.Context, in *commonv2.EchoRequest, opts ...grpc.CallOption) (*commonv2.EchoResponse, error)
-	// Get component-level Geo Provenance based on contributor declared location
+	// Deprecated: Do not use.
+	// [DEPRECATED] Get component-level Geo Provenance based on contributor declared location
+	// This method accepts PURL-based requests and is deprecated in favor of GetCountryContributorsByComponent
+	// which accepts ComponentRequest for better component identification
 	GetComponentContributors(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*ContributorResponse, error)
-	// Get component-level Geo Provenance based on contributor origin commit times
+	// Get component-level Geo Provenance based on contributor declared location
+	// This is the current method that accepts ComponentsRequest for enhanced component identification
+	// Replaces the deprecated GetComponentContributors method
+	GetCountryContributorsByComponents(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsContributorResponse, error)
+	// Get component-level Geo Provenance based on contributor declared location
+	// This is the current method that accepts ComponentRequest for enhanced component identification
+	// Replaces the deprecated GetComponentContributors method
+	GetCountryContributorsByComponent(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentContributorResponse, error)
+	// Deprecated: Do not use.
+	// [DEPRECATED] Get component-level Geo Provenance based on contributor origin commit times
+	// This method accepts PURL-based requests and is deprecated in favor of GetOriginByComponent
+	// which accepts ComponentRequest for better component identification
 	GetComponentOrigin(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*OriginResponse, error)
+	// Get component-level Geo Provenance based on contributor origin commit times
+	// This is the current method that accepts ComponentsRequest for enhanced component identification
+	// Replaces the deprecated GetComponentOrigin method
+	GetOriginByComponents(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsOriginResponse, error)
+	// Get component-level Geo Provenance based on contributor origin commit times
+	// This is the current method that accepts ComponentRequest for enhanced component identification
+	// Replaces the deprecated GetComponentOrigin method
+	GetOriginByComponent(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentOriginResponse, error)
 }
 
 type geoProvenanceClient struct {
@@ -84,6 +110,7 @@ func (c *geoProvenanceClient) Echo(ctx context.Context, in *commonv2.EchoRequest
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *geoProvenanceClient) GetComponentContributors(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*ContributorResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ContributorResponse)
@@ -94,10 +121,51 @@ func (c *geoProvenanceClient) GetComponentContributors(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *geoProvenanceClient) GetCountryContributorsByComponents(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsContributorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentsContributorResponse)
+	err := c.cc.Invoke(ctx, GeoProvenance_GetCountryContributorsByComponents_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *geoProvenanceClient) GetCountryContributorsByComponent(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentContributorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentContributorResponse)
+	err := c.cc.Invoke(ctx, GeoProvenance_GetCountryContributorsByComponent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Deprecated: Do not use.
 func (c *geoProvenanceClient) GetComponentOrigin(ctx context.Context, in *commonv2.PurlRequest, opts ...grpc.CallOption) (*OriginResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OriginResponse)
 	err := c.cc.Invoke(ctx, GeoProvenance_GetComponentOrigin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *geoProvenanceClient) GetOriginByComponents(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsOriginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentsOriginResponse)
+	err := c.cc.Invoke(ctx, GeoProvenance_GetOriginByComponents_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *geoProvenanceClient) GetOriginByComponent(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentOriginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentOriginResponse)
+	err := c.cc.Invoke(ctx, GeoProvenance_GetOriginByComponent_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,12 +179,34 @@ func (c *geoProvenanceClient) GetComponentOrigin(ctx context.Context, in *common
 // *
 // Expose all of the SCANOSS Geo Provenance RPCs here
 type GeoProvenanceServer interface {
-	// Standard echo
+	// Standard health check endpoint to verify service availability and connectivity
 	Echo(context.Context, *commonv2.EchoRequest) (*commonv2.EchoResponse, error)
-	// Get component-level Geo Provenance based on contributor declared location
+	// Deprecated: Do not use.
+	// [DEPRECATED] Get component-level Geo Provenance based on contributor declared location
+	// This method accepts PURL-based requests and is deprecated in favor of GetCountryContributorsByComponent
+	// which accepts ComponentRequest for better component identification
 	GetComponentContributors(context.Context, *commonv2.PurlRequest) (*ContributorResponse, error)
-	// Get component-level Geo Provenance based on contributor origin commit times
+	// Get component-level Geo Provenance based on contributor declared location
+	// This is the current method that accepts ComponentsRequest for enhanced component identification
+	// Replaces the deprecated GetComponentContributors method
+	GetCountryContributorsByComponents(context.Context, *commonv2.ComponentsRequest) (*ComponentsContributorResponse, error)
+	// Get component-level Geo Provenance based on contributor declared location
+	// This is the current method that accepts ComponentRequest for enhanced component identification
+	// Replaces the deprecated GetComponentContributors method
+	GetCountryContributorsByComponent(context.Context, *commonv2.ComponentRequest) (*ComponentContributorResponse, error)
+	// Deprecated: Do not use.
+	// [DEPRECATED] Get component-level Geo Provenance based on contributor origin commit times
+	// This method accepts PURL-based requests and is deprecated in favor of GetOriginByComponent
+	// which accepts ComponentRequest for better component identification
 	GetComponentOrigin(context.Context, *commonv2.PurlRequest) (*OriginResponse, error)
+	// Get component-level Geo Provenance based on contributor origin commit times
+	// This is the current method that accepts ComponentsRequest for enhanced component identification
+	// Replaces the deprecated GetComponentOrigin method
+	GetOriginByComponents(context.Context, *commonv2.ComponentsRequest) (*ComponentsOriginResponse, error)
+	// Get component-level Geo Provenance based on contributor origin commit times
+	// This is the current method that accepts ComponentRequest for enhanced component identification
+	// Replaces the deprecated GetComponentOrigin method
+	GetOriginByComponent(context.Context, *commonv2.ComponentRequest) (*ComponentOriginResponse, error)
 	mustEmbedUnimplementedGeoProvenanceServer()
 }
 
@@ -133,8 +223,20 @@ func (UnimplementedGeoProvenanceServer) Echo(context.Context, *commonv2.EchoRequ
 func (UnimplementedGeoProvenanceServer) GetComponentContributors(context.Context, *commonv2.PurlRequest) (*ContributorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentContributors not implemented")
 }
+func (UnimplementedGeoProvenanceServer) GetCountryContributorsByComponents(context.Context, *commonv2.ComponentsRequest) (*ComponentsContributorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCountryContributorsByComponents not implemented")
+}
+func (UnimplementedGeoProvenanceServer) GetCountryContributorsByComponent(context.Context, *commonv2.ComponentRequest) (*ComponentContributorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCountryContributorsByComponent not implemented")
+}
 func (UnimplementedGeoProvenanceServer) GetComponentOrigin(context.Context, *commonv2.PurlRequest) (*OriginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentOrigin not implemented")
+}
+func (UnimplementedGeoProvenanceServer) GetOriginByComponents(context.Context, *commonv2.ComponentsRequest) (*ComponentsOriginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOriginByComponents not implemented")
+}
+func (UnimplementedGeoProvenanceServer) GetOriginByComponent(context.Context, *commonv2.ComponentRequest) (*ComponentOriginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOriginByComponent not implemented")
 }
 func (UnimplementedGeoProvenanceServer) mustEmbedUnimplementedGeoProvenanceServer() {}
 func (UnimplementedGeoProvenanceServer) testEmbeddedByValue()                       {}
@@ -193,6 +295,42 @@ func _GeoProvenance_GetComponentContributors_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GeoProvenance_GetCountryContributorsByComponents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeoProvenanceServer).GetCountryContributorsByComponents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GeoProvenance_GetCountryContributorsByComponents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeoProvenanceServer).GetCountryContributorsByComponents(ctx, req.(*commonv2.ComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GeoProvenance_GetCountryContributorsByComponent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeoProvenanceServer).GetCountryContributorsByComponent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GeoProvenance_GetCountryContributorsByComponent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeoProvenanceServer).GetCountryContributorsByComponent(ctx, req.(*commonv2.ComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GeoProvenance_GetComponentOrigin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(commonv2.PurlRequest)
 	if err := dec(in); err != nil {
@@ -207,6 +345,42 @@ func _GeoProvenance_GetComponentOrigin_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GeoProvenanceServer).GetComponentOrigin(ctx, req.(*commonv2.PurlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GeoProvenance_GetOriginByComponents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeoProvenanceServer).GetOriginByComponents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GeoProvenance_GetOriginByComponents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeoProvenanceServer).GetOriginByComponents(ctx, req.(*commonv2.ComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GeoProvenance_GetOriginByComponent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeoProvenanceServer).GetOriginByComponent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GeoProvenance_GetOriginByComponent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeoProvenanceServer).GetOriginByComponent(ctx, req.(*commonv2.ComponentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -227,8 +401,24 @@ var GeoProvenance_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GeoProvenance_GetComponentContributors_Handler,
 		},
 		{
+			MethodName: "GetCountryContributorsByComponents",
+			Handler:    _GeoProvenance_GetCountryContributorsByComponents_Handler,
+		},
+		{
+			MethodName: "GetCountryContributorsByComponent",
+			Handler:    _GeoProvenance_GetCountryContributorsByComponent_Handler,
+		},
+		{
 			MethodName: "GetComponentOrigin",
 			Handler:    _GeoProvenance_GetComponentOrigin_Handler,
+		},
+		{
+			MethodName: "GetOriginByComponents",
+			Handler:    _GeoProvenance_GetOriginByComponents_Handler,
+		},
+		{
+			MethodName: "GetOriginByComponent",
+			Handler:    _GeoProvenance_GetOriginByComponent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

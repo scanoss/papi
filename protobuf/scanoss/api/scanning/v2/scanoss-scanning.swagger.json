@@ -281,12 +281,12 @@
           "format": "int32",
           "title": "Maximum number of results to query"
         },
-        "recursiveThreshold": {
+        "recursive_threshold": {
           "type": "number",
           "format": "float",
           "title": "Minimum score threshold to consider a match"
         },
-        "minAcceptedScore": {
+        "min_accepted_score": {
           "type": "number",
           "format": "float",
           "title": "Minimum score threshold to accept a match"
