@@ -26,7 +26,7 @@
   "paths": {
     "/v2/geoprovenance/countries": {
       "post": {
-        "summary": "Get component-level Geo Provenance based on contributor declared location",
+        "summary": "[DEPRECATED] Get component-level Geo Provenance based on contributor declared location\nThis method accepts PURL-based requests and is deprecated in favor of GetCountryContributorsByComponent\nwhich accepts ComponentRequest for better component identification",
         "operationId": "GeoProvenance_GetComponentContributors",
         "responses": {
           "200": {
@@ -65,9 +65,96 @@
         ]
       }
     },
+    "/v2/geoprovenance/countries/component": {
+      "get": {
+        "summary": "Get component-level Geo Provenance based on contributor declared location\nThis is the current method that accepts ComponentRequest for enhanced component identification\nReplaces the deprecated GetComponentContributors method",
+        "operationId": "GeoProvenance_GetCountryContributorsByComponent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentContributorResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "GeoProvenance"
+        ]
+      }
+    },
+    "/v2/geoprovenance/countries/components": {
+      "post": {
+        "summary": "Get component-level Geo Provenance based on contributor declared location\nThis is the current method that accepts ComponentsRequest for enhanced component identification\nReplaces the deprecated GetComponentContributors method",
+        "operationId": "GeoProvenance_GetCountryContributorsByComponents",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsContributorResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GeoProvenance"
+        ]
+      }
+    },
     "/v2/geoprovenance/echo": {
       "post": {
-        "summary": "Standard echo",
+        "summary": "Standard health check endpoint to verify service availability and connectivity",
         "operationId": "GeoProvenance_Echo",
         "responses": {
           "200": {
@@ -108,7 +195,7 @@
     },
     "/v2/geoprovenance/origin": {
       "post": {
-        "summary": "Get component-level Geo Provenance based on contributor origin commit times",
+        "summary": "[DEPRECATED] Get component-level Geo Provenance based on contributor origin commit times\nThis method accepts PURL-based requests and is deprecated in favor of GetOriginByComponent\nwhich accepts ComponentRequest for better component identification",
         "operationId": "GeoProvenance_GetComponentOrigin",
         "responses": {
           "200": {
@@ -146,37 +233,110 @@
           "GeoProvenance"
         ]
       }
+    },
+    "/v2/geoprovenance/origin/component": {
+      "get": {
+        "summary": "Get component-level Geo Provenance based on contributor origin commit times\nThis is the current method that accepts ComponentRequest for enhanced component identification\nReplaces the deprecated GetComponentOrigin method",
+        "operationId": "GeoProvenance_GetOriginByComponent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentOriginResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "GeoProvenance"
+        ]
+      }
+    },
+    "/v2/geoprovenance/origin/components": {
+      "post": {
+        "summary": "Get component-level Geo Provenance based on contributor origin commit times\nThis is the current method that accepts ComponentsRequest for enhanced component identification\nReplaces the deprecated GetComponentOrigin method",
+        "operationId": "GeoProvenance_GetOriginByComponents",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsOriginResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GeoProvenance"
+        ]
+      }
     }
   },
   "definitions": {
-    "ContributorResponseCuratedLocation": {
+    "geoprovenancev2Location": {
       "type": "object",
       "properties": {
-        "country": {
+        "name": {
           "type": "string",
-          "title": "Country for the owner or contributor"
+          "title": "ISO country code (e.g., \"US\", \"GB\", \"FR\")"
         },
-        "count": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Occurrences for users or contributors of this specific country"
+        "percentage": {
+          "type": "number",
+          "format": "float",
+          "title": "Percentage of developers from this country"
         }
       },
-      "title": "Curated provenance information about the project"
-    },
-    "ContributorResponseDeclaredLocation": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "title": "Declared location could be either from the owner or a contributor"
-        },
-        "location": {
-          "type": "string",
-          "title": "Country/State/City/Province/Place declared on the repo"
-        }
-      },
-      "title": "Declared location for the project"
+      "title": "Origin country details for geo-provenance analysis"
     },
     "protobufAny": {
       "type": "object",
@@ -206,6 +366,277 @@
         }
       }
     },
+    "v2ComponentContributorResponse": {
+      "type": "object",
+      "example": {
+        "component_location": {
+          "purl": "pkg:github/scanoss/engine@5.0.0",
+          "declared_locations": [
+            {
+              "type": "owner",
+              "location": "Barcelona, Spain"
+            },
+            {
+              "type": "contributor",
+              "location": "Berlin, Germany"
+            }
+          ],
+          "curated_locations": [
+            {
+              "country": "Spain",
+              "count": 8
+            },
+            {
+              "country": "Germany",
+              "count": 3
+            },
+            {
+              "country": "United States",
+              "count": 2
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Geo-provenance successfully retrieved"
+        }
+      },
+      "properties": {
+        "component_locations": {
+          "$ref": "#/definitions/v2ComponentLocationInfo",
+          "title": "Geo-provenance details for each requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponent level Provenance Response data (JSON payload)\nContains geo-provenance information for components based on contributor declared locations.\nThis is the current response format that replaces the deprecated ContributorResponse."
+    },
+    "v2ComponentLocation": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The Package URL string identifying the component"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/geoprovenancev2Location"
+          },
+          "title": "The list of countries with contributors and their percentages"
+        }
+      },
+      "title": "Information about a component and its geographic origins"
+    },
+    "v2ComponentLocationInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The Package URL string identifying the component"
+        },
+        "declared_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2DeclaredLocation"
+          },
+          "title": "List of locations declared in the component's repository"
+        },
+        "curated_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2CuratedLocation"
+          },
+          "title": "List of SCANOSS curated locations based on analysis"
+        }
+      },
+      "title": "Information about a given component"
+    },
+    "v2ComponentOriginResponse": {
+      "type": "object",
+      "example": {
+        "component_locations": {
+          "purl": "pkg:github/scanoss/engine@5.0.0",
+          "locations": [
+            {
+              "name": "ES",
+              "percentage": 65.5
+            },
+            {
+              "name": "DE",
+              "percentage": 20.3
+            },
+            {
+              "name": "US",
+              "percentage": 14.2
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Geo-provenance origin successfully retrieved"
+        }
+      },
+      "properties": {
+        "component_locations": {
+          "$ref": "#/definitions/v2ComponentLocation",
+          "title": "Geo-provenance details for each requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponent level Origin Response data (JSON payload)\nContains geo-provenance information based on contributor origin commit times.\nThis is the current response format that replaces the deprecated OriginResponse.\nProvides enhanced component identification and location data."
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentsContributorResponse": {
+      "type": "object",
+      "example": {
+        "components_locations": [
+          {
+            "purl": "pkg:github/scanoss/engine@5.0.0",
+            "declared_locations": [
+              {
+                "type": "owner",
+                "location": "Barcelona, Spain"
+              },
+              {
+                "type": "contributor",
+                "location": "Berlin, Germany"
+              }
+            ],
+            "curated_locations": [
+              {
+                "country": "Spain",
+                "count": 8
+              },
+              {
+                "country": "Germany",
+                "count": 3
+              },
+              {
+                "country": "United States",
+                "count": 2
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Geo-provenance successfully retrieved"
+        }
+      },
+      "properties": {
+        "components_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentLocationInfo"
+          },
+          "title": "Geo-provenance details for each requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponent level Provenance Response data (JSON payload)\nContains geo-provenance information for components based on contributor declared locations.\nThis is the current response format that replaces the deprecated ContributorResponse."
+    },
+    "v2ComponentsOriginResponse": {
+      "type": "object",
+      "example": {
+        "components_locations": [
+          {
+            "purl": "pkg:github/scanoss/engine@5.0.0",
+            "locations": [
+              {
+                "name": "ES",
+                "percentage": 65.5
+              },
+              {
+                "name": "DE",
+                "percentage": 20.3
+              },
+              {
+                "name": "US",
+                "percentage": 14.2
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Geo-provenance origin successfully retrieved"
+        }
+      },
+      "properties": {
+        "components_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentLocation"
+          },
+          "title": "Geo-provenance details for each requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponent level Origin Response data (JSON payload)\nContains geo-provenance information based on contributor origin commit times.\nThis is the current response format that replaces the deprecated OriginResponse.\nProvides enhanced component identification and location data."
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
     "v2ContributorResponse": {
       "type": "object",
       "properties": {
@@ -215,40 +646,69 @@
             "type": "object",
             "$ref": "#/definitions/v2ContributorResponsePurls"
           },
-          "title": "Provenance details"
+          "title": "Geo-provenance details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure of the request"
         }
       },
-      "title": "*\nComponent level Provenance Response data (JSON payload)"
+      "description": "*\n[DEPRECATED] Component level Provenance Response data (JSON payload)\nThis message is deprecated. Use ComponentContributorResponse instead for better component handling.\nContains geo-provenance information for components based on contributor declared locations."
     },
     "v2ContributorResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
           "type": "string",
-          "title": "The purl string"
+          "title": "The Package URL string identifying the component"
         },
         "declared_locations": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ContributorResponseDeclaredLocation"
+            "$ref": "#/definitions/v2DeclaredLocation"
           },
-          "title": "List of locations declared on user repository"
+          "title": "List of locations declared in the component's repository"
         },
         "curated_locations": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ContributorResponseCuratedLocation"
+            "$ref": "#/definitions/v2CuratedLocation"
           },
-          "title": "List of craft curated location"
+          "title": "List of SCANOSS curated locations based on analysis"
         }
       },
-      "title": "Information about a given purl"
+      "title": "Information about a given Package URL (PURL)"
+    },
+    "v2CuratedLocation": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "title": "Country name for the owner or contributor"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Number of users or contributors from this specific country"
+        }
+      },
+      "title": "SCANOSS curated provenance information about the project"
+    },
+    "v2DeclaredLocation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "Source type of the declared location (e.g., \"owner\" or \"contributor\")"
+        },
+        "location": {
+          "type": "string",
+          "title": "Geographic location declared in the repository (Country/State/City/Province/Place)"
+        }
+      },
+      "title": "Declared location information for the project"
     },
     "v2EchoRequest": {
       "type": "object",
@@ -277,47 +737,32 @@
             "type": "object",
             "$ref": "#/definitions/v2OriginResponsePurls"
           },
-          "title": "Geo Provenance details"
+          "title": "Geo-provenance details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure of the request"
         }
       },
-      "title": "*\nComponent level Origin Response data (JSON payload)"
-    },
-    "v2OriginResponseLocation": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "ISO Country code"
-        },
-        "percentage": {
-          "type": "number",
-          "format": "float",
-          "title": "Percentage of developers"
-        }
-      },
-      "title": "Origin country details"
+      "description": "*\n[DEPRECATED] Component level Origin Response data (JSON payload)\nThis message is deprecated. Use ComponentOriginResponse instead for better component handling.\nContains geo-provenance information based on contributor origin commit times."
     },
     "v2OriginResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
           "type": "string",
-          "title": "The purl string"
+          "title": "The Package URL string identifying the component"
         },
         "locations": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2OriginResponseLocation"
+            "$ref": "#/definitions/geoprovenancev2Location"
           },
-          "title": "The list of countries with contributors"
+          "title": "The list of countries with contributors and their percentages"
         }
       },
-      "title": "Information about the given PURL"
+      "title": "Origin country details for geo-provenance analysis\nInformation about the given Package URL (PURL)"
     },
     "v2PurlRequest": {
       "type": "object",
