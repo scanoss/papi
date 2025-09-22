@@ -112,7 +112,10 @@ message HFHRequest {
     int32 query_limit = 4;
 
     // Minimum score threshold to consider a match
-    float min_cutoff_threshold = 5;
+    float recursive_threshold = 5;
+
+    // Minimum score threshold to accept a match
+    float min_accepted_score = 6;
 }
 
 /*
