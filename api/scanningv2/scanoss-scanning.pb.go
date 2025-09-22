@@ -63,9 +63,11 @@ type HFHRequest struct {
 	// Maximum number of results to query
 	QueryLimit int32 `protobuf:"varint,4,opt,name=query_limit,json=queryLimit,proto3" json:"query_limit,omitempty"`
 	// Minimum score threshold to consider a match
-	MinCutoffThreshold float32 `protobuf:"fixed32,5,opt,name=min_cutoff_threshold,json=minCutoffThreshold,proto3" json:"min_cutoff_threshold,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	RecursiveThreshold float32 `protobuf:"fixed32,5,opt,name=recursive_threshold,json=recursiveThreshold,proto3" json:"recursive_threshold,omitempty"`
+	// Minimum score threshold to accept a match
+	MinAcceptedScore float32 `protobuf:"fixed32,6,opt,name=min_accepted_score,json=minAcceptedScore,proto3" json:"min_accepted_score,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *HFHRequest) Reset() {
@@ -126,9 +128,16 @@ func (x *HFHRequest) GetQueryLimit() int32 {
 	return 0
 }
 
-func (x *HFHRequest) GetMinCutoffThreshold() float32 {
+func (x *HFHRequest) GetRecursiveThreshold() float32 {
 	if x != nil {
-		return x.MinCutoffThreshold
+		return x.RecursiveThreshold
+	}
+	return 0
+}
+
+func (x *HFHRequest) GetMinAcceptedScore() float32 {
+	if x != nil {
+		return x.MinAcceptedScore
 	}
 	return 0
 }
@@ -483,15 +492,16 @@ var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescrip
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xff\x04\n" +
+	".scanoss/api/scanning/v2/scanoss-scanning.proto\x12\x17scanoss.api.scanning.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xac\x05\n" +
 	"\n" +
 	"HFHRequest\x12@\n" +
 	"\x04root\x18\x01 \x01(\v2,.scanoss.api.scanning.v2.HFHRequest.ChildrenR\x04root\x12%\n" +
 	"\x0erank_threshold\x18\x02 \x01(\x05R\rrankThreshold\x12\x1a\n" +
 	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x1f\n" +
 	"\vquery_limit\x18\x04 \x01(\x05R\n" +
-	"queryLimit\x120\n" +
-	"\x14min_cutoff_threshold\x18\x05 \x01(\x02R\x12minCutoffThreshold\x1a\x98\x03\n" +
+	"queryLimit\x12/\n" +
+	"\x13recursive_threshold\x18\x05 \x01(\x02R\x12recursiveThreshold\x12,\n" +
+	"\x12min_accepted_score\x18\x06 \x01(\x02R\x10minAcceptedScore\x1a\x98\x03\n" +
 	"\bChildren\x12\x17\n" +
 	"\apath_id\x18\x01 \x01(\tR\x06pathId\x12$\n" +
 	"\x0esim_hash_names\x18\x02 \x01(\tR\fsimHashNames\x12(\n" +

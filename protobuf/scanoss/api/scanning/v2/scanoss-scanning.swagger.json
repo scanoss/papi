@@ -281,10 +281,15 @@
           "format": "int32",
           "title": "Maximum number of results to query"
         },
-        "minCutoffThreshold": {
+        "recursiveThreshold": {
           "type": "number",
           "format": "float",
           "title": "Minimum score threshold to consider a match"
+        },
+        "minAcceptedScore": {
+          "type": "number",
+          "format": "float",
+          "title": "Minimum score threshold to accept a match"
         }
       },
       "title": "High precision Folder Hashing scan request"
