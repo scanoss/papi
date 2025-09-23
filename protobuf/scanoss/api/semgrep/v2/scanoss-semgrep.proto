@@ -66,10 +66,10 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service Semgrep {
   // Standard echo
   rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
-    option (google.api.http) = {
+/*    option (google.api.http) = {
       post: "/v2/semgrep/echo"
       body: "*"
-    };
+    };*/
   };
   // Get Potential issues  associated with a list of PURLs
   rpc GetIssues(scanoss.api.common.v2.PurlRequest) returns(SemgrepResponse) {
