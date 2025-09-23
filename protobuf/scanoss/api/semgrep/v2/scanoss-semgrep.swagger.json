@@ -26,7 +26,7 @@
   "paths": {
     "/v2/semgrep/echo": {
       "post": {
-        "summary": "Standard echo",
+        "summary": "Standard health check endpoint to verify service availability and connectivity",
         "operationId": "Semgrep_Echo",
         "responses": {
           "200": {
@@ -65,15 +65,61 @@
         ]
       }
     },
-    "/v2/semgrep/issues": {
-      "post": {
-        "summary": "Get Potential issues  associated with a list of PURLs",
-        "operationId": "Semgrep_GetIssues",
+    "/v2/semgrep/issues/component": {
+      "get": {
+        "summary": "Get potential security issues associated with a single component\nThis is the current method that accepts ComponentRequest for enhanced component identification\nReplaces the deprecated GetIssues method for single component queries",
+        "operationId": "Semgrep_GetComponentIssues",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v2SemgrepResponse"
+              "$ref": "#/definitions/v2ComponentIssueResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Semgrep"
+        ]
+      }
+    },
+    "/v2/semgrep/issues/components": {
+      "post": {
+        "summary": "Get potential security issues associated with multiple components\nThis is the current method that accepts ComponentsRequest for enhanced component identification\nReplaces the deprecated GetIssues method",
+        "operationId": "Semgrep_GetComponentsIssues",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsIssueResponse"
             }
           },
           "404": {
@@ -93,11 +139,11 @@
         "parameters": [
           {
             "name": "body",
-            "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead.",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v2PurlRequest"
+              "$ref": "#/definitions/v2ComponentsRequest"
             }
           }
         ],
@@ -108,41 +154,6 @@
     }
   },
   "definitions": {
-    "SemgrepResponseFile": {
-      "type": "object",
-      "properties": {
-        "fileMD5": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        },
-        "issues": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/SemgrepResponseIssue"
-          }
-        }
-      }
-    },
-    "SemgrepResponseIssue": {
-      "type": "object",
-      "properties": {
-        "ruleID": {
-          "type": "string"
-        },
-        "from": {
-          "type": "string"
-        },
-        "to": {
-          "type": "string"
-        },
-        "severity": {
-          "type": "string"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -171,6 +182,181 @@
         }
       }
     },
+    "v2ComponentIssueInfo": {
+      "type": "object",
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "The Package URL string identifying the component"
+        },
+        "version": {
+          "type": "string",
+          "title": "Version of the component being analyzed"
+        },
+        "requirement": {
+          "type": "string",
+          "title": "Version requirement specification (e.g., \"\u003e=1.0.0\", \"~2.1.0\")"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2File"
+          },
+          "title": "List of files containing security issues in this component"
+        }
+      },
+      "title": "Information about a component and its security issues"
+    },
+    "v2ComponentIssueResponse": {
+      "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:maven/org.apache.commons/commons-lang3",
+          "version": "3.12.0",
+          "requirement": "3.12.0",
+          "files": [
+            {
+              "fileMD5": "a1b2c3d4e5f6",
+              "path": "src/main/java/org/apache/commons/lang3/StringUtils.java",
+              "issues": [
+                {
+                  "ruleID": "java.lang.security.audit.sql-injection.sql-injection",
+                  "from": "284",
+                  "to": "286",
+                  "severity": "ERROR"
+                }
+              ]
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Security analysis completed successfully"
+        }
+      },
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/v2ComponentIssueInfo",
+          "title": "Security analysis details for the requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponent issue response data (JSON payload)\nContains security issues detected by Semgrep analysis for a single component.\nThis is the current response format that replaces the deprecated SemgrepResponse."
+    },
+    "v2ComponentRequest": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:github/scanoss/engine@1.0.0"
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "description": "Package URL identifying the component to analyze."
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Version constraint for component resolution when PURL lacks explicit version."
+        }
+      },
+      "description": "Represents a software component to be analyzed by SCANOSS API services.\nCombines a Package URL for component identification with optional version constraints for resolution.",
+      "required": [
+        "purl"
+      ]
+    },
+    "v2ComponentsIssueResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:maven/org.apache.commons/commons-lang3",
+            "version": "3.12.0",
+            "requirement": "3.12.0",
+            "files": [
+              {
+                "fileMD5": "a1b2c3d4e5f6",
+                "path": "src/main/java/org/apache/commons/lang3/StringUtils.java",
+                "issues": [
+                  {
+                    "ruleID": "java.lang.security.audit.crypto.weak-hash",
+                    "from": "156",
+                    "to": "159",
+                    "severity": "WARNING"
+                  },
+                  {
+                    "ruleID": "java.lang.security.audit.sql-injection.sql-injection",
+                    "from": "284",
+                    "to": "286",
+                    "severity": "ERROR"
+                  }
+                ]
+              },
+              {
+                "fileMD5": "b2c3d4e5f6a1",
+                "path": "src/main/java/org/apache/commons/lang3/Validate.java",
+                "issues": [
+                  {
+                    "ruleID": "java.lang.security.audit.hardcoded-secret",
+                    "from": "95",
+                    "to": "95",
+                    "severity": "ERROR"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Security analysis completed successfully"
+        }
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentIssueInfo"
+          },
+          "title": "Security analysis details for each requested component"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status indicating success or failure of the request"
+        }
+      },
+      "description": "*\nComponents issue response data (JSON payload)\nContains security issues detected by Semgrep analysis for multiple components.\nThis is the current response format that replaces the deprecated SemgrepResponse."
+    },
+    "v2ComponentsRequest": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine@1.0.0"
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py@v1.30.0"
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentRequest"
+          },
+          "title": "Array of component requests to analyze"
+        }
+      },
+      "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+      "required": [
+        "components"
+      ]
+    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -189,19 +375,49 @@
       },
       "description": "Echo Message Response."
     },
-    "v2PurlRequest": {
+    "v2File": {
       "type": "object",
       "properties": {
-        "purls": {
+        "fileMD5": {
+          "type": "string",
+          "title": "MD5 hash of the file content for integrity verification"
+        },
+        "path": {
+          "type": "string",
+          "title": "Relative path of the file within the component"
+        },
+        "issues": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v2PurlRequestPurls"
+            "$ref": "#/definitions/v2Issue"
           },
-          "title": "JSON request purls"
+          "title": "List of security issues found in this file"
         }
       },
-      "description": "Purl request data (JSON payload)\nWARNING: PurlRequest is deprecated, use ComponentsRequest instead."
+      "title": "File containing security issues detected by Semgrep"
+    },
+    "v2Issue": {
+      "type": "object",
+      "properties": {
+        "ruleID": {
+          "type": "string",
+          "title": "Unique identifier for the Semgrep rule that detected this issue"
+        },
+        "from": {
+          "type": "string",
+          "title": "Starting line number where the issue was detected"
+        },
+        "to": {
+          "type": "string",
+          "title": "Ending line number where the issue was detected"
+        },
+        "severity": {
+          "type": "string",
+          "title": "Severity level of the security issue (e.g., \"ERROR\", \"WARNING\", \"INFO\")"
+        }
+      },
+      "title": "Security issue information detected by Semgrep analysis"
     },
     "v2PurlRequestPurls": {
       "type": "object",
@@ -225,32 +441,36 @@
             "type": "object",
             "$ref": "#/definitions/v2SemgrepResponsePurls"
           },
-          "title": "Cryptography details"
+          "title": "Security analysis details for each requested component"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",
-          "title": "Response status"
+          "title": "Response status indicating success or failure of the request"
         }
       },
-      "title": "Semgrep issue response data (JSON payload)"
+      "description": "*\n[DEPRECATED] Semgrep issue response data (JSON payload)\nThis message is deprecated. Use ComponentsSemgrepResponse instead for better component handling.\nContains security issues detected by Semgrep analysis for components."
     },
     "v2SemgrepResponsePurls": {
       "type": "object",
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "The Package URL string identifying the component"
         },
         "version": {
-          "type": "string"
+          "type": "string",
+          "title": "Version of the component being analyzed"
         },
         "files": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/SemgrepResponseFile"
-          }
+            "$ref": "#/definitions/v2File"
+          },
+          "title": "List of files containing security issues"
         }
-      }
+      },
+      "title": "Information about a given Package URL (PURL)"
     },
     "v2StatusCode": {
       "type": "string",

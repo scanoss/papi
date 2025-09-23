@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.24.0] - 2025-09-24
+### Added
+- Added gRPC `GetComponentsIssues` and REST endpoint POST `/v2/semgrep/issues/components` for Semgrep security analysis
+- Added gRPC `GetComponentIssues` and REST endpoint GET `/v2/semgrep/issues/component` for single component Semgrep analysis
+- Added new response message types `ComponentsIssueResponse` and `ComponentIssueResponse` for enhanced component handling
+- Added `ComponentIssueInfo` message with component-specific security analysis information
+- Added `requirement` field to Semgrep component information for version requirement specifications
+- Added JSON schema examples to Semgrep response messages for improved API documentation
+
+### Changed
+- Enhanced Semgrep protobuf definitions with comprehensive service and message documentation
+- Refactored Semgrep protobuf structure by extracting `Issue` and `File` messages as top-level messages
+- Updated OpenAPI schema with realistic JSON response examples for Semgrep endpoints
+
+### Deprecated
+- Deprecated gRPC `GetIssues` method (use `GetComponentsIssues` instead)
+- Deprecated `SemgrepResponse` message type (use `ComponentsIssueResponse` or `ComponentIssueResponse` instead)
+
 ## [0.23.0] - 2025-09-22
 ### Added
 - Added gRPC `GetCountryContributorsByComponents` and REST endpoint POST `/v2/geoprovenance/countries/components`
@@ -177,6 +195,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.24.0]: https://github.com/scanoss/papi/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/scanoss/papi/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/scanoss/papi/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/scanoss/papi/compare/v0.20.1...v0.21.0
