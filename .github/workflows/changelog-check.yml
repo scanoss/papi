@@ -1,0 +1,54 @@
+name: Changelog Check with Claude
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  changelog-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history to compare changes
+
+      - name: Check if changelog.md was modified
+        id: changelog-check
+        run: |
+          # Get list of changed files in the PR
+          git diff --name-only origin/main...HEAD > changed_files.txt
+          
+          if grep -q "changelog.md\|CHANGELOG.md\|Changelog.md" changed_files.txt; then
+            echo "changelog_updated=true" >> $GITHUB_OUTPUT
+            echo "Changelog was updated ✅"
+          else
+            echo "changelog_updated=false" >> $GITHUB_OUTPUT
+            echo "Changelog was NOT updated ❌"
+          fi
+
+      - name: Claude Code Changelog Review
+        if: steps.changelog-check.outputs.changelog_updated == 'false'
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            This pull request to main branch does not include updates to the changelog.md file.
+
+            Please:
+            1. Review the changes in this PR
+            2. Check if these changes should be documented in the changelog
+            3. If they should be documented, create a comment explaining what should be added to the changelog
+            4. If no changelog update is needed (e.g., for minor fixes, documentation updates, or internal changes), explain why
+
+            Focus on user-facing changes, new features, bug fixes, breaking changes, and deprecations that users should know about.
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: |
+            --model claude-4-0-sonnet-20250805
+            --max-turns 3
