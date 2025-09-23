@@ -73,7 +73,7 @@ service Semgrep {
   };
   // Get Potential issues  associated with a list of PURLs
   rpc GetIssues(scanoss.api.common.v2.PurlRequest) returns(SemgrepResponse) {
-    option (google.api.http) = {
+     option (google.api.http) = {
       post: "/v2/semgrep/issues"
       body: "*"
     };
