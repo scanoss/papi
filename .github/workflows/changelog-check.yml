@@ -49,6 +49,3 @@ jobs:
 
             Focus on user-facing changes, new features, bug fixes, breaking changes, and deprecations that users should know about.
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_args: |
-            --model claude-4-0-sonnet-20250805
-            --max-turns 3
