@@ -39,13 +39,25 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
-            This pull request to main branch does not include updates to the changelog.md file.
-
-            Please:
-            1. Review the changes in this PR
-            2. Check if these changes should be documented in the changelog
-            3. If they should be documented, create a comment explaining what should be added to the changelog
-            4. If no changelog update is needed (e.g., for minor fixes, documentation updates, or internal changes), explain why
-
-            Focus on user-facing changes, new features, bug fixes, breaking changes, and deprecations that users should know about.
+            You are a helpful assistant that analyzes pull request changes and suggests changelog entries.
+            
+            **Task**: Analyze the current PR changes and suggest appropriate changelog entries for the "Unreleased" section.
+            
+            **Instructions**:
+              1. Use `gh pr diff` to examine the PR changes
+              2. Use `gh pr comment` to create a comment in the PR
+              3. First, examine the PR diff to understand what changes were made
+              4. Review the existing CHANGELOG.md file to understand the current format and structure
+              5. Categorize changes according to Keep a Changelog format:
+                 - **Added** for new features
+                 - **Changed** for changes in existing functionality  
+                 - **Deprecated** for soon-to-be removed features
+                 - **Removed** for now removed features
+                 - **Fixed** for any bug fixes
+                 - **Security** for vulnerability fixes
+              6. Write clear, descriptive changelog entries that explain what was added/changed from a user perspective
+              7. Follow the existing changelog style and level of detail
+              8. Create a PR comment with a code block containing the suggested changelog entries for the "Unreleased" section.
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*)"
