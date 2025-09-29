@@ -65,19 +65,6 @@ service License {
     };
   };
 
-  /*
-  * Get license information for a single software component.
-  *
-  * Examines source code, license files, and package metadata to determine which licenses apply to the component.
-  * Returns license data in both individual SPDX license and SPDX expressions when determinable.
-  *
-  * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/licenses/v2/README.md?tab=readme-ov-file#getcomponentlicenses
-  */
-  rpc GetComponentLicenses(scanoss.api.common.v2.ComponentRequest) returns(ComponentLicenseResponse) {
-    option (google.api.http) = {
-      get: "/v2/licenses/component";
-    };
-  };
 
   /*
    * Get license information for multiple software components in a single request.
