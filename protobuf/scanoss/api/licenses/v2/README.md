@@ -80,10 +80,10 @@ This allows consumers to understand all licensing obligations present in the com
 Occurs when the component's source code headers or documentation explicitly indicate a choice between licenses.
 
 **Logback Analysis:**
-Logback's source code headers explicitly state the component is 
-"dual-licensed under either the terms of the Eclipse Public License v1.0... or... under the terms of the GNU Lesser General Public License version 2.1". 
+Logback's [LICENSE file](https://github.com/qos-ch/logback/blob/6beda7b9d4bf2cbab4129da11efa6a635304a478/logback-classic/LICENSE.txt#L7-L14) explicitly states the component is
+_"dual-licensed under either the terms of the Eclipse Public License v1.0... or... under the terms of the GNU Lesser General Public License version 2.1"_.
 
-This clear language allows the method to generate the SPDX expression `EPL-1.0 OR LGPL-2.1-only`, 
+This clear language allows the method to generate the SPDX expression `EPL-1.0 OR LGPL-2.1-only`,
 indicating users can choose either license for compliance. 
 
 Individual license objects are also provided for detailed analysis.
@@ -111,7 +111,8 @@ Individual license objects are also provided for detailed analysis.
 Occurs when the component requires compliance with multiple licenses simultaneously.
 
 **OpenSSL Analysis:**
-OpenSSL documentation states that "both the conditions of the OpenSSL License and the original SSLeay license apply to the toolkit". 
+OpenSSL [LICENSE file](https://github.com/openssl/openssl/blob/d82e959e621a3d597f1e0d50ff8c2d8b96915fd7/LICENSE#L5-L7) states that 
+_"both the conditions of the OpenSSL License and the original SSLeay license apply to the toolkit"_.
 
 This indicates users must comply with both licenses, generating the SPDX expression `OpenSSL AND SSLeay`. 
 
