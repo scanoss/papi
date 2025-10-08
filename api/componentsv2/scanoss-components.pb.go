@@ -893,16 +893,14 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v2/components/echo\x12\x8e\x01\n" +
 	"\x10SearchComponents\x12,.scanoss.api.components.v2.CompSearchRequest\x1a-.scanoss.api.components.v2.CompSearchResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/v2/components/search\x12\x96\x01\n" +
 	"\x14GetComponentVersions\x12-.scanoss.api.components.v2.CompVersionRequest\x1a..scanoss.api.components.v2.CompVersionResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/v2/components/versions\x12\xa0\x01\n" +
-	"\x16GetComponentStatistics\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.components.v2.ComponentsStatisticResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v2/components/statisticsB\x9a\x03\x92A\xdf\x02\x12\x9d\x01\n" +
+	"\x16GetComponentStatistics\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.components.v2.ComponentsStatisticResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v2/components/statisticsB\x8b\x03\x92A\xd0\x02\x12\x9d\x01\n" +
 	"\x1aSCANOSS Components Service\x12(Provides component intelligence services\"P\n" +
 	"\x12scanoss-components\x12%https://github.com/scanoss/components\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x02\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
 	"*Returned when the resource does not exist.\x12\x06\n" +
 	"\x04\x9a\x02\x01\aZ8\n" +
 	"6\n" +
-	"\aapi_key\x12+\b\x02\x12\x1aAPI key for authentication\x1a\tx-api-key \x02b\r\n" +
-	"\v\n" +
-	"\aapi_key\x12\x00Z5github.com/scanoss/papi/api/componentsv2;componentsv2b\x06proto3"
+	"\aapi_key\x12+\b\x02\x12\x1aAPI key for authentication\x1a\tx-api-key \x02Z5github.com/scanoss/papi/api/componentsv2;componentsv2b\x06proto3"
 
 var (
 	file_scanoss_api_components_v2_scanoss_components_proto_rawDescOnce sync.Once

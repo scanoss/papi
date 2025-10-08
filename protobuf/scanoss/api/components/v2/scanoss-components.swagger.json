@@ -617,10 +617,5 @@
       "name": "x-api-key",
       "in": "header"
     }
-  },
-  "security": [
-    {
-      "api_key": []
-    }
-  ]
+  }
 }

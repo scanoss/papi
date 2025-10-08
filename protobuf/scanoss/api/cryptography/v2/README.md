@@ -26,12 +26,15 @@ grpcurl -H "x-api-key: $SC_API_KEY" \
   scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithms
 ```
 
-### Response Example
+### Response Examples
+
+#### Successful Response
 ```json
 {
   "component": {
     "purl": "pkg:github/scanoss/engine",
     "version": "5.0.0",
+    "requirement": ">=5.0.0",
     "algorithms": [
       {
         "algorithm": "AES",
@@ -49,6 +52,58 @@ grpcurl -H "x-api-key: $SC_API_KEY" \
   }
 }
 ```
+
+#### Error Response - Component Not Found
+```json
+{
+  "component": {
+    "purl": "pkg:github/unknown/component",
+    "version": "",
+    "requirement": ">=1.0.0",
+    "algorithms": [],
+    "error_message": "Component not found in database",
+    "error_code": "COMPONENT_NOT_FOUND"
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Request processed"
+  }
+}
+```
+
+#### Error Response - Invalid PURL
+```json
+{
+  "component": {
+    "purl": "invalid-purl-format",
+    "version": "",
+    "requirement": ">=1.0.0",
+    "algorithms": [],
+    "error_message": "Invalid PURL format provided",
+    "error_code": "INVALID_PURL"
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Request processed"
+  }
+}
+```
+
+### Error Handling
+
+Component responses include optional error fields when issues occur during processing:
+
+- `error_message`: Human-readable description of the error
+- `error_code`: Machine-readable error code for programmatic handling
+
+#### Error Codes
+
+- `INVALID_PURL`: The provided PURL format is invalid
+- `COMPONENT_NOT_FOUND`: The component was not found in the database
+- `NO_INFO`: No cryptographic information available for the component
+- `INVALID_SEMVER`: The provided semantic version or requirement is invalid
+
+**Note**: When a component-level error occurs, the overall response status remains "SUCCESS" since the request was processed. Individual component errors are indicated within the component block itself.
 
 ## GetComponentsAlgorithms
 
@@ -81,6 +136,77 @@ grpcurl -H "x-api-key: $SC_API_KEY" \
   }' \
   api.scanoss.com:443 \
   scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithms
+```
+
+### Response Examples
+
+#### Successful Response with Multiple Components
+```json
+{
+  "components": [
+    {
+      "purl": "pkg:github/scanoss/engine",
+      "requirement": ">=5.0.0",
+      "version": "5.0.0",
+      "algorithms": [
+        {
+          "algorithm": "AES",
+          "strength": "Strong"
+        },
+        {
+          "algorithm": "RSA",
+          "strength": "Strong"
+        }
+      ]
+    },
+    {
+      "purl": "pkg:github/scanoss/scanoss.py",
+      "requirement": "~1.30.0",
+      "version": "v1.30.0",
+      "algorithms": [
+        {
+          "algorithm": "SHA-256",
+          "strength": "Strong"
+        }
+      ]
+    }
+  ],
+  "status": {
+    "status": "SUCCESS",
+    "message": "Algorithms Successfully retrieved"
+  }
+}
+```
+
+#### Mixed Response with Error
+```json
+{
+  "components": [
+    {
+      "purl": "pkg:github/scanoss/engine",
+      "requirement": ">=5.0.0",
+      "version": "5.0.0",
+      "algorithms": [
+        {
+          "algorithm": "AES",
+          "strength": "Strong"
+        }
+      ]
+    },
+    {
+      "purl": "pkg:github/unknown/component",
+      "requirement": ">=1.0.0",
+      "version": "",
+      "algorithms": [],
+      "error_message": "Component not found in database",
+      "error_code": "COMPONENT_NOT_FOUND"
+    }
+  ],
+  "status": {
+    "status": "SUCCESS",
+    "message": "Batch request processed"
+  }
+}
 ```
 
 ## GetComponentAlgorithmsInRange
@@ -157,7 +283,9 @@ Each algorithm object contains:
   "component": {
     "purl": "pkg:github/example/simple-utility",
     "versions": [],
-    "algorithms": []
+    "algorithms": [],
+    "error_message": "Component not found: 'pkg:github/example/simple-utility'",
+    "error_code": "COMPONENT_NOT_FOUND"
   },
   "status": {
     "status": "SUCCESS",
@@ -358,7 +486,10 @@ Hints are classified into the following categories:
   "component": {
     "purl": "pkg:github/example/simple-utility",
     "version": "1.0.0",
-    "hints": []
+    "hints": [],
+    "error_message": "No info found for: pkg:github/example/simple-utility",
+    "error_code": "NO_INFO"
+    
   },
   "status": {
     "status": "SUCCESS",

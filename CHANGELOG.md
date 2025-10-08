@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Upcoming changes...
 
+## [0.25.0] - 2025-10-13
+### Added
+- Added `error_message` and `error_code` fields to all cryptography component response messages for enhanced error handling
+- Added `ErrorCode` enum with standardized error codes: `INVALID_PURL`, `COMPONENT_NOT_FOUND`, `NO_INFO`, `INVALID_SEMVER`
+- Added error handling documentation section to cryptography API README.md
+- Added error response examples to cryptography API documentation demonstrating error field usage
+
+### Changed
+- Enhanced cryptography API documentation with comprehensive error handling examples and field descriptions
+- Updated JSON schema examples in `ComponentsAlgorithmsResponse` and `ComponentAlgorithmsResponse` to demonstrate error scenarios
+- Updated cryptography README.md with error codes reference table and usage notes
+
 ## [0.24.0] - 2025-09-24
 ### Added
 - Added gRPC `GetComponentsIssues` and REST endpoint POST `/v2/semgrep/issues/components` for Semgrep security analysis
@@ -195,6 +207,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.25.0]: https://github.com/scanoss/papi/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/scanoss/papi/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/scanoss/papi/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/scanoss/papi/compare/v0.21.0...v0.22.0
