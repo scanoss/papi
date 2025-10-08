@@ -593,6 +593,12 @@
             "$ref": "#/definitions/v2Algorithm"
           },
           "title": "List of cryptographic algorithms detected in this component version"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Algorithm information for a specific component."
@@ -636,6 +642,12 @@
             "$ref": "#/definitions/v2Algorithm"
           },
           "title": "Algorithms list detected in that range"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information for a given PURL"
@@ -662,6 +674,12 @@
             "$ref": "#/definitions/v2Algorithm"
           },
           "title": "List of cryptographic algorithms detected in this component version"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Cryptographic algorithm information for a specific component identified by PURL and version.\n\nContains comprehensive algorithm details including detected algorithms and their\nstrength classifications for software components."
@@ -724,6 +742,12 @@
             "$ref": "#/definitions/v2Algorithm"
           },
           "title": "List of cryptographic algorithms detected across the version range"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Algorithm information for a specific component across version ranges."
@@ -761,7 +785,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Response message for GetComponentAlgorithms method.\n\nContains cryptographic algorithm information for a single software component including\nalgorithm names, strength classifications, and analysis metadata."
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\u003e=1.0.0\\\",\\\"version\\\":\\\"\\\",\\\"algorithms\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}"
     },
     "v2ComponentEncryptionHintsResponse": {
       "type": "object",
@@ -820,12 +844,42 @@
             "$ref": "#/definitions/v2Hint"
           },
           "title": "List of cryptographic hints detected in this component version"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Cryptographic hint information for a specific component identified by PURL and version.\n\nContains comprehensive cryptographic hints about protocols, libraries, SDKs and frameworks\nused by the component, providing insights into cryptographic dependencies and usage patterns."
     },
     "v2ComponentHintsInRangeResponse": {
       "type": "object",
+      "example": {
+        "component": {
+          "purl": "pkg:github/scanoss/engine",
+          "versions": [
+            "5.0.0",
+            "5.1.0",
+            "5.2.0"
+          ],
+          "hints": [
+            {
+              "id": "openssl-hint-001",
+              "name": "OpenSSL",
+              "description": "Industry standard cryptographic library",
+              "category": "library",
+              "url": "https://www.openssl.org/",
+              "purl": "pkg:generic/openssl@3.0.0"
+            }
+          ]
+        },
+        "status": {
+          "status": "SUCCESS",
+          "message": "Cryptographic hints in range retrieved"
+        }
+      },
       "properties": {
         "component": {
           "$ref": "#/definitions/v2ComponentHintsInRangeResponseComponent",
@@ -836,6 +890,7 @@
           "title": "Response status"
         }
       },
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"versions\\\":[],\\\"hints\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}",
       "title": "*\nHints of Encryption protocols, libraries, SDKs and frameworks for a purls in range"
     },
     "v2ComponentHintsInRangeResponseComponent": {
@@ -859,6 +914,12 @@
             "$ref": "#/definitions/v2Hint"
           },
           "title": "Encryption hints"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information about the requested purl"
@@ -935,6 +996,12 @@
             "type": "string"
           },
           "title": "List of versions in the specified range that do not contain cryptographic algorithms"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Version information for a specific component categorized by cryptographic presence."
@@ -1011,6 +1078,12 @@
             "$ref": "#/definitions/v2Algorithm"
           },
           "title": "List of cryptographic algorithms detected across the version range"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Algorithm information for a specific component across version ranges."
@@ -1035,20 +1108,17 @@
             ]
           },
           {
-            "purl": "pkg:github/scanoss/scanoss.py",
-            "requirement": "~1.30.0",
-            "version": "v1.30.0",
-            "algorithms": [
-              {
-                "algorithm": "SHA-256",
-                "strength": "Strong"
-              }
-            ]
+            "purl": "pkg:github/unknown/component",
+            "requirement": "\u003e=1.0.0",
+            "version": "",
+            "algorithms": [],
+            "error_message": "Component not found in database",
+            "error_code": "COMPONENT_NOT_FOUND"
           }
         ],
         "status": {
           "status": "SUCCESS",
-          "message": "Algorithms Successfully retrieved"
+          "message": "Batch request processed"
         }
       },
       "properties": {
@@ -1125,6 +1195,38 @@
     },
     "v2ComponentsHintsInRangeResponse": {
       "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:github/scanoss/engine",
+            "versions": [
+              "5.0.0",
+              "5.1.0"
+            ],
+            "hints": [
+              {
+                "id": "openssl-hint-001",
+                "name": "OpenSSL",
+                "description": "Industry standard cryptographic library",
+                "category": "library",
+                "url": "https://www.openssl.org/",
+                "purl": "pkg:generic/openssl@3.0.0"
+              }
+            ]
+          },
+          {
+            "purl": "pkg:github/scanoss/scanoss.py",
+            "versions": [],
+            "hints": [],
+            "error_message": "Component not found in database",
+            "error_code": "COMPONENT_NOT_FOUND"
+          }
+        ],
+        "status": {
+          "status": "SUCCESS",
+          "message": "Cryptographic hints in range retrieved"
+        }
+      },
       "properties": {
         "components": {
           "type": "array",
@@ -1162,6 +1264,12 @@
             "$ref": "#/definitions/v2Hint"
           },
           "title": "Encryption hints"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information about the requested purl"
@@ -1258,6 +1366,12 @@
             "type": "string"
           },
           "title": "List of versions in the specified range that do not contain cryptographic algorithms"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "description": "Version information for a specific component categorized by cryptographic presence."
@@ -1279,6 +1393,18 @@
         }
       },
       "description": "Echo Message Response."
+    },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER"
+      ],
+      "default": "INVALID_PURL",
+      "description": "- COMPONENT_NOT_FOUND: Required: first value must be 0",
+      "title": "Define the enum"
     },
     "v2Hint": {
       "type": "object",
@@ -1349,6 +1475,12 @@
             "$ref": "#/definitions/v2Hint"
           },
           "title": "Encryption hints"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information about the requested purl"
@@ -1389,6 +1521,12 @@
             "$ref": "#/definitions/v2Hint"
           },
           "title": "Algorithms list detected for that version"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information for a given purl"
@@ -1470,6 +1608,12 @@
             "type": "string"
           },
           "title": "List of versions that do not contain cryptography"
+        },
+        "error_message": {
+          "type": "string"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       },
       "title": "Information for a given PURL"
