@@ -106,6 +106,64 @@ func (StatusCode) EnumDescriptor() ([]byte, []int) {
 	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{0}
 }
 
+// Error code enum for component analysis operations.
+// Represents the various error conditions that can occur during component processing and validation.
+type ErrorCode int32
+
+const (
+	// The provided Package URL (PURL) is invalid or malformed
+	ErrorCode_INVALID_PURL ErrorCode = 0
+	// The requested component could not be found in the database
+	ErrorCode_COMPONENT_NOT_FOUND ErrorCode = 1
+	// No information is available for the requested component
+	ErrorCode_NO_INFO ErrorCode = 2
+	// The provided semantic version (SemVer) is invalid or malformed
+	ErrorCode_INVALID_SEMVER ErrorCode = 3
+)
+
+// Enum value maps for ErrorCode.
+var (
+	ErrorCode_name = map[int32]string{
+		0: "INVALID_PURL",
+		1: "COMPONENT_NOT_FOUND",
+		2: "NO_INFO",
+		3: "INVALID_SEMVER",
+	}
+	ErrorCode_value = map[string]int32{
+		"INVALID_PURL":        0,
+		"COMPONENT_NOT_FOUND": 1,
+		"NO_INFO":             2,
+		"INVALID_SEMVER":      3,
+	}
+)
+
+func (x ErrorCode) Enum() *ErrorCode {
+	p := new(ErrorCode)
+	*p = x
+	return p
+}
+
+func (x ErrorCode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
+	return file_scanoss_api_common_v2_scanoss_common_proto_enumTypes[1].Descriptor()
+}
+
+func (ErrorCode) Type() protoreflect.EnumType {
+	return &file_scanoss_api_common_v2_scanoss_common_proto_enumTypes[1]
+}
+
+func (x ErrorCode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ErrorCode.Descriptor instead.
+func (ErrorCode) EnumDescriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{1}
+}
+
 // Detailed response details.
 type StatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -548,7 +606,12 @@ const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\x17SUCCEEDED_WITH_WARNINGS\x10\x02\x12\v\n" +
 	"\aWARNING\x10\x03\x12\n" +
 	"\n" +
-	"\x06FAILED\x10\x04B/Z-github.com/scanoss/papi/api/commonv2;commonv2b\x06proto3"
+	"\x06FAILED\x10\x04*W\n" +
+	"\tErrorCode\x12\x10\n" +
+	"\fINVALID_PURL\x10\x00\x12\x17\n" +
+	"\x13COMPONENT_NOT_FOUND\x10\x01\x12\v\n" +
+	"\aNO_INFO\x10\x02\x12\x12\n" +
+	"\x0eINVALID_SEMVER\x10\x03B/Z-github.com/scanoss/papi/api/commonv2;commonv2b\x06proto3"
 
 var (
 	file_scanoss_api_common_v2_scanoss_common_proto_rawDescOnce sync.Once
@@ -562,23 +625,24 @@ func file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP() []byte {
 	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescData
 }
 
-var file_scanoss_api_common_v2_scanoss_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_scanoss_api_common_v2_scanoss_common_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_scanoss_api_common_v2_scanoss_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_scanoss_api_common_v2_scanoss_common_proto_goTypes = []any{
 	(StatusCode)(0),           // 0: scanoss.api.common.v2.StatusCode
-	(*StatusResponse)(nil),    // 1: scanoss.api.common.v2.StatusResponse
-	(*EchoRequest)(nil),       // 2: scanoss.api.common.v2.EchoRequest
-	(*EchoResponse)(nil),      // 3: scanoss.api.common.v2.EchoResponse
-	(*ComponentRequest)(nil),  // 4: scanoss.api.common.v2.ComponentRequest
-	(*ComponentsRequest)(nil), // 5: scanoss.api.common.v2.ComponentsRequest
-	(*PurlRequest)(nil),       // 6: scanoss.api.common.v2.PurlRequest
-	(*Purl)(nil),              // 7: scanoss.api.common.v2.Purl
-	(*PurlRequest_Purls)(nil), // 8: scanoss.api.common.v2.PurlRequest.Purls
+	(ErrorCode)(0),            // 1: scanoss.api.common.v2.ErrorCode
+	(*StatusResponse)(nil),    // 2: scanoss.api.common.v2.StatusResponse
+	(*EchoRequest)(nil),       // 3: scanoss.api.common.v2.EchoRequest
+	(*EchoResponse)(nil),      // 4: scanoss.api.common.v2.EchoResponse
+	(*ComponentRequest)(nil),  // 5: scanoss.api.common.v2.ComponentRequest
+	(*ComponentsRequest)(nil), // 6: scanoss.api.common.v2.ComponentsRequest
+	(*PurlRequest)(nil),       // 7: scanoss.api.common.v2.PurlRequest
+	(*Purl)(nil),              // 8: scanoss.api.common.v2.Purl
+	(*PurlRequest_Purls)(nil), // 9: scanoss.api.common.v2.PurlRequest.Purls
 }
 var file_scanoss_api_common_v2_scanoss_common_proto_depIdxs = []int32{
 	0, // 0: scanoss.api.common.v2.StatusResponse.status:type_name -> scanoss.api.common.v2.StatusCode
-	4, // 1: scanoss.api.common.v2.ComponentsRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
-	8, // 2: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
+	5, // 1: scanoss.api.common.v2.ComponentsRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
+	9, // 2: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -596,7 +660,7 @@ func file_scanoss_api_common_v2_scanoss_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc), len(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,

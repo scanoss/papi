@@ -54,59 +54,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Define the enum
-type ErrorCode int32
-
-const (
-	ErrorCode_INVALID_PURL        ErrorCode = 0
-	ErrorCode_COMPONENT_NOT_FOUND ErrorCode = 1 // Required: first value must be 0
-	ErrorCode_NO_INFO             ErrorCode = 2
-	ErrorCode_INVALID_SEMVER      ErrorCode = 3
-)
-
-// Enum value maps for ErrorCode.
-var (
-	ErrorCode_name = map[int32]string{
-		0: "INVALID_PURL",
-		1: "COMPONENT_NOT_FOUND",
-		2: "NO_INFO",
-		3: "INVALID_SEMVER",
-	}
-	ErrorCode_value = map[string]int32{
-		"INVALID_PURL":        0,
-		"COMPONENT_NOT_FOUND": 1,
-		"NO_INFO":             2,
-		"INVALID_SEMVER":      3,
-	}
-)
-
-func (x ErrorCode) Enum() *ErrorCode {
-	p := new(ErrorCode)
-	*p = x
-	return p
-}
-
-func (x ErrorCode) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (ErrorCode) Descriptor() protoreflect.EnumDescriptor {
-	return file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_enumTypes[0].Descriptor()
-}
-
-func (ErrorCode) Type() protoreflect.EnumType {
-	return &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_enumTypes[0]
-}
-
-func (x ErrorCode) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ErrorCode.Descriptor instead.
-func (ErrorCode) EnumDescriptor() ([]byte, []int) {
-	return file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescGZIP(), []int{0}
-}
-
 // Cryptographic algorithm information.
 //
 // Contains details about cryptographic algorithms detected in software components
@@ -238,9 +185,9 @@ type ComponentAlgorithms struct {
 	// Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
 	Requirement string `protobuf:"bytes,3,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// List of cryptographic algorithms detected in this component version
-	Algorithms    []*Algorithm `protobuf:"bytes,4,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
-	ErrorMessage  *string      `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode   `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Algorithms    []*Algorithm        `protobuf:"bytes,4,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -310,11 +257,11 @@ func (x *ComponentAlgorithms) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentAlgorithms) GetErrorCode() ErrorCode {
+func (x *ComponentAlgorithms) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Response message for GetComponentsAlgorithms method.
@@ -885,9 +832,9 @@ type ComponentHints struct {
 	// Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
 	Requirement string `protobuf:"bytes,3,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// List of cryptographic hints detected in this component version
-	Hints         []*Hint    `protobuf:"bytes,4,rep,name=hints,proto3" json:"hints,omitempty"`
-	ErrorMessage  *string    `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Hints         []*Hint             `protobuf:"bytes,4,rep,name=hints,proto3" json:"hints,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -957,11 +904,11 @@ func (x *ComponentHints) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentHints) GetErrorCode() ErrorCode {
+func (x *ComponentHints) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Encryption Hints response data
@@ -1311,9 +1258,9 @@ type AlgorithmResponse_Purls struct {
 	// Specific version of the component that was analyzed
 	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	// List of cryptographic algorithms detected in this component version
-	Algorithms    []*Algorithm `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
-	ErrorMessage  *string      `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode   `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Algorithms    []*Algorithm        `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1376,11 +1323,11 @@ func (x *AlgorithmResponse_Purls) GetErrorMessage() string {
 	return ""
 }
 
-func (x *AlgorithmResponse_Purls) GetErrorCode() ErrorCode {
+func (x *AlgorithmResponse_Purls) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information for a given PURL
@@ -1391,9 +1338,9 @@ type AlgorithmsInRangeResponse_Purl struct {
 	// List of versions in that range that contains cryptography
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// Algorithms list detected in that range
-	Algorithms    []*Algorithm `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
-	ErrorMessage  *string      `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode   `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Algorithms    []*Algorithm        `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1456,11 +1403,11 @@ func (x *AlgorithmsInRangeResponse_Purl) GetErrorMessage() string {
 	return ""
 }
 
-func (x *AlgorithmsInRangeResponse_Purl) GetErrorCode() ErrorCode {
+func (x *AlgorithmsInRangeResponse_Purl) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Algorithm information for a specific component across version ranges.
@@ -1471,9 +1418,9 @@ type ComponentsAlgorithmsInRangeResponse_Component struct {
 	// List of versions in the specified range that contain cryptographic algorithms
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// List of cryptographic algorithms detected across the version range
-	Algorithms    []*Algorithm `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
-	ErrorMessage  *string      `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode   `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Algorithms    []*Algorithm        `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1536,11 +1483,11 @@ func (x *ComponentsAlgorithmsInRangeResponse_Component) GetErrorMessage() string
 	return ""
 }
 
-func (x *ComponentsAlgorithmsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentsAlgorithmsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Algorithm information for a specific component across version ranges.
@@ -1551,9 +1498,9 @@ type ComponentAlgorithmsInRangeResponse_Component struct {
 	// List of versions in the specified range that contain cryptographic algorithms
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// List of cryptographic algorithms detected across the version range
-	Algorithms    []*Algorithm `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
-	ErrorMessage  *string      `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode   `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Algorithms    []*Algorithm        `protobuf:"bytes,3,rep,name=algorithms,proto3" json:"algorithms,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1616,11 +1563,11 @@ func (x *ComponentAlgorithmsInRangeResponse_Component) GetErrorMessage() string 
 	return ""
 }
 
-func (x *ComponentAlgorithmsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentAlgorithmsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information for a given PURL
@@ -1631,9 +1578,9 @@ type VersionsInRangeResponse_Purl struct {
 	// List of versions that contains cryptography
 	VersionsWith []string `protobuf:"bytes,2,rep,name=versions_with,proto3" json:"versions_with,omitempty"`
 	// List of versions that do not contain cryptography
-	VersionsWithout []string   `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
-	ErrorMessage    *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode       *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	VersionsWithout []string            `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
+	ErrorMessage    *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode       *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1696,11 +1643,11 @@ func (x *VersionsInRangeResponse_Purl) GetErrorMessage() string {
 	return ""
 }
 
-func (x *VersionsInRangeResponse_Purl) GetErrorCode() ErrorCode {
+func (x *VersionsInRangeResponse_Purl) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Version information for a specific component categorized by cryptographic presence.
@@ -1711,9 +1658,9 @@ type ComponentsVersionsInRangeResponse_Component struct {
 	// List of versions in the specified range that contain cryptographic algorithms
 	VersionsWith []string `protobuf:"bytes,2,rep,name=versions_with,proto3" json:"versions_with,omitempty"`
 	// List of versions in the specified range that do not contain cryptographic algorithms
-	VersionsWithout []string   `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
-	ErrorMessage    *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode       *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	VersionsWithout []string            `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
+	ErrorMessage    *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode       *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1776,11 +1723,11 @@ func (x *ComponentsVersionsInRangeResponse_Component) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentsVersionsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentsVersionsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Version information for a specific component categorized by cryptographic presence.
@@ -1791,9 +1738,9 @@ type ComponentVersionsInRangeResponse_Component struct {
 	// List of versions in the specified range that contain cryptographic algorithms
 	VersionsWith []string `protobuf:"bytes,2,rep,name=versions_with,proto3" json:"versions_with,omitempty"`
 	// List of versions in the specified range that do not contain cryptographic algorithms
-	VersionsWithout []string   `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
-	ErrorMessage    *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode       *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	VersionsWithout []string            `protobuf:"bytes,3,rep,name=versions_without,proto3" json:"versions_without,omitempty"`
+	ErrorMessage    *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode       *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1856,11 +1803,11 @@ func (x *ComponentVersionsInRangeResponse_Component) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentVersionsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentVersionsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information for a given purl
@@ -1871,9 +1818,9 @@ type HintsResponse_Purls struct {
 	// PURL version
 	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	// Algorithms list detected for that version
-	Hints         []*Hint    `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
-	ErrorMessage  *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Hints         []*Hint             `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1936,11 +1883,11 @@ func (x *HintsResponse_Purls) GetErrorMessage() string {
 	return ""
 }
 
-func (x *HintsResponse_Purls) GetErrorCode() ErrorCode {
+func (x *HintsResponse_Purls) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information about the requested purl
@@ -1951,9 +1898,9 @@ type HintsInRangeResponse_Purl struct {
 	// List of versions in range
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// Encryption hints
-	Hints         []*Hint    `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
-	ErrorMessage  *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Hints         []*Hint             `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2016,11 +1963,11 @@ func (x *HintsInRangeResponse_Purl) GetErrorMessage() string {
 	return ""
 }
 
-func (x *HintsInRangeResponse_Purl) GetErrorCode() ErrorCode {
+func (x *HintsInRangeResponse_Purl) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information about the requested purl
@@ -2031,9 +1978,9 @@ type ComponentsHintsInRangeResponse_Component struct {
 	// List of versions in range
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// Encryption hints
-	Hints         []*Hint    `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
-	ErrorMessage  *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Hints         []*Hint             `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2096,11 +2043,11 @@ func (x *ComponentsHintsInRangeResponse_Component) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentsHintsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentsHintsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 // Information about the requested purl
@@ -2111,9 +2058,9 @@ type ComponentHintsInRangeResponse_Component struct {
 	// List of versions in range
 	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	// Encryption hints
-	Hints         []*Hint    `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
-	ErrorMessage  *string    `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.cryptography.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	Hints         []*Hint             `protobuf:"bytes,3,rep,name=hints,proto3" json:"hints,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2176,11 +2123,11 @@ func (x *ComponentHintsInRangeResponse_Component) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentHintsInRangeResponse_Component) GetErrorCode() ErrorCode {
+func (x *ComponentHintsInRangeResponse_Component) GetErrorCode() commonv2.ErrorCode {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return ErrorCode_INVALID_PURL
+	return commonv2.ErrorCode(0)
 }
 
 var File_scanoss_api_cryptography_v2_scanoss_cryptography_proto protoreflect.FileDescriptor
@@ -2190,22 +2137,22 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"6scanoss/api/cryptography/v2/scanoss-cryptography.proto\x12\x1bscanoss.api.cryptography.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"E\n" +
 	"\tAlgorithm\x12\x1c\n" +
 	"\talgorithm\x18\x01 \x01(\tR\talgorithm\x12\x1a\n" +
-	"\bstrength\x18\x02 \x01(\tR\bstrength\"\xbb\x03\n" +
+	"\bstrength\x18\x02 \x01(\tR\bstrength\"\xb5\x03\n" +
 	"\x11AlgorithmResponse\x12J\n" +
 	"\x05purls\x18\x01 \x03(\v24.scanoss.api.cryptography.v2.AlgorithmResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x96\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x90\x02\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12F\n" +
 	"\n" +
 	"algorithms\x18\x03 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
 	"algorithms\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\x02\x18\x01\"\xc6\x02\n" +
+	"\v_error_code:\x02\x18\x01\"\xc0\x02\n" +
 	"\x13ComponentAlgorithms\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
@@ -2213,9 +2160,9 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\n" +
 	"algorithms\x18\x04 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
 	"algorithms\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code\"\x8d\x05\n" +
@@ -2228,95 +2175,95 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\x1bComponentAlgorithmsResponse\x12N\n" +
 	"\tcomponent\x18\x01 \x01(\v20.scanoss.api.cryptography.v2.ComponentAlgorithmsR\tcomponent\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xaa\x05\x92A\xa6\x05\n" +
-	"\xa3\x052\x83\x03Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\">=1.0.0\\\",\\\"version\\\":\\\"\\\",\\\"algorithms\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}J\x9a\x02{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms Successfully retrieved\"}}\"\xcb\x03\n" +
+	"\xa3\x052\x83\x03Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\">=1.0.0\\\",\\\"version\\\":\\\"\\\",\\\"algorithms\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}J\x9a\x02{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms Successfully retrieved\"}}\"\xc5\x03\n" +
 	"\x19AlgorithmsInRangeResponse\x12Q\n" +
 	"\x05purls\x18\x01 \x03(\v2;.scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.PurlR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x97\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x91\x02\n" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x12F\n" +
 	"\n" +
 	"algorithms\x18\x03 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
 	"algorithms\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\x02\x18\x01\"\xec\x06\n" +
+	"\v_error_code:\x02\x18\x01\"\xe6\x06\n" +
 	"#ComponentsAlgorithmsInRangeResponse\x12j\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2J.scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.ComponentR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x9c\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x96\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x12F\n" +
 	"\n" +
 	"algorithms\x18\x03 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
 	"algorithms\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xfa\x02\x92A\xf6\x02\n" +
-	"\xf3\x02J\xf0\x02{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [\"v1.30.0\"], \"algorithms\": [{\"algorithm\": \"SHA-256\", \"strength\": \"Strong\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}\"\x97\x06\n" +
+	"\xf3\x02J\xf0\x02{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [\"v1.30.0\"], \"algorithms\": [{\"algorithm\": \"SHA-256\", \"strength\": \"Strong\"}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}\"\x91\x06\n" +
 	"\"ComponentAlgorithmsInRangeResponse\x12g\n" +
 	"\tcomponent\x18\x01 \x01(\v2I.scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.ComponentR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x9c\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x96\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x12F\n" +
 	"\n" +
 	"algorithms\x18\x03 \x03(\v2&.scanoss.api.cryptography.v2.AlgorithmR\n" +
 	"algorithms\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xa9\x02\x92A\xa5\x02\n" +
-	"\xa2\x02J\x9f\x02{\"component\": {\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\", \"3.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}\"\xb5\x03\n" +
+	"\xa2\x02J\x9f\x02{\"component\": {\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"1.0.0\", \"2.0.0\", \"3.0.0\"], \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms in range Successfully retrieved\"}}\"\xaf\x03\n" +
 	"\x17VersionsInRangeResponse\x12O\n" +
 	"\x05purls\x18\x01 \x03(\v29.scanoss.api.cryptography.v2.VersionsInRangeResponse.PurlR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x85\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xff\x01\n" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12$\n" +
 	"\rversions_with\x18\x02 \x03(\tR\rversions_with\x12*\n" +
 	"\x10versions_without\x18\x03 \x03(\tR\x10versions_without\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\x02\x18\x01\"\x9f\x06\n" +
+	"\v_error_code:\x02\x18\x01\"\x99\x06\n" +
 	"!ComponentsVersionsInRangeResponse\x12h\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2H.scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.ComponentR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x8a\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x84\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12$\n" +
 	"\rversions_with\x18\x02 \x03(\tR\rversions_with\x12*\n" +
 	"\x10versions_without\x18\x03 \x03(\tR\x10versions_without\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xc3\x02\x92A\xbf\x02\n" +
-	"\xbc\x02J\xb9\x02{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions_with\": [\"2.0.0\", \"3.0.0\"], \"versions_without\": [\"1.0.0\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions_with\": [\"v1.30.0\"], \"versions_without\": [\"v1.29.0\"]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Version ranges Successfully retrieved\"}}\"\xc1\x05\n" +
+	"\xbc\x02J\xb9\x02{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions_with\": [\"2.0.0\", \"3.0.0\"], \"versions_without\": [\"1.0.0\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions_with\": [\"v1.30.0\"], \"versions_without\": [\"v1.29.0\"]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Version ranges Successfully retrieved\"}}\"\xbb\x05\n" +
 	" ComponentVersionsInRangeResponse\x12e\n" +
 	"\tcomponent\x18\x01 \x01(\v2G.scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.ComponentR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x8a\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x84\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12$\n" +
 	"\rversions_with\x18\x02 \x03(\tR\rversions_with\x12*\n" +
 	"\x10versions_without\x18\x03 \x03(\tR\x10versions_without\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xe9\x01\x92A\xe5\x01\n" +
@@ -2327,70 +2274,70 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
 	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x10\n" +
 	"\x03url\x18\x05 \x01(\tR\x03url\x12\x12\n" +
-	"\x04purl\x18\x06 \x01(\tR\x04purl\"\xb2\x02\n" +
+	"\x04purl\x18\x06 \x01(\tR\x04purl\"\xac\x02\n" +
 	"\x0eComponentHints\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x127\n" +
 	"\x05hints\x18\x04 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\xa0\x03\n" +
+	"\v_error_code\"\x9a\x03\n" +
 	"\rHintsResponse\x12F\n" +
 	"\x05purls\x18\x01 \x03(\v20.scanoss.api.cryptography.v2.HintsResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x87\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x81\x02\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x127\n" +
 	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\xae\x03\n" +
+	"\v_error_code\"\xa8\x03\n" +
 	"\x14HintsInRangeResponse\x12L\n" +
 	"\x05purls\x18\x01 \x03(\v26.scanoss.api.cryptography.v2.HintsInRangeResponse.PurlR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x88\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x82\x02\n" +
 	"\x04Purl\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x127\n" +
 	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\x83\b\n" +
+	"\v_error_code\"\xfd\a\n" +
 	"\x1eComponentsHintsInRangeResponse\x12e\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2E.scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.ComponentR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x8d\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x87\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x127\n" +
 	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xaa\x04\x92A\xa6\x04\n" +
-	"\xa3\x04J\xa0\x04{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"5.0.0\", \"5.1.0\"], \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [], \"hints\": [], \"error_message\": \"Component not found in database\", \"error_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints in range retrieved\"}}\"\xc9\t\n" +
+	"\xa3\x04J\xa0\x04{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"5.0.0\", \"5.1.0\"], \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [], \"hints\": [], \"error_message\": \"Component not found in database\", \"error_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints in range retrieved\"}}\"\xc3\t\n" +
 	"\x1dComponentHintsInRangeResponse\x12b\n" +
 	"\tcomponent\x18\x01 \x01(\v2D.scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.ComponentR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x8d\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x87\x02\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x1a\n" +
 	"\bversions\x18\x02 \x03(\tR\bversions\x127\n" +
 	"\x05hints\x18\x03 \x03(\v2!.scanoss.api.cryptography.v2.HintR\x05hints\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12K\n" +
+	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2&.scanoss.api.cryptography.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xf4\x05\x92A\xf0\x05\n" +
@@ -2404,12 +2351,7 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	" ComponentEncryptionHintsResponse\x12I\n" +
 	"\tcomponent\x18\x01 \x01(\v2+.scanoss.api.cryptography.v2.ComponentHintsR\tcomponent\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x98\x03\x92A\x94\x03\n" +
-	"\x91\x03J\x8e\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}*W\n" +
-	"\tErrorCode\x12\x10\n" +
-	"\fINVALID_PURL\x10\x00\x12\x17\n" +
-	"\x13COMPONENT_NOT_FOUND\x10\x01\x12\v\n" +
-	"\aNO_INFO\x10\x02\x12\x12\n" +
-	"\x0eINVALID_SEMVER\x10\x032\x86\x14\n" +
+	"\x91\x03J\x8e\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}2\x86\x14\n" +
 	"\fCryptography\x12q\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/cryptography/echo\x12h\n" +
 	"\rGetAlgorithms\x12\".scanoss.api.common.v2.PurlRequest\x1a..scanoss.api.cryptography.v2.AlgorithmResponse\"\x03\x88\x02\x01\x12\xaa\x01\n" +
@@ -2445,41 +2387,40 @@ func file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescGZIP() [
 	return file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescData
 }
 
-var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_goTypes = []any{
-	(ErrorCode)(0),                                        // 0: scanoss.api.cryptography.v2.ErrorCode
-	(*Algorithm)(nil),                                     // 1: scanoss.api.cryptography.v2.Algorithm
-	(*AlgorithmResponse)(nil),                             // 2: scanoss.api.cryptography.v2.AlgorithmResponse
-	(*ComponentAlgorithms)(nil),                           // 3: scanoss.api.cryptography.v2.ComponentAlgorithms
-	(*ComponentsAlgorithmsResponse)(nil),                  // 4: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
-	(*ComponentAlgorithmsResponse)(nil),                   // 5: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
-	(*AlgorithmsInRangeResponse)(nil),                     // 6: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
-	(*ComponentsAlgorithmsInRangeResponse)(nil),           // 7: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
-	(*ComponentAlgorithmsInRangeResponse)(nil),            // 8: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
-	(*VersionsInRangeResponse)(nil),                       // 9: scanoss.api.cryptography.v2.VersionsInRangeResponse
-	(*ComponentsVersionsInRangeResponse)(nil),             // 10: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
-	(*ComponentVersionsInRangeResponse)(nil),              // 11: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
-	(*Hint)(nil),                                          // 12: scanoss.api.cryptography.v2.Hint
-	(*ComponentHints)(nil),                                // 13: scanoss.api.cryptography.v2.ComponentHints
-	(*HintsResponse)(nil),                                 // 14: scanoss.api.cryptography.v2.HintsResponse
-	(*HintsInRangeResponse)(nil),                          // 15: scanoss.api.cryptography.v2.HintsInRangeResponse
-	(*ComponentsHintsInRangeResponse)(nil),                // 16: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
-	(*ComponentHintsInRangeResponse)(nil),                 // 17: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
-	(*ComponentsEncryptionHintsResponse)(nil),             // 18: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
-	(*ComponentEncryptionHintsResponse)(nil),              // 19: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
-	(*AlgorithmResponse_Purls)(nil),                       // 20: scanoss.api.cryptography.v2.AlgorithmResponse.Purls
-	(*AlgorithmsInRangeResponse_Purl)(nil),                // 21: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
-	(*ComponentsAlgorithmsInRangeResponse_Component)(nil), // 22: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
-	(*ComponentAlgorithmsInRangeResponse_Component)(nil),  // 23: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
-	(*VersionsInRangeResponse_Purl)(nil),                  // 24: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
-	(*ComponentsVersionsInRangeResponse_Component)(nil),   // 25: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
-	(*ComponentVersionsInRangeResponse_Component)(nil),    // 26: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
-	(*HintsResponse_Purls)(nil),                           // 27: scanoss.api.cryptography.v2.HintsResponse.Purls
-	(*HintsInRangeResponse_Purl)(nil),                     // 28: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
-	(*ComponentsHintsInRangeResponse_Component)(nil),      // 29: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
-	(*ComponentHintsInRangeResponse_Component)(nil),       // 30: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
-	(*commonv2.StatusResponse)(nil),                       // 31: scanoss.api.common.v2.StatusResponse
+	(*Algorithm)(nil),                                     // 0: scanoss.api.cryptography.v2.Algorithm
+	(*AlgorithmResponse)(nil),                             // 1: scanoss.api.cryptography.v2.AlgorithmResponse
+	(*ComponentAlgorithms)(nil),                           // 2: scanoss.api.cryptography.v2.ComponentAlgorithms
+	(*ComponentsAlgorithmsResponse)(nil),                  // 3: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
+	(*ComponentAlgorithmsResponse)(nil),                   // 4: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
+	(*AlgorithmsInRangeResponse)(nil),                     // 5: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
+	(*ComponentsAlgorithmsInRangeResponse)(nil),           // 6: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
+	(*ComponentAlgorithmsInRangeResponse)(nil),            // 7: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
+	(*VersionsInRangeResponse)(nil),                       // 8: scanoss.api.cryptography.v2.VersionsInRangeResponse
+	(*ComponentsVersionsInRangeResponse)(nil),             // 9: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
+	(*ComponentVersionsInRangeResponse)(nil),              // 10: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
+	(*Hint)(nil),                                          // 11: scanoss.api.cryptography.v2.Hint
+	(*ComponentHints)(nil),                                // 12: scanoss.api.cryptography.v2.ComponentHints
+	(*HintsResponse)(nil),                                 // 13: scanoss.api.cryptography.v2.HintsResponse
+	(*HintsInRangeResponse)(nil),                          // 14: scanoss.api.cryptography.v2.HintsInRangeResponse
+	(*ComponentsHintsInRangeResponse)(nil),                // 15: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
+	(*ComponentHintsInRangeResponse)(nil),                 // 16: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
+	(*ComponentsEncryptionHintsResponse)(nil),             // 17: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
+	(*ComponentEncryptionHintsResponse)(nil),              // 18: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
+	(*AlgorithmResponse_Purls)(nil),                       // 19: scanoss.api.cryptography.v2.AlgorithmResponse.Purls
+	(*AlgorithmsInRangeResponse_Purl)(nil),                // 20: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
+	(*ComponentsAlgorithmsInRangeResponse_Component)(nil), // 21: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
+	(*ComponentAlgorithmsInRangeResponse_Component)(nil),  // 22: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
+	(*VersionsInRangeResponse_Purl)(nil),                  // 23: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
+	(*ComponentsVersionsInRangeResponse_Component)(nil),   // 24: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
+	(*ComponentVersionsInRangeResponse_Component)(nil),    // 25: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
+	(*HintsResponse_Purls)(nil),                           // 26: scanoss.api.cryptography.v2.HintsResponse.Purls
+	(*HintsInRangeResponse_Purl)(nil),                     // 27: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
+	(*ComponentsHintsInRangeResponse_Component)(nil),      // 28: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
+	(*ComponentHintsInRangeResponse_Component)(nil),       // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
+	(*commonv2.StatusResponse)(nil),                       // 30: scanoss.api.common.v2.StatusResponse
+	(commonv2.ErrorCode)(0),                               // 31: scanoss.api.common.v2.ErrorCode
 	(*commonv2.EchoRequest)(nil),                          // 32: scanoss.api.common.v2.EchoRequest
 	(*commonv2.PurlRequest)(nil),                          // 33: scanoss.api.common.v2.PurlRequest
 	(*commonv2.ComponentRequest)(nil),                     // 34: scanoss.api.common.v2.ComponentRequest
@@ -2487,59 +2428,59 @@ var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_goTypes = []any{
 	(*commonv2.EchoResponse)(nil),                         // 36: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_depIdxs = []int32{
-	20, // 0: scanoss.api.cryptography.v2.AlgorithmResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmResponse.Purls
-	31, // 1: scanoss.api.cryptography.v2.AlgorithmResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	1,  // 2: scanoss.api.cryptography.v2.ComponentAlgorithms.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	0,  // 3: scanoss.api.cryptography.v2.ComponentAlgorithms.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	3,  // 4: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
-	31, // 5: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	3,  // 6: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
-	31, // 7: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	21, // 8: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
-	31, // 9: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	22, // 10: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
-	31, // 11: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	23, // 12: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
-	31, // 13: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	24, // 14: scanoss.api.cryptography.v2.VersionsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
-	31, // 15: scanoss.api.cryptography.v2.VersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	25, // 16: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
-	31, // 17: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	26, // 18: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
-	31, // 19: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	12, // 20: scanoss.api.cryptography.v2.ComponentHints.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	0,  // 21: scanoss.api.cryptography.v2.ComponentHints.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	27, // 22: scanoss.api.cryptography.v2.HintsResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsResponse.Purls
-	31, // 23: scanoss.api.cryptography.v2.HintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	28, // 24: scanoss.api.cryptography.v2.HintsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
-	31, // 25: scanoss.api.cryptography.v2.HintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	29, // 26: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
-	31, // 27: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	30, // 28: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
-	31, // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	13, // 30: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentHints
-	31, // 31: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	13, // 32: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHints
-	31, // 33: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	1,  // 34: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	0,  // 35: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	1,  // 36: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	0,  // 37: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	1,  // 38: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	0,  // 39: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	1,  // 40: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	0,  // 41: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	0,  // 42: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	0,  // 43: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	0,  // 44: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	12, // 45: scanoss.api.cryptography.v2.HintsResponse.Purls.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	0,  // 46: scanoss.api.cryptography.v2.HintsResponse.Purls.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	12, // 47: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	0,  // 48: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	12, // 49: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	0,  // 50: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
-	12, // 51: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	0,  // 52: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.cryptography.v2.ErrorCode
+	19, // 0: scanoss.api.cryptography.v2.AlgorithmResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmResponse.Purls
+	30, // 1: scanoss.api.cryptography.v2.AlgorithmResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	0,  // 2: scanoss.api.cryptography.v2.ComponentAlgorithms.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
+	31, // 3: scanoss.api.cryptography.v2.ComponentAlgorithms.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	2,  // 4: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
+	30, // 5: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	2,  // 6: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
+	30, // 7: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	20, // 8: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
+	30, // 9: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	21, // 10: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
+	30, // 11: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	22, // 12: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
+	30, // 13: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	23, // 14: scanoss.api.cryptography.v2.VersionsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
+	30, // 15: scanoss.api.cryptography.v2.VersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	24, // 16: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
+	30, // 17: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	25, // 18: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
+	30, // 19: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	11, // 20: scanoss.api.cryptography.v2.ComponentHints.hints:type_name -> scanoss.api.cryptography.v2.Hint
+	31, // 21: scanoss.api.cryptography.v2.ComponentHints.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	26, // 22: scanoss.api.cryptography.v2.HintsResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsResponse.Purls
+	30, // 23: scanoss.api.cryptography.v2.HintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	27, // 24: scanoss.api.cryptography.v2.HintsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
+	30, // 25: scanoss.api.cryptography.v2.HintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	28, // 26: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
+	30, // 27: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	29, // 28: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
+	30, // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	12, // 30: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentHints
+	30, // 31: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	12, // 32: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHints
+	30, // 33: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	0,  // 34: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
+	31, // 35: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	0,  // 36: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
+	31, // 37: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	0,  // 38: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
+	31, // 39: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	0,  // 40: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
+	31, // 41: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	31, // 42: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	31, // 43: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	31, // 44: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	11, // 45: scanoss.api.cryptography.v2.HintsResponse.Purls.hints:type_name -> scanoss.api.cryptography.v2.Hint
+	31, // 46: scanoss.api.cryptography.v2.HintsResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	11, // 47: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.hints:type_name -> scanoss.api.cryptography.v2.Hint
+	31, // 48: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	11, // 49: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
+	31, // 50: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	11, // 51: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
+	31, // 52: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	32, // 53: scanoss.api.cryptography.v2.Cryptography.Echo:input_type -> scanoss.api.common.v2.EchoRequest
 	33, // 54: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:input_type -> scanoss.api.common.v2.PurlRequest
 	34, // 55: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:input_type -> scanoss.api.common.v2.ComponentRequest
@@ -2557,21 +2498,21 @@ var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_depIdxs = []int3
 	34, // 67: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:input_type -> scanoss.api.common.v2.ComponentRequest
 	35, // 68: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:input_type -> scanoss.api.common.v2.ComponentsRequest
 	36, // 69: scanoss.api.cryptography.v2.Cryptography.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	2,  // 70: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:output_type -> scanoss.api.cryptography.v2.AlgorithmResponse
-	5,  // 71: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
-	4,  // 72: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
-	6,  // 73: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
-	8,  // 74: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
-	7,  // 75: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
-	9,  // 76: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:output_type -> scanoss.api.cryptography.v2.VersionsInRangeResponse
-	11, // 77: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
-	10, // 78: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
-	15, // 79: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:output_type -> scanoss.api.cryptography.v2.HintsInRangeResponse
-	17, // 80: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
-	16, // 81: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
-	14, // 82: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:output_type -> scanoss.api.cryptography.v2.HintsResponse
-	19, // 83: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
-	18, // 84: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
+	1,  // 70: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:output_type -> scanoss.api.cryptography.v2.AlgorithmResponse
+	4,  // 71: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
+	3,  // 72: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
+	5,  // 73: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
+	7,  // 74: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
+	6,  // 75: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
+	8,  // 76: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:output_type -> scanoss.api.cryptography.v2.VersionsInRangeResponse
+	10, // 77: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
+	9,  // 78: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
+	14, // 79: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:output_type -> scanoss.api.cryptography.v2.HintsInRangeResponse
+	16, // 80: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
+	15, // 81: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
+	13, // 82: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:output_type -> scanoss.api.cryptography.v2.HintsResponse
+	18, // 83: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
+	17, // 84: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
 	69, // [69:85] is the sub-list for method output_type
 	53, // [53:69] is the sub-list for method input_type
 	53, // [53:53] is the sub-list for extension type_name
@@ -2602,14 +2543,13 @@ func file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc), len(file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_goTypes,
 		DependencyIndexes: file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_depIdxs,
-		EnumInfos:         file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_enumTypes,
 		MessageInfos:      file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes,
 	}.Build()
 	File_scanoss_api_cryptography_v2_scanoss_cryptography_proto = out.File
