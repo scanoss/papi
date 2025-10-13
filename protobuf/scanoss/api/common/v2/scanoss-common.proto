@@ -127,3 +127,19 @@ message Purl {
   string purl = 1;
   string requirement = 2;
 }
+
+
+/*
+ * Error code enum for component analysis operations.
+ * Represents the various error conditions that can occur during component processing and validation.
+ */
+enum ErrorCode {
+  // The provided Package URL (PURL) is invalid or malformed
+  INVALID_PURL = 0;
+  // The requested component could not be found in the database
+  COMPONENT_NOT_FOUND = 1;
+  // No information is available for the requested component
+  NO_INFO = 2;
+  // The provided semantic version (SemVer) is invalid or malformed
+  INVALID_SEMVER = 3;
+}

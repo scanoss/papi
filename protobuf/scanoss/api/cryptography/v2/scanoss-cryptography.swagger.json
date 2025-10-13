@@ -1403,8 +1403,7 @@
         "INVALID_SEMVER"
       ],
       "default": "INVALID_PURL",
-      "description": "- COMPONENT_NOT_FOUND: Required: first value must be 0",
-      "title": "Define the enum"
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed"
     },
     "v2Hint": {
       "type": "object",
