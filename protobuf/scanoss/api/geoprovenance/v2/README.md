@@ -16,7 +16,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries/components' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }'
 ```
@@ -26,7 +26,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries/components' \
 grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }' \
   api.scanoss.com:443 \
@@ -218,7 +218,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purls": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }'
 ```
@@ -245,7 +245,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin/components' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }'
 ```
@@ -255,7 +255,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin/components' \
 grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d  '{
     "components": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }' \
   api.scanoss.com:443 \
@@ -424,7 +424,7 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purls": [
-      "pkg:github/scanoss/engine@5.0.0"
+      {"purl": "pkg:github/scanoss/engine@5.0.0"}
     ]
   }'
 ```
