@@ -17,7 +17,7 @@ Analyzes software components to retrieve their complete transitive dependency tr
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/transitive/components' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "depth": 3,
     "limit": 50,
@@ -114,7 +114,7 @@ Legacy method for analyzing dependency files and extracting direct dependencies 
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/dependencies' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "files": [
       {
@@ -217,7 +217,7 @@ Standard service health check endpoint for testing connectivity and API key vali
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/echo' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}'
 ```
 
