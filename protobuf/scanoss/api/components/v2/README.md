@@ -16,7 +16,7 @@ The search supports multiple search modes:
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/components/search?search=scanoss&limit=10' \
-  -H 'X-Api-Key: $SC_API_KEY'
+  -H "X-Api-Key: $SC_API_KEY"
 ```
 
 ### gRPC Request Example
@@ -67,7 +67,7 @@ Requires a valid PURL (Package URL) to identify the component. Optional `limit` 
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/components/versions?purl=pkg:github/scanoss/engine&limit=20' \
-  -H 'X-Api-Key: $SC_API_KEY'
+  -H "X-Api-Key: $SC_API_KEY"
 ```
 
 ### gRPC Request Example
@@ -152,7 +152,7 @@ See [Common API Types](../common/v2/README.md) for `PurlRequest` documentation.
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/components/statistics' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purls": [
       "pkg:github/scanoss/engine@5.0.0",

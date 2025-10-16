@@ -13,7 +13,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries/components' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
       "pkg:github/scanoss/engine@5.0.0"
@@ -118,7 +118,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/geoprovenance/countries/component?purl=pkg:github/scanoss/engine@5.0.0' \
-  -H 'X-Api-Key: $SC_API_KEY'
+  -H "X-Api-Key: $SC_API_KEY"
 ```
 
 ### gRPC Request Example
@@ -215,7 +215,7 @@ See [Common API Types](../common/v2/README.md) for `PurlRequest` documentation.
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purls": [
       "pkg:github/scanoss/engine@5.0.0"
@@ -242,7 +242,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin/components' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
       "pkg:github/scanoss/engine@5.0.0"
@@ -336,7 +336,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/geoprovenance/origin/component?purl=pkg:github/scanoss/engine@5.0.0' \
-  -H 'X-Api-Key: $SC_API_KEY'
+  -H "X-Api-Key: $SC_API_KEY"
 ```
 
 ### gRPC Request Example
@@ -421,7 +421,7 @@ See [Common API Types](../common/v2/README.md) for `PurlRequest` documentation.
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purls": [
       "pkg:github/scanoss/engine@5.0.0"
@@ -445,7 +445,7 @@ Standard service health check endpoint for testing connectivity and API key vali
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/geoprovenance/echo' \
   -H 'Content-Type: application/json' \
-  -H 'X-Api-Key: $SC_API_KEY' \
+  -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}'
 ```
 

@@ -5,7 +5,7 @@
 ```
 curl --location 'https://api.scanoss.com/api/v2/cryptography/algorithmsInRange' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{
     "purls": [
         {
@@ -21,7 +21,7 @@ curl --location 'https://api.scanoss.com/api/v2/cryptography/algorithmsInRange' 
 ```
 curl --location 'https://api.scanoss.com/api/v2/cryptography/algorithms' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{"purls": [
     {
       "purl": "pkg:github/torvalds/linux",
@@ -41,7 +41,7 @@ curl --location 'https://api.scanoss.com/api/v2/cryptography/algorithms' \
 ```
 curl --location 'https://api.scanoss.com/api/v2/provenance/countries' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{
   "purls": [
     {
@@ -57,7 +57,7 @@ curl --location 'https://api.scanoss.com/api/v2/provenance/countries' \
 ```
 curl --location 'https://api.scanoss.com/api/v2/components/search' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{"search" : "scanoss", "limit": 10 }'
 ```
 
@@ -65,14 +65,14 @@ curl --location 'https://api.scanoss.com/api/v2/components/search' \
 ```
 curl --location 'https://api.scanoss.com/api/v2/components/versions' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{"purl": "pkg:github/scanoss/scanoss.js" }'
 ```
 ## Dependencies
 ```
 curl --location 'https://api.scanoss.com/api/v2/dependencies/dependencies' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data '{"files": [{ "purls": [ { "purl":"pkg:npm/wrap-ansi-cjs"} ]  } ]}'
 ```
 ## Vulnerabilities
@@ -80,7 +80,7 @@ curl --location 'https://api.scanoss.com/api/v2/dependencies/dependencies' \
 ```
 curl --location 'https://api.scanoss.com/api/v2/vulnerabilities/cpes' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data-raw '{"purls": [
     {
     "purl": "pkg:npm/lodash@4.17.21"
@@ -93,7 +93,7 @@ curl --location 'https://api.scanoss.com/api/v2/vulnerabilities/cpes' \
 ```
 curl --location 'https://api.scanoss.com/api/v2/vulnerabilities/vulnerabilities' \
 --header 'Content-Type: application/json' \
---header 'X-Api-Key: <Your access token>' \
+--header "X-Api-Key: <Your access token>" \
 --data-raw '{"purls": [
       {
      "purl": "pkg:npm/lodash@4.17.21"
