@@ -13,12 +13,12 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/cpes/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
-  -H 'x-api-key: $SC_API_KEY'
+  -H 'X-Api-Key: $SC_API_KEY'
 ```
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purl": "pkg:github/scanoss/engine",
     "requirement": ">=5.0.0"
@@ -56,7 +56,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/cpes/components' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{
     "components": [
       {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
@@ -67,7 +67,7 @@ curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/cpes/components' \
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
       {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
@@ -88,12 +88,12 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
-  -H 'x-api-key: $SC_API_KEY'
+  -H 'X-Api-Key: $SC_API_KEY'
 ```
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purl": "pkg:github/scanoss/engine",
     "requirement": ">=5.0.0"
@@ -190,7 +190,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/components' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{
     "components": [
       {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
@@ -201,7 +201,7 @@ curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/components' \
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
       {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},

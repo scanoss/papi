@@ -13,7 +13,7 @@ See [Common API Types](../common/v2/README.md) for `ComponentsRequest` documenta
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/semgrep/issues/components' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{
     "components": [
       {
@@ -26,7 +26,7 @@ curl -X POST 'https://api.scanoss.com/v2/semgrep/issues/components' \
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "components": [
       {
@@ -142,12 +142,12 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ### HTTP Request Example
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/semgrep/issues/component?purl=pkg:maven/org.apache.commons/commons-lang3&requirement=3.12.0' \
-  -H 'x-api-key: $SC_API_KEY'
+  -H 'X-Api-Key: $SC_API_KEY'
 ```
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "purl": "pkg:maven/org.apache.commons/commons-lang3",
     "requirement": "3.12.0"
@@ -239,13 +239,13 @@ Standard service health check endpoint for testing connectivity and API key vali
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/semgrep/echo' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{"message": "test"}'
 ```
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}' \
   api.scanoss.com:443 \
   scanoss.api.semgrep.v2.Semgrep/Echo
