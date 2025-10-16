@@ -17,7 +17,7 @@ Analyzes software components to retrieve their complete transitive dependency tr
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/transitive/components' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{
     "depth": 3,
     "limit": 50,
@@ -30,7 +30,7 @@ curl -X POST 'https://api.scanoss.com/v2/dependencies/transitive/components' \
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "depth": 3,
     "limit": 50,
@@ -114,7 +114,7 @@ Legacy method for analyzing dependency files and extracting direct dependencies 
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/dependencies' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{
     "files": [
       {
@@ -133,7 +133,7 @@ curl -X POST 'https://api.scanoss.com/v2/dependencies/dependencies' \
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{
     "files": [
       {
@@ -217,13 +217,13 @@ Standard service health check endpoint for testing connectivity and API key vali
 ```bash
 curl -X POST 'https://api.scanoss.com/v2/dependencies/echo' \
   -H 'Content-Type: application/json' \
-  -H 'x-api-key: $SC_API_KEY' \
+  -H 'X-Api-Key: $SC_API_KEY' \
   -d '{"message": "test"}'
 ```
 
 ### gRPC Request Example
 ```bash
-grpcurl -H "x-api-key: $SC_API_KEY" \
+grpcurl -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}' \
   api.scanoss.com:443 \
   scanoss.api.dependencies.v2.Dependencies/Echo
