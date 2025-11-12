@@ -214,6 +214,30 @@
       },
       "title": "Component version details"
     },
+    "StatusResponseDB": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "title": "Semantic schema version (e.g., 'v1.0.0')"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "When this DB was built (ISO 8601 format)"
+        }
+      },
+      "description": "*\nDatabase version information."
+    },
+    "StatusResponseServer": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "title": "Semantic version (e.g., 'v1.0.0')"
+        }
+      },
+      "description": "*\nServer information."
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -333,6 +357,14 @@
         "message": {
           "type": "string",
           "title": "Status message"
+        },
+        "db": {
+          "$ref": "#/definitions/StatusResponseDB",
+          "title": "Database version information (optional)"
+        },
+        "server": {
+          "$ref": "#/definitions/StatusResponseServer",
+          "title": "Server information"
         }
       },
       "description": "Detailed response details."

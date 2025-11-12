@@ -170,7 +170,11 @@ type StatusResponse struct {
 	// response status
 	Status StatusCode `protobuf:"varint,1,opt,name=status,proto3,enum=scanoss.api.common.v2.StatusCode" json:"status,omitempty"`
 	// Status message
-	Message       string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// Database version information (optional)
+	Db *StatusResponse_DB `protobuf:"bytes,3,opt,name=db,proto3" json:"db,omitempty"`
+	// Server information
+	Server        *StatusResponse_Server `protobuf:"bytes,4,opt,name=server,proto3" json:"server,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -217,6 +221,20 @@ func (x *StatusResponse) GetMessage() string {
 		return x.Message
 	}
 	return ""
+}
+
+func (x *StatusResponse) GetDb() *StatusResponse_DB {
+	if x != nil {
+		return x.Db
+	}
+	return nil
+}
+
+func (x *StatusResponse) GetServer() *StatusResponse_Server {
+	if x != nil {
+		return x.Server
+	}
+	return nil
 }
 
 // Echo Message Request.
@@ -516,6 +534,109 @@ func (x *Purl) GetRequirement() string {
 	return ""
 }
 
+// *
+// Database version information.
+type StatusResponse_DB struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Semantic schema version (e.g., 'v1.0.0')
+	SchemaVersion string `protobuf:"bytes,2,opt,name=schema_version,proto3" json:"schema_version,omitempty"`
+	// When this DB was built (ISO 8601 format)
+	CreatedAt     string `protobuf:"bytes,3,opt,name=created_at,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StatusResponse_DB) Reset() {
+	*x = StatusResponse_DB{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StatusResponse_DB) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StatusResponse_DB) ProtoMessage() {}
+
+func (x *StatusResponse_DB) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StatusResponse_DB.ProtoReflect.Descriptor instead.
+func (*StatusResponse_DB) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *StatusResponse_DB) GetSchemaVersion() string {
+	if x != nil {
+		return x.SchemaVersion
+	}
+	return ""
+}
+
+func (x *StatusResponse_DB) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+// *
+// Server information.
+type StatusResponse_Server struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Semantic version (e.g., 'v1.0.0')
+	Version       string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StatusResponse_Server) Reset() {
+	*x = StatusResponse_Server{}
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StatusResponse_Server) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StatusResponse_Server) ProtoMessage() {}
+
+func (x *StatusResponse_Server) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StatusResponse_Server.ProtoReflect.Descriptor instead.
+func (*StatusResponse_Server) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *StatusResponse_Server) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
 // TODO: Refactor this API
 // - Remove nested Purls message and replace with top-level Purl message type.
 // - Update field definition below to: repeated Purl purls = 1;
@@ -530,7 +651,7 @@ type PurlRequest_Purls struct {
 
 func (x *PurlRequest_Purls) Reset() {
 	*x = PurlRequest_Purls{}
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -542,7 +663,7 @@ func (x *PurlRequest_Purls) String() string {
 func (*PurlRequest_Purls) ProtoMessage() {}
 
 func (x *PurlRequest_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[7]
+	mi := &file_scanoss_api_common_v2_scanoss_common_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -576,10 +697,19 @@ var File_scanoss_api_common_v2_scanoss_common_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\n" +
-	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\"e\n" +
+	"*scanoss/api/common/v2/scanoss-common.proto\x12\x15scanoss.api.common.v2\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\"\xd7\x02\n" +
 	"\x0eStatusResponse\x129\n" +
 	"\x06status\x18\x01 \x01(\x0e2!.scanoss.api.common.v2.StatusCodeR\x06status\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"'\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x128\n" +
+	"\x02db\x18\x03 \x01(\v2(.scanoss.api.common.v2.StatusResponse.DBR\x02db\x12D\n" +
+	"\x06server\x18\x04 \x01(\v2,.scanoss.api.common.v2.StatusResponse.ServerR\x06server\x1aL\n" +
+	"\x02DB\x12&\n" +
+	"\x0eschema_version\x18\x02 \x01(\tR\x0eschema_version\x12\x1e\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\tR\n" +
+	"created_at\x1a\"\n" +
+	"\x06Server\x12\x18\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\"'\n" +
 	"\vEchoRequest\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"(\n" +
 	"\fEchoResponse\x12\x18\n" +
@@ -626,28 +756,32 @@ func file_scanoss_api_common_v2_scanoss_common_proto_rawDescGZIP() []byte {
 }
 
 var file_scanoss_api_common_v2_scanoss_common_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_scanoss_api_common_v2_scanoss_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_scanoss_api_common_v2_scanoss_common_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_scanoss_api_common_v2_scanoss_common_proto_goTypes = []any{
-	(StatusCode)(0),           // 0: scanoss.api.common.v2.StatusCode
-	(ErrorCode)(0),            // 1: scanoss.api.common.v2.ErrorCode
-	(*StatusResponse)(nil),    // 2: scanoss.api.common.v2.StatusResponse
-	(*EchoRequest)(nil),       // 3: scanoss.api.common.v2.EchoRequest
-	(*EchoResponse)(nil),      // 4: scanoss.api.common.v2.EchoResponse
-	(*ComponentRequest)(nil),  // 5: scanoss.api.common.v2.ComponentRequest
-	(*ComponentsRequest)(nil), // 6: scanoss.api.common.v2.ComponentsRequest
-	(*PurlRequest)(nil),       // 7: scanoss.api.common.v2.PurlRequest
-	(*Purl)(nil),              // 8: scanoss.api.common.v2.Purl
-	(*PurlRequest_Purls)(nil), // 9: scanoss.api.common.v2.PurlRequest.Purls
+	(StatusCode)(0),               // 0: scanoss.api.common.v2.StatusCode
+	(ErrorCode)(0),                // 1: scanoss.api.common.v2.ErrorCode
+	(*StatusResponse)(nil),        // 2: scanoss.api.common.v2.StatusResponse
+	(*EchoRequest)(nil),           // 3: scanoss.api.common.v2.EchoRequest
+	(*EchoResponse)(nil),          // 4: scanoss.api.common.v2.EchoResponse
+	(*ComponentRequest)(nil),      // 5: scanoss.api.common.v2.ComponentRequest
+	(*ComponentsRequest)(nil),     // 6: scanoss.api.common.v2.ComponentsRequest
+	(*PurlRequest)(nil),           // 7: scanoss.api.common.v2.PurlRequest
+	(*Purl)(nil),                  // 8: scanoss.api.common.v2.Purl
+	(*StatusResponse_DB)(nil),     // 9: scanoss.api.common.v2.StatusResponse.DB
+	(*StatusResponse_Server)(nil), // 10: scanoss.api.common.v2.StatusResponse.Server
+	(*PurlRequest_Purls)(nil),     // 11: scanoss.api.common.v2.PurlRequest.Purls
 }
 var file_scanoss_api_common_v2_scanoss_common_proto_depIdxs = []int32{
-	0, // 0: scanoss.api.common.v2.StatusResponse.status:type_name -> scanoss.api.common.v2.StatusCode
-	5, // 1: scanoss.api.common.v2.ComponentsRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
-	9, // 2: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0,  // 0: scanoss.api.common.v2.StatusResponse.status:type_name -> scanoss.api.common.v2.StatusCode
+	9,  // 1: scanoss.api.common.v2.StatusResponse.db:type_name -> scanoss.api.common.v2.StatusResponse.DB
+	10, // 2: scanoss.api.common.v2.StatusResponse.server:type_name -> scanoss.api.common.v2.StatusResponse.Server
+	5,  // 3: scanoss.api.common.v2.ComponentsRequest.components:type_name -> scanoss.api.common.v2.ComponentRequest
+	11, // 4: scanoss.api.common.v2.PurlRequest.purls:type_name -> scanoss.api.common.v2.PurlRequest.Purls
+	5,  // [5:5] is the sub-list for method output_type
+	5,  // [5:5] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_common_v2_scanoss_common_proto_init() }
@@ -661,7 +795,7 @@ func file_scanoss_api_common_v2_scanoss_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc), len(file_scanoss_api_common_v2_scanoss_common_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

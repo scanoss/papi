@@ -49,7 +49,14 @@ grpcurl -H "X-Api-Key: $SC_API_KEY" \
   ],
   "status": {
     "status": "SUCCESS",
-    "message": "Components successfully retrieved"
+    "message": "Components successfully retrieved",
+    "db": {
+      "schema_version": "v1.0.0",
+      "created_at": "2024-01-15"
+    },
+    "server": {
+      "version": "v0.1.0"
+    }
   }
 }
 ```
@@ -134,7 +141,14 @@ Each version object contains:
   },
   "status": {
     "status": "SUCCESS",
-    "message": "Component versions successfully retrieved"
+    "message": "Component versions successfully retrieved",
+    "db": {
+      "schema_version": "v1.0.0",
+      "created_at": "2024-01-15"
+    },
+    "server": {
+      "version": "v0.1.0"
+    }
   }
 }
 ```
@@ -245,7 +259,14 @@ Each component statistics object contains:
   ],
   "status": {
     "status": "SUCCESS",
-    "message": "Component statistics successfully retrieved"
+    "message": "Component statistics successfully retrieved",
+    "db": {
+      "schema_version": "v1.0.0",
+      "created_at": "2024-01-15"
+    },
+    "server": {
+      "version": "v0.1.0"
+    }
   }
 }
 ```
@@ -267,7 +288,14 @@ Each component statistics object contains:
   ],
   "status": {
     "status": "SUCCESS",
-    "message": "Component statistics successfully retrieved"
+    "message": "Component statistics successfully retrieved",
+    "db": {
+      "schema_version": "v1.0.0",
+      "created_at": "2024-01-15"
+    },
+    "server": {
+      "version": "v0.1.0"
+    }
   }
 }
 ```
