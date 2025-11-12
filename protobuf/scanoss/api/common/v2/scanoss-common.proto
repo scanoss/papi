@@ -48,10 +48,32 @@ enum StatusCode {
  * Detailed response details.
  */
 message StatusResponse {
+  /*
+   * Database version information.
+   */
+  message DB {
+    // Semantic schema version (e.g., 'v1.0.0')
+    string schema_version = 2 [json_name = "schema_version"];
+    // When this DB was built (ISO 8601 format)
+    string created_at = 3 [json_name = "created_at"];
+  }
+
+  /*
+   * Server information.
+   */
+  message Server {
+    // Semantic version (e.g., 'v1.0.0')
+    string version = 1;
+  }
+
   // response status
   StatusCode status = 1;
   // Status message
   string message = 2;
+  // Database version information (optional)
+  DB db = 3;
+  // Server information
+  Server server = 4;
 };
 
 /*
@@ -143,3 +165,4 @@ enum ErrorCode {
   // The provided semantic version (SemVer) is invalid or malformed
   INVALID_SEMVER = 3;
 }
+

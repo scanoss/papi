@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Upcoming changes...
+- Added `StatusResponse.DB` nested message with schema version and creation timestamp fields
+- Added `StatusResponse.Server` nested message with server version information
+- Added optional `db` field to `StatusResponse` for database version information
+- Added `server` field to `StatusResponse` for general server information
 
 ## [0.25.0] - 2025-10-13
 ### Added
