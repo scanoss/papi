@@ -24,21 +24,6 @@ curl -X POST 'https://api.scanoss.com/v2/semgrep/issues/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {
-        "purl": "pkg:maven/org.apache.commons/commons-lang3",
-        "requirement": "3.12.0"
-      }
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.semgrep.v2.Semgrep/GetComponentsIssues
-```
-
 ### Response Format
 
 The method returns security analysis information including:
@@ -145,17 +130,6 @@ curl -X GET 'https://api.scanoss.com/v2/semgrep/issues/component?purl=pkg:maven/
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:maven/org.apache.commons/commons-lang3",
-    "requirement": "3.12.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.semgrep.v2.Semgrep/GetComponentIssues
-```
-
 ### Response Format
 
 The method returns security analysis information including:
@@ -241,14 +215,6 @@ curl -X POST 'https://api.scanoss.com/v2/semgrep/echo' \
   -H 'Content-Type: application/json' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{"message": "test"}' \
-  api.scanoss.com:443 \
-  scanoss.api.semgrep.v2.Semgrep/Echo
 ```
 
 ## Security Analysis Categories
