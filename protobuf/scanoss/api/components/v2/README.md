@@ -19,17 +19,6 @@ curl -X GET 'https://api.scanoss.com/v2/components/search?search=scanoss&limit=1
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "search": "scanoss",
-    "limit": 10
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.components.v2.Components/SearchComponents
-```
-
 ### Response Example
 ```json
 {
@@ -75,17 +64,6 @@ Requires a valid PURL (Package URL) to identify the component. Optional `limit` 
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/components/versions?purl=pkg:github/scanoss/engine&limit=20' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "limit": 20
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.components.v2.Components/GetComponentVersions
 ```
 
 ### Response Format
@@ -173,19 +151,6 @@ curl -X POST 'https://api.scanoss.com/v2/components/statistics' \
       "pkg:github/scanoss/scanoss.py@1.30.0"
     ]
   }'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purls": [
-      "pkg:github/scanoss/engine@5.0.0",
-      "pkg:github/scanoss/scanoss.py@1.30.0"
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.components.v2.Components/GetComponentStatistics
 ```
 
 ### Response Format

@@ -28,21 +28,6 @@ curl -X POST 'https://api.scanoss.com/v2/dependencies/transitive/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "depth": 3,
-    "limit": 50,
-    "components": [
-      {"purl": "pkg:npm/express", "requirement": "4.18.0"},
-      {"purl": "pkg:npm/lodash", "requirement": "4.17.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.dependencies.v2.Dependencies/GetTransitiveDependencies
-```
-
 ### Response Format
 
 The method returns transitive dependency information including:
@@ -131,27 +116,6 @@ curl -X POST 'https://api.scanoss.com/v2/dependencies/dependencies' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "files": [
-      {
-        "file": "package.json", 
-        "purls": [
-          {
-            "purl": "pkg:npm/express",
-            "requirement": "^4.18.0"
-          }
-        ]
-      }
-    ],
-    "depth": 1
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.dependencies.v2.Dependencies/GetDependencies
-```
-
 ### Response Format
 
 **Warning: This format is deprecated and subject to change.**
@@ -219,12 +183,4 @@ curl -X POST 'https://api.scanoss.com/v2/dependencies/echo' \
   -H 'Content-Type: application/json' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{"message": "test"}' \
-  api.scanoss.com:443 \
-  scanoss.api.dependencies.v2.Dependencies/Echo
 ```

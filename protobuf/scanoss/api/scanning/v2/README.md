@@ -60,41 +60,6 @@ curl -X POST 'https://api.scanoss.com/v2/scanning/hfh/scan' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "root": {
-      "path_id": "src",
-      "sim_hash_names": "abc123def456",
-      "sim_hash_content": "789ghi012jkl",
-      "sim_hash_dir_names": "345mno678pqr",
-      "lang_extensions": {
-        "py": 25,
-        "md": 3
-      },
-      "children": [
-        {
-          "path_id": "src/utils",
-          "sim_hash_names": "def456ghi789",
-          "sim_hash_content": "012jkl345mno",
-          "sim_hash_dir_names": "678pqr901stu",
-          "lang_extensions": {
-            "py": 8
-          },
-          "children": []
-        }
-      ]
-    },
-    "rank_threshold": 5,
-    "category": "github",
-    "query_limit": 10,
-    "min_accepted_score": 0.7
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.scanning.v2.Scanning/FolderHashScan
-```
-
 ### Response Format
 
 The method returns comprehensive scan results including:

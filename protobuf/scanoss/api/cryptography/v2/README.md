@@ -15,17 +15,6 @@ curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/component?purl=p
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithms
-```
-
 ### Response Examples
 
 #### Successful Response
@@ -125,19 +114,6 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/algorithms/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithms
-```
-
 ### Response Examples
 
 #### Successful Response with Multiple Components
@@ -222,17 +198,6 @@ curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/range/component?
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=1.0.0,<6.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/GetComponentAlgorithmsInRange
-```
-
 ### Response Format
 
 The method returns comprehensive algorithm information including:
@@ -314,19 +279,6 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/algorithms/range/component
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=1.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/GetComponentsAlgorithmsInRange
-```
-
 ## ComponentVersionsInRange
 
 Analyzes a software component and returns lists of versions that either contain cryptographic algorithms or don't, helping assess cryptographic presence across component evolution.
@@ -338,17 +290,6 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/versions/range/component?purl=pkg:github/scanoss/engine&requirement=>=1.0.0' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=1.0.0,<6.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/ComponentVersionsInRange
 ```
 
 ### Response Example
@@ -386,19 +327,6 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/algorithms/version/range/c
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=1.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/ComponentsVersionsInRange
-```
-
 ## ComponentHintsInRange
 
 Retrieves cryptographic hints for a single component, providing insights about cryptographic protocols, libraries, SDKs and frameworks used by the component.
@@ -410,17 +338,6 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/cryptography/hints/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/ComponentHintsInRange
 ```
 
 ### Response Format
@@ -516,17 +433,4 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/hints/components' \
       {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.cryptography.v2.Cryptography/ComponentsHintsInRange
 ```

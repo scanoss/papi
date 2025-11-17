@@ -21,18 +21,6 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/countries/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.geoprovenance.v2.GeoProvenance/GetCountryContributorsByComponents
-```
-
 ### Response Format
 
 The method returns geographical contributor information including:
@@ -119,16 +107,6 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/geoprovenance/countries/component?purl=pkg:github/scanoss/engine@5.0.0' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine@5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.geoprovenance.v2.GeoProvenance/GetCountryContributorsByComponent
 ```
 
 ### Response Format
@@ -250,18 +228,6 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/origin/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d  '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.geoprovenance.v2.GeoProvenance/GetOriginByComponents
-```
-
 ### Response Format
 
 The method returns commit-time based geographical analysis including:
@@ -337,16 +303,6 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/geoprovenance/origin/component?purl=pkg:github/scanoss/engine@5.0.0' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine@5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.geoprovenance.v2.GeoProvenance/GetOriginByComponent
 ```
 
 ### Response Format
@@ -447,14 +403,6 @@ curl -X POST 'https://api.scanoss.com/v2/geoprovenance/echo' \
   -H 'Content-Type: application/json' \
   -H "X-Api-Key: $SC_API_KEY" \
   -d '{"message": "test"}'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{"message": "test"}' \
-  api.scanoss.com:443 \
-  scanoss.api.geoprovenance.v2.GeoProvenance/Echo
 ```
 
 ## Analysis Methods

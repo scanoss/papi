@@ -15,16 +15,6 @@ curl -X GET 'https://api.scanoss.com/v2/licenses/component?purl=pkg:github/scano
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine@5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.licenses.v2.License/GetLicenses
-```
-
 ## Response Format
 
 The method returns license information in two complementary formats:
@@ -156,17 +146,3 @@ curl -X POST 'https://api.scanoss.com/v2/licenses/components' \
     ]
   }'
 ```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine@5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py@v1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.licenses.v2.License/BatchGetLicenses
-```
-

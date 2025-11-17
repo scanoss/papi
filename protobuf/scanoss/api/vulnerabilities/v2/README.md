@@ -16,17 +16,6 @@ curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/cpes/component?purl=pkg:
   -H "X-Api-Key: $SC_API_KEY"
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentCpes
-```
-
 ### Response Example
 ```json
 {
@@ -65,19 +54,6 @@ curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/cpes/components' \
   }'
 ```
 
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsCpes
-```
-
 ## GetComponentVulnerabilities
 
 Analyzes a single software component and returns known vulnerabilities including CVE details, severity scores, publication dates, and other security metadata. Vulnerability data is sourced from various security databases and feeds.
@@ -89,17 +65,6 @@ See [Common API Types](../common/v2/README.md) for `ComponentRequest` documentat
 ```bash
 curl -X GET 'https://api.scanoss.com/v2/vulnerabilities/component?purl=pkg:github/scanoss/engine&requirement=>=5.0.0' \
   -H "X-Api-Key: $SC_API_KEY"
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "purl": "pkg:github/scanoss/engine",
-    "requirement": ">=5.0.0"
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentVulnerabilities
 ```
 
 ## Response Format
@@ -197,17 +162,4 @@ curl -X POST 'https://api.scanoss.com/v2/vulnerabilities/components' \
       {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
     ]
   }'
-```
-
-### gRPC Request Example
-```bash
-grpcurl -H "X-Api-Key: $SC_API_KEY" \
-  -d '{
-    "components": [
-      {"purl": "pkg:github/scanoss/engine", "requirement": ">=5.0.0"},
-      {"purl": "pkg:github/scanoss/scanoss.py", "requirement": "~1.30.0"}
-    ]
-  }' \
-  api.scanoss.com:443 \
-  scanoss.api.vulnerabilities.v2.Vulnerabilities/GetComponentsVulnerabilities
 ```
