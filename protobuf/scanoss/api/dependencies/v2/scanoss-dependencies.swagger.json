@@ -170,6 +170,9 @@
           "type": "string"
         },
         "comment": {
+          "type": "string"
+        },
+        "requirement": {
           "type": "string",
           "title": "string scope = 7;"
         }
@@ -204,7 +207,7 @@
           "title": "When this DB was built (ISO 8601 format)"
         }
       },
-      "description": "*\nDatabase version information."
+      "description": "Database version information."
     },
     "StatusResponseServer": {
       "type": "object",
@@ -214,7 +217,7 @@
           "title": "Semantic version (e.g., 'v1.0.0')"
         }
       },
-      "description": "*\nServer information."
+      "description": "Server information."
     },
     "TransitiveDependencyResponseComponent": {
       "type": "object",
@@ -357,6 +360,7 @@
                 "component": "express",
                 "purl": "pkg:npm/express",
                 "version": "4.18.2",
+                "requirement": "^4.18.0",
                 "licenses": [
                   {
                     "name": "MIT",

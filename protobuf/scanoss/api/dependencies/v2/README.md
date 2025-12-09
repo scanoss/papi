@@ -135,6 +135,7 @@ Each dependency object includes:
 - `component`: Component name
 - `purl`: Package URL
 - `version`: Resolved version
+- `requirement`: Requested requirement
 - `licenses`: Array of license information
 - `url`: Component homepage or repository URL
 - `comment`: Additional analysis notes
@@ -152,6 +153,7 @@ Each dependency object includes:
           "component": "express",
           "purl": "pkg:npm/express",
           "version": "4.18.2",
+          "requirement": "^4.18.0",
           "licenses": [
             {
               "name": "MIT",

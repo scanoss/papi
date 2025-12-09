@@ -226,7 +226,7 @@
           "title": "When this DB was built (ISO 8601 format)"
         }
       },
-      "description": "*\nDatabase version information."
+      "description": "Database version information."
     },
     "StatusResponseServer": {
       "type": "object",
@@ -236,7 +236,7 @@
           "title": "Semantic version (e.g., 'v1.0.0')"
         }
       },
-      "description": "*\nServer information."
+      "description": "Server information."
     },
     "protobufAny": {
       "type": "object",
