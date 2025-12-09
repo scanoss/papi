@@ -470,7 +470,8 @@ type DependencyResponse_Dependencies struct {
 	Version       string                         `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
 	Licenses      []*DependencyResponse_Licenses `protobuf:"bytes,4,rep,name=licenses,proto3" json:"licenses,omitempty"`
 	Url           string                         `protobuf:"bytes,5,opt,name=url,proto3" json:"url,omitempty"`
-	Comment       string                         `protobuf:"bytes,6,opt,name=comment,proto3" json:"comment,omitempty"` //    string scope = 7;
+	Comment       string                         `protobuf:"bytes,6,opt,name=comment,proto3" json:"comment,omitempty"`
+	Requirement   string                         `protobuf:"bytes,7,opt,name=requirement,proto3" json:"requirement,omitempty"` //    string scope = 7;
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -543,6 +544,13 @@ func (x *DependencyResponse_Dependencies) GetUrl() string {
 func (x *DependencyResponse_Dependencies) GetComment() string {
 	if x != nil {
 		return x.Comment
+	}
+	return ""
+}
+
+func (x *DependencyResponse_Dependencies) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
 	}
 	return ""
 }
@@ -689,7 +697,7 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12J\n" +
 	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls:i\x92Ad\n" +
-	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\xc4\b\n" +
+	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\xfe\b\n" +
 	"\x12DependencyResponse\x12K\n" +
 	"\x05files\x18\x01 \x03(\v25.scanoss.api.dependencies.v2.DependencyResponse.FilesR\x05files\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1av\n" +
@@ -697,20 +705,21 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
 	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
-	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xdc\x01\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xfe\x01\n" +
 	"\fDependencies\x12\x1c\n" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +
 	"\x04purl\x18\x02 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12T\n" +
 	"\blicenses\x18\x04 \x03(\v28.scanoss.api.dependencies.v2.DependencyResponse.LicensesR\blicenses\x12\x10\n" +
 	"\x03url\x18\x05 \x01(\tR\x03url\x12\x18\n" +
-	"\acomment\x18\x06 \x01(\tR\acomment\x1a\xa5\x01\n" +
+	"\acomment\x18\x06 \x01(\tR\acomment\x12 \n" +
+	"\vrequirement\x18\a \x01(\tR\vrequirement\x1a\xa5\x01\n" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12`\n" +
-	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xa2\x03\x92A\x9c\x03\n" +
-	"\x99\x03J\x96\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa7\x02\n" +
+	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xba\x03\x92A\xb4\x03\n" +
+	"\xb1\x03J\xae\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"requirement\":\"^4.18.0\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa7\x02\n" +
 	"\x1bTransitiveDependencyRequest\x12\x14\n" +
 	"\x05depth\x18\x01 \x01(\x05R\x05depth\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12G\n" +

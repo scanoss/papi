@@ -534,7 +534,6 @@ func (x *Purl) GetRequirement() string {
 	return ""
 }
 
-// *
 // Database version information.
 type StatusResponse_DB struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -590,7 +589,6 @@ func (x *StatusResponse_DB) GetCreatedAt() string {
 	return ""
 }
 
-// *
 // Server information.
 type StatusResponse_Server struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
