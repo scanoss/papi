@@ -434,3 +434,104 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/hints/components' \
     ]
   }'
 ```
+
+## DownloadRuleset
+
+Downloads cryptography detection rulesets as compressed tarballs. Rulesets contain detection rules for identifying cryptographic algorithms across various programming languages, designed for use with tools like SemGrep/OpenGrep.
+
+### Supported Ruleset Types
+
+- **dca**: Deep Code Analysis rules for semantic analysis using SCANOSS Crypto Finder
+- **keywords**: Keyword-based detection rules for pattern matching
+
+### Version Specification
+
+- `latest`: Downloads the most recent version of the ruleset
+- Specific version: e.g., `v1.2.3` for a particular release
+
+### HTTP Request Examples
+
+```bash
+# Get DCA ruleset (latest version)
+curl -X GET 'https://api.scanoss.com/v2/cryptography/rulesets/dca/latest/download' \
+  -H "X-Api-Key: $SC_API_KEY"
+
+# Get Keywords ruleset (specific version)
+curl -X GET 'https://api.scanoss.com/v2/cryptography/rulesets/keywords/v1.2.3/download' \
+  -H "X-Api-Key: $SC_API_KEY"
+```
+
+### Response Format
+
+The REST API returns a **raw binary tarball** (`.tar.gz`) with metadata in HTTP response headers.
+
+#### Response Headers
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/gzip
+Content-Disposition: attachment; filename="scanoss-crypto-dca-v1.2.3.tar.gz"
+X-Ruleset-Name: dca
+X-Ruleset-Version: v1.2.3
+X-Checksum-SHA256: a3f5d8b9e2c7f1a4b6d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0
+
+<binary tarball content>
+```
+
+#### Downloading with curl
+
+```bash
+# Download directly to file
+curl -X GET 'https://api.scanoss.com/v2/cryptography/rulesets/dca/latest/download' \
+  -H "X-Api-Key: $SC_API_KEY" \
+  -o scanoss-crypto-dca-latest.tar.gz
+
+# Extract immediately
+tar -xzf scanoss-crypto-dca-latest.tar.gz
+```
+
+#### Downloading with curl and extracting headers
+
+```bash
+# Download and capture headers
+curl -X GET 'https://api.scanoss.com/v2/cryptography/rulesets/dca/latest/download' \
+  -H "X-Api-Key: $SC_API_KEY" \
+  -D headers.txt \
+  -o scanoss-crypto-dca-latest.tar.gz
+
+# View metadata from headers
+cat headers.txt
+```
+
+#### Tarball Structure
+
+The downloaded and extracted tarball contains:
+
+```
+dca-v1.2.3/
+├── java/                  # Java cryptography detection rules
+│   ├── jca.yaml
+│   ├── bouncycastle.yaml
+│   └── ...
+├── python/                # Python cryptography detection rules
+│   ├── cryptography.yaml
+│   ├── pycrypto.yaml
+│   └── ...
+├── go/                    # Go cryptography detection rules
+│   └── ...
+└── manifest.json          # Ruleset metadata and checksums
+```
+
+#### Manifest File
+
+Each tarball includes a `manifest.json` with ruleset information:
+
+```json
+{
+  "name": "dca",
+  "version": "v1.2.3",
+  "description": "Standard cryptography detection rules (to be used with SCANOSS Crypto Finder)",
+  "created_at": "2025-11-10T10:00:00Z",
+  "checksum": "sha256:abc123..."
+}
+```

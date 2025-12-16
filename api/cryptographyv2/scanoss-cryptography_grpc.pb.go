@@ -39,6 +39,7 @@ package cryptographyv2
 import (
 	context "context"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -66,6 +67,7 @@ const (
 	Cryptography_GetEncryptionHints_FullMethodName             = "/scanoss.api.cryptography.v2.Cryptography/GetEncryptionHints"
 	Cryptography_GetComponentEncryptionHints_FullMethodName    = "/scanoss.api.cryptography.v2.Cryptography/GetComponentEncryptionHints"
 	Cryptography_GetComponentsEncryptionHints_FullMethodName   = "/scanoss.api.cryptography.v2.Cryptography/GetComponentsEncryptionHints"
+	Cryptography_DownloadRuleset_FullMethodName                = "/scanoss.api.cryptography.v2.Cryptography/DownloadRuleset"
 )
 
 // CryptographyClient is the client API for Cryptography service.
@@ -180,6 +182,29 @@ type CryptographyClient interface {
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentshintsinrange
 	GetComponentsEncryptionHints(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsEncryptionHintsResponse, error)
+	// Download cryptography detection ruleset as a tarball.
+	//
+	// Downloads a compressed tarball containing cryptographic detection rules for various
+	// programming languages. Rulesets can be used with tools like SCANOSS Crypto Finder for
+	// cryptographic algorithm detection in source code.
+	//
+	// Supported ruleset types:
+	// - dca: Deep Code Analysis rules (for SCANOSS Crypto Finder)
+	// - keywords: Keyword-based detection rules
+	//
+	// Version can be:
+	// - "latest": Most recent version
+	// - Specific version: e.g., "v1.2.3"
+	//
+	// Response headers (via grpc-gateway):
+	// - Content-Type: application/gzip
+	// - Content-Disposition: attachment; filename="scanoss-crypto-{ruleset_name}-{version}.tar.gz"
+	// - X-Ruleset-Name: Name of the ruleset
+	// - X-Ruleset-Version: Resolved version number
+	// - X-Checksum-SHA256: SHA256 checksum of the tarball
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#downloadruleset
+	DownloadRuleset(ctx context.Context, in *RulesetDownloadRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 }
 
 type cryptographyClient struct {
@@ -355,6 +380,16 @@ func (c *cryptographyClient) GetComponentsEncryptionHints(ctx context.Context, i
 	return out, nil
 }
 
+func (c *cryptographyClient) DownloadRuleset(ctx context.Context, in *RulesetDownloadRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(httpbody.HttpBody)
+	err := c.cc.Invoke(ctx, Cryptography_DownloadRuleset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CryptographyServer is the server API for Cryptography service.
 // All implementations must embed UnimplementedCryptographyServer
 // for forward compatibility.
@@ -467,6 +502,29 @@ type CryptographyServer interface {
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentshintsinrange
 	GetComponentsEncryptionHints(context.Context, *commonv2.ComponentsRequest) (*ComponentsEncryptionHintsResponse, error)
+	// Download cryptography detection ruleset as a tarball.
+	//
+	// Downloads a compressed tarball containing cryptographic detection rules for various
+	// programming languages. Rulesets can be used with tools like SCANOSS Crypto Finder for
+	// cryptographic algorithm detection in source code.
+	//
+	// Supported ruleset types:
+	// - dca: Deep Code Analysis rules (for SCANOSS Crypto Finder)
+	// - keywords: Keyword-based detection rules
+	//
+	// Version can be:
+	// - "latest": Most recent version
+	// - Specific version: e.g., "v1.2.3"
+	//
+	// Response headers (via grpc-gateway):
+	// - Content-Type: application/gzip
+	// - Content-Disposition: attachment; filename="scanoss-crypto-{ruleset_name}-{version}.tar.gz"
+	// - X-Ruleset-Name: Name of the ruleset
+	// - X-Ruleset-Version: Resolved version number
+	// - X-Checksum-SHA256: SHA256 checksum of the tarball
+	//
+	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#downloadruleset
+	DownloadRuleset(context.Context, *RulesetDownloadRequest) (*httpbody.HttpBody, error)
 	mustEmbedUnimplementedCryptographyServer()
 }
 
@@ -524,6 +582,9 @@ func (UnimplementedCryptographyServer) GetComponentEncryptionHints(context.Conte
 }
 func (UnimplementedCryptographyServer) GetComponentsEncryptionHints(context.Context, *commonv2.ComponentsRequest) (*ComponentsEncryptionHintsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentsEncryptionHints not implemented")
+}
+func (UnimplementedCryptographyServer) DownloadRuleset(context.Context, *RulesetDownloadRequest) (*httpbody.HttpBody, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadRuleset not implemented")
 }
 func (UnimplementedCryptographyServer) mustEmbedUnimplementedCryptographyServer() {}
 func (UnimplementedCryptographyServer) testEmbeddedByValue()                      {}
@@ -834,6 +895,24 @@ func _Cryptography_GetComponentsEncryptionHints_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cryptography_DownloadRuleset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RulesetDownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CryptographyServer).DownloadRuleset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Cryptography_DownloadRuleset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CryptographyServer).DownloadRuleset(ctx, req.(*RulesetDownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cryptography_ServiceDesc is the grpc.ServiceDesc for Cryptography service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -904,6 +983,10 @@ var Cryptography_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetComponentsEncryptionHints",
 			Handler:    _Cryptography_GetComponentsEncryptionHints_Handler,
+		},
+		{
+			MethodName: "DownloadRuleset",
+			Handler:    _Cryptography_DownloadRuleset_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

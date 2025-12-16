@@ -40,6 +40,7 @@ import (
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1250,6 +1251,72 @@ func (x *ComponentEncryptionHintsResponse) GetStatus() *commonv2.StatusResponse 
 	return nil
 }
 
+// Request message for downloading a cryptography detection ruleset.
+//
+// Specifies which ruleset to download and which version to retrieve.
+//
+// The response is a raw binary tarball (.tar.gz) with metadata in HTTP headers:
+// - X-Ruleset-Name: Name of the ruleset
+// - X-Ruleset-Version: Resolved version (when "latest" is requested, this shows actual version)
+// - X-Checksum-SHA256: SHA256 checksum for integrity verification
+// - Content-Disposition: Suggested filename for download
+type RulesetDownloadRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of ruleset to download (e.g., "dca", "keywords")
+	// - "dca": Deep Code Analysis rules for using with SCANOSS Crypto Finder
+	// - "keywords": Keyword-based detection rules
+	RulesetName string `protobuf:"bytes,1,opt,name=ruleset_name,proto3" json:"ruleset_name,omitempty"`
+	// Version of the ruleset to download
+	// Use "latest" for the most recent version, or specify a version like "v1.2.3"
+	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RulesetDownloadRequest) Reset() {
+	*x = RulesetDownloadRequest{}
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RulesetDownloadRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RulesetDownloadRequest) ProtoMessage() {}
+
+func (x *RulesetDownloadRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RulesetDownloadRequest.ProtoReflect.Descriptor instead.
+func (*RulesetDownloadRequest) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *RulesetDownloadRequest) GetRulesetName() string {
+	if x != nil {
+		return x.RulesetName
+	}
+	return ""
+}
+
+func (x *RulesetDownloadRequest) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
 // Algorithm information for a specific component.
 type AlgorithmResponse_Purls struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -1267,7 +1334,7 @@ type AlgorithmResponse_Purls struct {
 
 func (x *AlgorithmResponse_Purls) Reset() {
 	*x = AlgorithmResponse_Purls{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[19]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1279,7 +1346,7 @@ func (x *AlgorithmResponse_Purls) String() string {
 func (*AlgorithmResponse_Purls) ProtoMessage() {}
 
 func (x *AlgorithmResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[19]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1347,7 +1414,7 @@ type AlgorithmsInRangeResponse_Purl struct {
 
 func (x *AlgorithmsInRangeResponse_Purl) Reset() {
 	*x = AlgorithmsInRangeResponse_Purl{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[20]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1359,7 +1426,7 @@ func (x *AlgorithmsInRangeResponse_Purl) String() string {
 func (*AlgorithmsInRangeResponse_Purl) ProtoMessage() {}
 
 func (x *AlgorithmsInRangeResponse_Purl) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[20]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1427,7 +1494,7 @@ type ComponentsAlgorithmsInRangeResponse_Component struct {
 
 func (x *ComponentsAlgorithmsInRangeResponse_Component) Reset() {
 	*x = ComponentsAlgorithmsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[21]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1439,7 +1506,7 @@ func (x *ComponentsAlgorithmsInRangeResponse_Component) String() string {
 func (*ComponentsAlgorithmsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentsAlgorithmsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[21]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1507,7 +1574,7 @@ type ComponentAlgorithmsInRangeResponse_Component struct {
 
 func (x *ComponentAlgorithmsInRangeResponse_Component) Reset() {
 	*x = ComponentAlgorithmsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[22]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1519,7 +1586,7 @@ func (x *ComponentAlgorithmsInRangeResponse_Component) String() string {
 func (*ComponentAlgorithmsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentAlgorithmsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[22]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1587,7 +1654,7 @@ type VersionsInRangeResponse_Purl struct {
 
 func (x *VersionsInRangeResponse_Purl) Reset() {
 	*x = VersionsInRangeResponse_Purl{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[23]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1599,7 +1666,7 @@ func (x *VersionsInRangeResponse_Purl) String() string {
 func (*VersionsInRangeResponse_Purl) ProtoMessage() {}
 
 func (x *VersionsInRangeResponse_Purl) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[23]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1667,7 +1734,7 @@ type ComponentsVersionsInRangeResponse_Component struct {
 
 func (x *ComponentsVersionsInRangeResponse_Component) Reset() {
 	*x = ComponentsVersionsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[24]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1679,7 +1746,7 @@ func (x *ComponentsVersionsInRangeResponse_Component) String() string {
 func (*ComponentsVersionsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentsVersionsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[24]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1747,7 +1814,7 @@ type ComponentVersionsInRangeResponse_Component struct {
 
 func (x *ComponentVersionsInRangeResponse_Component) Reset() {
 	*x = ComponentVersionsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[25]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1759,7 +1826,7 @@ func (x *ComponentVersionsInRangeResponse_Component) String() string {
 func (*ComponentVersionsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentVersionsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[25]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1827,7 +1894,7 @@ type HintsResponse_Purls struct {
 
 func (x *HintsResponse_Purls) Reset() {
 	*x = HintsResponse_Purls{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[26]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1839,7 +1906,7 @@ func (x *HintsResponse_Purls) String() string {
 func (*HintsResponse_Purls) ProtoMessage() {}
 
 func (x *HintsResponse_Purls) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[26]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1907,7 +1974,7 @@ type HintsInRangeResponse_Purl struct {
 
 func (x *HintsInRangeResponse_Purl) Reset() {
 	*x = HintsInRangeResponse_Purl{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[27]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1919,7 +1986,7 @@ func (x *HintsInRangeResponse_Purl) String() string {
 func (*HintsInRangeResponse_Purl) ProtoMessage() {}
 
 func (x *HintsInRangeResponse_Purl) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[27]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1987,7 +2054,7 @@ type ComponentsHintsInRangeResponse_Component struct {
 
 func (x *ComponentsHintsInRangeResponse_Component) Reset() {
 	*x = ComponentsHintsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[28]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1999,7 +2066,7 @@ func (x *ComponentsHintsInRangeResponse_Component) String() string {
 func (*ComponentsHintsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentsHintsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[28]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2067,7 +2134,7 @@ type ComponentHintsInRangeResponse_Component struct {
 
 func (x *ComponentHintsInRangeResponse_Component) Reset() {
 	*x = ComponentHintsInRangeResponse_Component{}
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[29]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2079,7 +2146,7 @@ func (x *ComponentHintsInRangeResponse_Component) String() string {
 func (*ComponentHintsInRangeResponse_Component) ProtoMessage() {}
 
 func (x *ComponentHintsInRangeResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[29]
+	mi := &file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2134,7 +2201,7 @@ var File_scanoss_api_cryptography_v2_scanoss_cryptography_proto protoreflect.Fil
 
 const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\n" +
-	"6scanoss/api/cryptography/v2/scanoss-cryptography.proto\x12\x1bscanoss.api.cryptography.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"E\n" +
+	"6scanoss/api/cryptography/v2/scanoss-cryptography.proto\x12\x1bscanoss.api.cryptography.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x19google/api/httpbody.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"E\n" +
 	"\tAlgorithm\x12\x1c\n" +
 	"\talgorithm\x18\x01 \x01(\tR\talgorithm\x12\x1a\n" +
 	"\bstrength\x18\x02 \x01(\tR\bstrength\"\xb5\x03\n" +
@@ -2351,7 +2418,10 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	" ComponentEncryptionHintsResponse\x12I\n" +
 	"\tcomponent\x18\x01 \x01(\v2+.scanoss.api.cryptography.v2.ComponentHintsR\tcomponent\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x98\x03\x92A\x94\x03\n" +
-	"\x91\x03J\x8e\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}2\x86\x14\n" +
+	"\x91\x03J\x8e\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints Successfully retrieved\"}}\"V\n" +
+	"\x16RulesetDownloadRequest\x12\"\n" +
+	"\fruleset_name\x18\x01 \x01(\tR\fruleset_name\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion2\xaa\x15\n" +
 	"\fCryptography\x12q\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/cryptography/echo\x12h\n" +
 	"\rGetAlgorithms\x12\".scanoss.api.common.v2.PurlRequest\x1a..scanoss.api.cryptography.v2.AlgorithmResponse\"\x03\x88\x02\x01\x12\xaa\x01\n" +
@@ -2368,7 +2438,8 @@ const file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc = "" +
 	"\x19GetComponentsHintsInRange\x12(.scanoss.api.common.v2.ComponentsRequest\x1a;.scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse\"2\x82\xd3\xe4\x93\x02,:\x01*\"'/v2/cryptography/hints/range/components\x12i\n" +
 	"\x12GetEncryptionHints\x12\".scanoss.api.common.v2.PurlRequest\x1a*.scanoss.api.cryptography.v2.HintsResponse\"\x03\x88\x02\x01\x12\xaf\x01\n" +
 	"\x1bGetComponentEncryptionHints\x12'.scanoss.api.common.v2.ComponentRequest\x1a=.scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse\"(\x82\xd3\xe4\x93\x02\"\x12 /v2/cryptography/hints/component\x12\xb6\x01\n" +
-	"\x1cGetComponentsEncryptionHints\x12(.scanoss.api.common.v2.ComponentsRequest\x1a>.scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/v2/cryptography/hints/componentsB\xbb\x03\x92A\xfc\x02\x12\x83\x02\n" +
+	"\x1cGetComponentsEncryptionHints\x12(.scanoss.api.common.v2.ComponentsRequest\x1a>.scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/v2/cryptography/hints/components\x12\xa1\x01\n" +
+	"\x0fDownloadRuleset\x123.scanoss.api.cryptography.v2.RulesetDownloadRequest\x1a\x14.google.api.HttpBody\"C\x82\xd3\xe4\x93\x02=\x12;/v2/cryptography/rulesets/{ruleset_name}/{version}/downloadB\xbb\x03\x92A\xfc\x02\x12\x83\x02\n" +
 	"\x1cSCANOSS Cryptography Service\x12\x87\x01Cryptography service provides cryptographic intelligence for software components including algorithm detection and encryption analysis.\"T\n" +
 	"\x14scanoss-cryptography\x12'https://github.com/scanoss/cryptography\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x01\x022\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
@@ -2387,7 +2458,7 @@ func file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescGZIP() [
 	return file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDescData
 }
 
-var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_goTypes = []any{
 	(*Algorithm)(nil),                                     // 0: scanoss.api.cryptography.v2.Algorithm
 	(*AlgorithmResponse)(nil),                             // 1: scanoss.api.cryptography.v2.AlgorithmResponse
@@ -2408,113 +2479,117 @@ var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_goTypes = []any{
 	(*ComponentHintsInRangeResponse)(nil),                 // 16: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
 	(*ComponentsEncryptionHintsResponse)(nil),             // 17: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
 	(*ComponentEncryptionHintsResponse)(nil),              // 18: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
-	(*AlgorithmResponse_Purls)(nil),                       // 19: scanoss.api.cryptography.v2.AlgorithmResponse.Purls
-	(*AlgorithmsInRangeResponse_Purl)(nil),                // 20: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
-	(*ComponentsAlgorithmsInRangeResponse_Component)(nil), // 21: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
-	(*ComponentAlgorithmsInRangeResponse_Component)(nil),  // 22: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
-	(*VersionsInRangeResponse_Purl)(nil),                  // 23: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
-	(*ComponentsVersionsInRangeResponse_Component)(nil),   // 24: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
-	(*ComponentVersionsInRangeResponse_Component)(nil),    // 25: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
-	(*HintsResponse_Purls)(nil),                           // 26: scanoss.api.cryptography.v2.HintsResponse.Purls
-	(*HintsInRangeResponse_Purl)(nil),                     // 27: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
-	(*ComponentsHintsInRangeResponse_Component)(nil),      // 28: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
-	(*ComponentHintsInRangeResponse_Component)(nil),       // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
-	(*commonv2.StatusResponse)(nil),                       // 30: scanoss.api.common.v2.StatusResponse
-	(commonv2.ErrorCode)(0),                               // 31: scanoss.api.common.v2.ErrorCode
-	(*commonv2.EchoRequest)(nil),                          // 32: scanoss.api.common.v2.EchoRequest
-	(*commonv2.PurlRequest)(nil),                          // 33: scanoss.api.common.v2.PurlRequest
-	(*commonv2.ComponentRequest)(nil),                     // 34: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.ComponentsRequest)(nil),                    // 35: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),                         // 36: scanoss.api.common.v2.EchoResponse
+	(*RulesetDownloadRequest)(nil),                        // 19: scanoss.api.cryptography.v2.RulesetDownloadRequest
+	(*AlgorithmResponse_Purls)(nil),                       // 20: scanoss.api.cryptography.v2.AlgorithmResponse.Purls
+	(*AlgorithmsInRangeResponse_Purl)(nil),                // 21: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
+	(*ComponentsAlgorithmsInRangeResponse_Component)(nil), // 22: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
+	(*ComponentAlgorithmsInRangeResponse_Component)(nil),  // 23: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
+	(*VersionsInRangeResponse_Purl)(nil),                  // 24: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
+	(*ComponentsVersionsInRangeResponse_Component)(nil),   // 25: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
+	(*ComponentVersionsInRangeResponse_Component)(nil),    // 26: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
+	(*HintsResponse_Purls)(nil),                           // 27: scanoss.api.cryptography.v2.HintsResponse.Purls
+	(*HintsInRangeResponse_Purl)(nil),                     // 28: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
+	(*ComponentsHintsInRangeResponse_Component)(nil),      // 29: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
+	(*ComponentHintsInRangeResponse_Component)(nil),       // 30: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
+	(*commonv2.StatusResponse)(nil),                       // 31: scanoss.api.common.v2.StatusResponse
+	(commonv2.ErrorCode)(0),                               // 32: scanoss.api.common.v2.ErrorCode
+	(*commonv2.EchoRequest)(nil),                          // 33: scanoss.api.common.v2.EchoRequest
+	(*commonv2.PurlRequest)(nil),                          // 34: scanoss.api.common.v2.PurlRequest
+	(*commonv2.ComponentRequest)(nil),                     // 35: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.ComponentsRequest)(nil),                    // 36: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.EchoResponse)(nil),                         // 37: scanoss.api.common.v2.EchoResponse
+	(*httpbody.HttpBody)(nil),                             // 38: google.api.HttpBody
 }
 var file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_depIdxs = []int32{
-	19, // 0: scanoss.api.cryptography.v2.AlgorithmResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmResponse.Purls
-	30, // 1: scanoss.api.cryptography.v2.AlgorithmResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	20, // 0: scanoss.api.cryptography.v2.AlgorithmResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmResponse.Purls
+	31, // 1: scanoss.api.cryptography.v2.AlgorithmResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	0,  // 2: scanoss.api.cryptography.v2.ComponentAlgorithms.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	31, // 3: scanoss.api.cryptography.v2.ComponentAlgorithms.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 3: scanoss.api.cryptography.v2.ComponentAlgorithms.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	2,  // 4: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
-	30, // 5: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	31, // 5: scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	2,  // 6: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithms
-	30, // 7: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	20, // 8: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
-	30, // 9: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	21, // 10: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
-	30, // 11: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	22, // 12: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
-	30, // 13: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	23, // 14: scanoss.api.cryptography.v2.VersionsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
-	30, // 15: scanoss.api.cryptography.v2.VersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	24, // 16: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
-	30, // 17: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	25, // 18: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
-	30, // 19: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	31, // 7: scanoss.api.cryptography.v2.ComponentAlgorithmsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	21, // 8: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl
+	31, // 9: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	22, // 10: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component
+	31, // 11: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	23, // 12: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component
+	31, // 13: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	24, // 14: scanoss.api.cryptography.v2.VersionsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl
+	31, // 15: scanoss.api.cryptography.v2.VersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	25, // 16: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component
+	31, // 17: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	26, // 18: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component
+	31, // 19: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	11, // 20: scanoss.api.cryptography.v2.ComponentHints.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	31, // 21: scanoss.api.cryptography.v2.ComponentHints.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	26, // 22: scanoss.api.cryptography.v2.HintsResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsResponse.Purls
-	30, // 23: scanoss.api.cryptography.v2.HintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	27, // 24: scanoss.api.cryptography.v2.HintsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
-	30, // 25: scanoss.api.cryptography.v2.HintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	28, // 26: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
-	30, // 27: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	29, // 28: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
-	30, // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	32, // 21: scanoss.api.cryptography.v2.ComponentHints.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	27, // 22: scanoss.api.cryptography.v2.HintsResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsResponse.Purls
+	31, // 23: scanoss.api.cryptography.v2.HintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	28, // 24: scanoss.api.cryptography.v2.HintsInRangeResponse.purls:type_name -> scanoss.api.cryptography.v2.HintsInRangeResponse.Purl
+	31, // 25: scanoss.api.cryptography.v2.HintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	29, // 26: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component
+	31, // 27: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	30, // 28: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component
+	31, // 29: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	12, // 30: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.components:type_name -> scanoss.api.cryptography.v2.ComponentHints
-	30, // 31: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	31, // 31: scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	12, // 32: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.component:type_name -> scanoss.api.cryptography.v2.ComponentHints
-	30, // 33: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	31, // 33: scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	0,  // 34: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	31, // 35: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 35: scanoss.api.cryptography.v2.AlgorithmResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	0,  // 36: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	31, // 37: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 37: scanoss.api.cryptography.v2.AlgorithmsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	0,  // 38: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	31, // 39: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 39: scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	0,  // 40: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.algorithms:type_name -> scanoss.api.cryptography.v2.Algorithm
-	31, // 41: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	31, // 42: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	31, // 43: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	31, // 44: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 41: scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 42: scanoss.api.cryptography.v2.VersionsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 43: scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 44: scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	11, // 45: scanoss.api.cryptography.v2.HintsResponse.Purls.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	31, // 46: scanoss.api.cryptography.v2.HintsResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 46: scanoss.api.cryptography.v2.HintsResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	11, // 47: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	31, // 48: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 48: scanoss.api.cryptography.v2.HintsInRangeResponse.Purl.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	11, // 49: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	31, // 50: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	32, // 50: scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
 	11, // 51: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.hints:type_name -> scanoss.api.cryptography.v2.Hint
-	31, // 52: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	32, // 53: scanoss.api.cryptography.v2.Cryptography.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	33, // 54: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:input_type -> scanoss.api.common.v2.PurlRequest
-	34, // 55: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:input_type -> scanoss.api.common.v2.ComponentRequest
-	35, // 56: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:input_type -> scanoss.api.common.v2.ComponentsRequest
-	33, // 57: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:input_type -> scanoss.api.common.v2.PurlRequest
-	34, // 58: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
-	35, // 59: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
-	33, // 60: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:input_type -> scanoss.api.common.v2.PurlRequest
-	34, // 61: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
-	35, // 62: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
-	33, // 63: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:input_type -> scanoss.api.common.v2.PurlRequest
-	34, // 64: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
-	35, // 65: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
-	33, // 66: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:input_type -> scanoss.api.common.v2.PurlRequest
-	34, // 67: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:input_type -> scanoss.api.common.v2.ComponentRequest
-	35, // 68: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:input_type -> scanoss.api.common.v2.ComponentsRequest
-	36, // 69: scanoss.api.cryptography.v2.Cryptography.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 70: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:output_type -> scanoss.api.cryptography.v2.AlgorithmResponse
-	4,  // 71: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
-	3,  // 72: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
-	5,  // 73: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
-	7,  // 74: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
-	6,  // 75: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
-	8,  // 76: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:output_type -> scanoss.api.cryptography.v2.VersionsInRangeResponse
-	10, // 77: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
-	9,  // 78: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
-	14, // 79: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:output_type -> scanoss.api.cryptography.v2.HintsInRangeResponse
-	16, // 80: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
-	15, // 81: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
-	13, // 82: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:output_type -> scanoss.api.cryptography.v2.HintsResponse
-	18, // 83: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
-	17, // 84: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
-	69, // [69:85] is the sub-list for method output_type
-	53, // [53:69] is the sub-list for method input_type
+	32, // 52: scanoss.api.cryptography.v2.ComponentHintsInRangeResponse.Component.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	33, // 53: scanoss.api.cryptography.v2.Cryptography.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	34, // 54: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:input_type -> scanoss.api.common.v2.PurlRequest
+	35, // 55: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:input_type -> scanoss.api.common.v2.ComponentRequest
+	36, // 56: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:input_type -> scanoss.api.common.v2.ComponentsRequest
+	34, // 57: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:input_type -> scanoss.api.common.v2.PurlRequest
+	35, // 58: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
+	36, // 59: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
+	34, // 60: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:input_type -> scanoss.api.common.v2.PurlRequest
+	35, // 61: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
+	36, // 62: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
+	34, // 63: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:input_type -> scanoss.api.common.v2.PurlRequest
+	35, // 64: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:input_type -> scanoss.api.common.v2.ComponentRequest
+	36, // 65: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:input_type -> scanoss.api.common.v2.ComponentsRequest
+	34, // 66: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:input_type -> scanoss.api.common.v2.PurlRequest
+	35, // 67: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:input_type -> scanoss.api.common.v2.ComponentRequest
+	36, // 68: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:input_type -> scanoss.api.common.v2.ComponentsRequest
+	19, // 69: scanoss.api.cryptography.v2.Cryptography.DownloadRuleset:input_type -> scanoss.api.cryptography.v2.RulesetDownloadRequest
+	37, // 70: scanoss.api.cryptography.v2.Cryptography.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 71: scanoss.api.cryptography.v2.Cryptography.GetAlgorithms:output_type -> scanoss.api.cryptography.v2.AlgorithmResponse
+	4,  // 72: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsResponse
+	3,  // 73: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithms:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsResponse
+	5,  // 74: scanoss.api.cryptography.v2.Cryptography.GetAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.AlgorithmsInRangeResponse
+	7,  // 75: scanoss.api.cryptography.v2.Cryptography.GetComponentAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentAlgorithmsInRangeResponse
+	6,  // 76: scanoss.api.cryptography.v2.Cryptography.GetComponentsAlgorithmsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsAlgorithmsInRangeResponse
+	8,  // 77: scanoss.api.cryptography.v2.Cryptography.GetVersionsInRange:output_type -> scanoss.api.cryptography.v2.VersionsInRangeResponse
+	10, // 78: scanoss.api.cryptography.v2.Cryptography.GetComponentVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentVersionsInRangeResponse
+	9,  // 79: scanoss.api.cryptography.v2.Cryptography.GetComponentsVersionsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsVersionsInRangeResponse
+	14, // 80: scanoss.api.cryptography.v2.Cryptography.GetHintsInRange:output_type -> scanoss.api.cryptography.v2.HintsInRangeResponse
+	16, // 81: scanoss.api.cryptography.v2.Cryptography.GetComponentHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentHintsInRangeResponse
+	15, // 82: scanoss.api.cryptography.v2.Cryptography.GetComponentsHintsInRange:output_type -> scanoss.api.cryptography.v2.ComponentsHintsInRangeResponse
+	13, // 83: scanoss.api.cryptography.v2.Cryptography.GetEncryptionHints:output_type -> scanoss.api.cryptography.v2.HintsResponse
+	18, // 84: scanoss.api.cryptography.v2.Cryptography.GetComponentEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentEncryptionHintsResponse
+	17, // 85: scanoss.api.cryptography.v2.Cryptography.GetComponentsEncryptionHints:output_type -> scanoss.api.cryptography.v2.ComponentsEncryptionHintsResponse
+	38, // 86: scanoss.api.cryptography.v2.Cryptography.DownloadRuleset:output_type -> google.api.HttpBody
+	70, // [70:87] is the sub-list for method output_type
+	53, // [53:70] is the sub-list for method input_type
 	53, // [53:53] is the sub-list for extension type_name
 	53, // [53:53] is the sub-list for extension extendee
 	0,  // [0:53] is the sub-list for field type_name
@@ -2527,7 +2602,6 @@ func file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_init() {
 	}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[2].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[12].OneofWrappers = []any{}
-	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[19].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[20].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[21].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[22].OneofWrappers = []any{}
@@ -2538,13 +2612,14 @@ func file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_init() {
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[27].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[28].OneofWrappers = []any{}
 	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[29].OneofWrappers = []any{}
+	file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_msgTypes[30].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc), len(file_scanoss_api_cryptography_v2_scanoss_cryptography_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

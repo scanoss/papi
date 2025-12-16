@@ -24,7 +24,7 @@
 
 /***
  * Cryptography definition details
- * 
+ *
  * Provides cryptographic intelligence for software components including algorithm detection,
  * encryption hints, and cryptographic assessment across version ranges.
 ***/
@@ -35,6 +35,7 @@ option go_package = "github.com/scanoss/papi/api/cryptographyv2;cryptographyv2";
 
 import "scanoss/api/common/v2/scanoss-common.proto";
 import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -67,7 +68,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 /*
  * Cryptography Service Definition
- * 
+ *
  * Provides comprehensive cryptographic intelligence for software components
  * including algorithm detection, encryption hints, and security assessments.
  */
@@ -85,7 +86,7 @@ service Cryptography {
   // ****** Algorithms ****** //
   /*
    * Get cryptographic algorithms associated with a list of PURLs - legacy endpoint.
-   * 
+   *
    * Legacy method for retrieving cryptographic algorithms used by software components.
    * Use GetComponentAlgorithms or GetComponentsAlgorithms instead.
    */
@@ -95,10 +96,10 @@ service Cryptography {
 
   /*
    * Get cryptographic algorithms associated with a single software component.
-   * 
+   *
    * Analyzes the component and returns cryptographic algorithms detected in the codebase
    * including algorithm names and strength classifications.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithms
    */
   rpc GetComponentAlgorithms(scanoss.api.common.v2.ComponentRequest) returns(ComponentAlgorithmsResponse) {
@@ -109,10 +110,10 @@ service Cryptography {
 
   /*
    * Get cryptographic algorithms associated with multiple software components in a single request.
-   * 
+   *
    * Analyzes multiple components and returns cryptographic algorithms detected in each codebase
    * including algorithm names and strength classifications.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithms
    */
   rpc GetComponentsAlgorithms(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsAlgorithmsResponse) {
@@ -126,7 +127,7 @@ service Cryptography {
   // ****** Algorithms in range ****** //
   /*
    * Get cryptographic algorithms used across version ranges - legacy endpoint.
-   * 
+   *
    * Legacy method for retrieving cryptographic algorithms across component version ranges.
    * Use GetComponentAlgorithmsInRange or GetComponentsAlgorithmsInRange instead.
    */
@@ -136,10 +137,10 @@ service Cryptography {
 
   /*
    * Get cryptographic algorithms used by a component across specified version ranges.
-   * 
+   *
    * Analyzes the component across version ranges and returns all cryptographic algorithms
    * detected along with the versions where they appear.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentalgorithmsinrange
    */
   rpc GetComponentAlgorithmsInRange(scanoss.api.common.v2.ComponentRequest) returns(ComponentAlgorithmsInRangeResponse) {
@@ -150,10 +151,10 @@ service Cryptography {
 
   /*
    * Get cryptographic algorithms used by multiple components across specified version ranges.
-   * 
+   *
    * Analyzes multiple components across version ranges and returns all cryptographic algorithms
    * detected along with the versions where they appear for each component.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#getcomponentsalgorithmsinrange
    */
   rpc GetComponentsAlgorithmsInRange(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsAlgorithmsInRangeResponse) {
@@ -167,7 +168,7 @@ service Cryptography {
   // ****** Versions in range ****** //
   /*
    * Get component versions that contain or don't contain cryptographic algorithms - legacy endpoint.
-   * 
+   *
    * Legacy method for retrieving version lists based on cryptographic algorithm presence.
    * Use ComponentVersionsInRange or ComponentsVersionsInRange instead.
    */
@@ -177,10 +178,10 @@ service Cryptography {
 
   /*
    * Get component versions that contain or don't contain cryptographic algorithms within specified ranges.
-   * 
+   *
    * Returns lists of versions that either contain cryptographic algorithms or don't,
    * helping assess cryptographic presence across component evolution.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentversionsinrange
    */
   rpc GetComponentVersionsInRange(scanoss.api.common.v2.ComponentRequest) returns(ComponentVersionsInRangeResponse) {
@@ -191,10 +192,10 @@ service Cryptography {
 
   /*
    * Get multiple component versions that contain or don't contain cryptographic algorithms within specified ranges.
-   * 
+   *
    * Returns lists of versions for multiple components that either contain cryptographic algorithms or don't,
    * helping assess cryptographic presence across component evolution in batch operations.
-   * 
+   *
    * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#componentsversionsinrange
    */
   rpc GetComponentsVersionsInRange(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsVersionsInRangeResponse) {
@@ -208,7 +209,7 @@ service Cryptography {
   // ****** Hints in range ****** //
   /*
    * Get cryptographic hints across version ranges - legacy endpoint.
-   * 
+   *
    * Legacy method for retrieving cryptographic hints related to protocols, libraries,
    * SDKs and frameworks across version ranges. Use ComponentHintsInRange or ComponentsHintsInRange instead.
    */
@@ -245,7 +246,7 @@ service Cryptography {
   // ****** Encryption hints ****** //
   /*
    * Get encryption hints for components - legacy endpoint.
-   * 
+   *
    * Legacy method for retrieving hints about cryptographic protocols, libraries,
    * SDKs and frameworks used by components. Use ComponentHintsInRange or ComponentsHintsInRange instead.
    */
@@ -282,12 +283,42 @@ service Cryptography {
     };
   };
 
+  /*
+   * Download cryptography detection ruleset as a tarball.
+   *
+   * Downloads a compressed tarball containing cryptographic detection rules for various
+   * programming languages. Rulesets can be used with tools like SCANOSS Crypto Finder for
+   * cryptographic algorithm detection in source code.
+   *
+   * Supported ruleset types:
+   * - dca: Deep Code Analysis rules (for SCANOSS Crypto Finder)
+   * - keywords: Keyword-based detection rules
+   *
+   * Version can be:
+   * - "latest": Most recent version
+   * - Specific version: e.g., "v1.2.3"
+   *
+   * Response headers (via grpc-gateway):
+   * - Content-Type: application/gzip
+   * - Content-Disposition: attachment; filename="scanoss-crypto-{ruleset_name}-{version}.tar.gz"
+   * - X-Ruleset-Name: Name of the ruleset
+   * - X-Ruleset-Version: Resolved version number
+   * - X-Checksum-SHA256: SHA256 checksum of the tarball
+   *
+   * See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#downloadruleset
+   */
+  rpc DownloadRuleset(RulesetDownloadRequest) returns(google.api.HttpBody) {
+    option (google.api.http) = {
+      get: "/v2/cryptography/rulesets/{ruleset_name}/{version}/download"
+    };
+  };
+
 }
 
 
 /*
  * Cryptographic algorithm information.
- * 
+ *
  * Contains details about cryptographic algorithms detected in software components
  * including algorithm identification and strength assessment.
  */
@@ -300,7 +331,7 @@ message Algorithm {
 
 /*
  * Legacy response message for cryptographic algorithm information.
- * 
+ *
  * Contains algorithm data for multiple components. Use ComponentAlgorithmResponse
  * or ComponentsAlgorithmsResponse instead for new implementations.
  */
@@ -328,7 +359,7 @@ message AlgorithmResponse {
 
 /*
  * Cryptographic algorithm information for a specific component identified by PURL and version.
- * 
+ *
  * Contains comprehensive algorithm details including detected algorithms and their
  * strength classifications for software components.
  */
@@ -348,7 +379,7 @@ message ComponentAlgorithms {
 
 /*
  * Response message for GetComponentsAlgorithms method.
- * 
+ *
  * Contains cryptographic algorithm information for multiple software components
  * processed in a single batch request. Each component is analyzed independently.
  */
@@ -367,7 +398,7 @@ message ComponentsAlgorithmsResponse{
 
 /*
  * Response message for GetComponentAlgorithms method.
- * 
+ *
  * Contains cryptographic algorithm information for a single software component including
  * algorithm names, strength classifications, and analysis metadata.
  */
@@ -411,7 +442,7 @@ message AlgorithmsInRangeResponse {
 
 /*
  * Response message for GetComponentsAlgorithmsInRange method.
- * 
+ *
  * Contains cryptographic algorithm information for multiple components across version ranges
  * processed in a single batch request. Each component is analyzed independently.
  */
@@ -443,7 +474,7 @@ message ComponentsAlgorithmsInRangeResponse {
 
 /*
  * Response message for GetComponentAlgorithmsInRange method.
- * 
+ *
  * Contains cryptographic algorithm information for a single component across version ranges
  * including all detected algorithms and the versions where they appear.
  */
@@ -498,7 +529,7 @@ message ComponentAlgorithmsInRangeResponse {
 
 /*
  * Response message for ComponentsVersionsInRange method.
- * 
+ *
  * Contains version lists for multiple components categorized by cryptographic algorithm presence,
  * processed in a single batch request. Each component is analyzed independently.
  */
@@ -530,7 +561,7 @@ message ComponentsVersionsInRangeResponse {
 
 /*
  * Response message for ComponentVersionsInRange method.
- * 
+ *
  * Contains version lists for a single component categorized by cryptographic algorithm presence,
  * helping assess cryptographic adoption across component evolution.
  */
@@ -564,7 +595,7 @@ message ComponentVersionsInRangeResponse {
 
 /*
  * Cryptographic hint information.
- * 
+ *
  * Contains details about cryptographic protocols, libraries, SDKs and frameworks
  * detected in software components, providing insights into cryptographic usage patterns.
  */
@@ -585,7 +616,7 @@ message Hint {
 
 /*
  * Cryptographic hint information for a specific component identified by PURL and version.
- * 
+ *
  * Contains comprehensive cryptographic hints about protocols, libraries, SDKs and frameworks
  * used by the component, providing insights into cryptographic dependencies and usage patterns.
  */
@@ -706,7 +737,7 @@ message ComponentHintsInRangeResponse {
 
 /*
  * Response message for ComponentsHintsInRange method.
- * 
+ *
  * Contains cryptographic hint information for multiple software components
  * processed in a single batch request. Each component is analyzed independently.
  */
@@ -724,7 +755,7 @@ message ComponentsEncryptionHintsResponse {
 
 /*
  * Response message for ComponentHintsInRange method.
- * 
+ *
  * Contains cryptographic hint information for a single software component including
  * details about protocols, libraries, SDKs and frameworks used.
  */
@@ -738,4 +769,27 @@ message ComponentEncryptionHintsResponse {
   ComponentHints component = 1;
   // Response status indicating success or failure
   scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+
+/*
+ * Request message for downloading a cryptography detection ruleset.
+ *
+ * Specifies which ruleset to download and which version to retrieve.
+ *
+ * The response is a raw binary tarball (.tar.gz) with metadata in HTTP headers:
+ * - X-Ruleset-Name: Name of the ruleset
+ * - X-Ruleset-Version: Resolved version (when "latest" is requested, this shows actual version)
+ * - X-Checksum-SHA256: SHA256 checksum for integrity verification
+ * - Content-Disposition: Suggested filename for download
+ */
+message RulesetDownloadRequest {
+  // Name of ruleset to download (e.g., "dca", "keywords")
+  // - "dca": Deep Code Analysis rules for using with SCANOSS Crypto Finder
+  // - "keywords": Keyword-based detection rules
+  string ruleset_name = 1 [json_name = "ruleset_name"];
+
+  // Version of the ruleset to download
+  // Use "latest" for the most recent version, or specify a version like "v1.2.3"
+  string version = 2;
 }
