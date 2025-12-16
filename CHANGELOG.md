@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.27.0] - 2025-12-16
 ### Added
-- Added gRPC `DownloadRuleset` and REST endpoint POST `/v2/cryptography/rulesets/{ruleset_name}/{version}/download` for downloading cryptographic rulesets for keywords and deep code analysis.
+- Added gRPC `DownloadRuleset` and REST endpoint GET `/v2/cryptography/rulesets/{ruleset_name}/{version}/download` for downloading cryptographic rulesets for keywords and deep code analysis.
 
 ## [0.26.0] - 2025-12-09
 ### Added
