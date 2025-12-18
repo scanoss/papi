@@ -532,6 +532,6 @@ Each tarball includes a `manifest.json` with ruleset information:
   "version": "v1.2.3",
   "description": "Standard cryptography detection rules (to be used with SCANOSS Crypto Finder)",
   "created_at": "2025-11-10T10:00:00Z",
-  "checksum": "sha256:abc123..."
+  "checksum_sha256": "abc123..."
 }
 ```
