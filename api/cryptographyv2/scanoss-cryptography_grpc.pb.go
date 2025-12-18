@@ -199,8 +199,8 @@ type CryptographyClient interface {
 	// Response headers (via grpc-gateway):
 	// - Content-Type: application/gzip
 	// - Content-Disposition: attachment; filename="scanoss-crypto-{ruleset_name}-{version}.tar.gz"
-	// - X-Ruleset-Name: Name of the ruleset
-	// - X-Ruleset-Version: Resolved version number
+	// - SCANOSS-Ruleset-Name: Name of the ruleset
+	// - SCANOSS-Ruleset-Version: Resolved version number
 	// - X-Checksum-SHA256: SHA256 checksum of the tarball
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#downloadruleset
@@ -519,8 +519,8 @@ type CryptographyServer interface {
 	// Response headers (via grpc-gateway):
 	// - Content-Type: application/gzip
 	// - Content-Disposition: attachment; filename="scanoss-crypto-{ruleset_name}-{version}.tar.gz"
-	// - X-Ruleset-Name: Name of the ruleset
-	// - X-Ruleset-Version: Resolved version number
+	// - SCANOSS-Ruleset-Name: Name of the ruleset
+	// - SCANOSS-Ruleset-Version: Resolved version number
 	// - X-Checksum-SHA256: SHA256 checksum of the tarball
 	//
 	// See: https://github.com/scanoss/papi/blob/main/protobuf/scanoss/api/cryptography/v2/README.md#downloadruleset
