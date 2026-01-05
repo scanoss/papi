@@ -443,7 +443,7 @@
                 }
               ],
               "epss": {
-                "score": 0.00483,
+                "probability": 0.00483,
                 "percentile": 0.64405
               }
             }
@@ -561,7 +561,7 @@
                   }
                 ],
                 "epss": {
-                  "score": 0.00483,
+                  "probability": 0.00483,
                   "percentile": 0.64405
                 }
               }
@@ -589,7 +589,7 @@
                   }
                 ],
                 "epss": {
-                  "score": 0.0012,
+                  "probability": 0.0012,
                   "percentile": 0.3162
                 }
               }
@@ -660,13 +660,13 @@
           "format": "float",
           "title": "Percentile ranking (0.0 to 1.0) indicating the proportion of vulnerabilities with lower or equal EPSS scores"
         },
-        "score": {
+        "probability": {
           "type": "number",
           "format": "float",
-          "title": "Probability score (0.0 to 1.0) estimating the likelihood of exploitation in the next 30 days"
+          "title": "Probability (0.0 to 1.0) estimating the likelihood of exploitation in the next 30 days"
         }
       },
-      "description": "Exploit Prediction Scoring System (EPSS) information.\n\nEPSS is a data-driven model for estimating the probability that a software\nvulnerability will be exploited in the wild. It provides both a probability\nscore and a percentile ranking relative to all other vulnerabilities."
+      "description": "Exploit Prediction Scoring System (EPSS) information.\n\nEPSS is a data-driven model for estimating the probability that a software\nvulnerability will be exploited in the wild. It provides both a probability\nprobability and a percentile ranking relative to all other vulnerabilities."
     },
     "v2EchoRequest": {
       "type": "object",

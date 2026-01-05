@@ -426,13 +426,13 @@ func (x *CVSS) GetCvssSeverity() string {
 //
 // EPSS is a data-driven model for estimating the probability that a software
 // vulnerability will be exploited in the wild. It provides both a probability
-// score and a percentile ranking relative to all other vulnerabilities.
+// probability and a percentile ranking relative to all other vulnerabilities.
 type EPSS struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Percentile ranking (0.0 to 1.0) indicating the proportion of vulnerabilities with lower or equal EPSS scores
 	Percentile float32 `protobuf:"fixed32,1,opt,name=percentile,proto3" json:"percentile,omitempty"`
-	// Probability score (0.0 to 1.0) estimating the likelihood of exploitation in the next 30 days
-	Score         float32 `protobuf:"fixed32,2,opt,name=score,proto3" json:"score,omitempty"`
+	// Probability (0.0 to 1.0) estimating the likelihood of exploitation in the next 30 days
+	Probability   float32 `protobuf:"fixed32,2,opt,name=probability,proto3" json:"probability,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -474,9 +474,9 @@ func (x *EPSS) GetPercentile() float32 {
 	return 0
 }
 
-func (x *EPSS) GetScore() float32 {
+func (x *EPSS) GetProbability() float32 {
 	if x != nil {
-		return x.Score
+		return x.Probability
 	}
 	return 0
 }
@@ -1064,12 +1064,12 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\n" +
 	"cvss_score\x18\x02 \x01(\x02R\n" +
 	"cvss_score\x12$\n" +
-	"\rcvss_severity\x18\x03 \x01(\tR\rcvss_severity\"<\n" +
+	"\rcvss_severity\x18\x03 \x01(\tR\rcvss_severity\"H\n" +
 	"\x04EPSS\x12\x1e\n" +
 	"\n" +
 	"percentile\x18\x01 \x01(\x02R\n" +
-	"percentile\x12\x14\n" +
-	"\x05score\x18\x02 \x01(\x02R\x05score\"\xbf\x02\n" +
+	"percentile\x12 \n" +
+	"\vprobability\x18\x02 \x01(\x02R\vprobability\"\xbf\x02\n" +
 	"\rVulnerability\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03cve\x18\x02 \x01(\tR\x03cve\x12\x10\n" +
@@ -1092,18 +1092,18 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12W\n" +
-	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\"\xc4\x06\n" +
+	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\"\xca\x06\n" +
 	"\x1eComponentVulnerabilityResponse\x12X\n" +
 	"\tcomponent\x18\x01 \x01(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x88\x05\x92A\x84\x05\n" +
-	"\x81\x05J\xfe\x04{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"score\": 0.00483, \"percentile\": 0.64405}}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xd0\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x8e\x05\x92A\x8a\x05\n" +
+	"\x87\x05J\x84\x05{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xdc\n" +
 	"\n" +
 	"\x1fComponentsVulnerabilityResponse\x12Z\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x91\t\x92A\x8d\t\n" +
-	"\x8a\tJ\x87\t{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"score\": 0.00483, \"percentile\": 0.64405}}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}], \"epss\": {\"score\": 0.0012, \"percentile\": 0.3162}}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xb3\b\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x9d\t\x92A\x99\t\n" +
+	"\x96\tJ\x93\t{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}], \"epss\": {\"probability\": 0.0012, \"percentile\": 0.3162}}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xb3\b\n" +
 	"\x0fVulnerabilities\x12t\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/v2/vulnerabilities/echo\x12q\n" +
 	"\aGetCpes\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a+.scanoss.api.vulnerabilities.v2.CpeResponse\"\x03\x88\x02\x01\x12\x9e\x01\n" +
