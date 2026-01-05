@@ -427,21 +427,25 @@
           "version": "1.0.0",
           "vulnerabilities": [
             {
-              "id": "DLA-2640-1",
-              "cve": "DLA-2640-1",
-              "url": "https://osv.dev/vulnerability/DLA-2640-1",
-              "summary": "gst-plugins-good1.0 - security update",
-              "severity": "Critical",
-              "published": "2021-04-26",
-              "modified": "2025-05-26",
-              "source": "OSV",
+              "id": "CVE-1999-0214",
+              "cve": "CVE-1999-0214",
+              "url": "https://nvd.nist.gov/vuln/detail/CVE-1999-0214",
+              "summary": "Denial of service by sending forged ICMP unreachable packets",
+              "severity": "High",
+              "published": "1992-07-21",
+              "modified": "2025-04-02",
+              "source": "NVD",
               "cvss": [
                 {
-                  "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-                  "cvss_score": 9.8,
-                  "cvss_severity": "Critical"
+                  "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                  "cvss_score": 7.5,
+                  "cvss_severity": "High"
                 }
-              ]
+              ],
+              "epss": {
+                "score": 0.00483,
+                "percentile": 0.64405
+              }
             }
           ]
         },
@@ -541,21 +545,25 @@
             "version": "1.0.0",
             "vulnerabilities": [
               {
-                "id": "DLA-2640-1",
-                "cve": "DLA-2640-1",
-                "url": "https://osv.dev/vulnerability/DLA-2640-1",
-                "summary": "gst-plugins-good1.0 - security update",
-                "severity": "Critical",
-                "published": "2021-04-26",
-                "modified": "2025-05-26",
-                "source": "OSV",
+                "id": "CVE-1999-0214",
+                "cve": "CVE-1999-0214",
+                "url": "https://nvd.nist.gov/vuln/detail/CVE-1999-0214",
+                "summary": "Denial of service by sending forged ICMP unreachable packets",
+                "severity": "High",
+                "published": "1992-07-21",
+                "modified": "2025-04-02",
+                "source": "NVD",
                 "cvss": [
                   {
-                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-                    "cvss_score": 9.8,
-                    "cvss_severity": "Critical"
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                    "cvss_score": 7.5,
+                    "cvss_severity": "High"
                   }
-                ]
+                ],
+                "epss": {
+                  "score": 0.00483,
+                  "percentile": 0.64405
+                }
               }
             ]
           },
@@ -579,7 +587,11 @@
                     "cvss_score": 4.3,
                     "cvss_severity": "Medium"
                   }
-                ]
+                ],
+                "epss": {
+                  "score": 0.0012,
+                  "percentile": 0.3162
+                }
               }
             ]
           }
@@ -639,6 +651,22 @@
         }
       },
       "description": "CPE information for a specific component."
+    },
+    "v2EPSS": {
+      "type": "object",
+      "properties": {
+        "percentile": {
+          "type": "number",
+          "format": "float",
+          "title": "Percentile ranking (0.0 to 1.0) indicating the proportion of vulnerabilities with lower or equal EPSS scores"
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "title": "Probability score (0.0 to 1.0) estimating the likelihood of exploitation in the next 30 days"
+        }
+      },
+      "description": "Exploit Prediction Scoring System (EPSS) information.\n\nEPSS is a data-driven model for estimating the probability that a software\nvulnerability will be exploited in the wild. It provides both a probability\nscore and a percentile ranking relative to all other vulnerabilities."
     },
     "v2EchoRequest": {
       "type": "object",
@@ -734,6 +762,10 @@
             "$ref": "#/definitions/v2CVSS"
           },
           "title": "CVSS (Common Vulnerability Scoring System)"
+        },
+        "epss": {
+          "$ref": "#/definitions/v2EPSS",
+          "title": "EPSS (Exploit Prediction Scoring System) data for this vulnerability"
         }
       },
       "description": "Individual vulnerability information with security metadata.\n\nContains comprehensive vulnerability details including identifiers, severity scores,\npublication dates, and descriptive information from various security databases."

@@ -83,6 +83,7 @@ Each vulnerability object contains:
 - Summary description
 - Source database information
 - CVSS array with detailed scoring information (vector, score, and severity)
+- Exploit Prediction Scoring System (EPSS) data (score, percentile)
 
 ### CVSS Information
 
@@ -117,7 +118,11 @@ The `cvss` field is an array of CVSS (Common Vulnerability Scoring System) objec
             "cvss_score": 7.5,
             "cvss_severity": "High"
           }
-        ]
+        ],
+        "epss": {
+          "score": 0.00053,
+          "percentile": 0.16477
+        }
       }
     ]
   },

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.0] - 2026-01-05
+### Added
+- Added EPSS (Exploit Prediction Scoring System) field to `Vulnerability` message with `score` and `percentile` fields
+- Added EPSS examples to `ComponentVulnerabilityResponse` and `ComponentsVulnerabilityResponse` JSON schema examples 
+
 ## [0.27.0] - 2025-12-18
 ### Added
 - Added gRPC `DownloadRuleset` and REST endpoint GET `/v2/cryptography/rulesets/{ruleset_name}/{version}/download` for downloading cryptographic rulesets for keywords and deep code analysis.
@@ -217,6 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added REST endpoint support for each service also
 
 [Unreleased]: https://github.com/scanoss/papi/compare/v0.12.0...HEAD
+[0.28.0]: https://github.com/scanoss/papi/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/scanoss/papi/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/scanoss/papi/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/scanoss/papi/compare/v0.24.0...v0.25.0
