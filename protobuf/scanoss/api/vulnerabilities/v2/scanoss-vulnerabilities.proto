@@ -218,6 +218,11 @@ message ComponentCpesInfo {
   string requirement = 3;
   // List of Common Platform Enumeration identifiers associated with this component
   repeated string cpes = 4;
+
+  // Optional error message describing what went wrong during component processing
+  optional string error_message = 5 [json_name = "error_message"];
+  // Optional error code indicating the type of error encountered
+  optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
 }
 
 /*
@@ -230,6 +235,7 @@ message ComponentCpesResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}";
+      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}";
     }
   };
   // CPE information for the component
@@ -247,7 +253,8 @@ message ComponentCpesResponse {
 message ComponentsCpesResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement=\": \"1.0.0\", \"version=\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}";
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}";
+      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/engine\\\",\\\"requirement\\\":\\\"1.0.0\\\",\\\"version\\\":\\\"1.0.0\\\",\\\"cpes\\\":[\\\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\\\"]},{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}";
     }
   };
   // CPE information for each component in the batch
@@ -355,6 +362,11 @@ message ComponentVulnerabilityInfo {
   string requirement = 3;
   // List of known vulnerabilities affecting this component
   repeated Vulnerability vulnerabilities = 4;
+
+  // Optional error message describing what went wrong during component processing
+  optional string error_message = 5 [json_name = "error_message"];
+  // Optional error code indicating the type of error encountered
+  optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
 }
 
 /*
@@ -366,6 +378,7 @@ message ComponentVulnerabilityInfo {
 message ComponentVulnerabilityResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
+      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}";
       example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
     }
   };
@@ -384,6 +397,7 @@ message ComponentVulnerabilityResponse {
 message ComponentsVulnerabilityResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
+      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"components\":[{\"purl\":\"pkg:github/scanoss/engine\",\"requirement\":\"1.0.0\",\"version\":\"1.0.0\",\"vulnerabilities\":[{\"id\":\"CVE-1999-0214\",\"cve\":\"CVE-1999-0214\"}]},{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}";
       example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}], \"epss\": {\"probability\": 0.0012, \"percentile\": 0.3162}}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}";
     }
   };
