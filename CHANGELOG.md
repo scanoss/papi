@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.29.0] - 2026-02-13
+### Added
+- Added `error_message` and `error_code` fields to `ComponentVulnerabilityInfo` message for enhanced error handling in vulnerability responses
+- Added `error_message` and `error_code` fields to `ComponentCpesInfo` message for enhanced error handling in CPE responses
+- Added error response descriptions to `ComponentVulnerabilityResponse`, `ComponentsVulnerabilityResponse`, `ComponentCpesResponse`, and `ComponentsCpesResponse` JSON schema documentation
+
 ## [0.28.0] - 2026-01-05
 ### Added
 - Added EPSS (Exploit Prediction Scoring System) field to `Vulnerability` message with `probability` and `percentile` fields
@@ -221,6 +228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.29.0]: https://github.com/scanoss/papi/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/scanoss/papi/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/scanoss/papi/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/scanoss/papi/compare/v0.25.0...v0.26.0

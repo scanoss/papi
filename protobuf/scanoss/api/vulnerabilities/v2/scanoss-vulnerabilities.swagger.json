@@ -340,6 +340,14 @@
             "type": "string"
           },
           "title": "List of Common Platform Enumeration identifiers associated with this component"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "description": "Common Platform Enumeration information for a specific component.\n\nContains CPE identifiers that can be used to match the component\nagainst vulnerability databases and security advisories."
@@ -370,7 +378,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Response message for GetComponentCpes method.\n\nContains Common Platform Enumeration identifiers for a single software component.\nCPEs enable matching against vulnerability databases and security advisories."
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}"
     },
     "v2ComponentRequest": {
       "type": "object",
@@ -414,6 +422,14 @@
             "$ref": "#/definitions/v2Vulnerability"
           },
           "title": "List of known vulnerabilities affecting this component"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "description": "Vulnerability information for a specific component identified by PURL and version.\n\nContains comprehensive vulnerability details including CVE information, severity scores,\nand security metadata for software components."
@@ -464,7 +480,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Response message for GetComponentVulnerabilities method.\n\nContains vulnerability information for a single software component including\nCVE details, severity scores, and security metadata."
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}"
     },
     "v2ComponentsCpesResponse": {
       "type": "object",
@@ -472,8 +488,8 @@
         "components": [
           {
             "purl": "pkg:github/scanoss/engine",
-            "requirement=": "1.0.0",
-            "version=": "1.0.0",
+            "requirement": "1.0.0",
+            "version": "1.0.0",
             "cpes": [
               "cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*"
             ]
@@ -506,7 +522,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Response message for GetComponentsCpes method.\n\nContains Common Platform Enumeration identifiers for multiple software components\nprocessed in a single batch request. Each component is analyzed independently."
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/engine\\\",\\\"requirement\\\":\\\"1.0.0\\\",\\\"version\\\":\\\"1.0.0\\\",\\\"cpes\\\":[\\\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\\\"]},{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}"
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -615,7 +631,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Response message for GetComponentsVulnerabilities method.\n\nContains vulnerability information for multiple software components processed\nin a single batch request. Each component is analyzed independently."
+      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"components\":[{\"purl\":\"pkg:github/scanoss/engine\",\"requirement\":\"1.0.0\",\"version\":\"1.0.0\",\"vulnerabilities\":[{\"id\":\"CVE-1999-0214\",\"cve\":\"CVE-1999-0214\"}]},{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}"
     },
     "v2CpeResponse": {
       "type": "object",
@@ -685,6 +701,17 @@
         }
       },
       "description": "Echo Message Response."
+    },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER"
+      ],
+      "default": "INVALID_PURL",
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed"
     },
     "v2StatusCode": {
       "type": "string",
