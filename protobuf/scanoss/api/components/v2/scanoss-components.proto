@@ -103,7 +103,27 @@ service Components {
       body: "*"
     };
   };
+
+  // Get status information for a specific purl
+  rpc GetComponentStatus(scanoss.api.common.v2.ComponentRequest) returns(ComponentStatusResponse) {
+    option (google.api.http) = {
+      get: "/v2/components/status"
+    };
+  };
+
+ // Get the statistics for the specified components
+  rpc GetComponentsStatus(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsStatusResponse) {
+    option (google.api.http) = {
+      post: "/v2/components/status"
+      body: "*"
+    };
+  };
+
+
 }
+
+
+
 
 /*
  * Component Search request data (JSON payload)
@@ -158,6 +178,59 @@ message ComponentsStatisticResponse {
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
 }
+
+
+message ComponentStatusResponse {
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: " { \"purl\": \"pkg:npm/strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } " ;
+    }
+  };   
+  
+  string purl = 1 [json_name = "purl"];
+  
+  message VersionStatus {
+    string name = 1;
+    string status = 2;
+    string indexed_date = 3;
+    string check_date = 4;
+  }
+  message ComponentStatus {
+    string name = 1;
+    string status = 2;
+    string first_indexed_date = 3;
+    string last_indexed_date = 4;
+  }
+  VersionStatus version_status = 2 [json_name = "version_status"];
+  ComponentStatus component_status = 3 [json_name = "component_status"];
+}
+
+
+
+
+
+/*
+ * Component Statistics response data (JSON payload)
+ */
+message ComponentsStatusResponse {
+   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\":[ { \"purl\": \"pkg:npm/strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ]}" ;
+    }
+  };      
+         
+      
+  // Component status
+  repeated ComponentStatusResponse component_status = 1 [json_name = "components"];;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2; 
+}
+
+
+
+
+
+
 
 /*
  * Component Search response data (JSON payload)

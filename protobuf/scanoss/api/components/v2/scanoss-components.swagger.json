@@ -185,6 +185,91 @@
         ]
       }
     },
+    "/v2/components/status": {
+      "get": {
+        "summary": "Get status information for a specific purl",
+        "operationId": "Components_GetComponentStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentStatusResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Components"
+        ]
+      },
+      "post": {
+        "summary": "Get the statistics for the specified components",
+        "operationId": "Components_GetComponentsStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsStatusResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Components"
+        ]
+      }
+    },
     "/v2/components/versions": {
       "get": {
         "summary": "Get all version information for a specific component",
@@ -265,6 +350,40 @@
         }
       },
       "title": "Version details (including license)"
+    },
+    "ComponentStatusResponseComponentStatus": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "first_indexed_date": {
+          "type": "string"
+        },
+        "last_indexed_date": {
+          "type": "string"
+        }
+      }
+    },
+    "ComponentStatusResponseVersionStatus": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "indexed_date": {
+          "type": "string"
+        },
+        "check_date": {
+          "type": "string"
+        }
+      }
     },
     "ComponentsStatisticResponseComponentStatistics": {
       "type": "object",
@@ -517,6 +636,34 @@
         "purl"
       ]
     },
+    "v2ComponentStatusResponse": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:npm/strive-molu-axios",
+        "version_status": {
+          "version": "0.0.1-beta.1",
+          "status": "deleted",
+          "indexed_date": "2024-06-21",
+          "check_date": "2026-02-01"
+        },
+        "component_status": {
+          "status": "active",
+          "first_indexed_date": "2022-03-01",
+          "last_indexed_date": "2026-02-15"
+        }
+      },
+      "properties": {
+        "purl": {
+          "type": "string"
+        },
+        "version_status": {
+          "$ref": "#/definitions/ComponentStatusResponseVersionStatus"
+        },
+        "component_status": {
+          "$ref": "#/definitions/ComponentStatusResponseComponentStatus"
+        }
+      }
+    },
     "v2ComponentsRequest": {
       "type": "object",
       "example": {
@@ -581,6 +728,42 @@
             "$ref": "#/definitions/ComponentsStatisticResponseComponentStatistics"
           },
           "title": "Component statistic details"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Component Statistics response data (JSON payload)"
+    },
+    "v2ComponentsStatusResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:npm/strive-molu-axios",
+            "version_status": {
+              "version": "0.0.1-beta.1",
+              "status": "deleted",
+              "indexed_date": "2024-06-21",
+              "check_date": "2026-02-01"
+            },
+            "component_status": {
+              "status": "active",
+              "first_indexed_date": "2022-03-01",
+              "last_indexed_date": "2026-02-15"
+            }
+          }
+        ]
+      },
+      "properties": {
+        "component_status": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentStatusResponse"
+          },
+          "title": "Component status"
         },
         "status": {
           "$ref": "#/definitions/v2StatusResponse",

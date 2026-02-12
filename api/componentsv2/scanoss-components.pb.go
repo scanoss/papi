@@ -265,6 +265,121 @@ func (x *ComponentsStatisticResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
+type ComponentStatusResponse struct {
+	state           protoimpl.MessageState                   `protogen:"open.v1"`
+	Purl            string                                   `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	VersionStatus   *ComponentStatusResponse_VersionStatus   `protobuf:"bytes,2,opt,name=version_status,proto3" json:"version_status,omitempty"`
+	ComponentStatus *ComponentStatusResponse_ComponentStatus `protobuf:"bytes,3,opt,name=component_status,proto3" json:"component_status,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ComponentStatusResponse) Reset() {
+	*x = ComponentStatusResponse{}
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentStatusResponse) ProtoMessage() {}
+
+func (x *ComponentStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentStatusResponse.ProtoReflect.Descriptor instead.
+func (*ComponentStatusResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ComponentStatusResponse) GetPurl() string {
+	if x != nil {
+		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse) GetVersionStatus() *ComponentStatusResponse_VersionStatus {
+	if x != nil {
+		return x.VersionStatus
+	}
+	return nil
+}
+
+func (x *ComponentStatusResponse) GetComponentStatus() *ComponentStatusResponse_ComponentStatus {
+	if x != nil {
+		return x.ComponentStatus
+	}
+	return nil
+}
+
+// Component Statistics response data (JSON payload)
+type ComponentsStatusResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Component status
+	ComponentStatus []*ComponentStatusResponse `protobuf:"bytes,1,rep,name=component_status,json=components,proto3" json:"component_status,omitempty"`
+	// Response status
+	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentsStatusResponse) Reset() {
+	*x = ComponentsStatusResponse{}
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentsStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentsStatusResponse) ProtoMessage() {}
+
+func (x *ComponentsStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentsStatusResponse.ProtoReflect.Descriptor instead.
+func (*ComponentsStatusResponse) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ComponentsStatusResponse) GetComponentStatus() []*ComponentStatusResponse {
+	if x != nil {
+		return x.ComponentStatus
+	}
+	return nil
+}
+
+func (x *ComponentsStatusResponse) GetStatus() *commonv2.StatusResponse {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
 // Component Search response data (JSON payload)
 type CompSearchResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -278,7 +393,7 @@ type CompSearchResponse struct {
 
 func (x *CompSearchResponse) Reset() {
 	*x = CompSearchResponse{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[3]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -290,7 +405,7 @@ func (x *CompSearchResponse) String() string {
 func (*CompSearchResponse) ProtoMessage() {}
 
 func (x *CompSearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[3]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -303,7 +418,7 @@ func (x *CompSearchResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompSearchResponse.ProtoReflect.Descriptor instead.
 func (*CompSearchResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CompSearchResponse) GetComponents() []*CompSearchResponse_Component {
@@ -333,7 +448,7 @@ type CompVersionRequest struct {
 
 func (x *CompVersionRequest) Reset() {
 	*x = CompVersionRequest{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[4]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -345,7 +460,7 @@ func (x *CompVersionRequest) String() string {
 func (*CompVersionRequest) ProtoMessage() {}
 
 func (x *CompVersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[4]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -358,7 +473,7 @@ func (x *CompVersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompVersionRequest.ProtoReflect.Descriptor instead.
 func (*CompVersionRequest) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{4}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CompVersionRequest) GetPurl() string {
@@ -388,7 +503,7 @@ type CompVersionResponse struct {
 
 func (x *CompVersionResponse) Reset() {
 	*x = CompVersionResponse{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[5]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -400,7 +515,7 @@ func (x *CompVersionResponse) String() string {
 func (*CompVersionResponse) ProtoMessage() {}
 
 func (x *CompVersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[5]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -413,7 +528,7 @@ func (x *CompVersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompVersionResponse.ProtoReflect.Descriptor instead.
 func (*CompVersionResponse) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CompVersionResponse) GetComponent() *CompVersionResponse_Component {
@@ -440,7 +555,7 @@ type CompStatistic_Language struct {
 
 func (x *CompStatistic_Language) Reset() {
 	*x = CompStatistic_Language{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[6]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -452,7 +567,7 @@ func (x *CompStatistic_Language) String() string {
 func (*CompStatistic_Language) ProtoMessage() {}
 
 func (x *CompStatistic_Language) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[6]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -493,7 +608,7 @@ type ComponentsStatisticResponse_ComponentStatistics struct {
 
 func (x *ComponentsStatisticResponse_ComponentStatistics) Reset() {
 	*x = ComponentsStatisticResponse_ComponentStatistics{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[7]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -505,7 +620,7 @@ func (x *ComponentsStatisticResponse_ComponentStatistics) String() string {
 func (*ComponentsStatisticResponse_ComponentStatistics) ProtoMessage() {}
 
 func (x *ComponentsStatisticResponse_ComponentStatistics) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[7]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -542,6 +657,142 @@ func (x *ComponentsStatisticResponse_ComponentStatistics) GetStatistics() *CompS
 	return nil
 }
 
+type ComponentStatusResponse_VersionStatus struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	IndexedDate   string                 `protobuf:"bytes,3,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
+	CheckDate     string                 `protobuf:"bytes,4,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComponentStatusResponse_VersionStatus) Reset() {
+	*x = ComponentStatusResponse_VersionStatus{}
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentStatusResponse_VersionStatus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentStatusResponse_VersionStatus) ProtoMessage() {}
+
+func (x *ComponentStatusResponse_VersionStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentStatusResponse_VersionStatus.ProtoReflect.Descriptor instead.
+func (*ComponentStatusResponse_VersionStatus) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetIndexedDate() string {
+	if x != nil {
+		return x.IndexedDate
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetCheckDate() string {
+	if x != nil {
+		return x.CheckDate
+	}
+	return ""
+}
+
+type ComponentStatusResponse_ComponentStatus struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Name             string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Status           string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	FirstIndexedDate string                 `protobuf:"bytes,3,opt,name=first_indexed_date,json=firstIndexedDate,proto3" json:"first_indexed_date,omitempty"`
+	LastIndexedDate  string                 `protobuf:"bytes,4,opt,name=last_indexed_date,json=lastIndexedDate,proto3" json:"last_indexed_date,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) Reset() {
+	*x = ComponentStatusResponse_ComponentStatus{}
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComponentStatusResponse_ComponentStatus) ProtoMessage() {}
+
+func (x *ComponentStatusResponse_ComponentStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComponentStatusResponse_ComponentStatus.ProtoReflect.Descriptor instead.
+func (*ComponentStatusResponse_ComponentStatus) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3, 1}
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetFirstIndexedDate() string {
+	if x != nil {
+		return x.FirstIndexedDate
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetLastIndexedDate() string {
+	if x != nil {
+		return x.LastIndexedDate
+	}
+	return ""
+}
+
 // Component details
 type CompSearchResponse_Component struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -556,7 +807,7 @@ type CompSearchResponse_Component struct {
 
 func (x *CompSearchResponse_Component) Reset() {
 	*x = CompSearchResponse_Component{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[8]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -568,7 +819,7 @@ func (x *CompSearchResponse_Component) String() string {
 func (*CompSearchResponse_Component) ProtoMessage() {}
 
 func (x *CompSearchResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[8]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -581,7 +832,7 @@ func (x *CompSearchResponse_Component) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompSearchResponse_Component.ProtoReflect.Descriptor instead.
 func (*CompSearchResponse_Component) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3, 0}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5, 0}
 }
 
 // Deprecated: Marked as deprecated in scanoss/api/components/v2/scanoss-components.proto.
@@ -626,7 +877,7 @@ type CompVersionResponse_License struct {
 
 func (x *CompVersionResponse_License) Reset() {
 	*x = CompVersionResponse_License{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[9]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -638,7 +889,7 @@ func (x *CompVersionResponse_License) String() string {
 func (*CompVersionResponse_License) ProtoMessage() {}
 
 func (x *CompVersionResponse_License) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[9]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -651,7 +902,7 @@ func (x *CompVersionResponse_License) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompVersionResponse_License.ProtoReflect.Descriptor instead.
 func (*CompVersionResponse_License) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5, 0}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{7, 0}
 }
 
 func (x *CompVersionResponse_License) GetName() string {
@@ -695,7 +946,7 @@ type CompVersionResponse_Version struct {
 
 func (x *CompVersionResponse_Version) Reset() {
 	*x = CompVersionResponse_Version{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[10]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -707,7 +958,7 @@ func (x *CompVersionResponse_Version) String() string {
 func (*CompVersionResponse_Version) ProtoMessage() {}
 
 func (x *CompVersionResponse_Version) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[10]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -720,7 +971,7 @@ func (x *CompVersionResponse_Version) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompVersionResponse_Version.ProtoReflect.Descriptor instead.
 func (*CompVersionResponse_Version) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5, 1}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{7, 1}
 }
 
 func (x *CompVersionResponse_Version) GetVersion() string {
@@ -759,7 +1010,7 @@ type CompVersionResponse_Component struct {
 
 func (x *CompVersionResponse_Component) Reset() {
 	*x = CompVersionResponse_Component{}
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[11]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -771,7 +1022,7 @@ func (x *CompVersionResponse_Component) String() string {
 func (*CompVersionResponse_Component) ProtoMessage() {}
 
 func (x *CompVersionResponse_Component) ProtoReflect() protoreflect.Message {
-	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[11]
+	mi := &file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -784,7 +1035,7 @@ func (x *CompVersionResponse_Component) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompVersionResponse_Component.ProtoReflect.Descriptor instead.
 func (*CompVersionResponse_Component) Descriptor() ([]byte, []int) {
-	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{5, 2}
+	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{7, 2}
 }
 
 // Deprecated: Marked as deprecated in scanoss/api/components/v2/scanoss-components.proto.
@@ -853,7 +1104,28 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\x8b\x05\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xc7\x06\n" +
+	"\x17ComponentStatusResponse\x12\x12\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12h\n" +
+	"\x0eversion_status\x18\x02 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
+	"\x10component_status\x18\x03 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a}\n" +
+	"\rVersionStatus\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12!\n" +
+	"\findexed_date\x18\x03 \x01(\tR\vindexedDate\x12\x1d\n" +
+	"\n" +
+	"check_date\x18\x04 \x01(\tR\tcheckDate\x1a\x97\x01\n" +
+	"\x0fComponentStatus\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12,\n" +
+	"\x12first_indexed_date\x18\x03 \x01(\tR\x10firstIndexedDate\x12*\n" +
+	"\x11last_indexed_date\x18\x04 \x01(\tR\x0flastIndexedDate:\xa4\x02\x92A\xa0\x02\n" +
+	"\x9d\x02J\x9a\x02 { \"purl\": \"pkg:npm/strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } \"\xeb\x03\n" +
+	"\x18ComponentsStatusResponse\x12X\n" +
+	"\x10component_status\x18\x01 \x03(\v22.scanoss.api.components.v2.ComponentStatusResponseR\n" +
+	"components\x12=\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xb5\x02\x92A\xb1\x02\n" +
+	"\xae\x02J\xab\x02{\"components\":[ { \"purl\": \"pkg:npm/strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ]}\"\x8b\x05\n" +
 	"\x12CompSearchResponse\x12W\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v27.scanoss.api.components.v2.CompSearchResponse.ComponentR\n" +
@@ -887,13 +1159,15 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12R\n" +
 	"\bversions\x18\x04 \x03(\v26.scanoss.api.components.v2.CompVersionResponse.VersionR\bversions\x12\x12\n" +
 	"\x04name\x18\x05 \x01(\tR\x04name:\xcc\x03\x92A\xc8\x03\n" +
-	"\xc5\x03J\xc2\x03{\"component\": {\"name\": \"engine\", \"purl\": \"pkg:github/scanoss/engine\", \"url\": \"https://github.com/scanoss/engine\", \"versions\": [{\"version\": \"5.0.0\", \"licenses\": [{\"name\": \"GNU General Public License v2.0\", \"spdx_id\": \"GPL-2.0\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0.html\"}], \"date\": \"2024-01-15T10:30:00Z\"}], \"component\": \"engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component versions successfully retrieved\"}}2\xca\x04\n" +
+	"\xc5\x03J\xc2\x03{\"component\": {\"name\": \"engine\", \"purl\": \"pkg:github/scanoss/engine\", \"url\": \"https://github.com/scanoss/engine\", \"versions\": [{\"version\": \"5.0.0\", \"licenses\": [{\"name\": \"GNU General Public License v2.0\", \"spdx_id\": \"GPL-2.0\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0.html\"}], \"date\": \"2024-01-15T10:30:00Z\"}], \"component\": \"engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component versions successfully retrieved\"}}2\xf6\x06\n" +
 	"\n" +
 	"Components\x12o\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v2/components/echo\x12\x8e\x01\n" +
 	"\x10SearchComponents\x12,.scanoss.api.components.v2.CompSearchRequest\x1a-.scanoss.api.components.v2.CompSearchResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/v2/components/search\x12\x96\x01\n" +
 	"\x14GetComponentVersions\x12-.scanoss.api.components.v2.CompVersionRequest\x1a..scanoss.api.components.v2.CompVersionResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/v2/components/versions\x12\xa0\x01\n" +
-	"\x16GetComponentStatistics\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.components.v2.ComponentsStatisticResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v2/components/statisticsB\x8b\x03\x92A\xd0\x02\x12\x9d\x01\n" +
+	"\x16GetComponentStatistics\x12(.scanoss.api.common.v2.ComponentsRequest\x1a6.scanoss.api.components.v2.ComponentsStatisticResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v2/components/statistics\x12\x90\x01\n" +
+	"\x12GetComponentStatus\x12'.scanoss.api.common.v2.ComponentRequest\x1a2.scanoss.api.components.v2.ComponentStatusResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/v2/components/status\x12\x96\x01\n" +
+	"\x13GetComponentsStatus\x12(.scanoss.api.common.v2.ComponentsRequest\x1a3.scanoss.api.components.v2.ComponentsStatusResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v2/components/statusB\x8b\x03\x92A\xd0\x02\x12\x9d\x01\n" +
 	"\x1aSCANOSS Components Service\x12(Provides component intelligence services\"P\n" +
 	"\x12scanoss-components\x12%https://github.com/scanoss/components\x1a\x13support@scanoss.com2\x032.0\x1a\x0fapi.scanoss.com*\x02\x02\x012\x10application/json:\x10application/jsonR;\n" +
 	"\x03404\x124\n" +
@@ -914,49 +1188,62 @@ func file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP() []byt
 	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescData
 }
 
-var file_scanoss_api_components_v2_scanoss_components_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_scanoss_api_components_v2_scanoss_components_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_scanoss_api_components_v2_scanoss_components_proto_goTypes = []any{
 	(*CompSearchRequest)(nil),                               // 0: scanoss.api.components.v2.CompSearchRequest
 	(*CompStatistic)(nil),                                   // 1: scanoss.api.components.v2.CompStatistic
 	(*ComponentsStatisticResponse)(nil),                     // 2: scanoss.api.components.v2.ComponentsStatisticResponse
-	(*CompSearchResponse)(nil),                              // 3: scanoss.api.components.v2.CompSearchResponse
-	(*CompVersionRequest)(nil),                              // 4: scanoss.api.components.v2.CompVersionRequest
-	(*CompVersionResponse)(nil),                             // 5: scanoss.api.components.v2.CompVersionResponse
-	(*CompStatistic_Language)(nil),                          // 6: scanoss.api.components.v2.CompStatistic.Language
-	(*ComponentsStatisticResponse_ComponentStatistics)(nil), // 7: scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics
-	(*CompSearchResponse_Component)(nil),                    // 8: scanoss.api.components.v2.CompSearchResponse.Component
-	(*CompVersionResponse_License)(nil),                     // 9: scanoss.api.components.v2.CompVersionResponse.License
-	(*CompVersionResponse_Version)(nil),                     // 10: scanoss.api.components.v2.CompVersionResponse.Version
-	(*CompVersionResponse_Component)(nil),                   // 11: scanoss.api.components.v2.CompVersionResponse.Component
-	(*commonv2.StatusResponse)(nil),                         // 12: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),                            // 13: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentsRequest)(nil),                      // 14: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),                           // 15: scanoss.api.common.v2.EchoResponse
+	(*ComponentStatusResponse)(nil),                         // 3: scanoss.api.components.v2.ComponentStatusResponse
+	(*ComponentsStatusResponse)(nil),                        // 4: scanoss.api.components.v2.ComponentsStatusResponse
+	(*CompSearchResponse)(nil),                              // 5: scanoss.api.components.v2.CompSearchResponse
+	(*CompVersionRequest)(nil),                              // 6: scanoss.api.components.v2.CompVersionRequest
+	(*CompVersionResponse)(nil),                             // 7: scanoss.api.components.v2.CompVersionResponse
+	(*CompStatistic_Language)(nil),                          // 8: scanoss.api.components.v2.CompStatistic.Language
+	(*ComponentsStatisticResponse_ComponentStatistics)(nil), // 9: scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics
+	(*ComponentStatusResponse_VersionStatus)(nil),           // 10: scanoss.api.components.v2.ComponentStatusResponse.VersionStatus
+	(*ComponentStatusResponse_ComponentStatus)(nil),         // 11: scanoss.api.components.v2.ComponentStatusResponse.ComponentStatus
+	(*CompSearchResponse_Component)(nil),                    // 12: scanoss.api.components.v2.CompSearchResponse.Component
+	(*CompVersionResponse_License)(nil),                     // 13: scanoss.api.components.v2.CompVersionResponse.License
+	(*CompVersionResponse_Version)(nil),                     // 14: scanoss.api.components.v2.CompVersionResponse.Version
+	(*CompVersionResponse_Component)(nil),                   // 15: scanoss.api.components.v2.CompVersionResponse.Component
+	(*commonv2.StatusResponse)(nil),                         // 16: scanoss.api.common.v2.StatusResponse
+	(*commonv2.EchoRequest)(nil),                            // 17: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentsRequest)(nil),                      // 18: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.ComponentRequest)(nil),                       // 19: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.EchoResponse)(nil),                           // 20: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_components_v2_scanoss_components_proto_depIdxs = []int32{
-	6,  // 0: scanoss.api.components.v2.CompStatistic.languages:type_name -> scanoss.api.components.v2.CompStatistic.Language
-	7,  // 1: scanoss.api.components.v2.ComponentsStatisticResponse.component_statistics:type_name -> scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics
-	12, // 2: scanoss.api.components.v2.ComponentsStatisticResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	8,  // 3: scanoss.api.components.v2.CompSearchResponse.components:type_name -> scanoss.api.components.v2.CompSearchResponse.Component
-	12, // 4: scanoss.api.components.v2.CompSearchResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	11, // 5: scanoss.api.components.v2.CompVersionResponse.component:type_name -> scanoss.api.components.v2.CompVersionResponse.Component
-	12, // 6: scanoss.api.components.v2.CompVersionResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	1,  // 7: scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics.statistics:type_name -> scanoss.api.components.v2.CompStatistic
-	9,  // 8: scanoss.api.components.v2.CompVersionResponse.Version.licenses:type_name -> scanoss.api.components.v2.CompVersionResponse.License
-	10, // 9: scanoss.api.components.v2.CompVersionResponse.Component.versions:type_name -> scanoss.api.components.v2.CompVersionResponse.Version
-	13, // 10: scanoss.api.components.v2.Components.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0,  // 11: scanoss.api.components.v2.Components.SearchComponents:input_type -> scanoss.api.components.v2.CompSearchRequest
-	4,  // 12: scanoss.api.components.v2.Components.GetComponentVersions:input_type -> scanoss.api.components.v2.CompVersionRequest
-	14, // 13: scanoss.api.components.v2.Components.GetComponentStatistics:input_type -> scanoss.api.common.v2.ComponentsRequest
-	15, // 14: scanoss.api.components.v2.Components.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	3,  // 15: scanoss.api.components.v2.Components.SearchComponents:output_type -> scanoss.api.components.v2.CompSearchResponse
-	5,  // 16: scanoss.api.components.v2.Components.GetComponentVersions:output_type -> scanoss.api.components.v2.CompVersionResponse
-	2,  // 17: scanoss.api.components.v2.Components.GetComponentStatistics:output_type -> scanoss.api.components.v2.ComponentsStatisticResponse
-	14, // [14:18] is the sub-list for method output_type
-	10, // [10:14] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	8,  // 0: scanoss.api.components.v2.CompStatistic.languages:type_name -> scanoss.api.components.v2.CompStatistic.Language
+	9,  // 1: scanoss.api.components.v2.ComponentsStatisticResponse.component_statistics:type_name -> scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics
+	16, // 2: scanoss.api.components.v2.ComponentsStatisticResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	10, // 3: scanoss.api.components.v2.ComponentStatusResponse.version_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse.VersionStatus
+	11, // 4: scanoss.api.components.v2.ComponentStatusResponse.component_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse.ComponentStatus
+	3,  // 5: scanoss.api.components.v2.ComponentsStatusResponse.component_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse
+	16, // 6: scanoss.api.components.v2.ComponentsStatusResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	12, // 7: scanoss.api.components.v2.CompSearchResponse.components:type_name -> scanoss.api.components.v2.CompSearchResponse.Component
+	16, // 8: scanoss.api.components.v2.CompSearchResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	15, // 9: scanoss.api.components.v2.CompVersionResponse.component:type_name -> scanoss.api.components.v2.CompVersionResponse.Component
+	16, // 10: scanoss.api.components.v2.CompVersionResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	1,  // 11: scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics.statistics:type_name -> scanoss.api.components.v2.CompStatistic
+	13, // 12: scanoss.api.components.v2.CompVersionResponse.Version.licenses:type_name -> scanoss.api.components.v2.CompVersionResponse.License
+	14, // 13: scanoss.api.components.v2.CompVersionResponse.Component.versions:type_name -> scanoss.api.components.v2.CompVersionResponse.Version
+	17, // 14: scanoss.api.components.v2.Components.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 15: scanoss.api.components.v2.Components.SearchComponents:input_type -> scanoss.api.components.v2.CompSearchRequest
+	6,  // 16: scanoss.api.components.v2.Components.GetComponentVersions:input_type -> scanoss.api.components.v2.CompVersionRequest
+	18, // 17: scanoss.api.components.v2.Components.GetComponentStatistics:input_type -> scanoss.api.common.v2.ComponentsRequest
+	19, // 18: scanoss.api.components.v2.Components.GetComponentStatus:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 19: scanoss.api.components.v2.Components.GetComponentsStatus:input_type -> scanoss.api.common.v2.ComponentsRequest
+	20, // 20: scanoss.api.components.v2.Components.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	5,  // 21: scanoss.api.components.v2.Components.SearchComponents:output_type -> scanoss.api.components.v2.CompSearchResponse
+	7,  // 22: scanoss.api.components.v2.Components.GetComponentVersions:output_type -> scanoss.api.components.v2.CompVersionResponse
+	2,  // 23: scanoss.api.components.v2.Components.GetComponentStatistics:output_type -> scanoss.api.components.v2.ComponentsStatisticResponse
+	3,  // 24: scanoss.api.components.v2.Components.GetComponentStatus:output_type -> scanoss.api.components.v2.ComponentStatusResponse
+	4,  // 25: scanoss.api.components.v2.Components.GetComponentsStatus:output_type -> scanoss.api.components.v2.ComponentsStatusResponse
+	20, // [20:26] is the sub-list for method output_type
+	14, // [14:20] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_components_v2_scanoss_components_proto_init() }
@@ -970,7 +1257,7 @@ func file_scanoss_api_components_v2_scanoss_components_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_components_v2_scanoss_components_proto_rawDesc), len(file_scanoss_api_components_v2_scanoss_components_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
