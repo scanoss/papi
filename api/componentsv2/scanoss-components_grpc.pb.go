@@ -51,6 +51,8 @@ const (
 	Components_SearchComponents_FullMethodName       = "/scanoss.api.components.v2.Components/SearchComponents"
 	Components_GetComponentVersions_FullMethodName   = "/scanoss.api.components.v2.Components/GetComponentVersions"
 	Components_GetComponentStatistics_FullMethodName = "/scanoss.api.components.v2.Components/GetComponentStatistics"
+	Components_GetComponentStatus_FullMethodName     = "/scanoss.api.components.v2.Components/GetComponentStatus"
+	Components_GetComponentsStatus_FullMethodName    = "/scanoss.api.components.v2.Components/GetComponentsStatus"
 )
 
 // ComponentsClient is the client API for Components service.
@@ -67,6 +69,10 @@ type ComponentsClient interface {
 	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
 	GetComponentStatistics(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatisticResponse, error)
+	// Get status information for a specific purl
+	GetComponentStatus(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentStatusResponse, error)
+	// Get the statistics for the specified components
+	GetComponentsStatus(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatusResponse, error)
 }
 
 type componentsClient struct {
@@ -117,6 +123,26 @@ func (c *componentsClient) GetComponentStatistics(ctx context.Context, in *commo
 	return out, nil
 }
 
+func (c *componentsClient) GetComponentStatus(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentStatusResponse)
+	err := c.cc.Invoke(ctx, Components_GetComponentStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *componentsClient) GetComponentsStatus(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComponentsStatusResponse)
+	err := c.cc.Invoke(ctx, Components_GetComponentsStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ComponentsServer is the server API for Components service.
 // All implementations must embed UnimplementedComponentsServer
 // for forward compatibility.
@@ -131,6 +157,10 @@ type ComponentsServer interface {
 	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
 	GetComponentStatistics(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatisticResponse, error)
+	// Get status information for a specific purl
+	GetComponentStatus(context.Context, *commonv2.ComponentRequest) (*ComponentStatusResponse, error)
+	// Get the statistics for the specified components
+	GetComponentsStatus(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatusResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
 
@@ -152,6 +182,12 @@ func (UnimplementedComponentsServer) GetComponentVersions(context.Context, *Comp
 }
 func (UnimplementedComponentsServer) GetComponentStatistics(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatisticResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComponentStatistics not implemented")
+}
+func (UnimplementedComponentsServer) GetComponentStatus(context.Context, *commonv2.ComponentRequest) (*ComponentStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentStatus not implemented")
+}
+func (UnimplementedComponentsServer) GetComponentsStatus(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComponentsStatus not implemented")
 }
 func (UnimplementedComponentsServer) mustEmbedUnimplementedComponentsServer() {}
 func (UnimplementedComponentsServer) testEmbeddedByValue()                    {}
@@ -246,6 +282,42 @@ func _Components_GetComponentStatistics_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Components_GetComponentStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComponentsServer).GetComponentStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Components_GetComponentStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComponentsServer).GetComponentStatus(ctx, req.(*commonv2.ComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Components_GetComponentsStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonv2.ComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComponentsServer).GetComponentsStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Components_GetComponentsStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComponentsServer).GetComponentsStatus(ctx, req.(*commonv2.ComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Components_ServiceDesc is the grpc.ServiceDesc for Components service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -268,6 +340,14 @@ var Components_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetComponentStatistics",
 			Handler:    _Components_GetComponentStatistics_Handler,
+		},
+		{
+			MethodName: "GetComponentStatus",
+			Handler:    _Components_GetComponentStatus_Handler,
+		},
+		{
+			MethodName: "GetComponentsStatus",
+			Handler:    _Components_GetComponentsStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
