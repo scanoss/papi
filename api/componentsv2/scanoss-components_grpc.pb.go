@@ -69,9 +69,9 @@ type ComponentsClient interface {
 	GetComponentVersions(ctx context.Context, in *CompVersionRequest, opts ...grpc.CallOption) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
 	GetComponentStatistics(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatisticResponse, error)
-	// Get status information for a specific purl
+	// Get status information for a specific purl via a get request
 	GetComponentStatus(ctx context.Context, in *commonv2.ComponentRequest, opts ...grpc.CallOption) (*ComponentStatusResponse, error)
-	// Get the statistics for the specified components
+	// Get the status for a list of purls posted in the body
 	GetComponentsStatus(ctx context.Context, in *commonv2.ComponentsRequest, opts ...grpc.CallOption) (*ComponentsStatusResponse, error)
 }
 
@@ -157,9 +157,9 @@ type ComponentsServer interface {
 	GetComponentVersions(context.Context, *CompVersionRequest) (*CompVersionResponse, error)
 	// Get the statistics for the specified components
 	GetComponentStatistics(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatisticResponse, error)
-	// Get status information for a specific purl
+	// Get status information for a specific purl via a get request
 	GetComponentStatus(context.Context, *commonv2.ComponentRequest) (*ComponentStatusResponse, error)
-	// Get the statistics for the specified components
+	// Get the status for a list of purls posted in the body
 	GetComponentsStatus(context.Context, *commonv2.ComponentsRequest) (*ComponentsStatusResponse, error)
 	mustEmbedUnimplementedComponentsServer()
 }
