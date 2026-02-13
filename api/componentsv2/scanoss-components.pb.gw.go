@@ -314,7 +314,7 @@ func RegisterComponentsHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentStatus", runtime.WithHTTPPathPattern("/v2/components/status"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentStatus", runtime.WithHTTPPathPattern("/v2/components/status/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -334,7 +334,7 @@ func RegisterComponentsHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentsStatus", runtime.WithHTTPPathPattern("/v2/components/status"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentsStatus", runtime.WithHTTPPathPattern("/v2/components/status/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -460,7 +460,7 @@ func RegisterComponentsHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentStatus", runtime.WithHTTPPathPattern("/v2/components/status"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentStatus", runtime.WithHTTPPathPattern("/v2/components/status/component"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -477,7 +477,7 @@ func RegisterComponentsHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentsStatus", runtime.WithHTTPPathPattern("/v2/components/status"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/scanoss.api.components.v2.Components/GetComponentsStatus", runtime.WithHTTPPathPattern("/v2/components/status/components"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -498,8 +498,8 @@ var (
 	pattern_Components_SearchComponents_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "components", "search"}, ""))
 	pattern_Components_GetComponentVersions_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "components", "versions"}, ""))
 	pattern_Components_GetComponentStatistics_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "components", "statistics"}, ""))
-	pattern_Components_GetComponentStatus_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "components", "status"}, ""))
-	pattern_Components_GetComponentsStatus_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "components", "status"}, ""))
+	pattern_Components_GetComponentStatus_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v2", "components", "status", "component"}, ""))
+	pattern_Components_GetComponentsStatus_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 1}, []string{"v2", "components", "status"}, ""))
 )
 
 var (

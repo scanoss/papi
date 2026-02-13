@@ -185,9 +185,9 @@
         ]
       }
     },
-    "/v2/components/status": {
+    "/v2/components/status/component": {
       "get": {
-        "summary": "Get status information for a specific purl",
+        "summary": "Get status information for a specific purl via a get request",
         "operationId": "Components_GetComponentStatus",
         "responses": {
           "200": {
@@ -229,9 +229,11 @@
         "tags": [
           "Components"
         ]
-      },
+      }
+    },
+    "/v2/components/status/components": {
       "post": {
-        "summary": "Get the statistics for the specified components",
+        "summary": "Get the status for a list of purls posted in the body",
         "operationId": "Components_GetComponentsStatus",
         "responses": {
           "200": {
@@ -354,34 +356,34 @@
     "ComponentStatusResponseComponentStatus": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "status": {
-          "type": "string"
+          "type": "string",
+          "title": "Development status of the requested component"
         },
         "first_indexed_date": {
-          "type": "string"
+          "type": "string",
+          "title": "Date of the first time component was indexed"
         },
         "last_indexed_date": {
-          "type": "string"
+          "type": "string",
+          "title": "Date of the last time component was indexed"
         }
       }
     },
     "ComponentStatusResponseVersionStatus": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "status": {
-          "type": "string"
+          "type": "string",
+          "title": "Development status of the requested version of this component"
         },
         "indexed_date": {
-          "type": "string"
+          "type": "string",
+          "title": "Date that the component was indexed"
         },
         "check_date": {
-          "type": "string"
+          "type": "string",
+          "title": "Date that the status was checked"
         }
       }
     },
@@ -640,6 +642,7 @@
       "type": "object",
       "example": {
         "purl": "pkg:npm/strive-molu-axios",
+        "name": "strive-molu-axios",
         "version_status": {
           "version": "0.0.1-beta.1",
           "status": "deleted",
@@ -654,15 +657,23 @@
       },
       "properties": {
         "purl": {
-          "type": "string"
+          "type": "string",
+          "title": "Purl requested"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name of the component"
         },
         "version_status": {
-          "$ref": "#/definitions/ComponentStatusResponseVersionStatus"
+          "$ref": "#/definitions/ComponentStatusResponseVersionStatus",
+          "title": "Information about the requested version. If no requirement is described, the latest version of the component is responded"
         },
         "component_status": {
-          "$ref": "#/definitions/ComponentStatusResponseComponentStatus"
+          "$ref": "#/definitions/ComponentStatusResponseComponentStatus",
+          "title": "/ Information about the current development status of the component"
         }
-      }
+      },
+      "title": "Component development status"
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -742,6 +753,7 @@
         "components": [
           {
             "purl": "pkg:npm/strive-molu-axios",
+            "name": "strive-molu-axios",
             "version_status": {
               "version": "0.0.1-beta.1",
               "status": "deleted",
