@@ -358,7 +358,11 @@
       "properties": {
         "status": {
           "type": "string",
-          "title": "Development status of the requested component"
+          "title": "Development status of the requested component classified automatically"
+        },
+        "repository_status": {
+          "type": "string",
+          "title": "Raw status reported by the registry for this component"
         },
         "first_indexed_date": {
           "type": "string",
@@ -367,6 +371,13 @@
         "last_indexed_date": {
           "type": "string",
           "title": "Date of the last time component was indexed"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "States if something went wrong while seatching the component on DB"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       }
     },
@@ -375,7 +386,11 @@
       "properties": {
         "status": {
           "type": "string",
-          "title": "Development status of the requested version of this component"
+          "title": "Development status of the requested version of this component classified automatically"
+        },
+        "repository_status": {
+          "type": "string",
+          "title": "Raw status reported by the registry for this version"
         },
         "indexed_date": {
           "type": "string",
@@ -384,6 +399,13 @@
         "check_date": {
           "type": "string",
           "title": "Date that the status was checked"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "States if something went wrong while seatching the version of this component on DB"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
         }
       }
     },
@@ -801,6 +823,17 @@
         }
       },
       "description": "Echo Message Response."
+    },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER"
+      ],
+      "default": "INVALID_PURL",
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed"
     },
     "v2StatusCode": {
       "type": "string",

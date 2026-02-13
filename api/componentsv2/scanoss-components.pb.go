@@ -672,12 +672,17 @@ func (x *ComponentsStatisticResponse_ComponentStatistics) GetStatistics() *CompS
 
 type ComponentStatusResponse_VersionStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Development status of the requested version of this component
+	// Development status of the requested version of this component classified automatically
 	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// Raw status reported by the registry for this version
+	RepositoryStatus string `protobuf:"bytes,2,opt,name=repository_status,json=repositoryStatus,proto3" json:"repository_status,omitempty"`
 	// Date that the component was indexed
-	IndexedDate string `protobuf:"bytes,2,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
+	IndexedDate string `protobuf:"bytes,3,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
 	// Date that the status was checked
-	CheckDate     string `protobuf:"bytes,3,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
+	CheckDate string `protobuf:"bytes,4,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
+	// States if something went wrong while seatching the version of this component on DB
+	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -719,6 +724,13 @@ func (x *ComponentStatusResponse_VersionStatus) GetStatus() string {
 	return ""
 }
 
+func (x *ComponentStatusResponse_VersionStatus) GetRepositoryStatus() string {
+	if x != nil {
+		return x.RepositoryStatus
+	}
+	return ""
+}
+
 func (x *ComponentStatusResponse_VersionStatus) GetIndexedDate() string {
 	if x != nil {
 		return x.IndexedDate
@@ -733,16 +745,35 @@ func (x *ComponentStatusResponse_VersionStatus) GetCheckDate() string {
 	return ""
 }
 
+func (x *ComponentStatusResponse_VersionStatus) GetErrorMessage() string {
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetErrorCode() commonv2.ErrorCode {
+	if x != nil && x.ErrorCode != nil {
+		return *x.ErrorCode
+	}
+	return commonv2.ErrorCode(0)
+}
+
 type ComponentStatusResponse_ComponentStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Development status of the requested component
+	// Development status of the requested component classified automatically
 	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// Raw status reported by the registry for this component
+	RepositoryStatus string `protobuf:"bytes,2,opt,name=repository_status,json=repositoryStatus,proto3" json:"repository_status,omitempty"`
 	// Date of the first time component was indexed
-	FirstIndexedDate string `protobuf:"bytes,2,opt,name=first_indexed_date,json=firstIndexedDate,proto3" json:"first_indexed_date,omitempty"`
+	FirstIndexedDate string `protobuf:"bytes,3,opt,name=first_indexed_date,json=firstIndexedDate,proto3" json:"first_indexed_date,omitempty"`
 	// Date of the last time component was indexed
-	LastIndexedDate string `protobuf:"bytes,3,opt,name=last_indexed_date,json=lastIndexedDate,proto3" json:"last_indexed_date,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	LastIndexedDate string `protobuf:"bytes,4,opt,name=last_indexed_date,json=lastIndexedDate,proto3" json:"last_indexed_date,omitempty"`
+	// States if something went wrong while seatching the component on DB
+	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ComponentStatusResponse_ComponentStatus) Reset() {
@@ -782,6 +813,13 @@ func (x *ComponentStatusResponse_ComponentStatus) GetStatus() string {
 	return ""
 }
 
+func (x *ComponentStatusResponse_ComponentStatus) GetRepositoryStatus() string {
+	if x != nil {
+		return x.RepositoryStatus
+	}
+	return ""
+}
+
 func (x *ComponentStatusResponse_ComponentStatus) GetFirstIndexedDate() string {
 	if x != nil {
 		return x.FirstIndexedDate
@@ -794,6 +832,20 @@ func (x *ComponentStatusResponse_ComponentStatus) GetLastIndexedDate() string {
 		return x.LastIndexedDate
 	}
 	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetErrorMessage() string {
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetErrorCode() commonv2.ErrorCode {
+	if x != nil && x.ErrorCode != nil {
+		return *x.ErrorCode
+	}
+	return commonv2.ErrorCode(0)
 }
 
 // Component details
@@ -1107,21 +1159,35 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xce\x06\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xcf\t\n" +
 	"\x17ComponentStatusResponse\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12h\n" +
 	"\x0eversion_status\x18\x03 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
-	"\x10component_status\x18\x04 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1ai\n" +
+	"\x10component_status\x18\x04 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xa9\x02\n" +
 	"\rVersionStatus\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x12!\n" +
-	"\findexed_date\x18\x02 \x01(\tR\vindexedDate\x12\x1d\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12+\n" +
+	"\x11repository_status\x18\x02 \x01(\tR\x10repositoryStatus\x12!\n" +
+	"\findexed_date\x18\x03 \x01(\tR\vindexedDate\x12\x1d\n" +
 	"\n" +
-	"check_date\x18\x03 \x01(\tR\tcheckDate\x1a\x83\x01\n" +
+	"check_date\x18\x04 \x01(\tR\tcheckDate\x12)\n" +
+	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\n" +
+	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x88\x01\x01B\x10\n" +
+	"\x0e_error_messageB\r\n" +
+	"\v_error_code\x1a\xc3\x02\n" +
 	"\x0fComponentStatus\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x12,\n" +
-	"\x12first_indexed_date\x18\x02 \x01(\tR\x10firstIndexedDate\x12*\n" +
-	"\x11last_indexed_date\x18\x03 \x01(\tR\x0flastIndexedDate:\xbf\x02\x92A\xbb\x02\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12+\n" +
+	"\x11repository_status\x18\x02 \x01(\tR\x10repositoryStatus\x12,\n" +
+	"\x12first_indexed_date\x18\x03 \x01(\tR\x10firstIndexedDate\x12*\n" +
+	"\x11last_indexed_date\x18\x04 \x01(\tR\x0flastIndexedDate\x12)\n" +
+	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\n" +
+	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x88\x01\x01B\x10\n" +
+	"\x0e_error_messageB\r\n" +
+	"\v_error_code:\xbf\x02\x92A\xbb\x02\n" +
 	"\xb8\x02J\xb5\x02 { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } \"\x85\x04\n" +
 	"\x18ComponentsStatusResponse\x12X\n" +
 	"\x10component_status\x18\x01 \x03(\v22.scanoss.api.components.v2.ComponentStatusResponseR\n" +
@@ -1209,10 +1275,11 @@ var file_scanoss_api_components_v2_scanoss_components_proto_goTypes = []any{
 	(*CompVersionResponse_Version)(nil),                     // 14: scanoss.api.components.v2.CompVersionResponse.Version
 	(*CompVersionResponse_Component)(nil),                   // 15: scanoss.api.components.v2.CompVersionResponse.Component
 	(*commonv2.StatusResponse)(nil),                         // 16: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),                            // 17: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentsRequest)(nil),                      // 18: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.ComponentRequest)(nil),                       // 19: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.EchoResponse)(nil),                           // 20: scanoss.api.common.v2.EchoResponse
+	(commonv2.ErrorCode)(0),                                 // 17: scanoss.api.common.v2.ErrorCode
+	(*commonv2.EchoRequest)(nil),                            // 18: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentsRequest)(nil),                      // 19: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.ComponentRequest)(nil),                       // 20: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.EchoResponse)(nil),                           // 21: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_components_v2_scanoss_components_proto_depIdxs = []int32{
 	8,  // 0: scanoss.api.components.v2.CompStatistic.languages:type_name -> scanoss.api.components.v2.CompStatistic.Language
@@ -1227,25 +1294,27 @@ var file_scanoss_api_components_v2_scanoss_components_proto_depIdxs = []int32{
 	15, // 9: scanoss.api.components.v2.CompVersionResponse.component:type_name -> scanoss.api.components.v2.CompVersionResponse.Component
 	16, // 10: scanoss.api.components.v2.CompVersionResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	1,  // 11: scanoss.api.components.v2.ComponentsStatisticResponse.ComponentStatistics.statistics:type_name -> scanoss.api.components.v2.CompStatistic
-	13, // 12: scanoss.api.components.v2.CompVersionResponse.Version.licenses:type_name -> scanoss.api.components.v2.CompVersionResponse.License
-	14, // 13: scanoss.api.components.v2.CompVersionResponse.Component.versions:type_name -> scanoss.api.components.v2.CompVersionResponse.Version
-	17, // 14: scanoss.api.components.v2.Components.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0,  // 15: scanoss.api.components.v2.Components.SearchComponents:input_type -> scanoss.api.components.v2.CompSearchRequest
-	6,  // 16: scanoss.api.components.v2.Components.GetComponentVersions:input_type -> scanoss.api.components.v2.CompVersionRequest
-	18, // 17: scanoss.api.components.v2.Components.GetComponentStatistics:input_type -> scanoss.api.common.v2.ComponentsRequest
-	19, // 18: scanoss.api.components.v2.Components.GetComponentStatus:input_type -> scanoss.api.common.v2.ComponentRequest
-	18, // 19: scanoss.api.components.v2.Components.GetComponentsStatus:input_type -> scanoss.api.common.v2.ComponentsRequest
-	20, // 20: scanoss.api.components.v2.Components.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	5,  // 21: scanoss.api.components.v2.Components.SearchComponents:output_type -> scanoss.api.components.v2.CompSearchResponse
-	7,  // 22: scanoss.api.components.v2.Components.GetComponentVersions:output_type -> scanoss.api.components.v2.CompVersionResponse
-	2,  // 23: scanoss.api.components.v2.Components.GetComponentStatistics:output_type -> scanoss.api.components.v2.ComponentsStatisticResponse
-	3,  // 24: scanoss.api.components.v2.Components.GetComponentStatus:output_type -> scanoss.api.components.v2.ComponentStatusResponse
-	4,  // 25: scanoss.api.components.v2.Components.GetComponentsStatus:output_type -> scanoss.api.components.v2.ComponentsStatusResponse
-	20, // [20:26] is the sub-list for method output_type
-	14, // [14:20] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	17, // 12: scanoss.api.components.v2.ComponentStatusResponse.VersionStatus.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	17, // 13: scanoss.api.components.v2.ComponentStatusResponse.ComponentStatus.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	13, // 14: scanoss.api.components.v2.CompVersionResponse.Version.licenses:type_name -> scanoss.api.components.v2.CompVersionResponse.License
+	14, // 15: scanoss.api.components.v2.CompVersionResponse.Component.versions:type_name -> scanoss.api.components.v2.CompVersionResponse.Version
+	18, // 16: scanoss.api.components.v2.Components.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 17: scanoss.api.components.v2.Components.SearchComponents:input_type -> scanoss.api.components.v2.CompSearchRequest
+	6,  // 18: scanoss.api.components.v2.Components.GetComponentVersions:input_type -> scanoss.api.components.v2.CompVersionRequest
+	19, // 19: scanoss.api.components.v2.Components.GetComponentStatistics:input_type -> scanoss.api.common.v2.ComponentsRequest
+	20, // 20: scanoss.api.components.v2.Components.GetComponentStatus:input_type -> scanoss.api.common.v2.ComponentRequest
+	19, // 21: scanoss.api.components.v2.Components.GetComponentsStatus:input_type -> scanoss.api.common.v2.ComponentsRequest
+	21, // 22: scanoss.api.components.v2.Components.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	5,  // 23: scanoss.api.components.v2.Components.SearchComponents:output_type -> scanoss.api.components.v2.CompSearchResponse
+	7,  // 24: scanoss.api.components.v2.Components.GetComponentVersions:output_type -> scanoss.api.components.v2.CompVersionResponse
+	2,  // 25: scanoss.api.components.v2.Components.GetComponentStatistics:output_type -> scanoss.api.components.v2.ComponentsStatisticResponse
+	3,  // 26: scanoss.api.components.v2.Components.GetComponentStatus:output_type -> scanoss.api.components.v2.ComponentStatusResponse
+	4,  // 27: scanoss.api.components.v2.Components.GetComponentsStatus:output_type -> scanoss.api.components.v2.ComponentsStatusResponse
+	22, // [22:28] is the sub-list for method output_type
+	16, // [16:22] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_components_v2_scanoss_components_proto_init() }
@@ -1253,6 +1322,8 @@ func file_scanoss_api_components_v2_scanoss_components_proto_init() {
 	if File_scanoss_api_components_v2_scanoss_components_proto != nil {
 		return
 	}
+	file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[10].OneofWrappers = []any{}
+	file_scanoss_api_components_v2_scanoss_components_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
