@@ -122,9 +122,6 @@ service Components {
 
 }
 
-
-
-
 /*
  * Component Search request data (JSON payload)
  */
@@ -180,7 +177,7 @@ message ComponentsStatisticResponse {
 }
 
 /*
-  Component development status 
+ * Component lifecycle status
 */
 message ComponentStatusResponse {
      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
@@ -192,7 +189,7 @@ message ComponentStatusResponse {
   string purl = 1 [json_name = "purl"];
   // Name of the component
   string name = 2;
- 
+  // Component version status
   message VersionStatus {
     // Development status of the requested version of this component classified automatically 
     string status = 1;
@@ -202,11 +199,11 @@ message ComponentStatusResponse {
     string indexed_date = 3;
     // Date that the status was checked
     string check_date = 4;
-    // States if something went wrong while seatching the version of this component on DB
+    // States if something went wrong while searching for the version of this component version in the DB
     optional string error_message = 5 [json_name = "error_message"];
     optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
   }
-
+  // Component status details (ignoring version)
   message ComponentStatus {
     // Development status of the requested component classified automatically 
     string status = 1;
@@ -216,20 +213,15 @@ message ComponentStatusResponse {
     string first_indexed_date = 3;
     // Date of the last time component was indexed
     string last_indexed_date = 4;
-    // States if something went wrong while seatching the component on DB
+    // States if something went wrong while searching for the version of this component in the DB
     optional  string error_message = 5 [json_name = "error_message"];
     optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
   }
-
   // Information about the requested version. If no requirement is described, the latest version of the component is responded
   VersionStatus version_status = 3 [json_name = "version_status"];
   /// Information about the current development status of the component
   ComponentStatus component_status = 4 [json_name = "component_status"];
 }
-
-
-
-
 
 /*
  * Component Statistics response data (JSON payload)
@@ -240,19 +232,11 @@ message ComponentsStatusResponse {
       example: "{\"components\":[ { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }]}" ;
     }
   };      
-         
-      
   // Component status
-  repeated ComponentStatusResponse component_status = 1 [json_name = "components"];;
+  repeated ComponentStatusResponse components = 1;
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2; 
 }
-
-
-
-
-
-
 
 /*
  * Component Search response data (JSON payload)
