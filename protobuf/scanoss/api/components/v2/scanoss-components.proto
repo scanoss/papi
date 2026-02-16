@@ -118,8 +118,6 @@ service Components {
       body: "*"
     };
   };
-
-
 }
 
 /*
