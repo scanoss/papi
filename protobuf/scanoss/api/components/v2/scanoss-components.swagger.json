@@ -374,12 +374,13 @@
         },
         "error_message": {
           "type": "string",
-          "title": "States if something went wrong while seatching the component on DB"
+          "title": "States if something went wrong while searching for the version of this component in the DB"
         },
         "error_code": {
           "$ref": "#/definitions/v2ErrorCode"
         }
-      }
+      },
+      "title": "Component status details (ignoring version)"
     },
     "ComponentStatusResponseVersionStatus": {
       "type": "object",
@@ -402,12 +403,13 @@
         },
         "error_message": {
           "type": "string",
-          "title": "States if something went wrong while seatching the version of this component on DB"
+          "title": "States if something went wrong while searching for the version of this component version in the DB"
         },
         "error_code": {
           "$ref": "#/definitions/v2ErrorCode"
         }
-      }
+      },
+      "title": "Component version status"
     },
     "ComponentsStatisticResponseComponentStatistics": {
       "type": "object",
@@ -665,6 +667,7 @@
       "example": {
         "purl": "pkg:npm/strive-molu-axios",
         "name": "strive-molu-axios",
+        "requirement": "^0.0.1",
         "version_status": {
           "version": "0.0.1-beta.1",
           "status": "deleted",
@@ -686,6 +689,10 @@
           "type": "string",
           "title": "Name of the component"
         },
+        "requirement": {
+          "type": "string",
+          "description": "Requirement that should be met on the response."
+        },
         "version_status": {
           "$ref": "#/definitions/ComponentStatusResponseVersionStatus",
           "title": "Information about the requested version. If no requirement is described, the latest version of the component is responded"
@@ -695,7 +702,7 @@
           "title": "/ Information about the current development status of the component"
         }
       },
-      "title": "Component development status"
+      "title": "Component lifecycle status"
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -776,6 +783,7 @@
           {
             "purl": "pkg:npm/strive-molu-axios",
             "name": "strive-molu-axios",
+            "requirement": "^0.0.1",
             "version_status": {
               "version": "0.0.1-beta.1",
               "status": "deleted",
@@ -791,7 +799,7 @@
         ]
       },
       "properties": {
-        "component_status": {
+        "components": {
           "type": "array",
           "items": {
             "type": "object",
