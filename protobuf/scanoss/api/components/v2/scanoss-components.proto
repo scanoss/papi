@@ -180,13 +180,16 @@ message ComponentsStatisticResponse {
 message ComponentStatusResponse {
      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: " { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } " ;
+      example: "{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }" ;
     }
   };   
   // Purl requested
   string purl = 1 [json_name = "purl"];
   // Name of the component
   string name = 2;
+  // Requirement that should be met on the response.
+  string requirement = 3;
+  
   // Component version status
   message VersionStatus {
     // Development status of the requested version of this component classified automatically 
@@ -216,9 +219,9 @@ message ComponentStatusResponse {
     optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
   }
   // Information about the requested version. If no requirement is described, the latest version of the component is responded
-  VersionStatus version_status = 3 [json_name = "version_status"];
+  VersionStatus version_status = 4 [json_name = "version_status"];
   /// Information about the current development status of the component
-  ComponentStatus component_status = 4 [json_name = "component_status"];
+  ComponentStatus component_status = 5 [json_name = "component_status"];
 }
 
 /*
@@ -227,7 +230,7 @@ message ComponentStatusResponse {
 message ComponentsStatusResponse {
    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[ { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }]}" ;
+      example: "{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }" ;
     }
   };      
   // Component status

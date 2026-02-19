@@ -265,17 +265,19 @@ func (x *ComponentsStatisticResponse) GetStatus() *commonv2.StatusResponse {
 	return nil
 }
 
-// Component development status
+// Component lifecycle status
 type ComponentStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Purl requested
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	// Name of the component
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// Requirement that should be met on the response.
+	Requirement string `protobuf:"bytes,3,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// Information about the requested version. If no requirement is described, the latest version of the component is responded
-	VersionStatus *ComponentStatusResponse_VersionStatus `protobuf:"bytes,3,opt,name=version_status,proto3" json:"version_status,omitempty"`
+	VersionStatus *ComponentStatusResponse_VersionStatus `protobuf:"bytes,4,opt,name=version_status,proto3" json:"version_status,omitempty"`
 	// / Information about the current development status of the component
-	ComponentStatus *ComponentStatusResponse_ComponentStatus `protobuf:"bytes,4,opt,name=component_status,proto3" json:"component_status,omitempty"`
+	ComponentStatus *ComponentStatusResponse_ComponentStatus `protobuf:"bytes,5,opt,name=component_status,proto3" json:"component_status,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -324,6 +326,13 @@ func (x *ComponentStatusResponse) GetName() string {
 	return ""
 }
 
+func (x *ComponentStatusResponse) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
+	}
+	return ""
+}
+
 func (x *ComponentStatusResponse) GetVersionStatus() *ComponentStatusResponse_VersionStatus {
 	if x != nil {
 		return x.VersionStatus
@@ -342,7 +351,7 @@ func (x *ComponentStatusResponse) GetComponentStatus() *ComponentStatusResponse_
 type ComponentsStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Component status
-	ComponentStatus []*ComponentStatusResponse `protobuf:"bytes,1,rep,name=component_status,json=components,proto3" json:"component_status,omitempty"`
+	Components []*ComponentStatusResponse `protobuf:"bytes,1,rep,name=components,proto3" json:"components,omitempty"`
 	// Response status
 	Status        *commonv2.StatusResponse `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -379,9 +388,9 @@ func (*ComponentsStatusResponse) Descriptor() ([]byte, []int) {
 	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *ComponentsStatusResponse) GetComponentStatus() []*ComponentStatusResponse {
+func (x *ComponentsStatusResponse) GetComponents() []*ComponentStatusResponse {
 	if x != nil {
-		return x.ComponentStatus
+		return x.Components
 	}
 	return nil
 }
@@ -670,6 +679,7 @@ func (x *ComponentsStatisticResponse_ComponentStatistics) GetStatistics() *CompS
 	return nil
 }
 
+// Component version status
 type ComponentStatusResponse_VersionStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Development status of the requested version of this component classified automatically
@@ -680,7 +690,7 @@ type ComponentStatusResponse_VersionStatus struct {
 	IndexedDate string `protobuf:"bytes,3,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
 	// Date that the status was checked
 	CheckDate string `protobuf:"bytes,4,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
-	// States if something went wrong while seatching the version of this component on DB
+	// States if something went wrong while searching for the version of this component version in the DB
 	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -759,6 +769,7 @@ func (x *ComponentStatusResponse_VersionStatus) GetErrorCode() commonv2.ErrorCod
 	return commonv2.ErrorCode(0)
 }
 
+// Component status details (ignoring version)
 type ComponentStatusResponse_ComponentStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Development status of the requested component classified automatically
@@ -769,7 +780,7 @@ type ComponentStatusResponse_ComponentStatus struct {
 	FirstIndexedDate string `protobuf:"bytes,3,opt,name=first_indexed_date,json=firstIndexedDate,proto3" json:"first_indexed_date,omitempty"`
 	// Date of the last time component was indexed
 	LastIndexedDate string `protobuf:"bytes,4,opt,name=last_indexed_date,json=lastIndexedDate,proto3" json:"last_indexed_date,omitempty"`
-	// States if something went wrong while seatching the component on DB
+	// States if something went wrong while searching for the version of this component in the DB
 	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1159,12 +1170,14 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xcf\t\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\x89\n" +
+	"\n" +
 	"\x17ComponentStatusResponse\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12h\n" +
-	"\x0eversion_status\x18\x03 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
-	"\x10component_status\x18\x04 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xa9\x02\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12h\n" +
+	"\x0eversion_status\x18\x04 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
+	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xa9\x02\n" +
 	"\rVersionStatus\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12+\n" +
 	"\x11repository_status\x18\x02 \x01(\tR\x10repositoryStatus\x12!\n" +
@@ -1187,13 +1200,14 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\xbf\x02\x92A\xbb\x02\n" +
-	"\xb8\x02J\xb5\x02 { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } \"\x85\x04\n" +
-	"\x18ComponentsStatusResponse\x12X\n" +
-	"\x10component_status\x18\x01 \x03(\v22.scanoss.api.components.v2.ComponentStatusResponseR\n" +
+	"\v_error_code:\xd7\x02\x92A\xd3\x02\n" +
+	"\xd0\x02J\xcd\x02{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }\"\x9b\x04\n" +
+	"\x18ComponentsStatusResponse\x12R\n" +
+	"\n" +
+	"components\x18\x01 \x03(\v22.scanoss.api.components.v2.ComponentStatusResponseR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xcf\x02\x92A\xcb\x02\n" +
-	"\xc8\x02J\xc5\x02{\"components\":[ { \"purl\": \"pkg:npm/strive-molu-axios\",\"name\":\"strive-molu-axios\",\"version_status\": { \"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\",\"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }]}\"\x8b\x05\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xeb\x02\x92A\xe7\x02\n" +
+	"\xe4\x02J\xe1\x02{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }\"\x8b\x05\n" +
 	"\x12CompSearchResponse\x12W\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v27.scanoss.api.components.v2.CompSearchResponse.ComponentR\n" +
@@ -1287,7 +1301,7 @@ var file_scanoss_api_components_v2_scanoss_components_proto_depIdxs = []int32{
 	16, // 2: scanoss.api.components.v2.ComponentsStatisticResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	10, // 3: scanoss.api.components.v2.ComponentStatusResponse.version_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse.VersionStatus
 	11, // 4: scanoss.api.components.v2.ComponentStatusResponse.component_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse.ComponentStatus
-	3,  // 5: scanoss.api.components.v2.ComponentsStatusResponse.component_status:type_name -> scanoss.api.components.v2.ComponentStatusResponse
+	3,  // 5: scanoss.api.components.v2.ComponentsStatusResponse.components:type_name -> scanoss.api.components.v2.ComponentStatusResponse
 	16, // 6: scanoss.api.components.v2.ComponentsStatusResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	12, // 7: scanoss.api.components.v2.CompSearchResponse.components:type_name -> scanoss.api.components.v2.CompSearchResponse.Component
 	16, // 8: scanoss.api.components.v2.CompSearchResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
