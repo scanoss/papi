@@ -385,6 +385,10 @@
     "ComponentStatusResponseVersionStatus": {
       "type": "object",
       "properties": {
+        "version": {
+          "type": "string",
+          "title": "Version identifier"
+        },
         "status": {
           "type": "string",
           "title": "Development status of the requested version of this component classified automatically"
@@ -812,7 +816,7 @@
           "title": "Response status"
         }
       },
-      "title": "Component Statistics response data (JSON payload)"
+      "title": "Component Status response data (JSON payload)"
     },
     "v2EchoRequest": {
       "type": "object",
