@@ -347,7 +347,7 @@ func (x *ComponentStatusResponse) GetComponentStatus() *ComponentStatusResponse_
 	return nil
 }
 
-// Component Statistics response data (JSON payload)
+// Component Status response data (JSON payload)
 type ComponentsStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Component status
@@ -682,17 +682,19 @@ func (x *ComponentsStatisticResponse_ComponentStatistics) GetStatistics() *CompS
 // Component version status
 type ComponentStatusResponse_VersionStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// Version identifier
+	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Development status of the requested version of this component classified automatically
-	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Status string `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	// Raw status reported by the registry for this version
-	RepositoryStatus string `protobuf:"bytes,2,opt,name=repository_status,json=repositoryStatus,proto3" json:"repository_status,omitempty"`
+	RepositoryStatus string `protobuf:"bytes,3,opt,name=repository_status,json=repositoryStatus,proto3" json:"repository_status,omitempty"`
 	// Date that the component was indexed
-	IndexedDate string `protobuf:"bytes,3,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
+	IndexedDate string `protobuf:"bytes,4,opt,name=indexed_date,json=indexedDate,proto3" json:"indexed_date,omitempty"`
 	// Date that the status was checked
-	CheckDate string `protobuf:"bytes,4,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
+	CheckDate string `protobuf:"bytes,5,opt,name=check_date,json=checkDate,proto3" json:"check_date,omitempty"`
 	// States if something went wrong while searching for the version of this component version in the DB
-	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,6,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,7,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -725,6 +727,13 @@ func (x *ComponentStatusResponse_VersionStatus) ProtoReflect() protoreflect.Mess
 // Deprecated: Use ComponentStatusResponse_VersionStatus.ProtoReflect.Descriptor instead.
 func (*ComponentStatusResponse_VersionStatus) Descriptor() ([]byte, []int) {
 	return file_scanoss_api_components_v2_scanoss_components_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *ComponentStatusResponse_VersionStatus) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
 }
 
 func (x *ComponentStatusResponse_VersionStatus) GetStatus() string {
@@ -1170,23 +1179,24 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\x89\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xa3\n" +
 	"\n" +
 	"\x17ComponentStatusResponse\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12h\n" +
 	"\x0eversion_status\x18\x04 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
-	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xa9\x02\n" +
-	"\rVersionStatus\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x12+\n" +
-	"\x11repository_status\x18\x02 \x01(\tR\x10repositoryStatus\x12!\n" +
-	"\findexed_date\x18\x03 \x01(\tR\vindexedDate\x12\x1d\n" +
+	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xc3\x02\n" +
+	"\rVersionStatus\x12\x18\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12+\n" +
+	"\x11repository_status\x18\x03 \x01(\tR\x10repositoryStatus\x12!\n" +
+	"\findexed_date\x18\x04 \x01(\tR\vindexedDate\x12\x1d\n" +
 	"\n" +
-	"check_date\x18\x04 \x01(\tR\tcheckDate\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"check_date\x18\x05 \x01(\tR\tcheckDate\x12)\n" +
+	"\rerror_message\x18\x06 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\a \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code\x1a\xc3\x02\n" +
