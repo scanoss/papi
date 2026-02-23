@@ -708,10 +708,11 @@
         "INVALID_PURL",
         "COMPONENT_NOT_FOUND",
         "NO_INFO",
-        "INVALID_SEMVER"
+        "INVALID_SEMVER",
+        "VERSION_NOT_FOUND"
       ],
       "default": "INVALID_PURL",
-      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed"
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found"
     },
     "v2StatusCode": {
       "type": "string",
