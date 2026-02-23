@@ -164,5 +164,8 @@ enum ErrorCode {
   NO_INFO = 2;
   // The provided semantic version (SemVer) is invalid or malformed
   INVALID_SEMVER = 3;
+  // Component version not found
+  VERSION_NOT_FOUND = 4;
+
 }
 
