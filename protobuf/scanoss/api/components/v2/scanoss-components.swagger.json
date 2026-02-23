@@ -387,7 +387,7 @@
       "properties": {
         "version": {
           "type": "string",
-          "title": "Version identifier"
+          "title": "Specific version name"
         },
         "status": {
           "type": "string",
@@ -816,7 +816,7 @@
           "title": "Response status"
         }
       },
-      "title": "Component Status response data (JSON payload)"
+      "title": "Component Statistics response data (JSON payload)"
     },
     "v2EchoRequest": {
       "type": "object",
