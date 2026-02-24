@@ -103,6 +103,21 @@ service Components {
       body: "*"
     };
   };
+
+  // Get status information for a specific purl via a get request
+  rpc GetComponentStatus(scanoss.api.common.v2.ComponentRequest) returns(ComponentStatusResponse) {
+    option (google.api.http) = {
+      get: "/v2/components/status/component"
+    };
+  };
+
+ // Get the status for a list of purls posted in the body
+  rpc GetComponentsStatus(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsStatusResponse) {
+    option (google.api.http) = {
+      post: "/v2/components/status/components"
+      body: "*"
+    };
+  };
 }
 
 /*
@@ -157,6 +172,74 @@ message ComponentsStatisticResponse {
   repeated ComponentStatistics component_statistics = 1 [json_name = "component_statistics"];
   // Response status
   scanoss.api.common.v2.StatusResponse status = 2;
+}
+
+/*
+ * Component lifecycle status
+*/
+message ComponentStatusResponse {
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }" ;
+    }
+  };   
+  // Purl requested
+  string purl = 1 [json_name = "purl"];
+  // Name of the component
+  string name = 2;
+  // Requirement that should be met on the response.
+  string requirement = 3;
+  
+  // Component version status
+  message VersionStatus {
+    // Specific version name  
+    string version = 1;  
+    // Development status of the requested version of this component classified automatically 
+    string status = 2;  
+    // Raw status reported by the registry for this version
+    string repository_status = 3[json_name = "repository_status"];
+    // Date that the component was indexed
+    string indexed_date = 4 [json_name = "indexed_date"];
+    // Date that the status was checked
+    string check_date = 5 [json_name = "check_date"];
+    // States if something went wrong while searching for the version of this component version in the DB
+    optional string error_message = 6[json_name = "error_message"];
+    optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
+  }
+  // Component status details (ignoring version)
+  message ComponentStatus {
+    // Development status of the requested component classified automatically 
+    string status = 1;
+    // Raw status reported by the registry for this component
+    string repository_status = 2 [json_name = "repository_status"];
+    // Date of the first time component was indexed
+    string first_indexed_date = 3 [json_name = "first_indexed_date"];
+    // Date of the last time component was indexed
+    string last_indexed_date = 4 [json_name = "last_indexed_date"];
+    // States if something went wrong while searching for the version of this component in the DB
+    optional  string error_message = 5 [json_name = "error_message"];
+    optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
+  
+  }
+  // Information about the requested version. If no requirement is described, the latest version of the component is responded
+  VersionStatus version_status = 4 [json_name = "version_status"];
+  /// Information about the current development status of the component
+  ComponentStatus component_status = 5 [json_name = "component_status"];
+}
+
+/*
+ * Component Statistics response data (JSON payload)
+ */
+message ComponentsStatusResponse {
+   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }" ;
+    }
+  };      
+  // Component status
+  repeated ComponentStatusResponse components = 1;
+  // Response status
+  scanoss.api.common.v2.StatusResponse status = 2; 
 }
 
 /*

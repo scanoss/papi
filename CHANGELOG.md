@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.31.0] - 2026-02-24
+### Added
+- Added gRPC `GetComponentStatus` and REST endpoint GET `/v2/components/status/component` for retrieving lifecycle status of a single component
+- Added gRPC `GetComponentsStatus` and REST endpoint POST `/v2/components/status/components` for retrieving lifecycle status of multiple components in a single request
+- Added `ComponentStatusResponse` message with `VersionStatus` and `ComponentStatus` nested messages providing version-specific and overall component lifecycle information (status, repository status, indexed dates, error handling)
+- Added `ComponentsStatusResponse` message for bulk component status responses
+
 ## [0.30.0] - 2026-02-23
 ### Added
 - Added `VERSION_NOT_FOUND` error code to `ErrorCode` enum for handling cases where a component version is not found
@@ -231,6 +238,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.31.0]: https://github.com/scanoss/papi/compare/v0.30.0...v0.31.0
 [0.30.0]: https://github.com/scanoss/papi/compare/v0.29.0...v0.30.0
 [0.29.0]: https://github.com/scanoss/papi/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/scanoss/papi/compare/v0.27.0...v0.28.0

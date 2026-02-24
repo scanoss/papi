@@ -185,6 +185,93 @@
         ]
       }
     },
+    "/v2/components/status/component": {
+      "get": {
+        "summary": "Get status information for a specific purl via a get request",
+        "operationId": "Components_GetComponentStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentStatusResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purl",
+            "description": "Package URL identifying the component to analyze.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "requirement",
+            "description": "Version constraint for component resolution when PURL lacks explicit version.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Components"
+        ]
+      }
+    },
+    "/v2/components/status/components": {
+      "post": {
+        "summary": "Get the status for a list of purls posted in the body",
+        "operationId": "Components_GetComponentsStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsStatusResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Represents a list of software component to be analyzed by SCANOSS API services.\nAllows analysis of multiple software components in a single API call, improving performance over individual requests.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ComponentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Components"
+        ]
+      }
+    },
     "/v2/components/versions": {
       "get": {
         "summary": "Get all version information for a specific component",
@@ -265,6 +352,68 @@
         }
       },
       "title": "Version details (including license)"
+    },
+    "ComponentStatusResponseComponentStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "title": "Development status of the requested component classified automatically"
+        },
+        "repository_status": {
+          "type": "string",
+          "title": "Raw status reported by the registry for this component"
+        },
+        "first_indexed_date": {
+          "type": "string",
+          "title": "Date of the first time component was indexed"
+        },
+        "last_indexed_date": {
+          "type": "string",
+          "title": "Date of the last time component was indexed"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "States if something went wrong while searching for the version of this component in the DB"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
+        }
+      },
+      "title": "Component status details (ignoring version)"
+    },
+    "ComponentStatusResponseVersionStatus": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "title": "Specific version name"
+        },
+        "status": {
+          "type": "string",
+          "title": "Development status of the requested version of this component classified automatically"
+        },
+        "repository_status": {
+          "type": "string",
+          "title": "Raw status reported by the registry for this version"
+        },
+        "indexed_date": {
+          "type": "string",
+          "title": "Date that the component was indexed"
+        },
+        "check_date": {
+          "type": "string",
+          "title": "Date that the status was checked"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "States if something went wrong while searching for the version of this component version in the DB"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode"
+        }
+      },
+      "title": "Component version status"
     },
     "ComponentsStatisticResponseComponentStatistics": {
       "type": "object",
@@ -517,6 +666,48 @@
         "purl"
       ]
     },
+    "v2ComponentStatusResponse": {
+      "type": "object",
+      "example": {
+        "purl": "pkg:npm/strive-molu-axios",
+        "name": "strive-molu-axios",
+        "requirement": "^0.0.1",
+        "version_status": {
+          "version": "0.0.1-beta.1",
+          "status": "deleted",
+          "indexed_date": "2024-06-21",
+          "check_date": "2026-02-01"
+        },
+        "component_status": {
+          "status": "active",
+          "first_indexed_date": "2022-03-01",
+          "last_indexed_date": "2026-02-15"
+        }
+      },
+      "properties": {
+        "purl": {
+          "type": "string",
+          "title": "Purl requested"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name of the component"
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Requirement that should be met on the response."
+        },
+        "version_status": {
+          "$ref": "#/definitions/ComponentStatusResponseVersionStatus",
+          "title": "Information about the requested version. If no requirement is described, the latest version of the component is responded"
+        },
+        "component_status": {
+          "$ref": "#/definitions/ComponentStatusResponseComponentStatus",
+          "title": "/ Information about the current development status of the component"
+        }
+      },
+      "title": "Component lifecycle status"
+    },
     "v2ComponentsRequest": {
       "type": "object",
       "example": {
@@ -589,6 +780,44 @@
       },
       "title": "Component Statistics response data (JSON payload)"
     },
+    "v2ComponentsStatusResponse": {
+      "type": "object",
+      "example": {
+        "components": [
+          {
+            "purl": "pkg:npm/strive-molu-axios",
+            "name": "strive-molu-axios",
+            "requirement": "^0.0.1",
+            "version_status": {
+              "version": "0.0.1-beta.1",
+              "status": "deleted",
+              "indexed_date": "2024-06-21",
+              "check_date": "2026-02-01"
+            },
+            "component_status": {
+              "status": "active",
+              "first_indexed_date": "2022-03-01",
+              "last_indexed_date": "2026-02-15"
+            }
+          }
+        ]
+      },
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ComponentStatusResponse"
+          },
+          "title": "Component status"
+        },
+        "status": {
+          "$ref": "#/definitions/v2StatusResponse",
+          "title": "Response status"
+        }
+      },
+      "title": "Component Statistics response data (JSON payload)"
+    },
     "v2EchoRequest": {
       "type": "object",
       "properties": {
@@ -606,6 +835,18 @@
         }
       },
       "description": "Echo Message Response."
+    },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER",
+        "VERSION_NOT_FOUND"
+      ],
+      "default": "INVALID_PURL",
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found"
     },
     "v2StatusCode": {
       "type": "string",
