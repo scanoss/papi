@@ -217,7 +217,7 @@ message ComponentStatusResponse {
     // Date of the last time component was indexed
     optional string last_indexed_date = 4 [json_name = "last_indexed_date"];
     // Date of the last detected change
-    optional string status_change_date = 5 [json_name = "status_change_indexed_date"];
+    optional string status_change_date = 5 [json_name = "status_change_date"];
     // States if something went wrong while searching for the version of this component in the DB
     optional  string error_message = 6 [json_name = "error_message"];
     optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
