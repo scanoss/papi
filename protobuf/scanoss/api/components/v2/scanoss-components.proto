@@ -180,7 +180,7 @@ message ComponentsStatisticResponse {
 message ComponentStatusResponse {
      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }" ;
+      example: "{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"status_change_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }" ;
     }
   };   
   // Purl requested
@@ -200,10 +200,10 @@ message ComponentStatusResponse {
     optional string repository_status = 3[json_name = "repository_status"];
     // Date that the component was indexed
     optional string indexed_date = 4 [json_name = "indexed_date"];
-    // Date that the status was checked
-    optional string check_date = 5 [json_name = "check_date"];
+    // Date that the status changed or change was detected
+    optional string status_change_date = 5 [json_name = "status_change_date"];
     // States if something went wrong while searching for the version of this component version in the DB
-    optional string error_message = 6[json_name = "error_message"];
+    optional string error_message = 6 [json_name = "error_message"];
     optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
   }
   // Component status details (ignoring version)
@@ -216,9 +216,11 @@ message ComponentStatusResponse {
     optional string first_indexed_date = 3 [json_name = "first_indexed_date"];
     // Date of the last time component was indexed
     optional string last_indexed_date = 4 [json_name = "last_indexed_date"];
+    // Date of the last detected change
+    optional string status_change_date = 5 [json_name = "status_change_indexed_date"];
     // States if something went wrong while searching for the version of this component in the DB
-    optional  string error_message = 5 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
+    optional  string error_message = 6 [json_name = "error_message"];
+    optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
   
   }
   // Information about the requested version. If no requirement is described, the latest version of the component is responded
@@ -233,7 +235,7 @@ message ComponentStatusResponse {
 message ComponentsStatusResponse {
    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }" ;
+      example: "{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"status_change_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }" ;
     }
   };      
   // Component status

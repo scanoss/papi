@@ -690,8 +690,8 @@ type ComponentStatusResponse_VersionStatus struct {
 	RepositoryStatus *string `protobuf:"bytes,3,opt,name=repository_status,proto3,oneof" json:"repository_status,omitempty"`
 	// Date that the component was indexed
 	IndexedDate *string `protobuf:"bytes,4,opt,name=indexed_date,proto3,oneof" json:"indexed_date,omitempty"`
-	// Date that the status was checked
-	CheckDate *string `protobuf:"bytes,5,opt,name=check_date,proto3,oneof" json:"check_date,omitempty"`
+	// Date that the status changed or change was detected
+	StatusChangeDate *string `protobuf:"bytes,5,opt,name=status_change_date,proto3,oneof" json:"status_change_date,omitempty"`
 	// States if something went wrong while searching for the version of this component version in the DB
 	ErrorMessage  *string             `protobuf:"bytes,6,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,7,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
@@ -757,9 +757,9 @@ func (x *ComponentStatusResponse_VersionStatus) GetIndexedDate() string {
 	return ""
 }
 
-func (x *ComponentStatusResponse_VersionStatus) GetCheckDate() string {
-	if x != nil && x.CheckDate != nil {
-		return *x.CheckDate
+func (x *ComponentStatusResponse_VersionStatus) GetStatusChangeDate() string {
+	if x != nil && x.StatusChangeDate != nil {
+		return *x.StatusChangeDate
 	}
 	return ""
 }
@@ -789,9 +789,11 @@ type ComponentStatusResponse_ComponentStatus struct {
 	FirstIndexedDate *string `protobuf:"bytes,3,opt,name=first_indexed_date,proto3,oneof" json:"first_indexed_date,omitempty"`
 	// Date of the last time component was indexed
 	LastIndexedDate *string `protobuf:"bytes,4,opt,name=last_indexed_date,proto3,oneof" json:"last_indexed_date,omitempty"`
+	// Date of the last detected change
+	StatusChangeDate *string `protobuf:"bytes,5,opt,name=status_change_date,json=status_change_indexed_date,proto3,oneof" json:"status_change_date,omitempty"`
 	// States if something went wrong while searching for the version of this component in the DB
-	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,6,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,7,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -850,6 +852,13 @@ func (x *ComponentStatusResponse_ComponentStatus) GetFirstIndexedDate() string {
 func (x *ComponentStatusResponse_ComponentStatus) GetLastIndexedDate() string {
 	if x != nil && x.LastIndexedDate != nil {
 		return *x.LastIndexedDate
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetStatusChangeDate() string {
+	if x != nil && x.StatusChangeDate != nil {
+		return *x.StatusChangeDate
 	}
 	return ""
 }
@@ -1179,53 +1188,53 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xe2\v\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xd6\f\n" +
 	"\x17ComponentStatusResponse\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12h\n" +
 	"\x0eversion_status\x18\x04 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
-	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\x9b\x03\n" +
+	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xb3\x03\n" +
 	"\rVersionStatus\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12\x1b\n" +
 	"\x06status\x18\x02 \x01(\tH\x00R\x06status\x88\x01\x01\x121\n" +
 	"\x11repository_status\x18\x03 \x01(\tH\x01R\x11repository_status\x88\x01\x01\x12'\n" +
-	"\findexed_date\x18\x04 \x01(\tH\x02R\findexed_date\x88\x01\x01\x12#\n" +
-	"\n" +
-	"check_date\x18\x05 \x01(\tH\x03R\n" +
-	"check_date\x88\x01\x01\x12)\n" +
+	"\findexed_date\x18\x04 \x01(\tH\x02R\findexed_date\x88\x01\x01\x123\n" +
+	"\x12status_change_date\x18\x05 \x01(\tH\x03R\x12status_change_date\x88\x01\x01\x12)\n" +
 	"\rerror_message\x18\x06 \x01(\tH\x04R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
 	"error_code\x18\a \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x05R\n" +
 	"error_code\x88\x01\x01B\t\n" +
 	"\a_statusB\x14\n" +
 	"\x12_repository_statusB\x0f\n" +
-	"\r_indexed_dateB\r\n" +
-	"\v_check_dateB\x10\n" +
+	"\r_indexed_dateB\x15\n" +
+	"\x13_status_change_dateB\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code\x1a\xaa\x03\n" +
+	"\v_error_code\x1a\xfe\x03\n" +
 	"\x0fComponentStatus\x12\x1b\n" +
 	"\x06status\x18\x01 \x01(\tH\x00R\x06status\x88\x01\x01\x121\n" +
 	"\x11repository_status\x18\x02 \x01(\tH\x01R\x11repository_status\x88\x01\x01\x123\n" +
 	"\x12first_indexed_date\x18\x03 \x01(\tH\x02R\x12first_indexed_date\x88\x01\x01\x121\n" +
-	"\x11last_indexed_date\x18\x04 \x01(\tH\x03R\x11last_indexed_date\x88\x01\x01\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x04R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x11last_indexed_date\x18\x04 \x01(\tH\x03R\x11last_indexed_date\x88\x01\x01\x12;\n" +
+	"\x12status_change_date\x18\x05 \x01(\tH\x04R\x1astatus_change_indexed_date\x88\x01\x01\x12)\n" +
+	"\rerror_message\x18\x06 \x01(\tH\x05R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x05R\n" +
+	"error_code\x18\a \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x06R\n" +
 	"error_code\x88\x01\x01B\t\n" +
 	"\a_statusB\x14\n" +
 	"\x12_repository_statusB\x15\n" +
 	"\x13_first_indexed_dateB\x14\n" +
-	"\x12_last_indexed_dateB\x10\n" +
+	"\x12_last_indexed_dateB\x15\n" +
+	"\x13_status_change_dateB\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\xd7\x02\x92A\xd3\x02\n" +
-	"\xd0\x02J\xcd\x02{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }\"\x9b\x04\n" +
+	"\v_error_code:\xdf\x02\x92A\xdb\x02\n" +
+	"\xd8\x02J\xd5\x02{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"status_change_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } }\"\xa3\x04\n" +
 	"\x18ComponentsStatusResponse\x12R\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v22.scanoss.api.components.v2.ComponentStatusResponseR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xeb\x02\x92A\xe7\x02\n" +
-	"\xe4\x02J\xe1\x02{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"check_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }\"\x8b\x05\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xf3\x02\x92A\xef\x02\n" +
+	"\xec\x02J\xe9\x02{\"components\": [{\"purl\": \"pkg:npm/strive-molu-axios\",\"name\": \"strive-molu-axios\", \"requirement\": \"^0.0.1\", \"version_status\": {\"version\": \"0.0.1-beta.1\", \"status\": \"deleted\", \"indexed_date\": \"2024-06-21\", \"status_change_date\": \"2026-02-01\" }, \"component_status\": { \"status\": \"active\", \"first_indexed_date\": \"2022-03-01\", \"last_indexed_date\": \"2026-02-15\" } } ] }\"\x8b\x05\n" +
 	"\x12CompSearchResponse\x12W\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v27.scanoss.api.components.v2.CompSearchResponse.ComponentR\n" +

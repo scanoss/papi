@@ -372,6 +372,10 @@
           "type": "string",
           "title": "Date of the last time component was indexed"
         },
+        "status_change_date": {
+          "type": "string",
+          "title": "Date of the last detected change"
+        },
         "error_message": {
           "type": "string",
           "title": "States if something went wrong while searching for the version of this component in the DB"
@@ -401,9 +405,9 @@
           "type": "string",
           "title": "Date that the component was indexed"
         },
-        "check_date": {
+        "status_change_date": {
           "type": "string",
-          "title": "Date that the status was checked"
+          "title": "Date that the status changed or change was detected"
         },
         "error_message": {
           "type": "string",
@@ -676,7 +680,7 @@
           "version": "0.0.1-beta.1",
           "status": "deleted",
           "indexed_date": "2024-06-21",
-          "check_date": "2026-02-01"
+          "status_change_date": "2026-02-01"
         },
         "component_status": {
           "status": "active",
@@ -792,7 +796,7 @@
               "version": "0.0.1-beta.1",
               "status": "deleted",
               "indexed_date": "2024-06-21",
-              "check_date": "2026-02-01"
+              "status_change_date": "2026-02-01"
             },
             "component_status": {
               "status": "active",
