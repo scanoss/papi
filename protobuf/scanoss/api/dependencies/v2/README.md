@@ -139,8 +139,12 @@ Each dependency object includes:
 - `licenses`: Array of license information
 - `url`: Component homepage or repository URL
 - `comment`: Additional analysis notes
+- `error_message` (optional): Error message describing what went wrong during component processing
+- `error_code` (optional): Error code indicating the type of error encountered
 
-### Response Example
+### Response Examples
+
+#### Success
 ```json
 {
   "files": [
@@ -164,6 +168,37 @@ Each dependency object includes:
           ],
           "url": "https://www.npmjs.com/package/express",
           "comment": ""
+        }
+      ]
+    }
+  ],
+  "status": {
+    "status": "SUCCESS",
+    "message": "Dependencies successfully retrieved"
+  }
+}
+```
+
+#### Error in dependency
+When a component cannot be processed, the dependency block includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "files": [
+    {
+      "file": "conanfile.txt",
+      "id": "dependency",
+      "status": "pending",
+      "dependencies": [
+        {
+          "component": "",
+          "purl": "pkg:conan/gtest",
+          "version": "",
+          "licenses": [],
+          "url": "",
+          "comment": "",
+          "requirement": "v1.17.0",
+          "error_message": "Component version not found",
+          "error_code": "VERSION_NOT_FOUND"
         }
       ]
     }
