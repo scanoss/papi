@@ -691,7 +691,7 @@ type ComponentStatusResponse_VersionStatus struct {
 	// Date that the component was indexed
 	IndexedDate string `protobuf:"bytes,4,opt,name=indexed_date,proto3" json:"indexed_date,omitempty"`
 	// Date that the status was checked
-	CheckDate string `protobuf:"bytes,5,opt,name=check_date,proto3" json:"check_date,omitempty"`
+	StatusChangeDate string `protobuf:"bytes,5,opt,name=status_change_date,proto3" json:"status_change_date,omitempty"`
 	// States if something went wrong while searching for the version of this component version in the DB
 	ErrorMessage  *string             `protobuf:"bytes,6,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,7,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
@@ -757,9 +757,9 @@ func (x *ComponentStatusResponse_VersionStatus) GetIndexedDate() string {
 	return ""
 }
 
-func (x *ComponentStatusResponse_VersionStatus) GetCheckDate() string {
+func (x *ComponentStatusResponse_VersionStatus) GetStatusChangeDate() string {
 	if x != nil {
-		return x.CheckDate
+		return x.StatusChangeDate
 	}
 	return ""
 }
@@ -789,9 +789,11 @@ type ComponentStatusResponse_ComponentStatus struct {
 	FirstIndexedDate string `protobuf:"bytes,3,opt,name=first_indexed_date,proto3" json:"first_indexed_date,omitempty"`
 	// Date of the last time component was indexed
 	LastIndexedDate string `protobuf:"bytes,4,opt,name=last_indexed_date,proto3" json:"last_indexed_date,omitempty"`
+	// Date of the last detected change
+	StatusChangeDate string `protobuf:"bytes,5,opt,name=status_change_date,proto3" json:"status_change_date,omitempty"`
 	// States if something went wrong while searching for the version of this component in the DB
-	ErrorMessage  *string             `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	ErrorMessage  *string             `protobuf:"bytes,6,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,7,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -850,6 +852,13 @@ func (x *ComponentStatusResponse_ComponentStatus) GetFirstIndexedDate() string {
 func (x *ComponentStatusResponse_ComponentStatus) GetLastIndexedDate() string {
 	if x != nil {
 		return x.LastIndexedDate
+	}
+	return ""
+}
+
+func (x *ComponentStatusResponse_ComponentStatus) GetStatusChangeDate() string {
+	if x != nil {
+		return x.StatusChangeDate
 	}
 	return ""
 }
@@ -1179,36 +1188,35 @@ const file_scanoss_api_components_v2_scanoss_components_proto_rawDesc = "" +
 	"\n" +
 	"statistics\x18\x03 \x01(\v2(.scanoss.api.components.v2.CompStatisticR\n" +
 	"statistics:\xea\x02\x92A\xe6\x02\n" +
-	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xab\n" +
+	"\xe3\x02J\xe0\x02{\"component_statistics\": [{\"purl\": \"pkg:github/scanoss/engine@5.0.0\", \"version\": \"5.0.0\", \"statistics\": {\"total_source_files\": 156, \"total_lines\": 25430, \"total_blank_lines\": 3420, \"languages\": [{\"name\": \"C\", \"files\": 89}, {\"name\": \"C Header\", \"files\": 45}]}}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Component statistics successfully retrieved\"}}\"\xeb\n" +
 	"\n" +
 	"\x17ComponentStatusResponse\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12h\n" +
 	"\x0eversion_status\x18\x04 \x01(\v2@.scanoss.api.components.v2.ComponentStatusResponse.VersionStatusR\x0eversion_status\x12n\n" +
-	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xc6\x02\n" +
+	"\x10component_status\x18\x05 \x01(\v2B.scanoss.api.components.v2.ComponentStatusResponse.ComponentStatusR\x10component_status\x1a\xd6\x02\n" +
 	"\rVersionStatus\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\x12,\n" +
 	"\x11repository_status\x18\x03 \x01(\tR\x11repository_status\x12\"\n" +
-	"\findexed_date\x18\x04 \x01(\tR\findexed_date\x12\x1e\n" +
-	"\n" +
-	"check_date\x18\x05 \x01(\tR\n" +
-	"check_date\x12)\n" +
+	"\findexed_date\x18\x04 \x01(\tR\findexed_date\x12.\n" +
+	"\x12status_change_date\x18\x05 \x01(\tR\x12status_change_date\x12)\n" +
 	"\rerror_message\x18\x06 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
 	"error_code\x18\a \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
-	"\v_error_code\x1a\xc8\x02\n" +
+	"\v_error_code\x1a\xf8\x02\n" +
 	"\x0fComponentStatus\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12,\n" +
 	"\x11repository_status\x18\x02 \x01(\tR\x11repository_status\x12.\n" +
 	"\x12first_indexed_date\x18\x03 \x01(\tR\x12first_indexed_date\x12,\n" +
-	"\x11last_indexed_date\x18\x04 \x01(\tR\x11last_indexed_date\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x11last_indexed_date\x18\x04 \x01(\tR\x11last_indexed_date\x12.\n" +
+	"\x12status_change_date\x18\x05 \x01(\tR\x12status_change_date\x12)\n" +
+	"\rerror_message\x18\x06 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\a \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
 	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code:\xd7\x02\x92A\xd3\x02\n" +

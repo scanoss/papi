@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.31.1] - 2026-03-13
+### Fixed
+- Renamed `check_date` to `status_change_date` while retrieving lifecycle status for a specific version
+- Added `status_change_date` while retrieving lifecycle status for a component
+- Removed `optional` modifiers for ComponentStatus
+
 ## [0.31.0] - 2026-02-24
 ### Added
 - Added gRPC `GetComponentStatus` and REST endpoint GET `/v2/components/status/component` for retrieving lifecycle status of a single component
@@ -238,6 +244,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.31.1]: https://github.com/scanoss/papi/compare/v0.31.0...v0.31.1
 [0.31.0]: https://github.com/scanoss/papi/compare/v0.30.0...v0.31.0
 [0.30.0]: https://github.com/scanoss/papi/compare/v0.29.0...v0.30.0
 [0.29.0]: https://github.com/scanoss/papi/compare/v0.28.0...v0.29.0
