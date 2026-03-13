@@ -131,6 +131,7 @@ message DependencyResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"requirement\":\"^4.18.0\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}";
+      description: "Success example. For error cases, dependency block includes error_message and error_code fields, e.g.: {\\\"files\\\":[{\\\"file\\\":\\\"package.json\\\",\\\"id\\\":\\\"dependency\\\",\\\"status\\\":\\\"pending\\\",\\\"dependencies\\\":[{\\\"component\\\":\\\"\\\",\\\"purl\\\":\\\"pkg:npm/express\\\",\\\"error_message\\\":\\\"Component not found\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}]}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}";
     }
   };
 
@@ -148,7 +149,10 @@ message DependencyResponse {
     string url = 5;
     string comment = 6;
     string requirement = 7;
-//    string scope = 7;
+    // Optional error message describing what went wrong during component processing
+    optional string error_message = 8 [json_name = "error_message"];
+    // Optional error code indicating the type of error encountered
+    optional common.v2.ErrorCode error_code = 9  [json_name = "error_code"];
   }
   message Files {
     string file = 1;
