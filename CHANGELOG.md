@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-03-26
+### Added
+- Added `License` nested message to `HFHResponse.Version` with `name`, `spdx_id`, `is_spdx_approved`, and `url` fields
+- Added `licenses` repeated field to `HFHResponse.Version` to include license information in High precision Folder Hashing scan responses
 
 ## [0.32.1] - 2026-03-13
 ### Fixed
@@ -251,6 +255,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.33.0]: https://github.com/scanoss/papi/compare/v0.32.1...v0.33.0
 [0.32.1]: https://github.com/scanoss/papi/compare/v0.32.0...v0.32.1
 [0.32.0]: https://github.com/scanoss/papi/compare/v0.31.0...v0.32.0
 [0.31.0]: https://github.com/scanoss/papi/compare/v0.30.0...v0.31.0

@@ -124,10 +124,25 @@ message HFHRequest {
 message HFHResponse {
     // Component version details
     message Version {
+
+        // Component license
+        message License {
+            // Full name of the license
+            string name = 1;
+            // SPDX license identifier. See https://spdx.org/licenses/
+            string spdx_id = 2 [json_name = "spdx_id"];
+            // Indicates whether this license is approved by the SPDX organization
+            bool is_spdx_approved = 3 [json_name = "is_spdx_approved"];
+            // URL pointing to the full license text
+            string url = 4;
+        }
+
         // Component version
         string version = 1;
         // Component score (0-1)
         float score = 2;
+        // Licenses
+        repeated License licenses = 3;
     }
     // Matched component details
     message Component {

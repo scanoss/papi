@@ -210,9 +210,39 @@
           "type": "number",
           "format": "float",
           "title": "Component score (0-1)"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/HFHResponseVersionLicense"
+          },
+          "title": "Licenses"
         }
       },
       "title": "Component version details"
+    },
+    "HFHResponseVersionLicense": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Full name of the license"
+        },
+        "spdx_id": {
+          "type": "string",
+          "title": "SPDX license identifier. See https://spdx.org/licenses/"
+        },
+        "is_spdx_approved": {
+          "type": "boolean",
+          "title": "Indicates whether this license is approved by the SPDX organization"
+        },
+        "url": {
+          "type": "string",
+          "title": "URL pointing to the full license text"
+        }
+      },
+      "title": "Component license"
     },
     "StatusResponseDB": {
       "type": "object",
