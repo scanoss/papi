@@ -93,11 +93,27 @@ Each component object contains:
           "versions": [
             {
               "version": "1.30.0",
-              "score": 0.95
+              "score": 0.95,
+              "licenses": [
+                {
+                  "name": "MIT License",
+                  "spdx_id": "MIT",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/MIT.html"
+                }
+              ]
             },
             {
               "version": "1.29.0",
-              "score": 0.87
+              "score": 0.87,
+              "licenses": [
+                {
+                  "name": "MIT License",
+                  "spdx_id": "MIT",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/MIT.html"
+                }
+              ]
             }
           ],
           "rank": 1,
@@ -110,7 +126,21 @@ Each component object contains:
           "versions": [
             {
               "version": "2.1.0",
-              "score": 0.78
+              "score": 0.78,
+              "licenses": [
+                {
+                  "name": "Apache License 2.0",
+                  "spdx_id": "Apache-2.0",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/Apache-2.0.html"
+                },
+                {
+                  "name": "MIT License",
+                  "spdx_id": "MIT",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/MIT.html"
+                }
+              ]
             }
           ],
           "rank": 3,
@@ -128,7 +158,15 @@ Each component object contains:
           "versions": [
             {
               "version": "2.31.0",
-              "score": 0.92
+              "score": 0.92,
+              "licenses": [
+                {
+                  "name": "Apache License 2.0",
+                  "spdx_id": "Apache-2.0",
+                  "is_spdx_approved": true,
+                  "url": "https://spdx.org/licenses/Apache-2.0.html"
+                }
+              ]
             }
           ],
           "rank": 1,

@@ -293,7 +293,9 @@ type HFHResponse_Version struct {
 	// Component version
 	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Component score (0-1)
-	Score         float32 `protobuf:"fixed32,2,opt,name=score,proto3" json:"score,omitempty"`
+	Score float32 `protobuf:"fixed32,2,opt,name=score,proto3" json:"score,omitempty"`
+	// Licenses
+	Licenses      []*HFHResponse_Version_License `protobuf:"bytes,3,rep,name=licenses,proto3" json:"licenses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -340,6 +342,13 @@ func (x *HFHResponse_Version) GetScore() float32 {
 		return x.Score
 	}
 	return 0
+}
+
+func (x *HFHResponse_Version) GetLicenses() []*HFHResponse_Version_License {
+	if x != nil {
+		return x.Licenses
+	}
+	return nil
 }
 
 // Matched component details
@@ -488,6 +497,79 @@ func (x *HFHResponse_Result) GetComponents() []*HFHResponse_Component {
 	return nil
 }
 
+// Component license
+type HFHResponse_Version_License struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Full name of the license
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// SPDX license identifier. See https://spdx.org/licenses/
+	SpdxId string `protobuf:"bytes,2,opt,name=spdx_id,proto3" json:"spdx_id,omitempty"`
+	// Indicates whether this license is approved by the SPDX organization
+	IsSpdxApproved bool `protobuf:"varint,3,opt,name=is_spdx_approved,proto3" json:"is_spdx_approved,omitempty"`
+	// URL pointing to the full license text
+	Url           string `protobuf:"bytes,4,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HFHResponse_Version_License) Reset() {
+	*x = HFHResponse_Version_License{}
+	mi := &file_scanoss_api_scanning_v2_scanoss_scanning_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HFHResponse_Version_License) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HFHResponse_Version_License) ProtoMessage() {}
+
+func (x *HFHResponse_Version_License) ProtoReflect() protoreflect.Message {
+	mi := &file_scanoss_api_scanning_v2_scanoss_scanning_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HFHResponse_Version_License.ProtoReflect.Descriptor instead.
+func (*HFHResponse_Version_License) Descriptor() ([]byte, []int) {
+	return file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDescGZIP(), []int{1, 0, 0}
+}
+
+func (x *HFHResponse_Version_License) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *HFHResponse_Version_License) GetSpdxId() string {
+	if x != nil {
+		return x.SpdxId
+	}
+	return ""
+}
+
+func (x *HFHResponse_Version_License) GetIsSpdxApproved() bool {
+	if x != nil {
+		return x.IsSpdxApproved
+	}
+	return false
+}
+
+func (x *HFHResponse_Version_License) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_scanoss_api_scanning_v2_scanoss_scanning_proto protoreflect.FileDescriptor
 
 const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
@@ -511,13 +593,19 @@ const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0flang_extensions\x1aA\n" +
 	"\x13LangExtensionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x84\x04\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\xce\x05\n" +
 	"\vHFHResponse\x12E\n" +
 	"\aresults\x18\x01 \x03(\v2+.scanoss.api.scanning.v2.HFHResponse.ResultR\aresults\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a9\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\x82\x02\n" +
 	"\aVersion\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12\x14\n" +
-	"\x05score\x18\x02 \x01(\x02R\x05score\x1a\xbf\x01\n" +
+	"\x05score\x18\x02 \x01(\x02R\x05score\x12P\n" +
+	"\blicenses\x18\x03 \x03(\v24.scanoss.api.scanning.v2.HFHResponse.Version.LicenseR\blicenses\x1au\n" +
+	"\aLicense\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
+	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xbf\x01\n" +
 	"\tComponent\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -551,36 +639,38 @@ func file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDescGZIP() []byte {
 	return file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDescData
 }
 
-var file_scanoss_api_scanning_v2_scanoss_scanning_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_scanoss_api_scanning_v2_scanoss_scanning_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_scanoss_api_scanning_v2_scanoss_scanning_proto_goTypes = []any{
-	(*HFHRequest)(nil),              // 0: scanoss.api.scanning.v2.HFHRequest
-	(*HFHResponse)(nil),             // 1: scanoss.api.scanning.v2.HFHResponse
-	(*HFHRequest_Children)(nil),     // 2: scanoss.api.scanning.v2.HFHRequest.Children
-	nil,                             // 3: scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntry
-	(*HFHResponse_Version)(nil),     // 4: scanoss.api.scanning.v2.HFHResponse.Version
-	(*HFHResponse_Component)(nil),   // 5: scanoss.api.scanning.v2.HFHResponse.Component
-	(*HFHResponse_Result)(nil),      // 6: scanoss.api.scanning.v2.HFHResponse.Result
-	(*commonv2.StatusResponse)(nil), // 7: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),    // 8: scanoss.api.common.v2.EchoRequest
-	(*commonv2.EchoResponse)(nil),   // 9: scanoss.api.common.v2.EchoResponse
+	(*HFHRequest)(nil),                  // 0: scanoss.api.scanning.v2.HFHRequest
+	(*HFHResponse)(nil),                 // 1: scanoss.api.scanning.v2.HFHResponse
+	(*HFHRequest_Children)(nil),         // 2: scanoss.api.scanning.v2.HFHRequest.Children
+	nil,                                 // 3: scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntry
+	(*HFHResponse_Version)(nil),         // 4: scanoss.api.scanning.v2.HFHResponse.Version
+	(*HFHResponse_Component)(nil),       // 5: scanoss.api.scanning.v2.HFHResponse.Component
+	(*HFHResponse_Result)(nil),          // 6: scanoss.api.scanning.v2.HFHResponse.Result
+	(*HFHResponse_Version_License)(nil), // 7: scanoss.api.scanning.v2.HFHResponse.Version.License
+	(*commonv2.StatusResponse)(nil),     // 8: scanoss.api.common.v2.StatusResponse
+	(*commonv2.EchoRequest)(nil),        // 9: scanoss.api.common.v2.EchoRequest
+	(*commonv2.EchoResponse)(nil),       // 10: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_scanning_v2_scanoss_scanning_proto_depIdxs = []int32{
-	2, // 0: scanoss.api.scanning.v2.HFHRequest.root:type_name -> scanoss.api.scanning.v2.HFHRequest.Children
-	6, // 1: scanoss.api.scanning.v2.HFHResponse.results:type_name -> scanoss.api.scanning.v2.HFHResponse.Result
-	7, // 2: scanoss.api.scanning.v2.HFHResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	2, // 3: scanoss.api.scanning.v2.HFHRequest.Children.children:type_name -> scanoss.api.scanning.v2.HFHRequest.Children
-	3, // 4: scanoss.api.scanning.v2.HFHRequest.Children.lang_extensions:type_name -> scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntry
-	4, // 5: scanoss.api.scanning.v2.HFHResponse.Component.versions:type_name -> scanoss.api.scanning.v2.HFHResponse.Version
-	5, // 6: scanoss.api.scanning.v2.HFHResponse.Result.components:type_name -> scanoss.api.scanning.v2.HFHResponse.Component
-	8, // 7: scanoss.api.scanning.v2.Scanning.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0, // 8: scanoss.api.scanning.v2.Scanning.FolderHashScan:input_type -> scanoss.api.scanning.v2.HFHRequest
-	9, // 9: scanoss.api.scanning.v2.Scanning.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1, // 10: scanoss.api.scanning.v2.Scanning.FolderHashScan:output_type -> scanoss.api.scanning.v2.HFHResponse
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	2,  // 0: scanoss.api.scanning.v2.HFHRequest.root:type_name -> scanoss.api.scanning.v2.HFHRequest.Children
+	6,  // 1: scanoss.api.scanning.v2.HFHResponse.results:type_name -> scanoss.api.scanning.v2.HFHResponse.Result
+	8,  // 2: scanoss.api.scanning.v2.HFHResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	2,  // 3: scanoss.api.scanning.v2.HFHRequest.Children.children:type_name -> scanoss.api.scanning.v2.HFHRequest.Children
+	3,  // 4: scanoss.api.scanning.v2.HFHRequest.Children.lang_extensions:type_name -> scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntry
+	7,  // 5: scanoss.api.scanning.v2.HFHResponse.Version.licenses:type_name -> scanoss.api.scanning.v2.HFHResponse.Version.License
+	4,  // 6: scanoss.api.scanning.v2.HFHResponse.Component.versions:type_name -> scanoss.api.scanning.v2.HFHResponse.Version
+	5,  // 7: scanoss.api.scanning.v2.HFHResponse.Result.components:type_name -> scanoss.api.scanning.v2.HFHResponse.Component
+	9,  // 8: scanoss.api.scanning.v2.Scanning.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 9: scanoss.api.scanning.v2.Scanning.FolderHashScan:input_type -> scanoss.api.scanning.v2.HFHRequest
+	10, // 10: scanoss.api.scanning.v2.Scanning.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 11: scanoss.api.scanning.v2.Scanning.FolderHashScan:output_type -> scanoss.api.scanning.v2.HFHResponse
+	10, // [10:12] is the sub-list for method output_type
+	8,  // [8:10] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_scanning_v2_scanoss_scanning_proto_init() }
@@ -594,7 +684,7 @@ func file_scanoss_api_scanning_v2_scanoss_scanning_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc), len(file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
