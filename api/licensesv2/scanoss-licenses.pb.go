@@ -766,7 +766,13 @@ type ComponentLicenseInfo struct {
 	// SPDX expression when licensing terms are clearly determinable from source analysis
 	Statement string `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"`
 	// Individual licenses identified in the component
-	Licenses      []*LicenseInfo `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`
+	Licenses []*LicenseInfo `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`
+	// Optional error message describing what went wrong during component processing
+	ErrorMessage *string `protobuf:"bytes,8,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
+	// Optional error code indicating the type of error encountered
+	ErrorCode *commonv2.ErrorCode `protobuf:"varint,9,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Component URL
+	ComponentUrl  string `protobuf:"bytes,10,opt,name=component_url,proto3" json:"component_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -834,6 +840,27 @@ func (x *ComponentLicenseInfo) GetLicenses() []*LicenseInfo {
 		return x.Licenses
 	}
 	return nil
+}
+
+func (x *ComponentLicenseInfo) GetErrorMessage() string {
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *ComponentLicenseInfo) GetErrorCode() commonv2.ErrorCode {
+	if x != nil && x.ErrorCode != nil {
+		return *x.ErrorCode
+	}
+	return commonv2.ErrorCode(0)
+}
+
+func (x *ComponentLicenseInfo) GetComponentUrl() string {
+	if x != nil {
+		return x.ComponentUrl
+	}
+	return ""
 }
 
 // Cross-reference information for SPDX license URLs.
@@ -1096,17 +1123,17 @@ var File_scanoss_api_licenses_v2_scanoss_licenses_proto protoreflect.FileDescrip
 
 const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xd0\x03\n" +
+	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xdc\x06\n" +
 	"\x18ComponentLicenseResponse\x12K\n" +
 	"\tcomponent\x18\x01 \x01(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xa7\x02\x92A\xa3\x02\n" +
-	"\xa0\x02J\x9d\x02{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\xfd\x04\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xb3\x05\x92A\xaf\x05\n" +
+	"\xac\x052\x89\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\x9d\x02{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x8c\b\n" +
 	"\x19ComponentsLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xd1\x03\x92A\xcd\x03\n" +
-	"\xca\x03J\xc7\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\"}]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xe0\x06\x92A\xdc\x06\n" +
+	"\xd9\x062\x8c\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xc7\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\"}]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
 	"\x16LicenseDetailsResponse\x12A\n" +
 	"\alicense\x18\x01 \x01(\v2'.scanoss.api.licenses.v2.LicenseDetailsR\alicense\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
@@ -1164,13 +1191,21 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xc6\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xff\x02\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
 	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
-	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses*l\n" +
+	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\x12)\n" +
+	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\n" +
+	"error_code\x18\t \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x88\x01\x01\x12$\n" +
+	"\rcomponent_url\x18\n" +
+	" \x01(\tR\rcomponent_urlB\x10\n" +
+	"\x0e_error_messageB\r\n" +
+	"\v_error_code*l\n" +
 	"\vLicenseType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -1220,10 +1255,11 @@ var file_scanoss_api_licenses_v2_scanoss_licenses_proto_goTypes = []any{
 	(*SPDX_SPDXException)(nil),         // 12: scanoss.api.licenses.v2.SPDX.SPDXException
 	(*OSADL_OSADLUseCase)(nil),         // 13: scanoss.api.licenses.v2.OSADL.OSADLUseCase
 	(*commonv2.StatusResponse)(nil),    // 14: scanoss.api.common.v2.StatusResponse
-	(*commonv2.EchoRequest)(nil),       // 15: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentRequest)(nil),  // 16: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.ComponentsRequest)(nil), // 17: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),      // 18: scanoss.api.common.v2.EchoResponse
+	(commonv2.ErrorCode)(0),            // 15: scanoss.api.common.v2.ErrorCode
+	(*commonv2.EchoRequest)(nil),       // 16: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentRequest)(nil),  // 17: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.ComponentsRequest)(nil), // 18: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.EchoResponse)(nil),      // 19: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	10, // 0: scanoss.api.licenses.v2.ComponentLicenseResponse.component:type_name -> scanoss.api.licenses.v2.ComponentLicenseInfo
@@ -1241,21 +1277,22 @@ var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	5,  // 12: scanoss.api.licenses.v2.LicenseDetails.spdx:type_name -> scanoss.api.licenses.v2.SPDX
 	6,  // 13: scanoss.api.licenses.v2.LicenseDetails.osadl:type_name -> scanoss.api.licenses.v2.OSADL
 	7,  // 14: scanoss.api.licenses.v2.ComponentLicenseInfo.licenses:type_name -> scanoss.api.licenses.v2.LicenseInfo
-	15, // 15: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	16, // 16: scanoss.api.licenses.v2.License.GetComponentLicenses:input_type -> scanoss.api.common.v2.ComponentRequest
-	17, // 17: scanoss.api.licenses.v2.License.GetComponentsLicenses:input_type -> scanoss.api.common.v2.ComponentsRequest
-	9,  // 18: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
-	9,  // 19: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
-	18, // 20: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 21: scanoss.api.licenses.v2.License.GetComponentLicenses:output_type -> scanoss.api.licenses.v2.ComponentLicenseResponse
-	2,  // 22: scanoss.api.licenses.v2.License.GetComponentsLicenses:output_type -> scanoss.api.licenses.v2.ComponentsLicenseResponse
-	3,  // 23: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
-	4,  // 24: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
-	20, // [20:25] is the sub-list for method output_type
-	15, // [15:20] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	15, // 15: scanoss.api.licenses.v2.ComponentLicenseInfo.error_code:type_name -> scanoss.api.common.v2.ErrorCode
+	16, // 16: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	17, // 17: scanoss.api.licenses.v2.License.GetComponentLicenses:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 18: scanoss.api.licenses.v2.License.GetComponentsLicenses:input_type -> scanoss.api.common.v2.ComponentsRequest
+	9,  // 19: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
+	9,  // 20: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
+	19, // 21: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 22: scanoss.api.licenses.v2.License.GetComponentLicenses:output_type -> scanoss.api.licenses.v2.ComponentLicenseResponse
+	2,  // 23: scanoss.api.licenses.v2.License.GetComponentsLicenses:output_type -> scanoss.api.licenses.v2.ComponentsLicenseResponse
+	3,  // 24: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
+	4,  // 25: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
+	21, // [21:26] is the sub-list for method output_type
+	16, // [16:21] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_licenses_v2_scanoss_licenses_proto_init() }
@@ -1263,6 +1300,7 @@ func file_scanoss_api_licenses_v2_scanoss_licenses_proto_init() {
 	if File_scanoss_api_licenses_v2_scanoss_licenses_proto != nil {
 		return
 	}
+	file_scanoss_api_licenses_v2_scanoss_licenses_proto_msgTypes[9].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
