@@ -27,6 +27,7 @@ The response includes these fields:
 - `licenses` array: Always contains individual license objects found in the component
 - `statement` field: Contains SPDX expression when licensing terms are clearly determinable from source analysis
 - `version` field: Shows the specific version that was analyzed  
+- `component_url` field: URL linking to the component's source or repository page
 - `requirement` field: Echoes the client's version constraint from the request
 
 ### Response Examples
@@ -45,6 +46,7 @@ This allows consumers to understand all licensing obligations present in the com
 {
   "component": {
     "purl": "pkg:github/ffmpeg/ffmpeg@n7.0",
+    "component_url": "https://github.com/ffmpeg/ffmpeg",
     "requirement": "",
     "version": "n7.0",
     "statement": "",
@@ -82,6 +84,7 @@ Individual license objects are also provided for detailed analysis.
 {
   "component": {
     "purl": "pkg:maven/ch.qos.logback/logback-classic@1.5.0",
+    "component_url": "https://github.com/qos-ch/logback",
     "requirement": "",
     "version": "1.5.0",
     "statement": "EPL-1.0 OR LGPL-2.1-only",
@@ -110,6 +113,7 @@ This indicates users must comply with both licenses, generating the SPDX express
 {
   "component": {
     "purl": "pkg:github/openssl/openssl@1.1.1n",
+    "component_url": "https://github.com/openssl/openssl",
     "requirement": "",
     "version": "1.1.1n",
     "statement": "OpenSSL AND SSLeay",
@@ -126,6 +130,27 @@ This indicates users must comply with both licenses, generating the SPDX express
 ```
 
 
+
+#### Error in component
+When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "component": {
+    "purl": "pkg:github/scanoss/unknown-component",
+    "component_url": "",
+    "requirement": "",
+    "version": "",
+    "statement": "",
+    "licenses": [],
+    "error_message": "Component version not found",
+    "error_code": "VERSION_NOT_FOUND"
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Licenses Successfully retrieved"
+  }
+}
+```
 
 ## GetComponentsLicenses
 

@@ -364,6 +364,18 @@
             "$ref": "#/definitions/v2LicenseInfo"
           },
           "title": "Individual licenses identified in the component"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
+        },
+        "component_url": {
+          "type": "string",
+          "title": "Component URL"
         }
       },
       "description": "License information for a specific component identified by PURL and version."
@@ -397,7 +409,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Response message for GetComponentLicenses method.\n\nContains license information for a single software component including\ndiscovered licenses and SPDX expressions when determinable."
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentRequest": {
       "type": "object",
@@ -466,7 +478,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Response message for GetComponentsLicenses method.\n\nContains license information for multiple software components processed\nin a single batch request. Each component is analyzed independently."
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -512,6 +524,18 @@
         }
       },
       "description": "Echo Message Response."
+    },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER",
+        "VERSION_NOT_FOUND"
+      ],
+      "default": "INVALID_PURL",
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found"
     },
     "v2LicenseDetails": {
       "type": "object",
