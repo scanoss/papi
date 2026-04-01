@@ -24,7 +24,11 @@ The method returns license information in two complementary formats:
 
 The response includes these fields:
 - `purl` field: the requested component
-- `licenses` array: Always contains individual license objects found in the component
+- `licenses` array: Always contains individual license objects found in the component. Each license object includes:
+  - `id`: SPDX identifier or licenseRef
+  - `full_name`: Human-readable license name
+  - `is_spdx_approved`: Whether the license is approved by the SPDX License List
+  - `url`: URL to the license text or reference page
 - `statement` field: Contains SPDX expression when licensing terms are clearly determinable from source analysis
 - `version` field: Shows the specific version that was analyzed  
 - `component_url` field: URL linking to the component's source or repository page
@@ -53,11 +57,15 @@ This allows consumers to understand all licensing obligations present in the com
     "licenses": [
       {
         "id": "LGPL-2.1-or-later",
-        "full_name": "GNU Lesser General Public License v2.1 or later"
+        "full_name": "GNU Lesser General Public License v2.1 or later",
+        "is_spdx_approved": true,
+        "url": "https://spdx.org/licenses/LGPL-2.1-or-later.html"
       },
       {
         "id": "GPL-2.0-or-later",
-        "full_name": "GNU General Public License v2.0 or later"
+        "full_name": "GNU General Public License v2.0 or later",
+        "is_spdx_approved": true,
+        "url": "https://spdx.org/licenses/GPL-2.0-or-later.html"
       }
     ]
   },
@@ -89,8 +97,8 @@ Individual license objects are also provided for detailed analysis.
     "version": "1.5.0",
     "statement": "EPL-1.0 OR LGPL-2.1-only",
     "licenses": [
-      {"id": "EPL-1.0", "full_name": "Eclipse Public License 1.0"},
-      {"id": "LGPL-2.1-only", "full_name": "GNU Lesser General Public License v2.1 only"}
+      {"id": "EPL-1.0", "full_name": "Eclipse Public License 1.0", "is_spdx_approved": true, "url": "https://spdx.org/licenses/EPL-1.0.html"},
+      {"id": "LGPL-2.1-only", "full_name": "GNU Lesser General Public License v2.1 only", "is_spdx_approved": true, "url": "https://spdx.org/licenses/LGPL-2.1-only.html"}
     ]
   },
   "status": {
@@ -118,8 +126,8 @@ This indicates users must comply with both licenses, generating the SPDX express
     "version": "1.1.1n",
     "statement": "OpenSSL AND SSLeay",
     "licenses": [
-      {"id": "OpenSSL", "full_name": "OpenSSL License"},
-      {"id": "SSLeay", "full_name": "Original SSLeay License"}
+      {"id": "OpenSSL", "full_name": "OpenSSL License", "is_spdx_approved": false, "url": "https://www.openssl.org/source/license-openssl-ssleay.txt"},
+      {"id": "SSLeay", "full_name": "Original SSLeay License", "is_spdx_approved": false, "url": "https://www.openssl.org/source/license-openssl-ssleay.txt"}
     ]
   },
   "status": {

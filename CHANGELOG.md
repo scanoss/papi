@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `error_message` and `error_code` fields to `ComponentLicenseInfo` message in license responses for error handling at the individual component level
 - Added error response example to license API README.md documentation
 - Added `component_url` field to `ComponentLicenseInfo` message providing a URL linking to the component's source or repository page
+- Added `is_spdx_approved` and `url` fields to `LicenseInfo` message indicating SPDX approval status and linking to the license reference page
 
 ## [0.33.0] - 2026-03-26
 ### Added

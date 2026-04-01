@@ -577,7 +577,11 @@ type LicenseInfo struct {
 	// Best human-readable license name (normalized when possible)
 	// - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
 	// - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
-	FullName      string `protobuf:"bytes,2,opt,name=full_name,proto3" json:"full_name,omitempty"`
+	FullName string `protobuf:"bytes,2,opt,name=full_name,proto3" json:"full_name,omitempty"`
+	// Indicates whether the license is approved by the SPDX License List
+	IsSpdxApproved bool `protobuf:"varint,3,opt,name=is_spdx_approved,proto3" json:"is_spdx_approved,omitempty"`
+	// URL to the license text or reference page (e.g., SPDX license page or original license source)
+	Url           string `protobuf:"bytes,4,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -622,6 +626,20 @@ func (x *LicenseInfo) GetId() string {
 func (x *LicenseInfo) GetFullName() string {
 	if x != nil {
 		return x.FullName
+	}
+	return ""
+}
+
+func (x *LicenseInfo) GetIsSpdxApproved() bool {
+	if x != nil {
+		return x.IsSpdxApproved
+	}
+	return false
+}
+
+func (x *LicenseInfo) GetUrl() string {
+	if x != nil {
+		return x.Url
 	}
 	return ""
 }
@@ -1123,17 +1141,18 @@ var File_scanoss_api_licenses_v2_scanoss_licenses_proto protoreflect.FileDescrip
 
 const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xdc\x06\n" +
+	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xf9\a\n" +
 	"\x18ComponentLicenseResponse\x12K\n" +
 	"\tcomponent\x18\x01 \x01(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xb3\x05\x92A\xaf\x05\n" +
-	"\xac\x052\x89\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\x9d\x02{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x8c\b\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xd0\x06\x92A\xcc\x06\n" +
+	"\xc9\x062\xa0\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xa3\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\xa8\n" +
+	"\n" +
 	"\x19ComponentsLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xe0\x06\x92A\xdc\x06\n" +
-	"\xd9\x062\x8c\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xc7\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\"}]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xfc\b\x92A\xf8\b\n" +
+	"\xf5\b2\xa3\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xcc\x05{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"component_url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
 	"\x16LicenseDetailsResponse\x12A\n" +
 	"\alicense\x18\x01 \x01(\v2'.scanoss.api.licenses.v2.LicenseDetailsR\alicense\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
@@ -1180,11 +1199,13 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\fOSADLUseCase\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12(\n" +
 	"\x0fobligation_text\x18\x02 \x01(\tR\x0fobligation_text\x12(\n" +
-	"\x0fobligation_json\x18\x03 \x01(\tR\x0fobligation_json\"\x8a\x01\n" +
+	"\x0fobligation_json\x18\x03 \x01(\tR\x0fobligation_json\"\x9c\x02\n" +
 	"\vLicenseInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
-	"\tfull_name\x18\x02 \x01(\tR\tfull_name:M\x92AJ\n" +
-	"HJF{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}\"\xd1\x01\n" +
+	"\tfull_name\x18\x02 \x01(\tR\tfull_name\x12*\n" +
+	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url:\xa0\x01\x92A\x9c\x01\n" +
+	"\x99\x01J\x96\x01{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}\"\xd1\x01\n" +
 	"\x0eLicenseDetails\x12\x1c\n" +
 	"\tfull_name\x18\x01 \x01(\tR\tfull_name\x128\n" +
 	"\x04type\x18\x02 \x01(\x0e2$.scanoss.api.licenses.v2.LicenseTypeR\x04type\x121\n" +

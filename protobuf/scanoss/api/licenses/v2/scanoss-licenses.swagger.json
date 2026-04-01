@@ -391,9 +391,12 @@
           "licenses": [
             {
               "id": "GPL-2.0",
-              "full_name": "GNU General Public License v2.0 only"
+              "full_name": "GNU General Public License v2.0 only",
+              "is_spdx_approved": true,
+              "url": "https://spdx.org/licenses/GPL-2.0-only.html"
             }
-          ]
+          ],
+          "component_url": "https://github.com/scanoss/engine"
         },
         "status": {
           "status": "SUCCESS",
@@ -409,7 +412,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentRequest": {
       "type": "object",
@@ -443,9 +446,12 @@
             "licenses": [
               {
                 "id": "GPL-2.0",
-                "full_name": "GNU General Public License v2.0 only"
+                "full_name": "GNU General Public License v2.0 only",
+                "is_spdx_approved": true,
+                "url": "https://spdx.org/licenses/GPL-2.0-only.html"
               }
-            ]
+            ],
+            "component_url": "https://github.com/scanoss/engine"
           },
           {
             "purl": "pkg:github/scanoss/scanoss.py@v1.30.0",
@@ -455,9 +461,12 @@
             "licenses": [
               {
                 "id": "MIT",
-                "full_name": "MIT License"
+                "full_name": "MIT License",
+                "is_spdx_approved": true,
+                "url": "https://spdx.org/licenses/MIT.html"
               }
-            ]
+            ],
+            "component_url": "https://github.com/scanoss/scanoss.py"
           }
         ],
         "status": {
@@ -478,7 +487,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentsRequest": {
       "type": "object",
@@ -577,7 +586,9 @@
       "type": "object",
       "example": {
         "id": "GPL-2.0",
-        "full_name": "GNU General Public License v2.0 only"
+        "full_name": "GNU General Public License v2.0 only",
+        "is_spdx_approved": true,
+        "url": "https://spdx.org/licenses/GPL-2.0-only.html"
       },
       "properties": {
         "id": {
@@ -587,6 +598,14 @@
         "full_name": {
           "type": "string",
           "title": "Best human-readable license name (normalized when possible)\n- For SPDX licenses: Official SPDX name (e.g., \"MIT License\", \"GNU General Public License v2.0 only\")\n- For non SPDX licenses: Best normalized name from SCANOSS database or original statement"
+        },
+        "is_spdx_approved": {
+          "type": "boolean",
+          "title": "Indicates whether the license is approved by the SPDX License List"
+        },
+        "url": {
+          "type": "string",
+          "title": "URL to the license text or reference page (e.g., SPDX license page or original license source)"
         }
       },
       "description": "Individual license identification with SPDX ID and human-readable name.\n\nProvides basic license information including standardized identifiers and \nhuman-readable names for discovered licenses in software components."

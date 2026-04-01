@@ -128,8 +128,8 @@ service License {
 message ComponentLicenseResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
-      description: "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}";
+      example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
+      description: "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}";
     }
   };
   // License info for the component
@@ -146,8 +146,8 @@ message ComponentLicenseResponse {
 message ComponentsLicenseResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\"}]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
-      description: "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}";
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"component_url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}";
+      description: "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}";
     }
   };
   // License info for each component in the batch
@@ -311,7 +311,7 @@ message OSADL {
 message LicenseInfo {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\"}"
+      example: "{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}"
     }
   };
 
@@ -324,6 +324,11 @@ message LicenseInfo {
   // - For SPDX licenses: Official SPDX name (e.g., "MIT License", "GNU General Public License v2.0 only")
   // - For non SPDX licenses: Best normalized name from SCANOSS database or original statement
   string full_name = 2 [json_name = "full_name"];
+
+  // Indicates whether the license is approved by the SPDX License List
+  bool is_spdx_approved = 3 [json_name = "is_spdx_approved"];
+  // URL to the license text or reference page (e.g., SPDX license page or original license source)
+  string url = 4;
 }
 
 /*
