@@ -790,7 +790,7 @@ type ComponentLicenseInfo struct {
 	// Optional error code indicating the type of error encountered
 	ErrorCode *commonv2.ErrorCode `protobuf:"varint,9,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
 	// Component URL
-	ComponentUrl  string `protobuf:"bytes,10,opt,name=component_url,proto3" json:"component_url,omitempty"`
+	Url           string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -874,9 +874,9 @@ func (x *ComponentLicenseInfo) GetErrorCode() commonv2.ErrorCode {
 	return commonv2.ErrorCode(0)
 }
 
-func (x *ComponentLicenseInfo) GetComponentUrl() string {
+func (x *ComponentLicenseInfo) GetUrl() string {
 	if x != nil {
-		return x.ComponentUrl
+		return x.Url
 	}
 	return ""
 }
@@ -1141,18 +1141,18 @@ var File_scanoss_api_licenses_v2_scanoss_licenses_proto protoreflect.FileDescrip
 
 const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xf9\a\n" +
+	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xe5\a\n" +
 	"\x18ComponentLicenseResponse\x12K\n" +
 	"\tcomponent\x18\x01 \x01(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xd0\x06\x92A\xcc\x06\n" +
-	"\xc9\x062\xa0\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xa3\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\xa8\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xbc\x06\x92A\xb8\x06\n" +
+	"\xb5\x062\x96\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\x99\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x8a\n" +
 	"\n" +
 	"\x19ComponentsLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xfc\b\x92A\xf8\b\n" +
-	"\xf5\b2\xa3\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xcc\x05{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"component_url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"component_url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xde\b\x92A\xda\b\n" +
+	"\xd7\b2\x99\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xb8\x05{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
 	"\x16LicenseDetailsResponse\x12A\n" +
 	"\alicense\x18\x01 \x01(\v2'.scanoss.api.licenses.v2.LicenseDetailsR\alicense\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
@@ -1212,7 +1212,7 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xff\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xeb\x02\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
@@ -1222,9 +1222,9 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
 	"\n" +
 	"error_code\x18\t \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01\x12$\n" +
-	"\rcomponent_url\x18\n" +
-	" \x01(\tR\rcomponent_urlB\x10\n" +
+	"error_code\x88\x01\x01\x12\x10\n" +
+	"\x03url\x18\n" +
+	" \x01(\tR\x03urlB\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code*l\n" +
 	"\vLicenseType\x12\v\n" +
