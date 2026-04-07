@@ -373,7 +373,7 @@
           "$ref": "#/definitions/v2ErrorCode",
           "title": "Optional error code indicating the type of error encountered"
         },
-        "component_url": {
+        "url": {
           "type": "string",
           "title": "Component URL"
         }
@@ -396,7 +396,7 @@
               "url": "https://spdx.org/licenses/GPL-2.0-only.html"
             }
           ],
-          "component_url": "https://github.com/scanoss/engine"
+          "url": "https://github.com/scanoss/engine"
         },
         "status": {
           "status": "SUCCESS",
@@ -412,7 +412,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentRequest": {
       "type": "object",
@@ -451,7 +451,7 @@
                 "url": "https://spdx.org/licenses/GPL-2.0-only.html"
               }
             ],
-            "component_url": "https://github.com/scanoss/engine"
+            "url": "https://github.com/scanoss/engine"
           },
           {
             "purl": "pkg:github/scanoss/scanoss.py@v1.30.0",
@@ -466,7 +466,7 @@
                 "url": "https://spdx.org/licenses/MIT.html"
               }
             ],
-            "component_url": "https://github.com/scanoss/scanoss.py"
+            "url": "https://github.com/scanoss/scanoss.py"
           }
         ],
         "status": {
@@ -487,7 +487,7 @@
           "$ref": "#/definitions/v2StatusResponse"
         }
       },
-      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"component_url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
+      "description": "Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}"
     },
     "v2ComponentsRequest": {
       "type": "object",
