@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.35.0] - 2026-04-13
+### Added
+- Added `error_message` and `error_code` fields to `ComponentLocationInfo`, `ComponentLocation`, `ContributorResponse.Purls`, and `OriginResponse.Purls` messages in Geoprovenance responses for error handling at the individual component level
+- Added `TOO_MANY_CONTRIBUTORS` value to the common `ErrorCode` enum, used by the Geoprovenance service when a component exceeds the supported contributor threshold
+
 ## [0.34.1] - 2026-04-07
 ### Changed
 - Renamed `component_url` field to `url` in `ComponentLicenseInfo` message for consistency with other URL fields in the API
@@ -265,6 +271,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.35.0]: https://github.com/scanoss/papi/compare/v0.34.1...v0.35.0
 [0.34.1]: https://github.com/scanoss/papi/compare/v0.34.0...v0.34.1
 [0.34.0]: https://github.com/scanoss/papi/compare/v0.33.0...v0.34.0
 [0.33.0]: https://github.com/scanoss/papi/compare/v0.32.1...v0.33.0

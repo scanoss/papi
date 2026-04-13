@@ -166,6 +166,10 @@ message ContributorResponse {
     repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
     // List of SCANOSS curated locations based on analysis
     repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
+    // Optional error message describing what went wrong during component processing
+    optional string error_message = 4 [json_name = "error_message"];
+    // Optional error code indicating the type of error encountered
+    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
   }
   // Geo-provenance details for each requested component
   repeated Purls purls = 1;
@@ -181,6 +185,10 @@ message ComponentLocationInfo {
   repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
   // List of SCANOSS curated locations based on analysis
   repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
+  // Optional error message describing what went wrong during component processing
+  optional string error_message = 4 [json_name = "error_message"];
+  // Optional error code indicating the type of error encountered
+  optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
 }
 
 /**
@@ -232,6 +240,10 @@ message ComponentLocation {
   string purl = 1;
   // The list of countries with contributors and their percentages
   repeated Location locations = 2;
+  // Optional error message describing what went wrong during component processing
+  optional string error_message = 3 [json_name = "error_message"];
+  // Optional error code indicating the type of error encountered
+  optional common.v2.ErrorCode error_code = 4  [json_name = "error_code"];
 }
 
 /**
@@ -248,6 +260,10 @@ message OriginResponse {
     string purl = 1;
     // The list of countries with contributors and their percentages
     repeated Location locations = 2;
+    // Optional error message describing what went wrong during component processing
+    optional string error_message = 3 [json_name = "error_message"];
+    // Optional error code indicating the type of error encountered
+    optional common.v2.ErrorCode error_code = 4  [json_name = "error_code"];
   }
   // Geo-provenance details for each requested component
   repeated Purls purls = 1;

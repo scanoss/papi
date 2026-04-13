@@ -166,6 +166,8 @@ enum ErrorCode {
   INVALID_SEMVER = 3;
   // Component version not found
   VERSION_NOT_FOUND = 4;
+  // Too many contributors for a component. Used by Geoprovenance service
+  TOO_MANY_CONTRIBUTORS = 5;
 
 
 
