@@ -121,6 +121,8 @@ const (
 	ErrorCode_INVALID_SEMVER ErrorCode = 3
 	// Component version not found
 	ErrorCode_VERSION_NOT_FOUND ErrorCode = 4
+	// Too many contributors for a component. Used by Geoprovenance service
+	ErrorCode_TOO_MANY_CONTRIBUTORS ErrorCode = 5
 )
 
 // Enum value maps for ErrorCode.
@@ -131,13 +133,15 @@ var (
 		2: "NO_INFO",
 		3: "INVALID_SEMVER",
 		4: "VERSION_NOT_FOUND",
+		5: "TOO_MANY_CONTRIBUTORS",
 	}
 	ErrorCode_value = map[string]int32{
-		"INVALID_PURL":        0,
-		"COMPONENT_NOT_FOUND": 1,
-		"NO_INFO":             2,
-		"INVALID_SEMVER":      3,
-		"VERSION_NOT_FOUND":   4,
+		"INVALID_PURL":          0,
+		"COMPONENT_NOT_FOUND":   1,
+		"NO_INFO":               2,
+		"INVALID_SEMVER":        3,
+		"VERSION_NOT_FOUND":     4,
+		"TOO_MANY_CONTRIBUTORS": 5,
 	}
 )
 
@@ -738,13 +742,14 @@ const file_scanoss_api_common_v2_scanoss_common_proto_rawDesc = "" +
 	"\x17SUCCEEDED_WITH_WARNINGS\x10\x02\x12\v\n" +
 	"\aWARNING\x10\x03\x12\n" +
 	"\n" +
-	"\x06FAILED\x10\x04*n\n" +
+	"\x06FAILED\x10\x04*\x89\x01\n" +
 	"\tErrorCode\x12\x10\n" +
 	"\fINVALID_PURL\x10\x00\x12\x17\n" +
 	"\x13COMPONENT_NOT_FOUND\x10\x01\x12\v\n" +
 	"\aNO_INFO\x10\x02\x12\x12\n" +
 	"\x0eINVALID_SEMVER\x10\x03\x12\x15\n" +
-	"\x11VERSION_NOT_FOUND\x10\x04B/Z-github.com/scanoss/papi/api/commonv2;commonv2b\x06proto3"
+	"\x11VERSION_NOT_FOUND\x10\x04\x12\x19\n" +
+	"\x15TOO_MANY_CONTRIBUTORS\x10\x05B/Z-github.com/scanoss/papi/api/commonv2;commonv2b\x06proto3"
 
 var (
 	file_scanoss_api_common_v2_scanoss_common_proto_rawDescOnce sync.Once

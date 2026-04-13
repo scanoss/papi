@@ -451,6 +451,14 @@
             "$ref": "#/definitions/geoprovenancev2Location"
           },
           "title": "The list of countries with contributors and their percentages"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "title": "Information about a component and its geographic origins"
@@ -477,6 +485,14 @@
             "$ref": "#/definitions/v2CuratedLocation"
           },
           "title": "List of SCANOSS curated locations based on analysis"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "title": "Information about a given component"
@@ -701,6 +717,14 @@
             "$ref": "#/definitions/v2CuratedLocation"
           },
           "title": "List of SCANOSS curated locations based on analysis"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "title": "Information about a given Package URL (PURL)"
@@ -752,6 +776,19 @@
       },
       "description": "Echo Message Response."
     },
+    "v2ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_PURL",
+        "COMPONENT_NOT_FOUND",
+        "NO_INFO",
+        "INVALID_SEMVER",
+        "VERSION_NOT_FOUND",
+        "TOO_MANY_CONTRIBUTORS"
+      ],
+      "default": "INVALID_PURL",
+      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found\n - TOO_MANY_CONTRIBUTORS: Too many contributors for a component. Used by Geoprovenance service"
+    },
     "v2OriginResponse": {
       "type": "object",
       "properties": {
@@ -784,6 +821,14 @@
             "$ref": "#/definitions/geoprovenancev2Location"
           },
           "title": "The list of countries with contributors and their percentages"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Optional error message describing what went wrong during component processing"
+        },
+        "error_code": {
+          "$ref": "#/definitions/v2ErrorCode",
+          "title": "Optional error code indicating the type of error encountered"
         }
       },
       "title": "Origin country details for geo-provenance analysis\nInformation about the given Package URL (PURL)"

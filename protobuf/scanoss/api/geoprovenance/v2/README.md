@@ -96,6 +96,26 @@ Each component object contains:
 }
 ```
 
+#### Error in component
+When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "components_locations": [
+    {
+      "purl": "pkg:github/torvalds/linux",
+      "declared_locations": [],
+      "curated_locations": [],
+      "error_message": "Too many contributors for a component",
+      "error_code": "TOO_MANY_CONTRIBUTORS"
+    }
+  ],
+  "status": {
+    "status": "SUCCESS",
+    "message": "Geo-provenance successfully retrieved"
+  }
+}
+```
+
 ## GetCountryContributorsByComponent
 
 Retrieves geographical provenance information for a single component based on contributor declared locations. Analyzes repository metadata and contributor profiles to determine the geographical distribution of development activity.
@@ -172,6 +192,24 @@ The component object contains:
         "count": 1
       }
     ]
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Geo-provenance successfully retrieved"
+  }
+}
+```
+
+#### Error in component
+When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "component_locations": {
+    "purl": "pkg:github/torvalds/linux",
+    "declared_locations": [],
+    "curated_locations": [],
+    "error_message": "Too many contributors for a component",
+    "error_code": "TOO_MANY_CONTRIBUTORS"
   },
   "status": {
     "status": "SUCCESS",
@@ -291,6 +329,25 @@ Each component location object contains:
 }
 ```
 
+#### Error in component
+When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "components_locations": [
+    {
+      "purl": "pkg:github/torvalds/linux",
+      "locations": [],
+      "error_message": "Too many contributors for a component",
+      "error_code": "TOO_MANY_CONTRIBUTORS"
+    }
+  ],
+  "status": {
+    "status": "SUCCESS",
+    "message": "Geo-provenance origin successfully retrieved"
+  }
+}
+```
+
 
 ## GetOriginByComponent
 
@@ -356,6 +413,23 @@ The component location object contains:
         "percentage": 100.0
       }
     ]
+  },
+  "status": {
+    "status": "SUCCESS",
+    "message": "Geo-provenance origin successfully retrieved"
+  }
+}
+```
+
+#### Error in component
+When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+```json
+{
+  "component_locations": {
+    "purl": "pkg:github/torvalds/linux",
+    "locations": [],
+    "error_message": "Too many contributors for a component",
+    "error_code": "TOO_MANY_CONTRIBUTORS"
   },
   "status": {
     "status": "SUCCESS",
