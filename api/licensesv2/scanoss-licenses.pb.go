@@ -787,10 +787,10 @@ type ComponentLicenseInfo struct {
 	Licenses []*LicenseInfo `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`
 	// Optional error message describing what went wrong during component processing
 	ErrorMessage *string `protobuf:"bytes,8,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode *string `protobuf:"bytes,9,opt,name=error_code,proto3,oneof" json:"error_code,omitempty"`
 	// Component URL
-	Url           string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
+	Url string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
+	// Optional error code indicating the type of error encountered (moved from position 9).
+	ErrorCode     *string `protobuf:"bytes,11,opt,name=error_code,proto3,oneof" json:"error_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -867,16 +867,16 @@ func (x *ComponentLicenseInfo) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentLicenseInfo) GetErrorCode() string {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentLicenseInfo) GetUrl() string {
+	if x != nil {
+		return x.Url
 	}
 	return ""
 }
 
-func (x *ComponentLicenseInfo) GetUrl() string {
-	if x != nil {
-		return x.Url
+func (x *ComponentLicenseInfo) GetErrorCode() string {
+	if x != nil && x.ErrorCode != nil {
+		return *x.ErrorCode
 	}
 	return ""
 }
@@ -1219,12 +1219,12 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
 	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
 	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\x12)\n" +
-	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12#\n" +
-	"\n" +
-	"error_code\x18\t \x01(\tH\x01R\n" +
-	"error_code\x88\x01\x01\x12\x10\n" +
+	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12\x10\n" +
 	"\x03url\x18\n" +
-	" \x01(\tR\x03urlB\x10\n" +
+	" \x01(\tR\x03url\x12#\n" +
+	"\n" +
+	"error_code\x18\v \x01(\tH\x01R\n" +
+	"error_code\x88\x01\x01B\x10\n" +
 	"\x0e_error_messageB\r\n" +
 	"\v_error_code*l\n" +
 	"\vLicenseType\x12\v\n" +
