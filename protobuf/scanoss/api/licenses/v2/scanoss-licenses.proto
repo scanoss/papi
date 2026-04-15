@@ -381,8 +381,8 @@ message ComponentLicenseInfo {
   repeated LicenseInfo licenses = 5;
   // Optional error message describing what went wrong during component processing
   optional string error_message = 8 [json_name = "error_message"];
-  // Optional error code indicating the type of error encountered
-  optional string error_code = 9  [json_name = "error_code"];
   // Component URL
   string url = 10 [json_name = "url"];
+  // Optional error code indicating the type of error encountered (moved from position 9).
+  optional string error_code = 11 [json_name = "error_code"];
 }

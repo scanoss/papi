@@ -369,13 +369,13 @@
           "type": "string",
           "title": "Optional error message describing what went wrong during component processing"
         },
-        "error_code": {
-          "type": "string",
-          "title": "Optional error code indicating the type of error encountered"
-        },
         "url": {
           "type": "string",
           "title": "Component URL"
+        },
+        "error_code": {
+          "type": "string",
+          "description": "Optional error code indicating the type of error encountered (moved from position 9)."
         }
       },
       "description": "License information for a specific component identified by PURL and version."
