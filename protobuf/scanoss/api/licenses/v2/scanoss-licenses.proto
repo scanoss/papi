@@ -382,7 +382,7 @@ message ComponentLicenseInfo {
   // Optional error message describing what went wrong during component processing
   optional string error_message = 8 [json_name = "error_message"];
   // Optional error code indicating the type of error encountered
-  optional common.v2.ErrorCode error_code = 9  [json_name = "error_code"];
+  optional string error_code = 9  [json_name = "error_code"];
   // Component URL
   string url = 10 [json_name = "url"];
 }

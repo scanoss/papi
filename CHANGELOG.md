@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.35.1] - 2026-04-15
+### Changed
+- Changed `error_code` field type from `common.v2.ErrorCode` enum to `string` in `ComponentLicenseInfo` message
 
 ## [0.35.0] - 2026-04-13
 ### Added
@@ -271,6 +274,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.35.1]: https://github.com/scanoss/papi/compare/v0.35.0...v0.35.1
 [0.35.0]: https://github.com/scanoss/papi/compare/v0.34.1...v0.35.0
 [0.34.1]: https://github.com/scanoss/papi/compare/v0.34.0...v0.34.1
 [0.34.0]: https://github.com/scanoss/papi/compare/v0.33.0...v0.34.0
