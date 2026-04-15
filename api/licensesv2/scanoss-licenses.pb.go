@@ -788,7 +788,7 @@ type ComponentLicenseInfo struct {
 	// Optional error message describing what went wrong during component processing
 	ErrorMessage *string `protobuf:"bytes,8,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	// Optional error code indicating the type of error encountered
-	ErrorCode *commonv2.ErrorCode `protobuf:"varint,9,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	ErrorCode *string `protobuf:"bytes,9,opt,name=error_code,proto3,oneof" json:"error_code,omitempty"`
 	// Component URL
 	Url           string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -867,11 +867,11 @@ func (x *ComponentLicenseInfo) GetErrorMessage() string {
 	return ""
 }
 
-func (x *ComponentLicenseInfo) GetErrorCode() commonv2.ErrorCode {
+func (x *ComponentLicenseInfo) GetErrorCode() string {
 	if x != nil && x.ErrorCode != nil {
 		return *x.ErrorCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 func (x *ComponentLicenseInfo) GetUrl() string {
@@ -1212,16 +1212,16 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xeb\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xc9\x02\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
 	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
 	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\x12)\n" +
-	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12#\n" +
 	"\n" +
-	"error_code\x18\t \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
+	"error_code\x18\t \x01(\tH\x01R\n" +
 	"error_code\x88\x01\x01\x12\x10\n" +
 	"\x03url\x18\n" +
 	" \x01(\tR\x03urlB\x10\n" +
@@ -1276,11 +1276,10 @@ var file_scanoss_api_licenses_v2_scanoss_licenses_proto_goTypes = []any{
 	(*SPDX_SPDXException)(nil),         // 12: scanoss.api.licenses.v2.SPDX.SPDXException
 	(*OSADL_OSADLUseCase)(nil),         // 13: scanoss.api.licenses.v2.OSADL.OSADLUseCase
 	(*commonv2.StatusResponse)(nil),    // 14: scanoss.api.common.v2.StatusResponse
-	(commonv2.ErrorCode)(0),            // 15: scanoss.api.common.v2.ErrorCode
-	(*commonv2.EchoRequest)(nil),       // 16: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentRequest)(nil),  // 17: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.ComponentsRequest)(nil), // 18: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),      // 19: scanoss.api.common.v2.EchoResponse
+	(*commonv2.EchoRequest)(nil),       // 15: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentRequest)(nil),  // 16: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.ComponentsRequest)(nil), // 17: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.EchoResponse)(nil),      // 18: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	10, // 0: scanoss.api.licenses.v2.ComponentLicenseResponse.component:type_name -> scanoss.api.licenses.v2.ComponentLicenseInfo
@@ -1298,22 +1297,21 @@ var file_scanoss_api_licenses_v2_scanoss_licenses_proto_depIdxs = []int32{
 	5,  // 12: scanoss.api.licenses.v2.LicenseDetails.spdx:type_name -> scanoss.api.licenses.v2.SPDX
 	6,  // 13: scanoss.api.licenses.v2.LicenseDetails.osadl:type_name -> scanoss.api.licenses.v2.OSADL
 	7,  // 14: scanoss.api.licenses.v2.ComponentLicenseInfo.licenses:type_name -> scanoss.api.licenses.v2.LicenseInfo
-	15, // 15: scanoss.api.licenses.v2.ComponentLicenseInfo.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	16, // 16: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	17, // 17: scanoss.api.licenses.v2.License.GetComponentLicenses:input_type -> scanoss.api.common.v2.ComponentRequest
-	18, // 18: scanoss.api.licenses.v2.License.GetComponentsLicenses:input_type -> scanoss.api.common.v2.ComponentsRequest
-	9,  // 19: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
-	9,  // 20: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
-	19, // 21: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 22: scanoss.api.licenses.v2.License.GetComponentLicenses:output_type -> scanoss.api.licenses.v2.ComponentLicenseResponse
-	2,  // 23: scanoss.api.licenses.v2.License.GetComponentsLicenses:output_type -> scanoss.api.licenses.v2.ComponentsLicenseResponse
-	3,  // 24: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
-	4,  // 25: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
-	21, // [21:26] is the sub-list for method output_type
-	16, // [16:21] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	15, // 15: scanoss.api.licenses.v2.License.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	16, // 16: scanoss.api.licenses.v2.License.GetComponentLicenses:input_type -> scanoss.api.common.v2.ComponentRequest
+	17, // 17: scanoss.api.licenses.v2.License.GetComponentsLicenses:input_type -> scanoss.api.common.v2.ComponentsRequest
+	9,  // 18: scanoss.api.licenses.v2.License.GetDetails:input_type -> scanoss.api.licenses.v2.LicenseRequest
+	9,  // 19: scanoss.api.licenses.v2.License.GetObligations:input_type -> scanoss.api.licenses.v2.LicenseRequest
+	18, // 20: scanoss.api.licenses.v2.License.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 21: scanoss.api.licenses.v2.License.GetComponentLicenses:output_type -> scanoss.api.licenses.v2.ComponentLicenseResponse
+	2,  // 22: scanoss.api.licenses.v2.License.GetComponentsLicenses:output_type -> scanoss.api.licenses.v2.ComponentsLicenseResponse
+	3,  // 23: scanoss.api.licenses.v2.License.GetDetails:output_type -> scanoss.api.licenses.v2.LicenseDetailsResponse
+	4,  // 24: scanoss.api.licenses.v2.License.GetObligations:output_type -> scanoss.api.licenses.v2.ObligationsResponse
+	20, // [20:25] is the sub-list for method output_type
+	15, // [15:20] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_licenses_v2_scanoss_licenses_proto_init() }
