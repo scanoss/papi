@@ -472,10 +472,19 @@ type DependencyResponse_Dependencies struct {
 	Url         string                         `protobuf:"bytes,5,opt,name=url,proto3" json:"url,omitempty"`
 	Comment     string                         `protobuf:"bytes,6,opt,name=comment,proto3" json:"comment,omitempty"`
 	Requirement string                         `protobuf:"bytes,7,opt,name=requirement,proto3" json:"requirement,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,8,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,9,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 8).
+	InfoMessage *string `protobuf:"bytes,10,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component.
+	// Replaces the removed `error_code` field (position 9).
+	//
+	// Possible values:
+	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+	//   - "NO_INFO":             No dependency information is available for the requested component.
+	//   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+	//   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+	InfoCode      *string `protobuf:"bytes,11,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -559,18 +568,18 @@ func (x *DependencyResponse_Dependencies) GetRequirement() string {
 	return ""
 }
 
-func (x *DependencyResponse_Dependencies) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *DependencyResponse_Dependencies) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *DependencyResponse_Dependencies) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *DependencyResponse_Dependencies) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 type DependencyResponse_Files struct {
@@ -715,7 +724,7 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12J\n" +
 	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls:i\x92Ad\n" +
-	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\xa3\r\n" +
+	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\x91\r\n" +
 	"\x12DependencyResponse\x12K\n" +
 	"\x05files\x18\x01 \x03(\v25.scanoss.api.dependencies.v2.DependencyResponse.FilesR\x05files\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1av\n" +
@@ -723,7 +732,7 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
 	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
-	"\x03url\x18\x04 \x01(\tR\x03url\x1a\x91\x03\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xe9\x02\n" +
 	"\fDependencies\x12\x1c\n" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +
 	"\x04purl\x18\x02 \x01(\tR\x04purl\x12\x18\n" +
@@ -731,19 +740,19 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\blicenses\x18\x04 \x03(\v28.scanoss.api.dependencies.v2.DependencyResponse.LicensesR\blicenses\x12\x10\n" +
 	"\x03url\x18\x05 \x01(\tR\x03url\x12\x18\n" +
 	"\acomment\x18\x06 \x01(\tR\acomment\x12 \n" +
-	"\vrequirement\x18\a \x01(\tR\vrequirement\x12)\n" +
-	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\vrequirement\x18\a \x01(\tR\vrequirement\x12'\n" +
+	"\finfo_message\x18\n" +
+	" \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\v \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\t \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code\x1a\xa5\x01\n" +
+	"_info_code\x1a\xa5\x01\n" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12`\n" +
-	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xcc\x06\x92A\xc6\x06\n" +
-	"\xc3\x062\x8f\x03Success example. For error cases, dependency block includes error_message and error_code fields, e.g.: {\\\"files\\\":[{\\\"file\\\":\\\"package.json\\\",\\\"id\\\":\\\"dependency\\\",\\\"status\\\":\\\"pending\\\",\\\"dependencies\\\":[{\\\"component\\\":\\\"\\\",\\\"purl\\\":\\\"pkg:npm/express\\\",\\\"error_message\\\":\\\"Component not found\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}]}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xae\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"requirement\":\"^4.18.0\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa7\x02\n" +
+	"\fdependencies\x18\x04 \x03(\v2<.scanoss.api.dependencies.v2.DependencyResponse.DependenciesR\fdependencies:\xe2\x06\x92A\xdc\x06\n" +
+	"\xd9\x062\xa5\x03Success example. For error cases, each dependency block reports the processing status via info_message and info_code. Example: {\\\"files\\\":[{\\\"file\\\":\\\"package.json\\\",\\\"id\\\":\\\"dependency\\\",\\\"status\\\":\\\"pending\\\",\\\"dependencies\\\":[{\\\"component\\\":\\\"\\\",\\\"purl\\\":\\\"pkg:npm/express\\\",\\\"info_message\\\":\\\"Component not found\\\",\\\"info_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}]}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xae\x03{\"files\":[{\"file\":\"package.json\",\"id\":\"dependency\",\"status\":\"pending\",\"dependencies\":[{\"component\":\"express\",\"purl\":\"pkg:npm/express\",\"version\":\"4.18.2\",\"requirement\":\"^4.18.0\",\"licenses\":[{\"name\":\"MIT\",\"spdx_id\":\"MIT\",\"is_spdx_approved\":true,\"url\":\"https://opensource.org/licenses/MIT\"}],\"url\":\"https://www.npmjs.com/package/express\",\"comment\":\"\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Dependencies successfully retrieved\"}}\x18\x01\"\xa7\x02\n" +
 	"\x1bTransitiveDependencyRequest\x12\x14\n" +
 	"\x05depth\x18\x01 \x01(\x05R\x05depth\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12G\n" +
@@ -795,9 +804,8 @@ var file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_goTypes = []any{
 	(*TransitiveDependencyResponse_Component)(nil), // 9: scanoss.api.dependencies.v2.TransitiveDependencyResponse.Component
 	(*commonv2.StatusResponse)(nil),                // 10: scanoss.api.common.v2.StatusResponse
 	(*commonv2.ComponentRequest)(nil),              // 11: scanoss.api.common.v2.ComponentRequest
-	(commonv2.ErrorCode)(0),                        // 12: scanoss.api.common.v2.ErrorCode
-	(*commonv2.EchoRequest)(nil),                   // 13: scanoss.api.common.v2.EchoRequest
-	(*commonv2.EchoResponse)(nil),                  // 14: scanoss.api.common.v2.EchoResponse
+	(*commonv2.EchoRequest)(nil),                   // 12: scanoss.api.common.v2.EchoRequest
+	(*commonv2.EchoResponse)(nil),                  // 13: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_depIdxs = []int32{
 	5,  // 0: scanoss.api.dependencies.v2.DependencyRequest.files:type_name -> scanoss.api.dependencies.v2.DependencyRequest.Files
@@ -808,19 +816,18 @@ var file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_depIdxs = []int3
 	10, // 5: scanoss.api.dependencies.v2.TransitiveDependencyResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	4,  // 6: scanoss.api.dependencies.v2.DependencyRequest.Files.purls:type_name -> scanoss.api.dependencies.v2.DependencyRequest.Purls
 	6,  // 7: scanoss.api.dependencies.v2.DependencyResponse.Dependencies.licenses:type_name -> scanoss.api.dependencies.v2.DependencyResponse.Licenses
-	12, // 8: scanoss.api.dependencies.v2.DependencyResponse.Dependencies.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	7,  // 9: scanoss.api.dependencies.v2.DependencyResponse.Files.dependencies:type_name -> scanoss.api.dependencies.v2.DependencyResponse.Dependencies
-	13, // 10: scanoss.api.dependencies.v2.Dependencies.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0,  // 11: scanoss.api.dependencies.v2.Dependencies.GetDependencies:input_type -> scanoss.api.dependencies.v2.DependencyRequest
-	2,  // 12: scanoss.api.dependencies.v2.Dependencies.GetTransitiveDependencies:input_type -> scanoss.api.dependencies.v2.TransitiveDependencyRequest
-	14, // 13: scanoss.api.dependencies.v2.Dependencies.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 14: scanoss.api.dependencies.v2.Dependencies.GetDependencies:output_type -> scanoss.api.dependencies.v2.DependencyResponse
-	3,  // 15: scanoss.api.dependencies.v2.Dependencies.GetTransitiveDependencies:output_type -> scanoss.api.dependencies.v2.TransitiveDependencyResponse
-	13, // [13:16] is the sub-list for method output_type
-	10, // [10:13] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	7,  // 8: scanoss.api.dependencies.v2.DependencyResponse.Files.dependencies:type_name -> scanoss.api.dependencies.v2.DependencyResponse.Dependencies
+	12, // 9: scanoss.api.dependencies.v2.Dependencies.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 10: scanoss.api.dependencies.v2.Dependencies.GetDependencies:input_type -> scanoss.api.dependencies.v2.DependencyRequest
+	2,  // 11: scanoss.api.dependencies.v2.Dependencies.GetTransitiveDependencies:input_type -> scanoss.api.dependencies.v2.TransitiveDependencyRequest
+	13, // 12: scanoss.api.dependencies.v2.Dependencies.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 13: scanoss.api.dependencies.v2.Dependencies.GetDependencies:output_type -> scanoss.api.dependencies.v2.DependencyResponse
+	3,  // 14: scanoss.api.dependencies.v2.Dependencies.GetTransitiveDependencies:output_type -> scanoss.api.dependencies.v2.TransitiveDependencyResponse
+	12, // [12:15] is the sub-list for method output_type
+	9,  // [9:12] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_init() }

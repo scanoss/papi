@@ -2,6 +2,8 @@
 
 Provides comprehensive dependency analysis for software components including direct and transitive dependency resolution across multiple ecosystems.
 
+> **Breaking change:** The `error_message` and `error_code` fields on `DependencyResponse.Dependencies` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
+
 ## GetTransitiveDependencies
 
 Analyzes software components to retrieve their complete transitive dependency tree, helping identify all indirect dependencies that would be pulled into a project.
@@ -139,8 +141,8 @@ Each dependency object includes:
 - `licenses`: Array of license information
 - `url`: Component homepage or repository URL
 - `comment`: Additional analysis notes
-- `error_message` (optional): Error message describing what went wrong during component processing
-- `error_code` (optional): Error code indicating the type of error encountered
+- `info_code`: Always populated. Identifies the outcome of processing the component (e.g. `SUCCESS`, `VERSION_NOT_FOUND`)
+- `info_message` (optional): Human-readable description of the processing outcome. Populated on errors and may be present on success
 
 ### Response Examples
 
@@ -179,8 +181,8 @@ Each dependency object includes:
 }
 ```
 
-#### Error in dependency
-When a component cannot be processed, the dependency block includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+#### Status in dependency
+The dependency block reports the processing status via `info_code` and `info_message`. When a component cannot be processed, the remaining fields will be empty since the component could not be resolved:
 ```json
 {
   "files": [
@@ -197,8 +199,8 @@ When a component cannot be processed, the dependency block includes `error_messa
           "url": "",
           "comment": "",
           "requirement": "v1.17.0",
-          "error_message": "Component version not found",
-          "error_code": "VERSION_NOT_FOUND"
+          "info_message": "Component version not found",
+          "info_code": "VERSION_NOT_FOUND"
         }
       ]
     }

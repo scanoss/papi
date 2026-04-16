@@ -175,13 +175,13 @@
         "requirement": {
           "type": "string"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "Optional error message describing what went wrong during component processing"
+          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 8)."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode",
-          "title": "Optional error code indicating the type of error encountered"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\nReplaces the removed `error_code` field (position 9).\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No dependency information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       }
     },
@@ -401,7 +401,7 @@
           "title": "Response status (required?)"
         }
       },
-      "description": "Success example. For error cases, dependency block includes error_message and error_code fields, e.g.: {\\\"files\\\":[{\\\"file\\\":\\\"package.json\\\",\\\"id\\\":\\\"dependency\\\",\\\"status\\\":\\\"pending\\\",\\\"dependencies\\\":[{\\\"component\\\":\\\"\\\",\\\"purl\\\":\\\"pkg:npm/express\\\",\\\"error_message\\\":\\\"Component not found\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}]}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}",
+      "description": "Success example. For error cases, each dependency block reports the processing status via info_message and info_code. Example: {\\\"files\\\":[{\\\"file\\\":\\\"package.json\\\",\\\"id\\\":\\\"dependency\\\",\\\"status\\\":\\\"pending\\\",\\\"dependencies\\\":[{\\\"component\\\":\\\"\\\",\\\"purl\\\":\\\"pkg:npm/express\\\",\\\"info_message\\\":\\\"Component not found\\\",\\\"info_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}]}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}",
       "title": "Dependency response data (JSON payload)"
     },
     "v2DependencyResponseFiles": {
@@ -442,19 +442,6 @@
         }
       },
       "description": "Echo Message Response."
-    },
-    "v2ErrorCode": {
-      "type": "string",
-      "enum": [
-        "INVALID_PURL",
-        "COMPONENT_NOT_FOUND",
-        "NO_INFO",
-        "INVALID_SEMVER",
-        "VERSION_NOT_FOUND",
-        "TOO_MANY_CONTRIBUTORS"
-      ],
-      "default": "INVALID_PURL",
-      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found\n - TOO_MANY_CONTRIBUTORS: Too many contributors for a component. Used by Geoprovenance service"
     },
     "v2StatusCode": {
       "type": "string",
