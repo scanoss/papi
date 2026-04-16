@@ -157,7 +157,7 @@ This indicates users must comply with both licenses, generating the SPDX express
 
 
 #### Error in component
-When a component cannot be processed, the component block reports the failure via `info_code` and `info_message`. The remaining fields (`licenses`, `statement`, `version`, `url`) will be empty since the component could not be resolved.
+The component block reports the processing status via `info_code` and `info_message`. When a component cannot be processed, the remaining fields (`licenses`, `statement`, `version`, `url`) will be empty since the component could not be resolved.
 
 ```json
 {

@@ -790,11 +790,10 @@ type ComponentLicenseInfo struct {
 	// Status message describing the outcome of processing this component.
 	// Replaces the removed `error_message` field (position 8).
 	InfoMessage *string `protobuf:"bytes,12,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
-	// Status code identifying the outcome of processing this component. Always populated.
+	// Status code identifying the outcome of processing this component.
 	// Replaces the removed `error_code` field (position 11).
 	//
 	// Possible values:
-	//   - "SUCCESS":             Component processed successfully.
 	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
 	//   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
 	//   - "NO_INFO":             No license information is available for the requested component.
