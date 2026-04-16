@@ -2,6 +2,8 @@
 
 Analyzes software components to identify licensing information.
 
+> **Breaking change:** The `error_message` and `error_code` fields on `ComponentLicenseInfo` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
+
 ## GetComponentLicenses
 Retrieves license information for a single software component identified by Package URL. 
 Examines source code, license files, and package metadata to determine which licenses apply to the component. 
@@ -33,6 +35,21 @@ The response includes these fields:
 - `version` field: Shows the specific version that was analyzed  
 - `url` field: URL linking to the component's source or repository page
 - `requirement` field: Echoes the client's version constraint from the request
+- `info_code` field: Always populated. Identifies the outcome of processing the component (e.g.`VERSION_NOT_FOUND`)
+- `info_message` field: Human-readable description of the processing outcome. Populated on errors and may be present on success
+
+### Info Codes
+
+The `info_code` field reports the outcome of processing each component. Possible values:
+
+| Code | Meaning |
+|------|---------|
+| `SUCCESS` | Component processed successfully. |
+| `INVALID_PURL` | The provided Package URL (PURL) is invalid or malformed. |
+| `COMPONENT_NOT_FOUND` | The requested component could not be found in the database. |
+| `NO_INFO` | No license information is available for the requested component. |
+| `INVALID_SEMVER` | The provided semantic version (SemVer) is invalid or malformed. |
+| `VERSION_NOT_FOUND` | The specific component version could not be found. |
 
 ### Response Examples
 
@@ -140,7 +157,8 @@ This indicates users must comply with both licenses, generating the SPDX express
 
 
 #### Error in component
-When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+When a component cannot be processed, the component block reports the failure via `info_code` and `info_message`. The remaining fields (`licenses`, `statement`, `version`, `url`) will be empty since the component could not be resolved.
+
 ```json
 {
   "component": {
@@ -150,8 +168,8 @@ When a component cannot be processed, the response includes `error_message` and 
     "version": "",
     "statement": "",
     "licenses": [],
-    "error_message": "Component version not found",
-    "error_code": "VERSION_NOT_FOUND"
+    "info_message": "Component version not found",
+    "info_code": "VERSION_NOT_FOUND"
   },
   "status": {
     "status": "SUCCESS",
