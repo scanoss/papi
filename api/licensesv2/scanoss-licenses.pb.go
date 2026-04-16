@@ -785,12 +785,22 @@ type ComponentLicenseInfo struct {
 	Statement string `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"`
 	// Individual licenses identified in the component
 	Licenses []*LicenseInfo `protobuf:"bytes,5,rep,name=licenses,proto3" json:"licenses,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,8,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
 	// Component URL
 	Url string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
-	// Optional error code indicating the type of error encountered (moved from position 9).
-	ErrorCode     *string `protobuf:"bytes,11,opt,name=error_code,proto3,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 8).
+	InfoMessage *string `protobuf:"bytes,12,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component. Always populated.
+	// Replaces the removed `error_code` field (position 11).
+	//
+	// Possible values:
+	//   - "SUCCESS":             Component processed successfully.
+	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+	//   - "NO_INFO":             No license information is available for the requested component.
+	//   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+	//   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+	InfoCode      *string `protobuf:"bytes,13,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -860,13 +870,6 @@ func (x *ComponentLicenseInfo) GetLicenses() []*LicenseInfo {
 	return nil
 }
 
-func (x *ComponentLicenseInfo) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
-	}
-	return ""
-}
-
 func (x *ComponentLicenseInfo) GetUrl() string {
 	if x != nil {
 		return x.Url
@@ -874,9 +877,16 @@ func (x *ComponentLicenseInfo) GetUrl() string {
 	return ""
 }
 
-func (x *ComponentLicenseInfo) GetErrorCode() string {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentLicenseInfo) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
+	}
+	return ""
+}
+
+func (x *ComponentLicenseInfo) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
 	return ""
 }
@@ -1141,18 +1151,18 @@ var File_scanoss_api_licenses_v2_scanoss_licenses_proto protoreflect.FileDescrip
 
 const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\n" +
-	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xe5\a\n" +
+	".scanoss/api/licenses/v2/scanoss-licenses.proto\x12\x17scanoss.api.licenses.v2\x1a*scanoss/api/common/v2/scanoss-common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xec\a\n" +
 	"\x18ComponentLicenseResponse\x12K\n" +
 	"\tcomponent\x18\x01 \x01(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xbc\x06\x92A\xb8\x06\n" +
-	"\xb5\x062\x96\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\x99\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x8a\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xc3\x06\x92A\xbf\x06\n" +
+	"\xbc\x062\x9d\x03Success example. For error cases, the component block reports the failure via info_message and info_code. Example: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"info_message\\\":\\\"Component version not found\\\",\\\"info_code\\\":\\\"VERSION_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\x99\x03{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x92\n" +
 	"\n" +
 	"\x19ComponentsLicenseResponse\x12M\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2-.scanoss.api.licenses.v2.ComponentLicenseInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xde\b\x92A\xda\b\n" +
-	"\xd7\b2\x99\x03Success example. For error cases, the component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"error_message\\\":\\\"Component version not found\\\",\\\"error_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xb8\x05{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xe6\b\x92A\xe2\b\n" +
+	"\xdf\b2\xa1\x03Success example. For error cases, each component block reports the failure via info_message and info_code. Example: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/unknown-component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"statement\\\":\\\"\\\",\\\"licenses\\\":[],\\\"url\\\":\\\"\\\",\\\"info_message\\\":\\\"Component version not found\\\",\\\"info_code\\\":\\\"VERSION_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Success\\\"}}J\xb8\x05{\"components\":[{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"\", \"version\": \"1.0.0\", \"statement\": \"GPL-2.0\", \"licenses\": [{\"id\": \"GPL-2.0\", \"full_name\": \"GNU General Public License v2.0 only\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/GPL-2.0-only.html\"}], \"url\": \"https://github.com/scanoss/engine\"}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\",\"statement\": \"MIT\", \"licenses\": [{\"id\": \"MIT\",\"full_name\": \"MIT License\", \"is_spdx_approved\": true, \"url\": \"https://spdx.org/licenses/MIT.html\"}], \"url\": \"https://github.com/scanoss/scanoss.py\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Licenses Successfully retrieved\"}}\"\x9a\x01\n" +
 	"\x16LicenseDetailsResponse\x12A\n" +
 	"\alicense\x18\x01 \x01(\v2'.scanoss.api.licenses.v2.LicenseDetailsR\alicense\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\"\x96\x01\n" +
@@ -1212,21 +1222,20 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xc9\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xc3\x02\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
 	"\aversion\x18\x03 \x01(\tR\aversion\x12\x1c\n" +
 	"\tstatement\x18\x04 \x01(\tR\tstatement\x12@\n" +
-	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\x12)\n" +
-	"\rerror_message\x18\b \x01(\tH\x00R\rerror_message\x88\x01\x01\x12\x10\n" +
+	"\blicenses\x18\x05 \x03(\v2$.scanoss.api.licenses.v2.LicenseInfoR\blicenses\x12\x10\n" +
 	"\x03url\x18\n" +
-	" \x01(\tR\x03url\x12#\n" +
+	" \x01(\tR\x03url\x12'\n" +
+	"\finfo_message\x18\f \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\r \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\v \x01(\tH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code*l\n" +
+	"_info_code*l\n" +
 	"\vLicenseType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x0e\n" +
 	"\n" +

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.37.0] - 2026-04-16
+### Added
+- Added `info_message` and `info_code` fields to `ComponentLicenseInfo` message as the definitive fields for reporting the outcome of processing each component
+### Removed
+- **Breaking change:** Removed `error_message` and `error_code` fields from `ComponentLicenseInfo` message. Clients must migrate to `info_message`/`info_code`
+
 ## [0.36.0] - 2026-04-15
 ### Changed
 - Changed `error_code` field type from `common.v2.ErrorCode` enum to `string` in `ComponentLicenseInfo` message
@@ -275,6 +281,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.37.0]: https://github.com/scanoss/papi/compare/v0.36.0...v0.37.0
 [0.36.0]: https://github.com/scanoss/papi/compare/v0.35.0...v0.36.0
 [0.35.0]: https://github.com/scanoss/papi/compare/v0.34.1...v0.35.0
 [0.34.1]: https://github.com/scanoss/papi/compare/v0.34.0...v0.34.1
