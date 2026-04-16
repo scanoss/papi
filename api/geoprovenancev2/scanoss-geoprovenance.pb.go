@@ -229,10 +229,18 @@ type ComponentLocationInfo struct {
 	DeclaredLocations []*DeclaredLocation `protobuf:"bytes,2,rep,name=declared_locations,proto3" json:"declared_locations,omitempty"`
 	// List of SCANOSS curated locations based on analysis
 	CuratedLocations []*CuratedLocation `protobuf:"bytes,3,rep,name=curated_locations,proto3" json:"curated_locations,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 4).
+	InfoMessage *string `protobuf:"bytes,6,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component.
+	// Replaces the removed `error_code` field (position 5).
+	//
+	// Possible values:
+	//   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
+	//   - "NO_INFO":                No geo-provenance information is available for the requested component.
+	//   - "TOO_MANY_CONTRIBUTORS":  The component exceeds the supported contributor threshold.
+	InfoCode      *string `protobuf:"bytes,7,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -288,18 +296,18 @@ func (x *ComponentLocationInfo) GetCuratedLocations() []*CuratedLocation {
 	return nil
 }
 
-func (x *ComponentLocationInfo) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *ComponentLocationInfo) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *ComponentLocationInfo) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentLocationInfo) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 // *
@@ -480,10 +488,18 @@ type ComponentLocation struct {
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	// The list of countries with contributors and their percentages
 	Locations []*Location `protobuf:"bytes,2,rep,name=locations,proto3" json:"locations,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,3,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,4,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 3).
+	InfoMessage *string `protobuf:"bytes,5,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component. Always populated.
+	// Replaces the removed `error_code` field (position 4).
+	//
+	// Possible values:
+	//   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
+	//   - "NO_INFO":                No geo-provenance information is available for the requested component.
+	//   - "TOO_MANY_CONTRIBUTORS":  The component exceeds the supported contributor threshold.
+	InfoCode      *string `protobuf:"bytes,6,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -532,18 +548,18 @@ func (x *ComponentLocation) GetLocations() []*Location {
 	return nil
 }
 
-func (x *ComponentLocation) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *ComponentLocation) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *ComponentLocation) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentLocation) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 // *
@@ -733,10 +749,19 @@ type ContributorResponse_Purls struct {
 	DeclaredLocations []*DeclaredLocation `protobuf:"bytes,2,rep,name=declared_locations,proto3" json:"declared_locations,omitempty"`
 	// List of SCANOSS curated locations based on analysis
 	CuratedLocations []*CuratedLocation `protobuf:"bytes,3,rep,name=curated_locations,proto3" json:"curated_locations,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,4,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,5,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 4).
+	InfoMessage *string `protobuf:"bytes,6,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component. Always populated.
+	// Replaces the removed `error_code` field (position 5).
+	//
+	// Possible values:
+	//   - "SUCCESS":                Component processed successfully.
+	//   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
+	//   - "NO_INFO":                No geo-provenance information is available for the requested component.
+	//   - "TOO_MANY_CONTRIBUTORS":  The component exceeds the supported contributor threshold.
+	InfoCode      *string `protobuf:"bytes,7,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -792,18 +817,18 @@ func (x *ContributorResponse_Purls) GetCuratedLocations() []*CuratedLocation {
 	return nil
 }
 
-func (x *ContributorResponse_Purls) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *ContributorResponse_Purls) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *ContributorResponse_Purls) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ContributorResponse_Purls) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 // Origin country details for geo-provenance analysis
@@ -814,10 +839,19 @@ type OriginResponse_Purls struct {
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
 	// The list of countries with contributors and their percentages
 	Locations []*Location `protobuf:"bytes,2,rep,name=locations,proto3" json:"locations,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,3,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,4,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 3).
+	InfoMessage *string `protobuf:"bytes,5,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component. Always populated.
+	// Replaces the removed `error_code` field (position 4).
+	//
+	// Possible values:
+	//   - "SUCCESS":                Component processed successfully.
+	//   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
+	//   - "NO_INFO":                No geo-provenance information is available for the requested component.
+	//   - "TOO_MANY_CONTRIBUTORS":  The component exceeds the supported contributor threshold.
+	InfoCode      *string `protobuf:"bytes,6,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -866,18 +900,18 @@ func (x *OriginResponse_Purls) GetLocations() []*Location {
 	return nil
 }
 
-func (x *OriginResponse_Purls) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *OriginResponse_Purls) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *OriginResponse_Purls) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *OriginResponse_Purls) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 var File_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto protoreflect.FileDescriptor
@@ -890,30 +924,28 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\blocation\x18\x02 \x01(\tR\blocation\"A\n" +
 	"\x0fCuratedLocation\x12\x18\n" +
 	"\acountry\x18\x01 \x01(\tR\acountry\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x05R\x05count\"\x95\x04\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\"\xed\x03\n" +
 	"\x13ContributorResponse\x12M\n" +
 	"\x05purls\x18\x01 \x03(\v27.scanoss.api.geoprovenance.v2.ContributorResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xeb\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xc3\x02\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
 	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
-	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations\x12'\n" +
+	"\finfo_message\x18\x06 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\a \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\x02\x18\x01\"\xfb\x02\n" +
+	"_info_code:\x02\x18\x01\"\xd3\x02\n" +
 	"\x15ComponentLocationInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
 	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
-	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations\x12)\n" +
-	"\rerror_message\x18\x04 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x11curated_locations\x18\x03 \x03(\v2-.scanoss.api.geoprovenance.v2.CuratedLocationR\x11curated_locations\x12'\n" +
+	"\finfo_message\x18\x06 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\a \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x05 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\xdd\x04\n" +
+	"_info_code\"\xdd\x04\n" +
 	"\x1dComponentsContributorResponse\x12g\n" +
 	"\x14components_locations\x18\x01 \x03(\v23.scanoss.api.geoprovenance.v2.ComponentLocationInfoR\x14components_locations\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x93\x03\x92A\x8f\x03\n" +
@@ -926,28 +958,26 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1e\n" +
 	"\n" +
 	"percentage\x18\x02 \x01(\x02R\n" +
-	"percentage\"\x80\x02\n" +
+	"percentage\"\xd8\x01\n" +
 	"\x11ComponentLocation\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
-	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12)\n" +
-	"\rerror_message\x18\x03 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12'\n" +
+	"\finfo_message\x18\x05 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\x06 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x04 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\x94\x03\n" +
+	"_info_code\"\xec\x02\n" +
 	"\x0eOriginResponse\x12H\n" +
 	"\x05purls\x18\x01 \x03(\v22.scanoss.api.geoprovenance.v2.OriginResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xf4\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xcc\x01\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
-	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12)\n" +
-	"\rerror_message\x18\x03 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12'\n" +
+	"\finfo_message\x18\x05 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\x06 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x04 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code:\x02\x18\x01\"\xd5\x03\n" +
+	"_info_code:\x02\x18\x01\"\xd5\x03\n" +
 	"\x18ComponentsOriginResponse\x12c\n" +
 	"\x14components_locations\x18\x01 \x03(\v2/.scanoss.api.geoprovenance.v2.ComponentLocationR\x14components_locations\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x94\x02\x92A\x90\x02\n" +
@@ -998,55 +1028,50 @@ var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_goTypes = []an
 	(*ContributorResponse_Purls)(nil),     // 11: scanoss.api.geoprovenance.v2.ContributorResponse.Purls
 	(*OriginResponse_Purls)(nil),          // 12: scanoss.api.geoprovenance.v2.OriginResponse.Purls
 	(*commonv2.StatusResponse)(nil),       // 13: scanoss.api.common.v2.StatusResponse
-	(commonv2.ErrorCode)(0),               // 14: scanoss.api.common.v2.ErrorCode
-	(*commonv2.EchoRequest)(nil),          // 15: scanoss.api.common.v2.EchoRequest
-	(*commonv2.PurlRequest)(nil),          // 16: scanoss.api.common.v2.PurlRequest
-	(*commonv2.ComponentsRequest)(nil),    // 17: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.ComponentRequest)(nil),     // 18: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.EchoResponse)(nil),         // 19: scanoss.api.common.v2.EchoResponse
+	(*commonv2.EchoRequest)(nil),          // 14: scanoss.api.common.v2.EchoRequest
+	(*commonv2.PurlRequest)(nil),          // 15: scanoss.api.common.v2.PurlRequest
+	(*commonv2.ComponentsRequest)(nil),    // 16: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.ComponentRequest)(nil),     // 17: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.EchoResponse)(nil),         // 18: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_depIdxs = []int32{
 	11, // 0: scanoss.api.geoprovenance.v2.ContributorResponse.purls:type_name -> scanoss.api.geoprovenance.v2.ContributorResponse.Purls
 	13, // 1: scanoss.api.geoprovenance.v2.ContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
 	0,  // 2: scanoss.api.geoprovenance.v2.ComponentLocationInfo.declared_locations:type_name -> scanoss.api.geoprovenance.v2.DeclaredLocation
 	1,  // 3: scanoss.api.geoprovenance.v2.ComponentLocationInfo.curated_locations:type_name -> scanoss.api.geoprovenance.v2.CuratedLocation
-	14, // 4: scanoss.api.geoprovenance.v2.ComponentLocationInfo.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	3,  // 5: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
-	13, // 6: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	3,  // 7: scanoss.api.geoprovenance.v2.ComponentContributorResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
-	13, // 8: scanoss.api.geoprovenance.v2.ComponentContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	6,  // 9: scanoss.api.geoprovenance.v2.ComponentLocation.locations:type_name -> scanoss.api.geoprovenance.v2.Location
-	14, // 10: scanoss.api.geoprovenance.v2.ComponentLocation.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	12, // 11: scanoss.api.geoprovenance.v2.OriginResponse.purls:type_name -> scanoss.api.geoprovenance.v2.OriginResponse.Purls
-	13, // 12: scanoss.api.geoprovenance.v2.OriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 13: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
-	13, // 14: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 15: scanoss.api.geoprovenance.v2.ComponentOriginResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
-	13, // 16: scanoss.api.geoprovenance.v2.ComponentOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	0,  // 17: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.declared_locations:type_name -> scanoss.api.geoprovenance.v2.DeclaredLocation
-	1,  // 18: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.curated_locations:type_name -> scanoss.api.geoprovenance.v2.CuratedLocation
-	14, // 19: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	6,  // 20: scanoss.api.geoprovenance.v2.OriginResponse.Purls.locations:type_name -> scanoss.api.geoprovenance.v2.Location
-	14, // 21: scanoss.api.geoprovenance.v2.OriginResponse.Purls.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	15, // 22: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	16, // 23: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:input_type -> scanoss.api.common.v2.PurlRequest
-	17, // 24: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
-	18, // 25: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
-	16, // 26: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:input_type -> scanoss.api.common.v2.PurlRequest
-	17, // 27: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
-	18, // 28: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
-	19, // 29: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	2,  // 30: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:output_type -> scanoss.api.geoprovenance.v2.ContributorResponse
-	4,  // 31: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsContributorResponse
-	5,  // 32: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentContributorResponse
-	8,  // 33: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:output_type -> scanoss.api.geoprovenance.v2.OriginResponse
-	9,  // 34: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsOriginResponse
-	10, // 35: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentOriginResponse
-	29, // [29:36] is the sub-list for method output_type
-	22, // [22:29] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	3,  // 4: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
+	13, // 5: scanoss.api.geoprovenance.v2.ComponentsContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	3,  // 6: scanoss.api.geoprovenance.v2.ComponentContributorResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocationInfo
+	13, // 7: scanoss.api.geoprovenance.v2.ComponentContributorResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	6,  // 8: scanoss.api.geoprovenance.v2.ComponentLocation.locations:type_name -> scanoss.api.geoprovenance.v2.Location
+	12, // 9: scanoss.api.geoprovenance.v2.OriginResponse.purls:type_name -> scanoss.api.geoprovenance.v2.OriginResponse.Purls
+	13, // 10: scanoss.api.geoprovenance.v2.OriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 11: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.components_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
+	13, // 12: scanoss.api.geoprovenance.v2.ComponentsOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 13: scanoss.api.geoprovenance.v2.ComponentOriginResponse.component_locations:type_name -> scanoss.api.geoprovenance.v2.ComponentLocation
+	13, // 14: scanoss.api.geoprovenance.v2.ComponentOriginResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	0,  // 15: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.declared_locations:type_name -> scanoss.api.geoprovenance.v2.DeclaredLocation
+	1,  // 16: scanoss.api.geoprovenance.v2.ContributorResponse.Purls.curated_locations:type_name -> scanoss.api.geoprovenance.v2.CuratedLocation
+	6,  // 17: scanoss.api.geoprovenance.v2.OriginResponse.Purls.locations:type_name -> scanoss.api.geoprovenance.v2.Location
+	14, // 18: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	15, // 19: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:input_type -> scanoss.api.common.v2.PurlRequest
+	16, // 20: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
+	17, // 21: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
+	15, // 22: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:input_type -> scanoss.api.common.v2.PurlRequest
+	16, // 23: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:input_type -> scanoss.api.common.v2.ComponentsRequest
+	17, // 24: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 25: scanoss.api.geoprovenance.v2.GeoProvenance.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	2,  // 26: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentContributors:output_type -> scanoss.api.geoprovenance.v2.ContributorResponse
+	4,  // 27: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsContributorResponse
+	5,  // 28: scanoss.api.geoprovenance.v2.GeoProvenance.GetCountryContributorsByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentContributorResponse
+	8,  // 29: scanoss.api.geoprovenance.v2.GeoProvenance.GetComponentOrigin:output_type -> scanoss.api.geoprovenance.v2.OriginResponse
+	9,  // 30: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponents:output_type -> scanoss.api.geoprovenance.v2.ComponentsOriginResponse
+	10, // 31: scanoss.api.geoprovenance.v2.GeoProvenance.GetOriginByComponent:output_type -> scanoss.api.geoprovenance.v2.ComponentOriginResponse
+	25, // [25:32] is the sub-list for method output_type
+	18, // [18:25] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_init() }

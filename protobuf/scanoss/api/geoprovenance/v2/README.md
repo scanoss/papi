@@ -2,6 +2,8 @@
 
 Provides geographical origin analysis for software components by examining contributor locations, commit patterns, and development activity across different regions.
 
+> **Breaking change:** The `error_message` and `error_code` fields on `ComponentLocationInfo`, `ComponentLocation`, `ContributorResponse.Purls`, and `OriginResponse.Purls` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
+
 ## GetCountryContributorsByComponents
 
 Retrieves geographical provenance information based on contributor declared locations for software components. Analyzes repository metadata and contributor profiles to determine the geographical distribution of development activity.
@@ -96,8 +98,8 @@ Each component object contains:
 }
 ```
 
-#### Error in component
-When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+#### Status in component
+The response reports the processing status of each component via `info_code` and `info_message`. When a component cannot be processed, the remaining fields will be empty since the component could not be resolved:
 ```json
 {
   "components_locations": [
@@ -105,8 +107,8 @@ When a component cannot be processed, the response includes `error_message` and 
       "purl": "pkg:github/torvalds/linux",
       "declared_locations": [],
       "curated_locations": [],
-      "error_message": "Too many contributors for a component",
-      "error_code": "TOO_MANY_CONTRIBUTORS"
+      "info_message": "Too many contributors for a component",
+      "info_code": "TOO_MANY_CONTRIBUTORS"
     }
   ],
   "status": {
@@ -200,16 +202,16 @@ The component object contains:
 }
 ```
 
-#### Error in component
-When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+#### Status in component
+The response reports the processing status of each component via `info_code` and `info_message`. When a component cannot be processed, the remaining fields will be empty since the component could not be resolved:
 ```json
 {
   "component_locations": {
     "purl": "pkg:github/torvalds/linux",
     "declared_locations": [],
     "curated_locations": [],
-    "error_message": "Too many contributors for a component",
-    "error_code": "TOO_MANY_CONTRIBUTORS"
+    "info_message": "Too many contributors for a component",
+    "info_code": "TOO_MANY_CONTRIBUTORS"
   },
   "status": {
     "status": "SUCCESS",
@@ -329,16 +331,16 @@ Each component location object contains:
 }
 ```
 
-#### Error in component
-When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+#### Status in component
+The response reports the processing status of each component via `info_code` and `info_message`. When a component cannot be processed, the remaining fields will be empty since the component could not be resolved:
 ```json
 {
   "components_locations": [
     {
       "purl": "pkg:github/torvalds/linux",
       "locations": [],
-      "error_message": "Too many contributors for a component",
-      "error_code": "TOO_MANY_CONTRIBUTORS"
+      "info_message": "Too many contributors for a component",
+      "info_code": "TOO_MANY_CONTRIBUTORS"
     }
   ],
   "status": {
@@ -421,15 +423,15 @@ The component location object contains:
 }
 ```
 
-#### Error in component
-When a component cannot be processed, the response includes `error_message` and `error_code` fields. The remaining fields will be empty since the component could not be resolved:
+#### Status in component
+When a component cannot be processed, the response reports the failure via `info_code` and `info_message`.
 ```json
 {
   "component_locations": {
     "purl": "pkg:github/torvalds/linux",
     "locations": [],
-    "error_message": "Too many contributors for a component",
-    "error_code": "TOO_MANY_CONTRIBUTORS"
+    "info_message": "Too many contributors for a component",
+    "info_code": "TOO_MANY_CONTRIBUTORS"
   },
   "status": {
     "status": "SUCCESS",

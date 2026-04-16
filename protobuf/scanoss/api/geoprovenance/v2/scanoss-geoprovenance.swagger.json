@@ -452,13 +452,13 @@
           },
           "title": "The list of countries with contributors and their percentages"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "Optional error message describing what went wrong during component processing"
+          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 3)."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode",
-          "title": "Optional error code indicating the type of error encountered"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component. Always populated.\nReplaces the removed `error_code` field (position 4).\n\nPossible values:\n  - \"INVALID_PURL\":           The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\":    The requested component could not be found in the database.\n  - \"NO_INFO\":                No geo-provenance information is available for the requested component.\n  - \"TOO_MANY_CONTRIBUTORS\":  The component exceeds the supported contributor threshold."
         }
       },
       "title": "Information about a component and its geographic origins"
@@ -486,13 +486,13 @@
           },
           "title": "List of SCANOSS curated locations based on analysis"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "Optional error message describing what went wrong during component processing"
+          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 4)."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode",
-          "title": "Optional error code indicating the type of error encountered"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\nReplaces the removed `error_code` field (position 5).\n\nPossible values:\n  - \"INVALID_PURL\":           The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\":    The requested component could not be found in the database.\n  - \"NO_INFO\":                No geo-provenance information is available for the requested component.\n  - \"TOO_MANY_CONTRIBUTORS\":  The component exceeds the supported contributor threshold."
         }
       },
       "title": "Information about a given component"
@@ -718,13 +718,13 @@
           },
           "title": "List of SCANOSS curated locations based on analysis"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "Optional error message describing what went wrong during component processing"
+          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 4)."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode",
-          "title": "Optional error code indicating the type of error encountered"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component. Always populated.\nReplaces the removed `error_code` field (position 5).\n\nPossible values:\n  - \"SUCCESS\":                Component processed successfully.\n  - \"INVALID_PURL\":           The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\":    The requested component could not be found in the database.\n  - \"NO_INFO\":                No geo-provenance information is available for the requested component.\n  - \"TOO_MANY_CONTRIBUTORS\":  The component exceeds the supported contributor threshold."
         }
       },
       "title": "Information about a given Package URL (PURL)"
@@ -776,19 +776,6 @@
       },
       "description": "Echo Message Response."
     },
-    "v2ErrorCode": {
-      "type": "string",
-      "enum": [
-        "INVALID_PURL",
-        "COMPONENT_NOT_FOUND",
-        "NO_INFO",
-        "INVALID_SEMVER",
-        "VERSION_NOT_FOUND",
-        "TOO_MANY_CONTRIBUTORS"
-      ],
-      "default": "INVALID_PURL",
-      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found\n - TOO_MANY_CONTRIBUTORS: Too many contributors for a component. Used by Geoprovenance service"
-    },
     "v2OriginResponse": {
       "type": "object",
       "properties": {
@@ -822,13 +809,13 @@
           },
           "title": "The list of countries with contributors and their percentages"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "Optional error message describing what went wrong during component processing"
+          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 3)."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode",
-          "title": "Optional error code indicating the type of error encountered"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component. Always populated.\nReplaces the removed `error_code` field (position 4).\n\nPossible values:\n  - \"SUCCESS\":                Component processed successfully.\n  - \"INVALID_PURL\":           The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\":    The requested component could not be found in the database.\n  - \"NO_INFO\":                No geo-provenance information is available for the requested component.\n  - \"TOO_MANY_CONTRIBUTORS\":  The component exceeds the supported contributor threshold."
         }
       },
       "title": "Origin country details for geo-provenance analysis\nInformation about the given Package URL (PURL)"
