@@ -724,7 +724,7 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12J\n" +
 	"\x05purls\x18\x02 \x03(\v24.scanoss.api.dependencies.v2.DependencyRequest.PurlsR\x05purls:i\x92Ad\n" +
-	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\x91\r\n" +
+	"bJ`{\"files\":[{\"file\":\"package.json\",\"purls\":[{\"purl\":\"pkg:npm/express\",\"requirement\":\"^4.18.0\"}]}]}\x18\x01\"\xb8\r\n" +
 	"\x12DependencyResponse\x12K\n" +
 	"\x05files\x18\x01 \x03(\v25.scanoss.api.dependencies.v2.DependencyResponse.FilesR\x05files\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1av\n" +
@@ -732,7 +732,7 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +
 	"\x10is_spdx_approved\x18\x03 \x01(\bR\x10is_spdx_approved\x12\x10\n" +
-	"\x03url\x18\x04 \x01(\tR\x03url\x1a\xe9\x02\n" +
+	"\x03url\x18\x04 \x01(\tR\x03url\x1a\x90\x03\n" +
 	"\fDependencies\x12\x1c\n" +
 	"\tcomponent\x18\x01 \x01(\tR\tcomponent\x12\x12\n" +
 	"\x04purl\x18\x02 \x01(\tR\x04purl\x12\x18\n" +
@@ -746,7 +746,9 @@ const file_scanoss_api_dependencies_v2_scanoss_dependencies_proto_rawDesc = "" +
 	"\tinfo_code\x18\v \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code\x1a\xa5\x01\n" +
+	"_info_codeJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"R\rerror_messageR\n" +
+	"error_code\x1a\xa5\x01\n" +
 	"\x05Files\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\tR\x04file\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x16\n" +

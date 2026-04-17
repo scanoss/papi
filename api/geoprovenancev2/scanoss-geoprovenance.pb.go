@@ -924,10 +924,10 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\blocation\x18\x02 \x01(\tR\blocation\"A\n" +
 	"\x0fCuratedLocation\x12\x18\n" +
 	"\acountry\x18\x01 \x01(\tR\acountry\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x05R\x05count\"\xed\x03\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\"\x94\x04\n" +
 	"\x13ContributorResponse\x12M\n" +
 	"\x05purls\x18\x01 \x03(\v27.scanoss.api.geoprovenance.v2.ContributorResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xc3\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xea\x02\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
 	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
@@ -936,7 +936,8 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\tinfo_code\x18\a \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code:\x02\x18\x01\"\xd3\x02\n" +
+	"_info_codeJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\rerror_messageR\n" +
+	"error_code:\x02\x18\x01\"\xfa\x02\n" +
 	"\x15ComponentLocationInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12^\n" +
 	"\x12declared_locations\x18\x02 \x03(\v2..scanoss.api.geoprovenance.v2.DeclaredLocationR\x12declared_locations\x12[\n" +
@@ -945,7 +946,8 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\tinfo_code\x18\a \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code\"\xdd\x04\n" +
+	"_info_codeJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\rerror_messageR\n" +
+	"error_code\"\xdd\x04\n" +
 	"\x1dComponentsContributorResponse\x12g\n" +
 	"\x14components_locations\x18\x01 \x03(\v23.scanoss.api.geoprovenance.v2.ComponentLocationInfoR\x14components_locations\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x93\x03\x92A\x8f\x03\n" +
@@ -958,7 +960,7 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1e\n" +
 	"\n" +
 	"percentage\x18\x02 \x01(\x02R\n" +
-	"percentage\"\xd8\x01\n" +
+	"percentage\"\xff\x01\n" +
 	"\x11ComponentLocation\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
 	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12'\n" +
@@ -966,10 +968,11 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\tinfo_code\x18\x06 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code\"\xec\x02\n" +
+	"_info_codeJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05R\rerror_messageR\n" +
+	"error_code\"\x93\x03\n" +
 	"\x0eOriginResponse\x12H\n" +
 	"\x05purls\x18\x01 \x03(\v22.scanoss.api.geoprovenance.v2.OriginResponse.PurlsR\x05purls\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xcc\x01\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xf3\x01\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12D\n" +
 	"\tlocations\x18\x02 \x03(\v2&.scanoss.api.geoprovenance.v2.LocationR\tlocations\x12'\n" +
@@ -977,7 +980,8 @@ const file_scanoss_api_geoprovenance_v2_scanoss_geoprovenance_proto_rawDesc = ""
 	"\tinfo_code\x18\x06 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code:\x02\x18\x01\"\xd5\x03\n" +
+	"_info_codeJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05R\rerror_messageR\n" +
+	"error_code:\x02\x18\x01\"\xd5\x03\n" +
 	"\x18ComponentsOriginResponse\x12c\n" +
 	"\x14components_locations\x18\x01 \x03(\v2/.scanoss.api.geoprovenance.v2.ComponentLocationR\x14components_locations\x12=\n" +
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x94\x02\x92A\x90\x02\n" +

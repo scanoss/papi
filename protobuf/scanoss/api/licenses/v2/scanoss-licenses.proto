@@ -381,6 +381,16 @@ message ComponentLicenseInfo {
   repeated LicenseInfo licenses = 5;
   // Component URL
   string url = 10 [json_name = "url"];
+
+  // Field 8 previously held `string error_message`. Field 9 previously held
+  // `common.v2.ErrorCode error_code` (enum, varint-wire), later migrated to
+  // `string error_code` at field 11. All three were replaced by
+  // `info_message`/`info_code` below. These numbers and JSON names must
+  // never be reused, to avoid wire-type or semantic collisions with legacy
+  // clients still encoding them.
+  reserved 8, 9, 11;
+  reserved "error_message", "error_code";
+
   // Status message describing the outcome of processing this component.
   // Replaces the removed `error_message` field (position 8).
   optional string info_message = 12 [json_name = "info_message"];

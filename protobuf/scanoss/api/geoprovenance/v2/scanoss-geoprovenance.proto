@@ -166,6 +166,15 @@ message ContributorResponse {
     repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
     // List of SCANOSS curated locations based on analysis
     repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
+
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
     // Status message describing the outcome of processing this component.
     // Replaces the removed `error_message` field (position 4).
     optional string info_message = 6 [json_name = "info_message"];
@@ -194,6 +203,15 @@ message ComponentLocationInfo {
   repeated DeclaredLocation declared_locations = 2 [json_name = "declared_locations"];
   // List of SCANOSS curated locations based on analysis
   repeated CuratedLocation curated_locations = 3 [json_name = "curated_locations"];
+
+  // Field 4 previously held `string error_message`; field 5 previously held
+  // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+  // by `info_message`/`info_code` below. These numbers and JSON names must
+  // never be reused, to avoid wire-type or semantic collisions with legacy
+  // clients still encoding them.
+  reserved 4, 5;
+  reserved "error_message", "error_code";
+
   // Status message describing the outcome of processing this component.
   // Replaces the removed `error_message` field (position 4).
   optional string info_message = 6 [json_name = "info_message"];
@@ -257,6 +275,15 @@ message ComponentLocation {
   string purl = 1;
   // The list of countries with contributors and their percentages
   repeated Location locations = 2;
+
+  // Field 3 previously held `string error_message`; field 4 previously held
+  // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+  // by `info_message`/`info_code` below. These numbers and JSON names must
+  // never be reused, to avoid wire-type or semantic collisions with legacy
+  // clients still encoding them.
+  reserved 3, 4;
+  reserved "error_message", "error_code";
+
   // Status message describing the outcome of processing this component.
   // Replaces the removed `error_message` field (position 3).
   optional string info_message = 5 [json_name = "info_message"];
@@ -285,6 +312,15 @@ message OriginResponse {
     string purl = 1;
     // The list of countries with contributors and their percentages
     repeated Location locations = 2;
+
+    // Field 3 previously held `string error_message`; field 4 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 3, 4;
+    reserved "error_message", "error_code";
+
     // Status message describing the outcome of processing this component.
     // Replaces the removed `error_message` field (position 3).
     optional string info_message = 5 [json_name = "info_message"];
