@@ -176,10 +176,19 @@ type ComponentCpesInfo struct {
 	Requirement string `protobuf:"bytes,3,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// List of Common Platform Enumeration identifiers associated with this component
 	Cpes []string `protobuf:"bytes,4,rep,name=cpes,proto3" json:"cpes,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 5).
+	InfoMessage *string `protobuf:"bytes,7,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component.
+	// Replaces the removed `error_code` field (position 6).
+	//
+	// Possible values:
+	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+	//   - "NO_INFO":             No CPE information is available for the requested component.
+	//   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+	//   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+	InfoCode      *string `protobuf:"bytes,8,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -242,18 +251,18 @@ func (x *ComponentCpesInfo) GetCpes() []string {
 	return nil
 }
 
-func (x *ComponentCpesInfo) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *ComponentCpesInfo) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *ComponentCpesInfo) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentCpesInfo) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 // Response message for GetComponentCpes method.
@@ -703,10 +712,19 @@ type ComponentVulnerabilityInfo struct {
 	Requirement string `protobuf:"bytes,3,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// List of known vulnerabilities affecting this component
 	Vulnerabilities []*Vulnerability `protobuf:"bytes,4,rep,name=vulnerabilities,proto3" json:"vulnerabilities,omitempty"`
-	// Optional error message describing what went wrong during component processing
-	ErrorMessage *string `protobuf:"bytes,5,opt,name=error_message,proto3,oneof" json:"error_message,omitempty"`
-	// Optional error code indicating the type of error encountered
-	ErrorCode     *commonv2.ErrorCode `protobuf:"varint,6,opt,name=error_code,proto3,enum=scanoss.api.common.v2.ErrorCode,oneof" json:"error_code,omitempty"`
+	// Status message describing the outcome of processing this component.
+	// Replaces the removed `error_message` field (position 5).
+	InfoMessage *string `protobuf:"bytes,7,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	// Status code identifying the outcome of processing this component.
+	// Replaces the removed `error_code` field (position 6).
+	//
+	// Possible values:
+	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+	//   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+	//   - "NO_INFO":             No vulnerability information is available for the requested component.
+	//   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+	//   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+	InfoCode      *string `protobuf:"bytes,8,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -769,18 +787,18 @@ func (x *ComponentVulnerabilityInfo) GetVulnerabilities() []*Vulnerability {
 	return nil
 }
 
-func (x *ComponentVulnerabilityInfo) GetErrorMessage() string {
-	if x != nil && x.ErrorMessage != nil {
-		return *x.ErrorMessage
+func (x *ComponentVulnerabilityInfo) GetInfoMessage() string {
+	if x != nil && x.InfoMessage != nil {
+		return *x.InfoMessage
 	}
 	return ""
 }
 
-func (x *ComponentVulnerabilityInfo) GetErrorCode() commonv2.ErrorCode {
-	if x != nil && x.ErrorCode != nil {
-		return *x.ErrorCode
+func (x *ComponentVulnerabilityInfo) GetInfoCode() string {
+	if x != nil && x.InfoCode != nil {
+		return *x.InfoCode
 	}
-	return commonv2.ErrorCode(0)
+	return ""
 }
 
 // Response message for GetComponentVulnerabilities method.
@@ -1079,28 +1097,28 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a/\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x12\n" +
-	"\x04cpes\x18\x02 \x03(\tR\x04cpes:\x02\x18\x01\"\x8a\x02\n" +
+	"\x04cpes\x18\x02 \x03(\tR\x04cpes:\x02\x18\x01\"\x89\x02\n" +
 	"\x11ComponentCpesInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12\x12\n" +
-	"\x04cpes\x18\x04 \x03(\tR\x04cpes\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x04cpes\x18\x04 \x03(\tR\x04cpes\x12'\n" +
+	"\finfo_message\x18\a \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\b \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\x97\x06\n" +
+	"_info_codeJ\x04\b\x05\x10\x06J\x04\b\x06\x10\aR\rerror_messageR\n" +
+	"error_code\"\x8b\x06\n" +
 	"\x15ComponentCpesResponse\x12O\n" +
 	"\tcomponent\x18\x01 \x01(\v21.scanoss.api.vulnerabilities.v2.ComponentCpesInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xed\x04\x92A\xe9\x04\n" +
-	"\xe6\x042\xf6\x02Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}J\xea\x01{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"\xca\b\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xe1\x04\x92A\xdd\x04\n" +
+	"\xda\x042\xea\x02Success example. For error cases, each component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"cpes\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\xea\x01{\"component\":{\"purl\": \"pkg:github/scanoss/engine@1.0.0\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"\xae\b\n" +
 	"\x16ComponentsCpesResponse\x12Q\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v21.scanoss.api.vulnerabilities.v2.ComponentCpesInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x9d\a\x92A\x99\a\n" +
-	"\x96\a2\x8e\x04Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"components\\\":[{\\\"purl\\\":\\\"pkg:github/scanoss/engine\\\",\\\"requirement\\\":\\\"1.0.0\\\",\\\"version\\\":\\\"1.0.0\\\",\\\"cpes\\\":[\\\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\\\"]},{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\\\",\\\"version\\\":\\\"\\\",\\\"cpes\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"}],\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}J\x82\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"`\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x81\a\x92A\xfd\x06\n" +
+	"\xfa\x062\xf2\x03Success example. For error cases, each component block reports the processing status via info_message and info_code. Example: {\"components\":[{\"purl\":\"pkg:github/scanoss/engine\",\"requirement\":\"1.0.0\",\"version\":\"1.0.0\",\"cpes\":[\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]},{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"cpes\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\x82\x03{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"cpes\": [\"cpe:2.3:a:scanoss:engine:1.0.0:*:*:*:*:*:*:*\"]}, {\"purl\": \"pkg:github/scanoss/scanoss.py@v1.30.0\",\"requirement\": \"\",\"version\": \"v1.30.0\", \"cpes\": [\"cpe:2.3:a:scanoss:scanoss.py:1.30.0:*:*:*:*:*:*:*\"]}  ], \"status\": {\"status\": \"SUCCESS\", \"message\": \"CPEs Successfully retrieved\"}}\"`\n" +
 	"\x04CVSS\x12\x12\n" +
 	"\x04cvss\x18\x01 \x01(\tR\x04cvss\x12\x1e\n" +
 	"\n" +
@@ -1129,28 +1147,28 @@ const file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_rawDesc 
 	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1at\n" +
 	"\x05Purls\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12W\n" +
-	"\x0fvulnerabilities\x18\x02 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities:\x02\x18\x01\"\xd8\x02\n" +
+	"\x0fvulnerabilities\x18\x02 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities:\x02\x18\x01\"\xd7\x02\n" +
 	"\x1aComponentVulnerabilityInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12 \n" +
 	"\vrequirement\x18\x03 \x01(\tR\vrequirement\x12W\n" +
-	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\x12)\n" +
-	"\rerror_message\x18\x05 \x01(\tH\x00R\rerror_message\x88\x01\x01\x12E\n" +
+	"\x0fvulnerabilities\x18\x04 \x03(\v2-.scanoss.api.vulnerabilities.v2.VulnerabilityR\x0fvulnerabilities\x12'\n" +
+	"\finfo_message\x18\a \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\b \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\r_info_messageB\f\n" +
 	"\n" +
-	"error_code\x18\x06 \x01(\x0e2 .scanoss.api.common.v2.ErrorCodeH\x01R\n" +
-	"error_code\x88\x01\x01B\x10\n" +
-	"\x0e_error_messageB\r\n" +
-	"\v_error_code\"\xac\t\n" +
+	"_info_codeJ\x04\b\x05\x10\x06J\x04\b\x06\x10\aR\rerror_messageR\n" +
+	"error_code\"\xc1\t\n" +
 	"\x1eComponentVulnerabilityResponse\x12X\n" +
 	"\tcomponent\x18\x01 \x01(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\tcomponent\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xf0\a\x92A\xec\a\n" +
-	"\xe9\a2\xdf\x02Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\x84\x05{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xcf\x0e\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x85\b\x92A\x81\b\n" +
+	"\xfe\a2\xf4\x02Success example. For error cases, the component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\x84\x05{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"=>1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}\"\xe5\x0e\n" +
 	"\x1fComponentsVulnerabilityResponse\x12Z\n" +
 	"\n" +
 	"components\x18\x01 \x03(\v2:.scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfoR\n" +
 	"components\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\x90\r\x92A\x8c\r\n" +
-	"\x89\r2\xf0\x03Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\"components\":[{\"purl\":\"pkg:github/scanoss/engine\",\"requirement\":\"1.0.0\",\"version\":\"1.0.0\",\"vulnerabilities\":[{\"id\":\"CVE-1999-0214\",\"cve\":\"CVE-1999-0214\"}]},{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"error_message\":\"Component not found in database\",\"error_code\":\"COMPONENT_NOT_FOUND\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\x93\t{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}], \"epss\": {\"probability\": 0.0012, \"percentile\": 0.3162}}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xb3\b\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status:\xa6\r\x92A\xa2\r\n" +
+	"\x9f\r2\x86\x04Success example. For error cases, each component block reports the processing status via info_message and info_code. Example: {\"components\":[{\"purl\":\"pkg:github/scanoss/engine\",\"requirement\":\"1.0.0\",\"version\":\"1.0.0\",\"vulnerabilities\":[{\"id\":\"CVE-1999-0214\",\"cve\":\"CVE-1999-0214\"}]},{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\",\"version\":\"\",\"vulnerabilities\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}J\x93\t{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \"1.0.0\", \"version\": \"1.0.0\", \"vulnerabilities\": [{\"id\": \"CVE-1999-0214\", \"cve\": \"CVE-1999-0214\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-1999-0214\", \"summary\": \"Denial of service by sending forged ICMP unreachable packets\", \"severity\": \"High\", \"published\": \"1992-07-21\", \"modified\": \"2025-04-02\", \"source\": \"NVD\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H\", \"cvss_score\": 7.5, \"cvss_severity\": \"High\"}], \"epss\": {\"probability\": 0.00483, \"percentile\": 0.64405}}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\",\"requirement\": \"v1.30.0\",\"version\": \"v1.30.0\", \"vulnerabilities\": [{\"id\": \"CVE-2024-54321\", \"cve\": \"CVE-2024-54321\", \"url\": \"https://nvd.nist.gov/vuln/detail/CVE-2024-54321\", \"summary\": \"Denial of service vulnerability\", \"severity\": \"Medium\", \"published\": \"2024-01-15\", \"modified\": \"2024-02-01\", \"source\": \"NDV\", \"cvss\": [{\"cvss\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L\", \"cvss_score\": 4.3, \"cvss_severity\": \"Medium\"}], \"epss\": {\"probability\": 0.0012, \"percentile\": 0.3162}}]}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Vulnerabilities Successfully retrieved\"}}2\xb3\b\n" +
 	"\x0fVulnerabilities\x12t\n" +
 	"\x04Echo\x12\".scanoss.api.common.v2.EchoRequest\x1a#.scanoss.api.common.v2.EchoResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/v2/vulnerabilities/echo\x12q\n" +
 	"\aGetCpes\x124.scanoss.api.vulnerabilities.v2.VulnerabilityRequest\x1a+.scanoss.api.vulnerabilities.v2.CpeResponse\"\x03\x88\x02\x01\x12\x9e\x01\n" +
@@ -1195,51 +1213,48 @@ var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_goTypes = 
 	(*CpeResponse_Purls)(nil),               // 13: scanoss.api.vulnerabilities.v2.CpeResponse.Purls
 	(*VulnerabilityResponse_Purls)(nil),     // 14: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
 	(*commonv2.StatusResponse)(nil),         // 15: scanoss.api.common.v2.StatusResponse
-	(commonv2.ErrorCode)(0),                 // 16: scanoss.api.common.v2.ErrorCode
-	(*commonv2.EchoRequest)(nil),            // 17: scanoss.api.common.v2.EchoRequest
-	(*commonv2.ComponentRequest)(nil),       // 18: scanoss.api.common.v2.ComponentRequest
-	(*commonv2.ComponentsRequest)(nil),      // 19: scanoss.api.common.v2.ComponentsRequest
-	(*commonv2.EchoResponse)(nil),           // 20: scanoss.api.common.v2.EchoResponse
+	(*commonv2.EchoRequest)(nil),            // 16: scanoss.api.common.v2.EchoRequest
+	(*commonv2.ComponentRequest)(nil),       // 17: scanoss.api.common.v2.ComponentRequest
+	(*commonv2.ComponentsRequest)(nil),      // 18: scanoss.api.common.v2.ComponentsRequest
+	(*commonv2.EchoResponse)(nil),           // 19: scanoss.api.common.v2.EchoResponse
 }
 var file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_depIdxs = []int32{
 	12, // 0: scanoss.api.vulnerabilities.v2.VulnerabilityRequest.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest.Purls
 	13, // 1: scanoss.api.vulnerabilities.v2.CpeResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.CpeResponse.Purls
 	15, // 2: scanoss.api.vulnerabilities.v2.CpeResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	16, // 3: scanoss.api.vulnerabilities.v2.ComponentCpesInfo.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	2,  // 4: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
-	15, // 5: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	2,  // 6: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
-	15, // 7: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	5,  // 8: scanoss.api.vulnerabilities.v2.Vulnerability.cvss:type_name -> scanoss.api.vulnerabilities.v2.CVSS
-	6,  // 9: scanoss.api.vulnerabilities.v2.Vulnerability.epss:type_name -> scanoss.api.vulnerabilities.v2.EPSS
-	14, // 10: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
-	15, // 11: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 12: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
-	16, // 13: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.error_code:type_name -> scanoss.api.common.v2.ErrorCode
-	9,  // 14: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
-	15, // 15: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	9,  // 16: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
-	15, // 17: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
-	7,  // 18: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
-	17, // 19: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:input_type -> scanoss.api.common.v2.EchoRequest
-	0,  // 20: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
-	18, // 21: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:input_type -> scanoss.api.common.v2.ComponentRequest
-	19, // 22: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:input_type -> scanoss.api.common.v2.ComponentsRequest
-	0,  // 23: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
-	18, // 24: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:input_type -> scanoss.api.common.v2.ComponentRequest
-	19, // 25: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:input_type -> scanoss.api.common.v2.ComponentsRequest
-	20, // 26: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:output_type -> scanoss.api.common.v2.EchoResponse
-	1,  // 27: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:output_type -> scanoss.api.vulnerabilities.v2.CpeResponse
-	3,  // 28: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentCpesResponse
-	4,  // 29: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
-	8,  // 30: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse
-	10, // 31: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
-	11, // 32: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
-	26, // [26:33] is the sub-list for method output_type
-	19, // [19:26] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	2,  // 3: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
+	15, // 4: scanoss.api.vulnerabilities.v2.ComponentCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	2,  // 5: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentCpesInfo
+	15, // 6: scanoss.api.vulnerabilities.v2.ComponentsCpesResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	5,  // 7: scanoss.api.vulnerabilities.v2.Vulnerability.cvss:type_name -> scanoss.api.vulnerabilities.v2.CVSS
+	6,  // 8: scanoss.api.vulnerabilities.v2.Vulnerability.epss:type_name -> scanoss.api.vulnerabilities.v2.EPSS
+	14, // 9: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.purls:type_name -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls
+	15, // 10: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 11: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
+	9,  // 12: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.component:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
+	15, // 13: scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	9,  // 14: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.components:type_name -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityInfo
+	15, // 15: scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse.status:type_name -> scanoss.api.common.v2.StatusResponse
+	7,  // 16: scanoss.api.vulnerabilities.v2.VulnerabilityResponse.Purls.vulnerabilities:type_name -> scanoss.api.vulnerabilities.v2.Vulnerability
+	16, // 17: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:input_type -> scanoss.api.common.v2.EchoRequest
+	0,  // 18: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
+	17, // 19: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 20: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:input_type -> scanoss.api.common.v2.ComponentsRequest
+	0,  // 21: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:input_type -> scanoss.api.vulnerabilities.v2.VulnerabilityRequest
+	17, // 22: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:input_type -> scanoss.api.common.v2.ComponentRequest
+	18, // 23: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:input_type -> scanoss.api.common.v2.ComponentsRequest
+	19, // 24: scanoss.api.vulnerabilities.v2.Vulnerabilities.Echo:output_type -> scanoss.api.common.v2.EchoResponse
+	1,  // 25: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetCpes:output_type -> scanoss.api.vulnerabilities.v2.CpeResponse
+	3,  // 26: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentCpesResponse
+	4,  // 27: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsCpes:output_type -> scanoss.api.vulnerabilities.v2.ComponentsCpesResponse
+	8,  // 28: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.VulnerabilityResponse
+	10, // 29: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentVulnerabilityResponse
+	11, // 30: scanoss.api.vulnerabilities.v2.Vulnerabilities.GetComponentsVulnerabilities:output_type -> scanoss.api.vulnerabilities.v2.ComponentsVulnerabilityResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_scanoss_api_vulnerabilities_v2_scanoss_vulnerabilities_proto_init() }

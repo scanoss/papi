@@ -1221,7 +1221,7 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\x04spdx\x18\x03 \x01(\v2\x1d.scanoss.api.licenses.v2.SPDXR\x04spdx\x124\n" +
 	"\x05osadl\x18\x04 \x01(\v2\x1e.scanoss.api.licenses.v2.OSADLR\x05osadl\" \n" +
 	"\x0eLicenseRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xc3\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xf0\x02\n" +
 	"\x14ComponentLicenseInfo\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
 	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
@@ -1234,7 +1234,9 @@ const file_scanoss_api_licenses_v2_scanoss_licenses_proto_rawDesc = "" +
 	"\tinfo_code\x18\r \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
-	"_info_code*l\n" +
+	"_info_codeJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"J\x04\b\v\x10\fR\rerror_messageR\n" +
+	"error_code*l\n" +
 	"\vLicenseType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x0e\n" +
 	"\n" +
