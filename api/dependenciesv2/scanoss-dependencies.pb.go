@@ -473,10 +473,8 @@ type DependencyResponse_Dependencies struct {
 	Comment     string                         `protobuf:"bytes,6,opt,name=comment,proto3" json:"comment,omitempty"`
 	Requirement string                         `protobuf:"bytes,7,opt,name=requirement,proto3" json:"requirement,omitempty"`
 	// Status message describing the outcome of processing this component.
-	// Replaces the removed `error_message` field (position 8).
 	InfoMessage *string `protobuf:"bytes,10,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
 	// Status code identifying the outcome of processing this component.
-	// Replaces the removed `error_code` field (position 9).
 	//
 	// Possible values:
 	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.

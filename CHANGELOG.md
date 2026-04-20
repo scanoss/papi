@@ -6,12 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
 ## [0.41.0] - 2026-04-20
 ### Added
 - Added `info_message` and `info_code` fields to all Cryptography response messages (`AlgorithmResponse.Purls`, `ComponentAlgorithms`, `AlgorithmsInRangeResponse.Purl`, `ComponentsAlgorithmsInRangeResponse.Component`, `ComponentAlgorithmsInRangeResponse.Component`, `VersionsInRangeResponse.Purl`, `ComponentsVersionsInRangeResponse.Component`, `ComponentVersionsInRangeResponse.Component`, `ComponentHints`, `HintsResponse.Purls`, `HintsInRangeResponse.Purl`, `ComponentsHintsInRangeResponse.Component`, `ComponentHintsInRangeResponse.Component`)
 ### Removed
 - **Breaking change:** Removed `error_message` and `error_code` fields from all Cryptography response messages. Clients must migrate to `info_message`/`info_code`
+### Changed
+- Cleaned up `info_message`/`info_code` field descriptions across Vulnerability, Dependency, License and Cryptography protos, swagger definitions and generated Go code; removed per-service breaking-change blockquotes from their READMEs (history kept in this changelog)
+
 
 ## [0.40.0] - 2026-04-17
 ### Added

@@ -2,8 +2,6 @@
 
 Analyzes software components to identify licensing information.
 
-> **Breaking change:** The `error_message` and `error_code` fields on `ComponentLicenseInfo` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
-
 ## GetComponentLicenses
 Retrieves license information for a single software component identified by Package URL. 
 Examines source code, license files, and package metadata to determine which licenses apply to the component. 

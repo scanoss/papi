@@ -177,10 +177,8 @@ type ComponentCpesInfo struct {
 	// List of Common Platform Enumeration identifiers associated with this component
 	Cpes []string `protobuf:"bytes,4,rep,name=cpes,proto3" json:"cpes,omitempty"`
 	// Status message describing the outcome of processing this component.
-	// Replaces the removed `error_message` field (position 5).
 	InfoMessage *string `protobuf:"bytes,7,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
 	// Status code identifying the outcome of processing this component.
-	// Replaces the removed `error_code` field (position 6).
 	//
 	// Possible values:
 	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
@@ -713,10 +711,8 @@ type ComponentVulnerabilityInfo struct {
 	// List of known vulnerabilities affecting this component
 	Vulnerabilities []*Vulnerability `protobuf:"bytes,4,rep,name=vulnerabilities,proto3" json:"vulnerabilities,omitempty"`
 	// Status message describing the outcome of processing this component.
-	// Replaces the removed `error_message` field (position 5).
 	InfoMessage *string `protobuf:"bytes,7,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
 	// Status code identifying the outcome of processing this component.
-	// Replaces the removed `error_code` field (position 6).
 	//
 	// Possible values:
 	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.

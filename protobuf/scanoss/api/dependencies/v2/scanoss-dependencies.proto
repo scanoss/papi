@@ -159,10 +159,8 @@ message DependencyResponse {
     reserved "error_message", "error_code";
 
     // Status message describing the outcome of processing this component.
-    // Replaces the removed `error_message` field (position 8).
     optional string info_message = 10 [json_name = "info_message"];
     // Status code identifying the outcome of processing this component.
-    // Replaces the removed `error_code` field (position 9).
     //
     // Possible values:
     //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
