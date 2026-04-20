@@ -376,12 +376,13 @@
           "type": "string",
           "title": "Date of the last detected change"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "States if something went wrong while searching for the version of this component in the DB"
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No status information is available for the requested component."
         }
       },
       "title": "Component status details (ignoring version)"
@@ -409,12 +410,13 @@
           "type": "string",
           "title": "Date that the status was checked"
         },
-        "error_message": {
+        "info_message": {
           "type": "string",
-          "title": "States if something went wrong while searching for the version of this component version in the DB"
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"NO_INFO\":             No status information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "title": "Component version status"
@@ -839,19 +841,6 @@
         }
       },
       "description": "Echo Message Response."
-    },
-    "v2ErrorCode": {
-      "type": "string",
-      "enum": [
-        "INVALID_PURL",
-        "COMPONENT_NOT_FOUND",
-        "NO_INFO",
-        "INVALID_SEMVER",
-        "VERSION_NOT_FOUND",
-        "TOO_MANY_CONTRIBUTORS"
-      ],
-      "default": "INVALID_PURL",
-      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found\n - TOO_MANY_CONTRIBUTORS: Too many contributors for a component. Used by Geoprovenance service"
     },
     "v2StatusCode": {
       "type": "string",

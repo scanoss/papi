@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.42.0] - 2026-04-20
+### Added
+- Added `info_message` and `info_code` fields to `ComponentStatusResponse.VersionStatus` and `ComponentStatusResponse.ComponentStatus` messages in Components responses as the definitive fields for reporting the outcome of processing each component
+### Removed
+- **Breaking change:** Removed `error_message` and `error_code` fields from `ComponentStatusResponse.VersionStatus` and `ComponentStatusResponse.ComponentStatus` messages in Components responses. Clients must migrate to `info_message`/`info_code`
+
 ## [0.41.0] - 2026-04-20
 ### Added
 - Added `info_message` and `info_code` fields to all Cryptography response messages (`AlgorithmResponse.Purls`, `ComponentAlgorithms`, `AlgorithmsInRangeResponse.Purl`, `ComponentsAlgorithmsInRangeResponse.Component`, `ComponentAlgorithmsInRangeResponse.Component`, `VersionsInRangeResponse.Purl`, `ComponentsVersionsInRangeResponse.Component`, `ComponentVersionsInRangeResponse.Component`, `ComponentHints`, `HintsResponse.Purls`, `HintsInRangeResponse.Purl`, `ComponentsHintsInRangeResponse.Component`, `ComponentHintsInRangeResponse.Component`)
@@ -307,6 +314,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.42.0]: https://github.com/scanoss/papi/compare/v0.41.0...v0.42.0
 [0.41.0]: https://github.com/scanoss/papi/compare/v0.40.0...v0.41.0
 [0.40.0]: https://github.com/scanoss/papi/compare/v0.39.0...v0.40.0
 [0.39.0]: https://github.com/scanoss/papi/compare/v0.38.0...v0.39.0

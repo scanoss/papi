@@ -192,23 +192,38 @@ message ComponentStatusResponse {
   
   // Component version status
   message VersionStatus {
-    // Specific version name  
-    string version = 1;  
-    // Development status of the requested version of this component classified automatically 
-    string status = 2;  
+    // Specific version name
+    string version = 1;
+    // Development status of the requested version of this component classified automatically
+    string status = 2;
     // Raw status reported by the registry for this version
     string repository_status = 3[json_name = "repository_status"];
     // Date that the component was indexed
     string indexed_date = 4 [json_name = "indexed_date"];
     // Date that the status was checked
     string status_change_date = 5 [json_name = "status_change_date"];
-    // States if something went wrong while searching for the version of this component version in the DB
-    optional string error_message = 6[json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
+
+    // Field 6 previously held `string error_message`; field 7 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+    // by `info_message`/`info_code` below. These numbers and JSON names must
+    // never be reused, to avoid wire-type or semantic collisions with legacy
+    // clients still encoding them.
+    reserved 6, 7;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 8 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "NO_INFO":             No status information is available for the requested component.
+    //   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+    //   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+    optional string info_code = 9 [json_name = "info_code"];
   }
   // Component status details (ignoring version)
   message ComponentStatus {
-    // Development status of the requested component classified automatically 
+    // Development status of the requested component classified automatically
     string status = 1;
     // Raw status reported by the registry for this component
     string repository_status = 2 [json_name = "repository_status"];
@@ -218,10 +233,24 @@ message ComponentStatusResponse {
     string last_indexed_date = 4 [json_name = "last_indexed_date"];
     // Date of the last detected change
     string status_change_date = 5 [json_name = "status_change_date"];
-    // States if something went wrong while searching for the version of this component in the DB
-    optional  string error_message = 6 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 7  [json_name = "error_code"];
-  
+
+    // Field 6 previously held `string error_message`; field 7 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+    // by `info_message`/`info_code` below. These numbers and JSON names must
+    // never be reused, to avoid wire-type or semantic collisions with legacy
+    // clients still encoding them.
+    reserved 6, 7;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 8 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No status information is available for the requested component.
+    optional string info_code = 9 [json_name = "info_code"];
   }
   // Information about the requested version. If no requirement is described, the latest version of the component is responded
   VersionStatus version_status = 4 [json_name = "version_status"];
