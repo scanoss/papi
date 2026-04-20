@@ -690,11 +690,13 @@
           },
           "title": "List of cryptographic algorithms detected in this component version"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "description": "Algorithm information for a specific component."
@@ -739,11 +741,13 @@
           },
           "title": "Algorithms list detected in that range"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "title": "Information for a given PURL"
@@ -771,11 +775,13 @@
           },
           "title": "List of cryptographic algorithms detected in this component version"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "description": "Cryptographic algorithm information for a specific component identified by PURL and version.\n\nContains comprehensive algorithm details including detected algorithms and their\nstrength classifications for software components."
@@ -839,11 +845,13 @@
           },
           "title": "List of cryptographic algorithms detected across the version range"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "description": "Algorithm information for a specific component across version ranges."
@@ -881,7 +889,7 @@
           "title": "Response status indicating success or failure"
         }
       },
-      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\"\u003e=1.0.0\\\",\\\"version\\\":\\\"\\\",\\\"algorithms\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}"
+      "description": "Success example. For error cases, the component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\"\u003e=1.0.0\",\"version\":\"\",\"algorithms\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}"
     },
     "v2ComponentEncryptionHintsResponse": {
       "type": "object",
@@ -941,11 +949,13 @@
           },
           "title": "List of cryptographic hints detected in this component version"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "description": "Cryptographic hint information for a specific component identified by PURL and version.\n\nContains comprehensive cryptographic hints about protocols, libraries, SDKs and frameworks\nused by the component, providing insights into cryptographic dependencies and usage patterns."
@@ -986,7 +996,7 @@
           "title": "Response status"
         }
       },
-      "description": "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"versions\\\":[],\\\"hints\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}",
+      "description": "Success example. For error cases, the component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"versions\":[],\"hints\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}",
       "title": "*\nHints of Encryption protocols, libraries, SDKs and frameworks for a purls in range"
     },
     "v2ComponentHintsInRangeResponseComponent": {
@@ -1011,11 +1021,13 @@
           },
           "title": "Encryption hints"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "title": "Information about the requested purl"
@@ -1093,11 +1105,13 @@
           },
           "title": "List of versions in the specified range that do not contain cryptographic algorithms"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "description": "Version information for a specific component categorized by cryptographic presence."
@@ -1175,11 +1189,13 @@
           },
           "title": "List of cryptographic algorithms detected across the version range"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "description": "Algorithm information for a specific component across version ranges."
@@ -1208,8 +1224,8 @@
             "requirement": "\u003e=1.0.0",
             "version": "",
             "algorithms": [],
-            "error_message": "Component not found in database",
-            "error_code": "COMPONENT_NOT_FOUND"
+            "info_message": "Component not found in database",
+            "info_code": "COMPONENT_NOT_FOUND"
           }
         ],
         "status": {
@@ -1314,8 +1330,8 @@
             "purl": "pkg:github/scanoss/scanoss.py",
             "versions": [],
             "hints": [],
-            "error_message": "Component not found in database",
-            "error_code": "COMPONENT_NOT_FOUND"
+            "info_message": "Component not found in database",
+            "info_code": "COMPONENT_NOT_FOUND"
           }
         ],
         "status": {
@@ -1361,11 +1377,13 @@
           },
           "title": "Encryption hints"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "title": "Information about the requested purl"
@@ -1463,11 +1481,13 @@
           },
           "title": "List of versions in the specified range that do not contain cryptographic algorithms"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "description": "Version information for a specific component categorized by cryptographic presence."
@@ -1489,19 +1509,6 @@
         }
       },
       "description": "Echo Message Response."
-    },
-    "v2ErrorCode": {
-      "type": "string",
-      "enum": [
-        "INVALID_PURL",
-        "COMPONENT_NOT_FOUND",
-        "NO_INFO",
-        "INVALID_SEMVER",
-        "VERSION_NOT_FOUND",
-        "TOO_MANY_CONTRIBUTORS"
-      ],
-      "default": "INVALID_PURL",
-      "description": "Error code enum for component analysis operations.\nRepresents the various error conditions that can occur during component processing and validation.\n\n - INVALID_PURL: The provided Package URL (PURL) is invalid or malformed\n - COMPONENT_NOT_FOUND: The requested component could not be found in the database\n - NO_INFO: No information is available for the requested component\n - INVALID_SEMVER: The provided semantic version (SemVer) is invalid or malformed\n - VERSION_NOT_FOUND: Component version not found\n - TOO_MANY_CONTRIBUTORS: Too many contributors for a component. Used by Geoprovenance service"
     },
     "v2Hint": {
       "type": "object",
@@ -1573,11 +1580,13 @@
           },
           "title": "Encryption hints"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "title": "Information about the requested purl"
@@ -1619,11 +1628,13 @@
           },
           "title": "Algorithms list detected for that version"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "title": "Information for a given purl"
@@ -1714,11 +1725,13 @@
           },
           "title": "List of versions that do not contain cryptography"
         },
-        "error_message": {
-          "type": "string"
+        "info_message": {
+          "type": "string",
+          "description": "Status message describing the outcome of processing this component."
         },
-        "error_code": {
-          "$ref": "#/definitions/v2ErrorCode"
+        "info_code": {
+          "type": "string",
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No cryptography information is available for the requested component."
         }
       },
       "title": "Information for a given PURL"

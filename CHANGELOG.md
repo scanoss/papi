@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.41.0] - 2026-04-20
+### Added
+- Added `info_message` and `info_code` fields to all Cryptography response messages (`AlgorithmResponse.Purls`, `ComponentAlgorithms`, `AlgorithmsInRangeResponse.Purl`, `ComponentsAlgorithmsInRangeResponse.Component`, `ComponentAlgorithmsInRangeResponse.Component`, `VersionsInRangeResponse.Purl`, `ComponentsVersionsInRangeResponse.Component`, `ComponentVersionsInRangeResponse.Component`, `ComponentHints`, `HintsResponse.Purls`, `HintsInRangeResponse.Purl`, `ComponentsHintsInRangeResponse.Component`, `ComponentHintsInRangeResponse.Component`)
+### Removed
+- **Breaking change:** Removed `error_message` and `error_code` fields from all Cryptography response messages. Clients must migrate to `info_message`/`info_code`
+
 ## [0.40.0] - 2026-04-17
 ### Added
 - Added `info_message` and `info_code` fields to `ComponentVulnerabilityInfo` and `ComponentCpesInfo` messages in Vulnerability responses as the definitive fields for reporting the outcome of processing each component
@@ -299,6 +305,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vulnerabilities
 - Added REST endpoint support for each service also
 
+[0.41.0]: https://github.com/scanoss/papi/compare/v0.40.0...v0.41.0
 [0.40.0]: https://github.com/scanoss/papi/compare/v0.39.0...v0.40.0
 [0.39.0]: https://github.com/scanoss/papi/compare/v0.38.0...v0.39.0
 [0.38.0]: https://github.com/scanoss/papi/compare/v0.37.0...v0.38.0

@@ -348,8 +348,25 @@ message AlgorithmResponse {
     // List of cryptographic algorithms detected in this component version
     repeated Algorithm algorithms = 3;
 
-    optional  string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    //   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+    //   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Algorithm details for each requested component
   repeated Purls purls = 1;
@@ -373,8 +390,25 @@ message ComponentAlgorithms {
   // List of cryptographic algorithms detected in this component version
   repeated Algorithm algorithms = 4;
 
-  optional string error_message = 5 [json_name = "error_message"];
-  optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
+  // Field 5 previously held `string error_message`; field 6 previously held
+  // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+  // by `info_message`/`info_code` below. These numbers and JSON names must
+  // never be reused, to avoid wire-type or semantic collisions with legacy
+  // clients still encoding them.
+  reserved 5, 6;
+  reserved "error_message", "error_code";
+
+  // Status message describing the outcome of processing this component.
+  optional string info_message = 7 [json_name = "info_message"];
+  // Status code identifying the outcome of processing this component.
+  //
+  // Possible values:
+  //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+  //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+  //   - "NO_INFO":             No cryptography information is available for the requested component.
+  //   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+  //   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+  optional string info_code = 8 [json_name = "info_code"];
 }
 
 /*
@@ -386,7 +420,7 @@ message ComponentAlgorithms {
 message ComponentsAlgorithmsResponse{
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/unknown/component\", \"requirement\": \">=1.0.0\", \"version\": \"\", \"algorithms\": [], \"error_message\": \"Component not found in database\", \"error_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Batch request processed\"}}";
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, {\"purl\": \"pkg:github/unknown/component\", \"requirement\": \">=1.0.0\", \"version\": \"\", \"algorithms\": [], \"info_message\": \"Component not found in database\", \"info_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Batch request processed\"}}";
     }
   };
   // Algorithm information for each component in the batch
@@ -406,7 +440,7 @@ message ComponentAlgorithmsResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"component\":{\"purl\": \"pkg:github/scanoss/engine\", \"requirement\": \">=5.0.0\", \"version\": \"5.0.0\", \"algorithms\": [{\"algorithm\": \"AES\", \"strength\": \"Strong\"}, {\"algorithm\": \"RSA\", \"strength\": \"Strong\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Algorithms Successfully retrieved\"}}";
-      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"requirement\\\":\\\">=1.0.0\\\",\\\"version\\\":\\\"\\\",\\\"algorithms\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}";
+      description: "Success example. For error cases, the component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"requirement\":\">=1.0.0\",\"version\":\"\",\"algorithms\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}";
     }
   };
   // Algorithm information for the component
@@ -431,8 +465,23 @@ message AlgorithmsInRangeResponse {
     // Algorithms list detected in that range
     repeated Algorithm algorithms = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Cryptography details
   repeated Purl purls = 1;
@@ -463,8 +512,23 @@ message ComponentsAlgorithmsInRangeResponse {
     // List of cryptographic algorithms detected across the version range
     repeated Algorithm algorithms = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Algorithm details for each component in the batch
   repeated Component components = 1;
@@ -495,8 +559,23 @@ message ComponentAlgorithmsInRangeResponse {
     // List of cryptographic algorithms detected across the version range
     repeated Algorithm algorithms = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   Component component = 1;
   // Response status indicating success or failure
@@ -518,8 +597,23 @@ message ComponentAlgorithmsInRangeResponse {
     // List of versions that do not contain cryptography
     repeated string versions_without = 3 [json_name = "versions_without"];
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Cryptography details
   repeated Purl purls = 1;
@@ -550,8 +644,23 @@ message ComponentsVersionsInRangeResponse {
     // List of versions in the specified range that do not contain cryptographic algorithms
     repeated string versions_without = 3 [json_name = "versions_without"];
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Version details for each component in the batch
   repeated Component components = 1;
@@ -582,8 +691,23 @@ message ComponentVersionsInRangeResponse {
     // List of versions in the specified range that do not contain cryptographic algorithms
     repeated string versions_without = 3 [json_name = "versions_without"];
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
 
   // Version details for each component in the batch
@@ -630,8 +754,25 @@ message ComponentHints {
   // List of cryptographic hints detected in this component version
   repeated Hint hints = 4;
 
-  optional string error_message = 5 [json_name = "error_message"];
-  optional common.v2.ErrorCode error_code = 6  [json_name = "error_code"];
+  // Field 5 previously held `string error_message`; field 6 previously held
+  // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were replaced
+  // by `info_message`/`info_code` below. These numbers and JSON names must
+  // never be reused, to avoid wire-type or semantic collisions with legacy
+  // clients still encoding them.
+  reserved 5, 6;
+  reserved "error_message", "error_code";
+
+  // Status message describing the outcome of processing this component.
+  optional string info_message = 7 [json_name = "info_message"];
+  // Status code identifying the outcome of processing this component.
+  //
+  // Possible values:
+  //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+  //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+  //   - "NO_INFO":             No cryptography information is available for the requested component.
+  //   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+  //   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+  optional string info_code = 8 [json_name = "info_code"];
 }
 
 /*
@@ -647,8 +788,25 @@ message HintsResponse {
     // Algorithms list detected for that version
     repeated Hint hints = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    //   - "INVALID_SEMVER":      The provided semantic version (SemVer) is invalid or malformed.
+    //   - "VERSION_NOT_FOUND":   The specific component version could not be found.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Purl encryption Hint
   repeated Purls purls = 1;
@@ -669,8 +827,23 @@ message HintsInRangeResponse {
     // Encryption hints
     repeated Hint hints = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Purl encryption hints
   repeated Purl purls = 1;
@@ -684,7 +857,7 @@ message HintsInRangeResponse {
 message ComponentsHintsInRangeResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"5.0.0\", \"5.1.0\"], \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [], \"hints\": [], \"error_message\": \"Component not found in database\", \"error_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints in range retrieved\"}}";
+      example: "{\"components\":[{\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"5.0.0\", \"5.1.0\"], \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, {\"purl\": \"pkg:github/scanoss/scanoss.py\", \"versions\": [], \"hints\": [], \"info_message\": \"Component not found in database\", \"info_code\": \"COMPONENT_NOT_FOUND\"}], \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints in range retrieved\"}}";
     }
   };
   // Information about the requested purl
@@ -696,8 +869,23 @@ message ComponentsHintsInRangeResponse {
     // Encryption hints
     repeated Hint hints = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Purl encryption hints
   repeated Component components = 1;
@@ -712,7 +900,7 @@ message ComponentHintsInRangeResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
       example: "{\"component\": {\"purl\": \"pkg:github/scanoss/engine\", \"versions\": [\"5.0.0\", \"5.1.0\", \"5.2.0\"], \"hints\": [{\"id\": \"openssl-hint-001\", \"name\": \"OpenSSL\", \"description\": \"Industry standard cryptographic library\", \"category\": \"library\", \"url\": \"https://www.openssl.org/\", \"purl\": \"pkg:generic/openssl@3.0.0\"}]}, \"status\": {\"status\": \"SUCCESS\", \"message\": \"Cryptographic hints in range retrieved\"}}";
-      description: "Success example. For error cases, component block includes error_message and error_code fields, e.g.: {\\\"component\\\":{\\\"purl\\\":\\\"pkg:github/unknown/component\\\",\\\"versions\\\":[],\\\"hints\\\":[],\\\"error_message\\\":\\\"Component not found in database\\\",\\\"error_code\\\":\\\"COMPONENT_NOT_FOUND\\\"},\\\"status\\\":{\\\"status\\\":\\\"SUCCESS\\\",\\\"message\\\":\\\"Request processed\\\"}}";
+      description: "Success example. For error cases, the component block reports the processing status via info_message and info_code. Example: {\"component\":{\"purl\":\"pkg:github/unknown/component\",\"versions\":[],\"hints\":[],\"info_message\":\"Component not found in database\",\"info_code\":\"COMPONENT_NOT_FOUND\"},\"status\":{\"status\":\"SUCCESS\",\"message\":\"Request processed\"}}";
     }
   };
   // Information about the requested purl
@@ -724,8 +912,23 @@ message ComponentHintsInRangeResponse {
     // Encryption hints
     repeated Hint hints = 3;
 
-    optional string error_message = 4 [json_name = "error_message"];
-    optional common.v2.ErrorCode error_code = 5  [json_name = "error_code"];
+    // Field 4 previously held `string error_message`; field 5 previously held
+    // `common.v2.ErrorCode error_code` (enum, varint-wire). Both were
+    // replaced by `info_message`/`info_code` below. These numbers and JSON
+    // names must never be reused, to avoid wire-type or semantic collisions
+    // with legacy clients still encoding them.
+    reserved 4, 5;
+    reserved "error_message", "error_code";
+
+    // Status message describing the outcome of processing this component.
+    optional string info_message = 6 [json_name = "info_message"];
+    // Status code identifying the outcome of processing this component.
+    //
+    // Possible values:
+    //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
+    //   - "COMPONENT_NOT_FOUND": The requested component could not be found in the database.
+    //   - "NO_INFO":             No cryptography information is available for the requested component.
+    optional string info_code = 7 [json_name = "info_code"];
   }
   // Purl encryption hints
   Component component = 1;

@@ -50,8 +50,8 @@ curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/component?purl=p
     "version": "",
     "requirement": ">=1.0.0",
     "algorithms": [],
-    "error_message": "Component not found in database",
-    "error_code": "COMPONENT_NOT_FOUND"
+    "info_message": "Component not found in database",
+    "info_code": "COMPONENT_NOT_FOUND"
   },
   "status": {
     "status": "SUCCESS",
@@ -68,8 +68,8 @@ curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/component?purl=p
     "version": "",
     "requirement": ">=1.0.0",
     "algorithms": [],
-    "error_message": "Invalid PURL format provided",
-    "error_code": "INVALID_PURL"
+    "info_message": "Invalid PURL format provided",
+    "info_code": "INVALID_PURL"
   },
   "status": {
     "status": "SUCCESS",
@@ -78,21 +78,24 @@ curl -X GET 'https://api.scanoss.com/v2/cryptography/algorithms/component?purl=p
 }
 ```
 
-### Error Handling
+### Info Codes
 
-Component responses include optional error fields when issues occur during processing:
+Component blocks report the processing outcome via `info_code` and `info_message`:
 
-- `error_message`: Human-readable description of the error
-- `error_code`: Machine-readable error code for programmatic handling
+- `info_code`: Machine-readable code identifying the outcome of processing the component.
+- `info_message`: Human-readable description of the outcome.
 
-#### Error Codes
+The `info_code` field reports the outcome of processing each component. Possible values:
 
-- `INVALID_PURL`: The provided PURL format is invalid
-- `COMPONENT_NOT_FOUND`: The component was not found in the database
-- `NO_INFO`: No cryptographic information available for the component
-- `INVALID_SEMVER`: The provided semantic version or requirement is invalid
+| Code | Meaning |
+|------|---------|
+| `INVALID_PURL` | The provided Package URL (PURL) is invalid or malformed. |
+| `COMPONENT_NOT_FOUND` | The requested component could not be found in the database. |
+| `NO_INFO` | No cryptography information is available for the requested component. |
+| `INVALID_SEMVER` | The provided semantic version (SemVer) is invalid or malformed. |
+| `VERSION_NOT_FOUND` | The specific component version could not be found. |
 
-**Note**: When a component-level error occurs, the overall response status remains "SUCCESS" since the request was processed. Individual component errors are indicated within the component block itself.
+**Note**: When a component-level processing issue occurs, the overall response status remains `SUCCESS` since the request was processed. The per-component outcome is carried inside the component block via `info_code`/`info_message`.
 
 ## GetComponentsAlgorithms
 
@@ -174,8 +177,8 @@ curl -X POST 'https://api.scanoss.com/v2/cryptography/algorithms/components' \
       "requirement": ">=1.0.0",
       "version": "",
       "algorithms": [],
-      "error_message": "Component not found in database",
-      "error_code": "COMPONENT_NOT_FOUND"
+      "info_message": "Component not found in database",
+      "info_code": "COMPONENT_NOT_FOUND"
     }
   ],
   "status": {
@@ -249,8 +252,8 @@ Each algorithm object contains:
     "purl": "pkg:github/example/simple-utility",
     "versions": [],
     "algorithms": [],
-    "error_message": "Component not found: 'pkg:github/example/simple-utility'",
-    "error_code": "COMPONENT_NOT_FOUND"
+    "info_message": "Component not found: 'pkg:github/example/simple-utility'",
+    "info_code": "COMPONENT_NOT_FOUND"
   },
   "status": {
     "status": "SUCCESS",
@@ -404,8 +407,8 @@ Hints are classified into the following categories:
     "purl": "pkg:github/example/simple-utility",
     "version": "1.0.0",
     "hints": [],
-    "error_message": "No info found for: pkg:github/example/simple-utility",
-    "error_code": "NO_INFO"
+    "info_message": "No info found for: pkg:github/example/simple-utility",
+    "info_code": "NO_INFO"
     
   },
   "status": {
