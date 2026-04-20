@@ -2,8 +2,6 @@
 
 Provides comprehensive dependency analysis for software components including direct and transitive dependency resolution across multiple ecosystems.
 
-> **Breaking change:** The `error_message` and `error_code` fields on `DependencyResponse.Dependencies` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
-
 ## GetTransitiveDependencies
 
 Analyzes software components to retrieve their complete transitive dependency tree, helping identify all indirect dependencies that would be pulled into a project.

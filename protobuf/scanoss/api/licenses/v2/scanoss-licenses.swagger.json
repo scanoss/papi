@@ -371,11 +371,11 @@
         },
         "info_message": {
           "type": "string",
-          "description": "Status message describing the outcome of processing this component.\nReplaces the removed `error_message` field (position 8)."
+          "description": "Status message describing the outcome of processing this component."
         },
         "info_code": {
           "type": "string",
-          "description": "Status code identifying the outcome of processing this component.\nReplaces the removed `error_code` field (position 11).\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No license information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
+          "description": "Status code identifying the outcome of processing this component.\n\nPossible values:\n  - \"INVALID_PURL\":        The provided Package URL (PURL) is invalid or malformed.\n  - \"COMPONENT_NOT_FOUND\": The requested component could not be found in the database.\n  - \"NO_INFO\":             No license information is available for the requested component.\n  - \"INVALID_SEMVER\":      The provided semantic version (SemVer) is invalid or malformed.\n  - \"VERSION_NOT_FOUND\":   The specific component version could not be found."
         }
       },
       "description": "License information for a specific component identified by PURL and version."

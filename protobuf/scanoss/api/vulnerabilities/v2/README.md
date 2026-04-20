@@ -2,8 +2,6 @@
 
 Provides vulnerability intelligence for software components including CPE enumeration and vulnerability analysis.
 
-> **Breaking change:** The `error_message` and `error_code` fields on `ComponentVulnerabilityInfo` and `ComponentCpesInfo` have been removed. Component-level processing outcomes are now reported via the `info_message` and `info_code` fields. Clients must migrate to read `info_message`/`info_code`; responses no longer include `error_message`/`error_code`.
-
 ## GetComponentCpes
 
 Retrieves Common Platform Enumeration (CPE) identifiers for a single software component identified by Package URL. 

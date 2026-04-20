@@ -788,10 +788,8 @@ type ComponentLicenseInfo struct {
 	// Component URL
 	Url string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
 	// Status message describing the outcome of processing this component.
-	// Replaces the removed `error_message` field (position 8).
 	InfoMessage *string `protobuf:"bytes,12,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
 	// Status code identifying the outcome of processing this component.
-	// Replaces the removed `error_code` field (position 11).
 	//
 	// Possible values:
 	//   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.

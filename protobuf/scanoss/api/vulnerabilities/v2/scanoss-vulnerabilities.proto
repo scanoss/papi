@@ -228,10 +228,8 @@ message ComponentCpesInfo {
   reserved "error_message", "error_code";
 
   // Status message describing the outcome of processing this component.
-  // Replaces the removed `error_message` field (position 5).
   optional string info_message = 7 [json_name = "info_message"];
   // Status code identifying the outcome of processing this component.
-  // Replaces the removed `error_code` field (position 6).
   //
   // Possible values:
   //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
@@ -389,10 +387,8 @@ message ComponentVulnerabilityInfo {
   reserved "error_message", "error_code";
 
   // Status message describing the outcome of processing this component.
-  // Replaces the removed `error_message` field (position 5).
   optional string info_message = 7 [json_name = "info_message"];
   // Status code identifying the outcome of processing this component.
-  // Replaces the removed `error_code` field (position 6).
   //
   // Possible values:
   //   - "INVALID_PURL":        The provided Package URL (PURL) is invalid or malformed.
