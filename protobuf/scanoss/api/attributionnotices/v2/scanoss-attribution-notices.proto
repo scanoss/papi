@@ -1,0 +1,133 @@
+/*
+ SPDX-License-Identifier: MIT
+
+   Copyright (c) 2026, SCANOSS
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+ */
+
+/**
+ * Attribution Notices definition details
+*/
+syntax = "proto3";
+package scanoss.api.attributionnotices.v2;
+
+option go_package = "github.com/scanoss/papi/api/attributionnoticesv2;attributionnoticesv2";
+
+import "scanoss/api/common/v2/scanoss-common.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "SCANOSS Attribution Notices Service";
+    version: "2.0";
+    contact: {
+      name: "scanoss-attribution-notices";
+      url: "https://github.com/scanoss/attribution-notices";
+      email: "support@scanoss.com";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
+
+/**
+ * Expose all of the SCANOSS Attribution Notices RPCs here
+ */
+service AttributionNotices {
+  // Standard health check endpoint to verify service availability and connectivity
+  rpc Echo(scanoss.api.common.v2.EchoRequest) returns(scanoss.api.common.v2.EchoResponse) {
+    option (google.api.http) = {
+      post: "/v2/attribution-notices/echo"
+      body: "*"
+    };
+  };
+
+  // Get attribution notices for a list of components
+  // Accepts a ComponentsRequest (list of PURLs with optional version requirements)
+  // and returns the attribution notices associated with each component.
+  rpc GetComponentsAttributionNotices(scanoss.api.common.v2.ComponentsRequest) returns(ComponentsAttributionNoticesResponse) {
+    option (google.api.http) = {
+      post: "/v2/attribution-notices/components"
+      body: "*"
+    };
+  };
+}
+
+// A single attribution notice associated with a component
+message AttributionNotice {
+  // Full text of the attribution/license notice
+  string notice_text = 1 [json_name = "notice_text"];
+  // MD5 hash of the notice text used for deduplication and integrity checks
+  string notice_md5 = 2 [json_name = "notice_md5"];
+  // Source describing where the notice was mined from (e.g., file path or mining details)
+  string source = 3;
+}
+
+// Attribution notices information for a single component
+message ComponentAttributionNotices {
+  // The Package URL string identifying the component
+  string purl = 1;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 2;
+  // Specific version of the component that was analyzed
+  string version = 3;
+  // SPDX expression when licensing terms are clearly determinable from source analysis
+  // List of attribution notices associated with the component
+  repeated AttributionNotice notices = 4;
+
+  // Status message describing the outcome of processing this component.
+  optional string info_message = 5 [json_name = "info_message"];
+  // Status code identifying the outcome of processing this component.
+  //
+  // Possible values:
+  //   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
+  //   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
+  //   - "NO_INFO":                No attribution notices are available for the requested component.
+  optional string info_code = 6 [json_name = "info_code"];
+}
+
+/**
+ * Components level Attribution Notices Response data (JSON payload)
+ * Contains attribution notices information for each requested component.
+ */
+message ComponentsAttributionNoticesResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      example: "{\"attributions\":[{\"purl\":\"pkg:npm/express@4.18.2\",\"notices\":[{\"notice_text\":\"MIT License\\nPermission is hereby granted, free of charge...\",\"notice_md5\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6\",\"source\":\"package.json dependency scan\"}]}],\"status\":{\"status\":\"SUCCESS\",\"message\":\"Attribution notices successfully retrieved\"}}";
+    }
+  };
+  // Attribution notices details for each requested component
+  repeated ComponentAttributionNotices attributions = 1;
+  // Response status indicating success or failure of the request
+  scanoss.api.common.v2.StatusResponse status = 2;
+}
