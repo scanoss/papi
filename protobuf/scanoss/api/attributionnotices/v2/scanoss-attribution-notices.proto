@@ -97,18 +97,23 @@ message AttributionNotice {
 message ComponentAttributionNotices {
   // The Package URL string identifying the component
   string purl = 1;
+  // Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+  string requirement = 2;
+  // Specific version of the component that was analyzed
+  string version = 3;
+  // SPDX expression when licensing terms are clearly determinable from source analysis
   // List of attribution notices associated with the component
-  repeated AttributionNotice notices = 2;
+  repeated AttributionNotice notices = 4;
 
   // Status message describing the outcome of processing this component.
-  optional string info_message = 3 [json_name = "info_message"];
+  optional string info_message = 5 [json_name = "info_message"];
   // Status code identifying the outcome of processing this component.
   //
   // Possible values:
   //   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
   //   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
   //   - "NO_INFO":                No attribution notices are available for the requested component.
-  optional string info_code = 4 [json_name = "info_code"];
+  optional string info_code = 6 [json_name = "info_code"];
 }
 
 /**

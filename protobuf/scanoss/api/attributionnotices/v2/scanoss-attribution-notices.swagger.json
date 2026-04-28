@@ -185,13 +185,21 @@
           "type": "string",
           "title": "The Package URL string identifying the component"
         },
+        "requirement": {
+          "type": "string",
+          "title": "Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic"
+        },
+        "version": {
+          "type": "string",
+          "title": "Specific version of the component that was analyzed"
+        },
         "notices": {
           "type": "array",
           "items": {
             "type": "object",
             "$ref": "#/definitions/v2AttributionNotice"
           },
-          "title": "List of attribution notices associated with the component"
+          "title": "SPDX expression when licensing terms are clearly determinable from source analysis\nList of attribution notices associated with the component"
         },
         "info_message": {
           "type": "string",

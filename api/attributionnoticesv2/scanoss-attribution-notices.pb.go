@@ -33,14 +33,15 @@
 package attributionnoticesv2
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	commonv2 "github.com/scanoss/papi/api/commonv2"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -55,7 +56,7 @@ type AttributionNotice struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Full text of the attribution/license notice
 	NoticeText string `protobuf:"bytes,1,opt,name=notice_text,proto3" json:"notice_text,omitempty"`
-	// MD5 hash of the notice text used for deduplication and integrity checks
+	// MD5 hash of the notice text
 	NoticeMd5 string `protobuf:"bytes,2,opt,name=notice_md5,proto3" json:"notice_md5,omitempty"`
 	// Source describing where the notice was mined from (e.g., file path or mining details)
 	Source        string `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
@@ -119,17 +120,22 @@ type ComponentAttributionNotices struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The Package URL string identifying the component
 	Purl string `protobuf:"bytes,1,opt,name=purl,proto3" json:"purl,omitempty"`
+	// Echoes the client's version constraint from the request. See Common API Types documentation for resolution logic
+	Requirement string `protobuf:"bytes,2,opt,name=requirement,proto3" json:"requirement,omitempty"`
+	// Specific version of the component that was analyzed
+	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
+	// SPDX expression when licensing terms are clearly determinable from source analysis
 	// List of attribution notices associated with the component
-	Notices []*AttributionNotice `protobuf:"bytes,2,rep,name=notices,proto3" json:"notices,omitempty"`
+	Notices []*AttributionNotice `protobuf:"bytes,4,rep,name=notices,proto3" json:"notices,omitempty"`
 	// Status message describing the outcome of processing this component.
-	InfoMessage *string `protobuf:"bytes,3,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
+	InfoMessage *string `protobuf:"bytes,5,opt,name=info_message,proto3,oneof" json:"info_message,omitempty"`
 	// Status code identifying the outcome of processing this component.
 	//
 	// Possible values:
 	//   - "INVALID_PURL":           The provided Package URL (PURL) is invalid or malformed.
 	//   - "COMPONENT_NOT_FOUND":    The requested component could not be found in the database.
 	//   - "NO_INFO":                No attribution notices are available for the requested component.
-	InfoCode      *string `protobuf:"bytes,4,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
+	InfoCode      *string `protobuf:"bytes,6,opt,name=info_code,proto3,oneof" json:"info_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -167,6 +173,20 @@ func (*ComponentAttributionNotices) Descriptor() ([]byte, []int) {
 func (x *ComponentAttributionNotices) GetPurl() string {
 	if x != nil {
 		return x.Purl
+	}
+	return ""
+}
+
+func (x *ComponentAttributionNotices) GetRequirement() string {
+	if x != nil {
+		return x.Requirement
+	}
+	return ""
+}
+
+func (x *ComponentAttributionNotices) GetVersion() string {
+	if x != nil {
+		return x.Version
 	}
 	return ""
 }
@@ -259,12 +279,14 @@ const file_scanoss_api_attributionnotices_v2_scanoss_attribution_notices_proto_r
 	"\n" +
 	"notice_md5\x18\x02 \x01(\tR\n" +
 	"notice_md5\x12\x16\n" +
-	"\x06source\x18\x03 \x01(\tR\x06source\"\xec\x01\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\"\xa8\x02\n" +
 	"\x1bComponentAttributionNotices\x12\x12\n" +
-	"\x04purl\x18\x01 \x01(\tR\x04purl\x12N\n" +
-	"\anotices\x18\x02 \x03(\v24.scanoss.api.attributionnotices.v2.AttributionNoticeR\anotices\x12'\n" +
-	"\finfo_message\x18\x03 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
-	"\tinfo_code\x18\x04 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
+	"\x04purl\x18\x01 \x01(\tR\x04purl\x12 \n" +
+	"\vrequirement\x18\x02 \x01(\tR\vrequirement\x12\x18\n" +
+	"\aversion\x18\x03 \x01(\tR\aversion\x12N\n" +
+	"\anotices\x18\x04 \x03(\v24.scanoss.api.attributionnotices.v2.AttributionNoticeR\anotices\x12'\n" +
+	"\finfo_message\x18\x05 \x01(\tH\x00R\finfo_message\x88\x01\x01\x12!\n" +
+	"\tinfo_code\x18\x06 \x01(\tH\x01R\tinfo_code\x88\x01\x01B\x0f\n" +
 	"\r_info_messageB\f\n" +
 	"\n" +
 	"_info_code\"\x92\x04\n" +
