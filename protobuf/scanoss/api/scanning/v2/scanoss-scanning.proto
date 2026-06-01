@@ -143,6 +143,8 @@ message HFHResponse {
         float score = 2;
         // Licenses
         repeated License licenses = 3;
+        // Component version release date. Optional ISO date in YYYY-MM-DD format; may be empty when unknown or not provided by the upstream source.
+        string release_date = 4 [json_name = "release_date"];
     }
     // Matched component details
     message Component {
