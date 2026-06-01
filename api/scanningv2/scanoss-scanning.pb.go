@@ -297,7 +297,9 @@ type HFHResponse_Version struct {
 	// Licenses
 	Licenses []*HFHResponse_Version_License `protobuf:"bytes,3,rep,name=licenses,proto3" json:"licenses,omitempty"`
 	// Component version release date. Optional ISO date in YYYY-MM-DD format; may be empty when unknown or not provided by the upstream source.
-	ReleaseDate   string `protobuf:"bytes,4,opt,name=release_date,proto3" json:"release_date,omitempty"`
+	ReleaseDate string `protobuf:"bytes,4,opt,name=release_date,proto3" json:"release_date,omitempty"`
+	// Hash of the URL associated with this component version. Optional; may be empty when not provided by the upstream source.
+	UrlHash       string `protobuf:"bytes,5,opt,name=url_hash,proto3" json:"url_hash,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -356,6 +358,13 @@ func (x *HFHResponse_Version) GetLicenses() []*HFHResponse_Version_License {
 func (x *HFHResponse_Version) GetReleaseDate() string {
 	if x != nil {
 		return x.ReleaseDate
+	}
+	return ""
+}
+
+func (x *HFHResponse_Version) GetUrlHash() string {
+	if x != nil {
+		return x.UrlHash
 	}
 	return ""
 }
@@ -602,15 +611,16 @@ const file_scanoss_api_scanning_v2_scanoss_scanning_proto_rawDesc = "" +
 	"\x0flang_extensions\x18\x06 \x03(\v2@.scanoss.api.scanning.v2.HFHRequest.Children.LangExtensionsEntryR\x0flang_extensions\x1aA\n" +
 	"\x13LangExtensionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\xf2\x05\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\"\x8e\x06\n" +
 	"\vHFHResponse\x12E\n" +
 	"\aresults\x18\x01 \x03(\v2+.scanoss.api.scanning.v2.HFHResponse.ResultR\aresults\x12=\n" +
-	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xa6\x02\n" +
+	"\x06status\x18\x02 \x01(\v2%.scanoss.api.common.v2.StatusResponseR\x06status\x1a\xc2\x02\n" +
 	"\aVersion\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12\x14\n" +
 	"\x05score\x18\x02 \x01(\x02R\x05score\x12P\n" +
 	"\blicenses\x18\x03 \x03(\v24.scanoss.api.scanning.v2.HFHResponse.Version.LicenseR\blicenses\x12\"\n" +
-	"\frelease_date\x18\x04 \x01(\tR\frelease_date\x1au\n" +
+	"\frelease_date\x18\x04 \x01(\tR\frelease_date\x12\x1a\n" +
+	"\burl_hash\x18\x05 \x01(\tR\burl_hash\x1au\n" +
 	"\aLicense\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aspdx_id\x18\x02 \x01(\tR\aspdx_id\x12*\n" +

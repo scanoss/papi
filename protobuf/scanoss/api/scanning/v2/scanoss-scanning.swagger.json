@@ -222,6 +222,10 @@
         "release_date": {
           "type": "string",
           "description": "Component version release date. Optional ISO date in YYYY-MM-DD format; may be empty when unknown or not provided by the upstream source."
+        },
+        "url_hash": {
+          "type": "string",
+          "description": "Hash of the URL associated with this component version. Optional; may be empty when not provided by the upstream source."
         }
       },
       "title": "Component version details"

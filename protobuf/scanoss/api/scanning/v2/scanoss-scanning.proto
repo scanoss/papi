@@ -145,6 +145,8 @@ message HFHResponse {
         repeated License licenses = 3;
         // Component version release date. Optional ISO date in YYYY-MM-DD format; may be empty when unknown or not provided by the upstream source.
         string release_date = 4 [json_name = "release_date"];
+        // Hash of the URL associated with this component version. Optional; may be empty when not provided by the upstream source.
+        string url_hash = 5 [json_name = "url_hash"];
     }
     // Matched component details
     message Component {

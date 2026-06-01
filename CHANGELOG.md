@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added optional `release_date` field (ISO `YYYY-MM-DD` string) to `HFHResponse.Version` in the Scanning v2 service, exposing the per-version release date returned by Folder Hashing scans
+- Added optional `url_hash` field (string) to `HFHResponse.Version` in the Scanning v2 service, exposing the per-version URL hash returned by Folder Hashing scans
 
 ## [0.42.0] - 2026-04-20
 ### Added
