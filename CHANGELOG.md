@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Security
+- Upgraded `google.golang.org/grpc` to v1.83.1 and `golang.org/x/net` to v0.55.0 to fix open Dependabot security advisories
+
 ## [0.43.0] - 2026-06-04
 ### Added
 - Added optional `release_date` field (ISO `YYYY-MM-DD` string) to `HFHResponse.Version` in the Scanning v2 service, exposing the per-version release date returned by Folder Hashing scans
